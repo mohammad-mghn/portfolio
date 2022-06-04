@@ -1,0 +1,28 @@
+.container {
+  display: grid;
+  place-items: center;
+  color: var(--orangeColor);
+  overflow: hidden;
+  border: 3px solid var(--orangeColor);
+  border-radius: 0.5rem;
+  transition: all 500ms;
+}
+.text {
+  z-index: 1;
+}
+.scroller {
+  position: absolute;
+  top: -1.5rem;
+  left: -110%;
+  width: 110%;
+  height: 220%;
+  background: var(--orangeColor);
+  transform: rotate(50deg);
+  transition: all 0.3s ease-Out;
+}
+.container:hover .scroller {
+  left: 0;
+}
+.container:hover {
+  color: var(--background);
+}

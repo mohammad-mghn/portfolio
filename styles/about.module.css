@@ -1,0 +1,156 @@
+.container {
+  padding: 5rem 5vw 0 5vw;
+  margin-bottom: 4rem;
+}
+.cover {
+  position: relative;
+  height: calc(100vh - 5rem);
+  padding-right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.main_header {
+  color: var(--h1Color);
+  font-size: 3rem;
+}
+.typingContainer {
+  font-size: 1.6rem;
+  color: var(--h2Color);
+}
+.tyingCursor {
+  margin: -0.25rem 0 0 -0.25rem;
+  font-size: 1.5rem;
+  color: var(--orangeColor);
+  animation: typing 500ms infinite ease-out;
+}
+@keyframes typing {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.short_description {
+  margin-top: 0.5rem;
+  color: var(--h3Color);
+  font-size: 1.25rem;
+}
+.contact_button {
+  position: relative;
+  top: 1rem;
+  width: 10rem;
+  height: 3.4rem;
+  font-size: 1.25rem;
+}
+.contact_button_scroller {
+  top: -1.5rem;
+}
+.scroll_to_down {
+  position: absolute;
+  top: calc(100% - 1.5rem);
+  left: 50%;
+  width: 10rem;
+  font-size: 1rem;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--h3Color);
+  transition: all 500ms;
+  animation: moving 1s infinite ease-in;
+  cursor: pointer;
+}
+.scroll_to_down:hover {
+  color: var(--orangeColor);
+}
+@keyframes moving {
+  0% {
+    top: calc(100% - 2.25rem);
+  }
+  50% {
+    top: calc(100% - 2.5rem);
+  }
+  100% {
+    top: calc(100% - 2.25rem);
+  }
+}
+.arrowIcon {
+  font-size: 1.25rem;
+}
+.biography_and_details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 22.5rem;
+  width: 100%;
+}
+.autobiography {
+  width: 70%;
+  margin-right: 5%;
+}
+.sections_header {
+  margin-top: 2rem;
+  font-size: 2rem;
+  color: var(--titles);
+}
+
+.paragraph_starting {
+  margin-left: 2rem;
+}
+.autobiography_paragraph {
+  margin: 1rem 0 0 2rem;
+  height: 15rem;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  color: var(--paragraphColor);
+  text-align: justify;
+}
+.horizantal_line {
+  height: 85%;
+  width: 0.2%;
+  background-color: var(--lineBackground);
+  border-radius: 1rem;
+}
+.biography_details {
+  width: 22.5%;
+}
+.details_header {
+  margin-left: 1rem;
+  font-size: 2rem;
+  color: var(--titles);
+}
+.details_child {
+  margin: 1rem 0 0 2rem;
+}
+.details_child_header {
+  font-size: 1.25rem;
+  font-weight: bolder;
+  color: var(--paragraphColor);
+}
+.details_child_text {
+  margin: 0.5rem 0 0 1.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--h3Color);
+}
+.vertical_line {
+  height: 0.2rem;
+  width: 100%;
+  background-color: var(--lineBackground);
+  border-radius: 1rem;
+}
+@media screen and (max-width: 1000px) {
+  .cover {
+    flex-direction: column;
+    height: fit-content;
+    row-gap: 5rem;
+  }
+  .scroll_to_down {
+    display: none;
+  }
+}

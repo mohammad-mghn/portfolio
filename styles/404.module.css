@@ -1,0 +1,58 @@
+.container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: var(--background);
+}
+.Error404Rain {
+  position: absolute;
+  width: 0;
+  top: -2vw;
+  font-family: Nunito;
+  font-size: 2vw;
+  color: var(--orangeColor);
+  animation: raining 1s infinite ease-out;
+}
+@keyframes raining {
+  from {
+    top: -2vw;
+  }
+  to {
+    top: calc(100% - 3vw);
+  }
+}
+.informationBoxContainer {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.informationBox {
+  display: flex;
+  align-items: center;
+}
+.VIcon {
+  width: 4.75rem;
+}
+.informationText {
+  font-family: Nunito;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--h3Color);
+}
+.homepageLink {
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all 500ms;
+}
+.homepageLink:hover {
+  color: var(--orangeColor);
+}
+.descriptionText {
+  font-size: 0.85rem;
+}
+.button {
+  display: inline;
+}
+.container::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.themeButton {
+  width: 50%;
+  height: 100%;
+}
+.themeButton,
+.languageButton {
+  user-select: none;
+}
