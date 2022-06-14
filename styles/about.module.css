@@ -40,14 +40,14 @@
   color: var(--h3Color);
   font-size: 1.25rem;
 }
-.contact_button {
+.button_container {
   position: relative;
   top: 1rem;
   width: 10rem;
   height: 3.4rem;
   font-size: 1.25rem;
 }
-.contact_button_scroller {
+.button_scroller {
   top: -1.5rem;
 }
 .scroll_to_down {
@@ -90,7 +90,7 @@
   width: 100%;
 }
 .autobiography {
-  width: 70%;
+  width: 100%;
   margin-right: 5%;
 }
 .sections_header {
@@ -98,34 +98,37 @@
   font-size: 2rem;
   color: var(--titles);
 }
-
 .paragraph_starting {
   margin-left: 2rem;
 }
 .autobiography_paragraph {
   margin: 1rem 0 0 2rem;
-  height: 15rem;
-  font-size: 1.25rem;
-  line-height: 2rem;
+  height: 13.5rem;
+  overflow-y: scroll;
+  font-size: 1.1rem;
+  line-height: 1.75rem;
   color: var(--paragraphColor);
   text-align: justify;
+}
+.autobiography_paragraph::-webkit-scrollbar {
+  width: 0.2rem;
 }
 .horizantal_line {
   height: 85%;
   width: 0.2%;
   background-color: var(--lineBackground);
   border-radius: 1rem;
+  margin: 0 2.5%;
 }
 .biography_details {
-  width: 22.5%;
+  width: 25%;
 }
 .details_header {
-  margin-left: 1rem;
   font-size: 2rem;
   color: var(--titles);
 }
 .details_child {
-  margin: 1rem 0 0 2rem;
+  margin: 1rem 0 0 1rem;
 }
 .details_child_header {
   font-size: 1.25rem;
@@ -134,7 +137,7 @@
 }
 .details_child_text {
   margin: 0.5rem 0 0 1.5rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
   color: var(--h3Color);
 }
@@ -144,13 +147,120 @@
   background-color: var(--lineBackground);
   border-radius: 1rem;
 }
+.rates {
+  /* background-color: azure; */
+  margin: 1rem 0 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  height: 27rem;
+}
+.rates_tools {
+  height: 2.5rem;
+  margin-bottom: 2rem;
+}
+.projects_text {
+  margin: 1rem 0 2rem 2rem;
+  font-size: 1.5rem;
+  color: var(--h2Color);
+}
+.bold_link {
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 500ms;
+}
+.bold_link:hover {
+  color: var(--orangeColor);
+}
+.footer_container {
+  /* background-color: aqua; */
+  margin: 2rem;
+  display: grid;
+  place-items: center;
+}
+.footer_heading {
+  color: var(--h2Color);
+  font-size: 1.25rem;
+}
+.footer_writer {
+  /* position: relative */
+  margin-left: 47%;
+  transform: translate(-50%);
+  font-size: 0.75rem;
+  color: var(--h3Color);
+}
 @media screen and (max-width: 1000px) {
+  .container {
+    padding-top: 7rem;
+  }
   .cover {
     flex-direction: column;
     height: fit-content;
     row-gap: 5rem;
   }
+  .main_header {
+    font-size: 9vw;
+  }
   .scroll_to_down {
+    opacity: 0;
+  }
+  .horizantal_line {
     display: none;
+  }
+  .biography_and_details {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start;
+    height: 100%;
+    width: 100%;
+  }
+  .autobiography_paragraph {
+    margin: 1rem 0 5vw 2.5vw;
+    height: 100%;
+    font-size: 3.75vw;
+    line-height: 5.5vw;
+  }
+  .sections_header {
+    margin-top: 2rem;
+    font-size: 8vw;
+  }
+  .biography_details {
+    width: 100%;
+    margin-bottom: 10vw;
+  }
+  .details_header {
+    font-size: 8vw;
+    color: var(--titles);
+  }
+  .details_child_header {
+    font-size: 5vw;
+  }
+  .details_child_text {
+    font-size: 4vw;
+  }
+  .rates {
+    margin: 5vw 0 0 2.5vw;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    height: 150vw;
+  }
+  .rates_tools {
+    height: 24vw;
+  }
+  .projects_text {
+    font-size: 5vw;
+  }
+  .footer_heading {
+    font-size: 4vw;
+    text-align: center;
+  }
+  .footer_writer {
+    margin-left: 50%;
+    transform: translate(-55%);
+    font-size: 0.75rem;
+    color: var(--h3Color);
+    font-size: 4vw;
+    width: fit-content;
   }
 }

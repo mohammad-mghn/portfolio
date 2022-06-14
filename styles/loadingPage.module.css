@@ -9,8 +9,9 @@
   align-items: center;
   justify-content: center;
   background-color: var(--background);
-  z-index: 3;
+  z-index: 2;
   transition: display 700ms;
+  animation: page-transition 500ms;
 }
 .loadingBar {
   position: relative;
@@ -28,7 +29,7 @@
   height: 0.6rem;
   border-radius: 1rem;
   background-color: var(--orangeColor);
-  animation: loading 1500ms;
+  animation: loading 2500ms;
 }
 @keyframes loading {
   0% {

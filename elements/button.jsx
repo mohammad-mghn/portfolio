@@ -5,14 +5,11 @@ import Link from "next/link";
 import styles from "../styles/button.module.css";
 
 const Button = (props) => {
-  console.log(styles);
-  const { href, text, containerClassname, scrollerClassname } = props;
+  const { href, text, containerClassName, scrollerClassName } = props;
   return (
     <Link href={href}>
-      <a className={`${styles.container} ${props.containerClassName}`}>
-        <span
-          className={`${styles.scroller} ${props.scrollerClassName}`}
-        ></span>
+      <a className={`${styles.container} ${containerClassName}`}>
+        <span className={`${styles.scroller} ${scrollerClassName}`}></span>
         <div className={styles.text}>{text}</div>
       </a>
     </Link>

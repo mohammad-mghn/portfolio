@@ -10,8 +10,9 @@ export const lightTheme = {
   orangeColor: "#FCA311",
   darkerRrangeColor: "#FF9F1C",
   redColor: "#B10000",
+  inputColor: "rgba(41, 41, 41, 0.1)",
   boxShadow:
-    "-5px -5px 10px rgba(255, 255, 255, 0.62), 5px 5px 10px rgba(0, 0, 0, 0.27)",
+    "-5px -5px 10px rgba(255, 255, 255, 0.62), 10px 10px 10px rgba(0, 0, 0, 0.1)",
 };
 
 export const darkTheme = {
@@ -26,6 +27,7 @@ export const darkTheme = {
   orangeColor: "#FCA311",
   darkerRrangeColor: "#FF9F1C",
   redColor: "#B10000",
+  inputColor: "rgba(41, 41, 41, 0.34)",
   boxShadow:
     "-4px -4px 5px rgba(255, 255, 255, 0.03), 4px 4px 15px rgba(0, 0, 0, 0.3)",
 };

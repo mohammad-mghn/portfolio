@@ -8,32 +8,6 @@ import AllInOne from "../public/all-in-one.png";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  var typingChar = 0;
-
-  useEffect(() => {
-    document.getElementById("typing").innerHTML = "";
-
-    const txt =
-      " I`m a JavaScript and React.js " +
-      "developer, and UI designer  " +
-      "with short but effectual " +
-      "experience.";
-
-    function Typing() {
-      if (
-        typingChar < txt.length &&
-        document.getElementById("typing") !== null
-      ) {
-        document.getElementById("typing").innerHTML += txt.charAt(typingChar);
-        typingChar++;
-        setTimeout(Typing, 30);
-      }
-      clearTimeout();
-    }
-
-    Typing();
-  }, []);
-
   return (
     <div className={styles.home_container}>
       <Header
@@ -48,8 +22,8 @@ export default function Home() {
             <br />
             Mohagheghian
           </h1>
-          <h2 className={styles.description} translate="yes" id="typing">
-            I`m a JavaScript and React.js developer, and UI designer with short
+          <h2 className={styles.description} translate="yes">
+            I'm a JavaScript and React.js developer, and UI designer with short
             but effectual experience.
           </h2>
           <Button

@@ -93,8 +93,8 @@ function Navbar() {
               </div>
               <div className={styles.desktop_menu_container}>
                 <ul className={styles.links}>
-                  {menu.map((item) => (
-                    <Link href={item.path}>
+                  {menu.map((item, index) => (
+                    <Link href={item.path} key={index}>
                       <a
                         className={
                           pathname === item.path
@@ -138,8 +138,8 @@ function Navbar() {
                     />
                   </button>
                   <ul className={styles.links}>
-                    {menu.map((item) => (
-                      <Link href={item.path}>
+                    {menu.map((item, index) => (
+                      <Link href={item.path} key={index}>
                         <a
                           className={
                             pathname === item.path

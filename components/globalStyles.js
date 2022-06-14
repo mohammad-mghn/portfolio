@@ -12,6 +12,7 @@ export const GlobalStyles = createGlobalStyle`
     --orangeColor: ${({ theme }) => theme.orangeColor};
     --darkerRrangeColor: ${({ theme }) => theme.darkerRrangeColor};
     --redColor: ${({ theme }) => theme.redColor};
+    --inputColor: ${({ theme }) => theme.inputColor};
     --boxShadow:
      ${({ theme }) => theme.boxShadow};
     --fontSize: "Nunito", "lalezar"; 

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useRouter } from "next/router";
 
 import ContextProvider, { Context } from "../components/Context";
@@ -6,13 +8,23 @@ import { lightTheme, darkTheme } from "../components/theme";
 
 import Navbar from "../components/navbar";
 
+import LoadingPage from "../components/loadingPage";
+
 import { ThemeProvider } from "styled-components";
 import { PageTransition } from "next-page-transitions";
 
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
+  const [loadingPage, setLoadingPage] = React.useState(true);
+
   const router = useRouter();
+
+  React.useEffect(() => {
+    setLoadingPage(false);
+    router.events.on("routeChangeStart", () => setLoadingPage(true));
+    router.events.on("routeChangeComplete", () => setLoadingPage(false));
+  });
 
   return (
     <ContextProvider>
@@ -31,7 +43,10 @@ function MyApp({ Component, pageProps }) {
               >
                 {/* pageTransition related styles is in styles/global.css */}
                 <PageTransition timeout={500} classNames="page-transition">
-                  <Component {...pageProps} key={router.asPath} />
+                  <>
+                    <LoadingPage visibility={loadingPage} />
+                    <Component {...pageProps} key={router.asPath} />
+                  </>
                 </PageTransition>
               </div>
             </ThemeProvider>

@@ -7,7 +7,6 @@ import styles from "../styles/loadingPage.module.css";
 import VIcon from "../public/V-icon.svg";
 
 const LoadingPage = (props) => {
-  console.log(props.visibility);
   return (
     <div
       className={styles.container}

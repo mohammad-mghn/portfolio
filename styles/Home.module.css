@@ -67,12 +67,12 @@
   font-family: "Nunito";
   width: 22rem;
 }
-.description::after {
+/* .description::after {
   content: "|";
   color: var(--orangeColor);
   animation: scale-up-center 0.75s infinite ease-in-out;
   animation-delay: 1800ms;
-}
+} */
 @keyframes scale-up-center {
   0% {
     opacity: 0;
@@ -131,7 +131,7 @@
     position: relative;
     top: 0;
     margin-top: 2vw;
-    width: 25vw;
+    width: 30vw;
     height: 10vw;
   }
   .contact_button:hover {
