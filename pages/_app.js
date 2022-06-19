@@ -2,9 +2,9 @@ import React from "react";
 
 import { useRouter } from "next/router";
 
-import ContextProvider, { Context } from "../components/Context";
-import { GlobalStyles } from "../components/globalStyles";
-import { lightTheme, darkTheme } from "../components/theme";
+import ContextProvider, { Context } from "../modules/Context";
+import { GlobalStyles } from "../modules/globalStyles";
+import { lightTheme, darkTheme } from "../modules/theme";
 
 import Navbar from "../components/navbar";
 
@@ -12,6 +12,7 @@ import LoadingPage from "../components/loadingPage";
 
 import { ThemeProvider } from "styled-components";
 import { PageTransition } from "next-page-transitions";
+import { AnimatePresence } from "framer-motion";
 
 import "../styles/globals.css";
 
@@ -45,7 +46,9 @@ function MyApp({ Component, pageProps }) {
                 <PageTransition timeout={500} classNames="page-transition">
                   <>
                     <LoadingPage visibility={loadingPage} />
+                    {/* <AnimatePresence exitBeforeEnter> */}
                     <Component {...pageProps} key={router.asPath} />
+                    {/* </AnimatePresence> */}
                   </>
                 </PageTransition>
               </div>

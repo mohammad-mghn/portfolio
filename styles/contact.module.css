@@ -63,6 +63,7 @@
 .send_email:hover {
   background-color: var(--orangeColor);
   color: var(--background);
+  outline: 2px 2px 10px black;
 }
 .landing_image {
   position: relative;
@@ -79,28 +80,28 @@
   cursor: pointer;
 }
 .landing_links:nth-child(2) {
-  top: 35.55%;
-  left: 22.5%;
+  top: 36%;
+  left: 22%;
 }
 .landing_links:nth-child(3) {
-  top: 68.55%;
-  left: 37.5%;
+  top: 68%;
+  left: 36%;
 }
 .landing_links:nth-child(4) {
-  top: 26.55%;
-  left: 81.5%;
+  top: 29%;
+  left: 75%;
 }
 .landing_links:nth-child(5) {
-  top: 30%;
-  left: 92%;
+  top: 32%;
+  left: 85%;
 }
 .landing_links:nth-child(6) {
-  top: 39%;
-  left: 95.5%;
+  top: 42%;
+  left: 91%;
 }
 .landing_links:nth-child(7) {
   top: 57%;
-  left: 80%;
+  left: 74%;
 }
 .landing_cover {
   position: relative;
@@ -109,7 +110,7 @@
   width: 36rem;
   height: 40rem;
 }
-.alert {
+.notification {
   padding: 0 2rem;
   position: fixed;
   top: 90vh;
@@ -152,10 +153,9 @@
     height: 120vw;
     width: 100vw;
   }
-
   .landing_links {
-    width: 10%;
-    height: 10%;
+    width: 8%;
+    height: 8%;
   }
   .landing_cover {
     position: relative;

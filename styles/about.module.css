@@ -94,9 +94,15 @@
   margin-right: 5%;
 }
 .sections_header {
+  width: fit-content;
   margin-top: 2rem;
   font-size: 2rem;
   color: var(--titles);
+  transition: all 500ms;
+}
+.sections_header:hover,
+.details_header:hover {
+  letter-spacing: 5px;
 }
 .paragraph_starting {
   margin-left: 2rem;
@@ -114,18 +120,19 @@
   width: 0.2rem;
 }
 .horizantal_line {
-  height: 85%;
-  width: 0.2%;
+  width: 0.5%;
   background-color: var(--lineBackground);
   border-radius: 1rem;
   margin: 0 2.5%;
 }
 .biography_details {
+  
   width: 25%;
 }
 .details_header {
   font-size: 2rem;
   color: var(--titles);
+  transition: all 500ms;
 }
 .details_child {
   margin: 1rem 0 0 1rem;
@@ -148,11 +155,10 @@
   border-radius: 1rem;
 }
 .rates {
-  /* background-color: azure; */
-  margin: 1rem 0 0 2rem;
+  margin: 1rem 0 2rem 2rem;
   display: flex;
   justify-content: space-between;
-  height: 27rem;
+  height: 100%;
 }
 .rates_tools {
   height: 2.5rem;
@@ -173,7 +179,6 @@
   color: var(--orangeColor);
 }
 .footer_container {
-  /* background-color: aqua; */
   margin: 2rem;
   display: grid;
   place-items: center;
@@ -183,7 +188,6 @@
   font-size: 1.25rem;
 }
 .footer_writer {
-  /* position: relative */
   margin-left: 47%;
   transform: translate(-50%);
   font-size: 0.75rem;

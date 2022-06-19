@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 
-import Header from "../components/head";
+import Header from "../modules/head";
 
-import { Context } from "../components/Context";
+import { Context } from "../modules/Context";
 
 import emailjs from "emailjs-com";
-// import { MongoClient } from "mongodb";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -14,42 +13,23 @@ import LandingImageLight from "../public/contact_landing_image_light.svg";
 
 import styles from "../styles/contact.module.css";
 
-import LoadingPage from "../components/loadingPage";
-export default function contact() {
-  const [loaded, setLoaded] = useState(false);
-  // async function addpostHandler() {
-  //   const response = await fetch("/api/contactPage");
-  //   const data = await response.json();
-  //   console.log(JSON.parse(data)[0].links);
-  //   setLinks(JSON.parse(data)[0].links);
-  //   setLoaded(false);
-  // }
+export default function Contact() {
+  // for email status notifications
+  const [Notification, setNotification] = useState(null);
 
-  // React.useEffect(() => {
-  //   addpostHandler();
-  // }, []);
-
-  React.useEffect(() => {
-    setLoaded(true);
-    fetch("api/contactPage")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(JSON.parse(data)[0].links);
-        setLinks(JSON.parse(data)[0].links);
-        setLoaded(false);
-      });
-  }, []);
+  // for getting data from form tag
   const form = useRef();
 
-  const [Alert, setAlert] = useState(null);
-  const [links, setLinks] = useState([
-    { link: "https://www.instagram.com/vito.g/", name: "Instagram" },
+  // for landing image links
+  const links = [
+    { link: "https://www.instagram.com/vito.mohagheghian/", name: "Instagram" },
     { link: "https://twitter.com/hereisvito", name: "Twitter" },
     { link: "https://github.com/vito-mohagheghian", name: "Github" },
     { link: "https://discord.gg/QKH9MGjM", name: "Discord" },
     { link: "https://www.linkedin.com/uas/login-submit", name: "Linkedin" },
-  ]);
+  ];
 
+  // form inputs
   const inputs = [
     { type: "text", name: "from_name" },
     { type: "text", name: "title" },
@@ -64,6 +44,7 @@ export default function contact() {
       form.current[2].value !== "" &&
       form.current[3].value !== ""
     ) {
+      setNotification("Email sent successfully.");
       emailjs
         .sendForm(
           "service_a0qmb0i",
@@ -76,17 +57,17 @@ export default function contact() {
             if (result.text === "OK") {
               form.current[1].value = "";
               form.current[3].value = "";
-              setAlert("Email sent successfully.");
+              setNotification("Email sent successfully.");
             } else {
-              setAlert("Sorry, Email didn't send turn on VPN");
+              setNotification("Sorry, Email didn't send turn on VPN");
             }
           },
-          (error) => {
-            setAlert("Sorry, Email didn't send turn on VPN");
+          () => {
+            setNotification("Sorry, Email didn't send turn on VPN");
           }
         );
     } else {
-      setAlert("Please fill out all inputs.");
+      setNotification("Please fill out all inputs.");
     }
   };
 
@@ -95,14 +76,13 @@ export default function contact() {
       {(context) => {
         return (
           <>
-            <LoadingPage visibility={loaded} />
             <div className={styles.container}>
-              {Alert && (
-                <div className={styles.alert}>
-                  {Alert}
+              {Notification && (
+                <div className={styles.notification}>
+                  {Notification}
                   <CloseRoundedIcon
                     onClick={() => {
-                      setAlert(null);
+                      setNotification(null);
                     }}
                     className={styles.close_button}
                   />
@@ -174,9 +154,9 @@ export default function contact() {
                       navigator.clipboard.writeText(
                         "vito.mohagheghian@gmail.com"
                       );
-                      setAlert("Email address copied to clipboard!");
+                      setNotification("Email address copied to clipboard!");
                       setTimeout(() => {
-                        setAlert(null);
+                        setNotification(null);
                       }, 2000);
                     } catch {
                       window.open("mailto:vito.mohagheghian@gmail.com");
@@ -193,16 +173,3 @@ export default function contact() {
     </Context.Consumer>
   );
 }
-// export async function getServerSideProps(context) {
-//   const client = await MongoClient.connect(
-//     "mongodb+srv://admin:santur9292@vito-mohagheghian-portf.nciqc.mongodb.net/portfolio?retryWrites=true&w=majority"
-//   );
-//   const db = client.db();
-//   const postsCollection = db.collection("about_page");
-
-//   const postDocuments = await postsCollection.find({}).toArray();
-//   console.log(postDocuments);
-//   return {
-//     props: { data: JSON.stringify(postDocuments) }, // will be passed to the page component as props
-//   };
-// }

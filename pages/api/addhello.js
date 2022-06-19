@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     autobiography:
       "In 2005, I was born inEsfahatly I’m living in Esfahatly I’m living in Esfafahatly I’m living in Esfahatly I’m living in Esfafahatly I’m living in Esfahatly I’m living in Esfafahatly I’m living in Esfahatly I’m living in Esfafahatly I’m living in Esfahatly I’m living in Esfahan. Since 2020, I started learning the programming profession. At first, I was working with Python, over time I changed my mind, and today, I’m a web developer generally. I’m interested in Web development, especially Front-end, as well as UI / UX, and SEO. I’ve been developing websites in JavaScript since 2021. You probably know which I’m creating content about programming, and techs in some social media like Instagram, and so on. It’s clear that I’m aLinux fan, and to get to know me better, I provided some information about myself myself below.",
     skills: {
-      leftSide: [
+      leftSide: [ 
         { title: "Javascript", rate: 75 },
         { title: "Html/Css", rate: 50 },
         { title: "UI/UX", rate: 60 },

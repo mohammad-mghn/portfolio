@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import Header from "../components/head";
+import Header from "../modules/head";
 import Button from "../elements/button";
 
 import AllInOne from "../public/all-in-one.png";
@@ -16,14 +16,14 @@ export default function Home() {
       />
       <main className={styles.container}>
         <div className={styles.main_container}>
-          <p className={styles.hi_txt}>hi I'm</p>
+          <p className={styles.hi_txt}>hi I`&apos;`m</p>
           <h1 className={styles.name_header}>
             Vito
             <br />
             Mohagheghian
           </h1>
           <h2 className={styles.description} translate="yes">
-            I'm a JavaScript and React.js developer, and UI designer with short
+            I`&apos;`m a JavaScript and React.js developer, and UI designer with short
             but effectual experience.
           </h2>
           <Button

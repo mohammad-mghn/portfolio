@@ -4,8 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import { Context } from "../components/Context";
-import ContextToggle from "./contextToggle";
+import { Context } from "../modules/Context";
+import ContextToggle from "../modules/contextToggle";
 
 import { CSSTransition } from "react-transition-group";
 
@@ -62,6 +62,7 @@ function Navbar() {
   return (
     <Context.Consumer>
       {(context) => {
+        
         return (
           <header className={styles.header}>
             <nav id="navbar" className={styles.navbar}>
@@ -71,8 +72,8 @@ function Navbar() {
                     <Image
                       src={VIcon}
                       alt="vito mohagheghian logo"
-                      height="100%"
-                      width="100%"
+                      height={110}
+                      width={150}
                     />
                   </Link>
                 </button>

@@ -2,6 +2,7 @@
   position: absolute;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   background-color: var(--background);
 }
 .Error404Rain {
@@ -18,7 +19,7 @@
     top: -2vw;
   }
   to {
-    top: calc(100% - 3vw);
+    top: calc(110%);
   }
 }
 .informationBoxContainer {
@@ -55,4 +56,9 @@
 }
 .container::-webkit-scrollbar {
   display: none;
+}
+@media screen and (max-width: 700px) {
+  .Error404Rain {
+    font-size: 4vw;
+  }
 }
