@@ -80,7 +80,7 @@ const TypingAnimation = (props) => {
       className={containerClassName}
       style={{ display: "flex", alignItems: "center", columnGap: ".25rem" }}
     >
-      <div className={PrimaryTextClassName}>I`&apos;`m</div>
+      <div className={PrimaryTextClassName}>I&apos;m</div>
       <div className={typingClassName} id="typingElement"></div>
       <div className={cursorClassName} id="cursor">
         |

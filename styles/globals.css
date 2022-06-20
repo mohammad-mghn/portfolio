@@ -139,3 +139,26 @@ a {
   font-family: "Nunito";
   font-weight: 400;
 }
+/* global swiper styles */
+.swiper-button-prev::after {
+  color: var(--background) !important;
+  transform: translateX(-0.75rem);
+  font-size: 1rem !important;
+  font-weight: 1000 !important;
+}
+.swiper-button-next::after {
+  color: var(--background) !important;
+  transform: translateX(0.75rem);
+  font-size: 1rem !important;
+  font-weight: 1000 !important;
+}
+@media screen and (max-width: 480px) {
+  .swiper-button-prev::after {
+    transform: translateX(-2vw);
+    font-size: 4vw !important;
+  }
+  .swiper-button-next::after {
+    transform: translateX(2vw);
+    font-size: 4vw !important;
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 
 import Header from "../modules/head";
 import Button from "../elements/button";
@@ -7,7 +7,7 @@ import AllInOne from "../public/all-in-one.png";
 
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
+function Home() {
   return (
     <div className={styles.home_container}>
       <Header
@@ -16,15 +16,15 @@ export default function Home() {
       />
       <main className={styles.container}>
         <div className={styles.main_container}>
-          <p className={styles.hi_txt}>hi I`&apos;`m</p>
+          <p className={styles.hi_txt}>hi I&apos;m</p>
           <h1 className={styles.name_header}>
             Vito
             <br />
             Mohagheghian
           </h1>
           <h2 className={styles.description} translate="yes">
-            I`&apos;`m a JavaScript and React.js developer, and UI designer with short
-            but effectual experience.
+            I&apos;m a JavaScript and React.js developer, and UI designer with
+            short but effectual experience.
           </h2>
           <Button
             text="About"
@@ -44,3 +44,4 @@ export default function Home() {
     </div>
   );
 }
+export default memo(Home);

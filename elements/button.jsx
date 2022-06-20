@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import Link from "next/link";
 
@@ -16,4 +16,4 @@ const Button = (props) => {
   );
 };
 
-export default Button;
+export default React.memo(Button);

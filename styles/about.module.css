@@ -126,7 +126,6 @@
   margin: 0 2.5%;
 }
 .biography_details {
-  
   width: 25%;
 }
 .details_header {
@@ -247,7 +246,7 @@
     display: flex;
     justify-content: start;
     flex-direction: column;
-    height: 150vw;
+    height: fit-content;
   }
   .rates_tools {
     height: 24vw;
