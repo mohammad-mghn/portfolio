@@ -25,7 +25,7 @@ const Variants = {
 };
 
 function Projects() {
-  const [Loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(true);
   const [Data, setData] = useState([
     {
       covers: [""],
