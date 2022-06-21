@@ -93,6 +93,15 @@ const Blog = () => {
     setSelectedFiltered(field);
   };
 
+  const searchHandler = () => {
+    let searchFiltered = data.filter((item) => {
+      if (item.title.includes(searchInput.current.value)) {
+        return item;
+      }
+    });
+    setFiltered(searchFiltered);
+  };
+
   return (
     <>
       <Header
@@ -122,20 +131,20 @@ const Blog = () => {
               />
             ))}
           </div>
-          <form className={styles.search_container}>
+          <div className={styles.search_container}>
             <input
               required
               type="text"
               className={styles.input}
               placeholder="Search a keyword"
+              ref={searchInput}
+              onChange={searchHandler}
             />
             <SearchRoundedIcon
               className={styles.search_field_icon}
-              onClick={() => {
-                console.log("Af");
-              }}
+              onClick={searchHandler}
             />
-          </form>
+          </div>
         </section>
         <section className={styles.blogs}>
           {filtered.map((item) => (
