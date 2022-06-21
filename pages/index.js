@@ -3,7 +3,7 @@ import { useEffect, memo } from "react";
 import Header from "../modules/head";
 import Button from "../elements/button";
 
-import AllInOne from "../public/all-in-one.png";
+import AllInOne from "../public/home_landing_image.svg";
 
 import styles from "../styles/Home.module.css";
 

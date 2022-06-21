@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 
 import Header from "../modules/head";
-
 import { Context } from "../modules/Context";
 
 import emailjs from "emailjs-com";
@@ -118,13 +117,14 @@ export default function Contact() {
                       className={styles.input}
                     />
 
-                    <button
-                      className={styles.send_email}
+                    <div
+                      className={styles.send_email_button}
                       type="button"
                       onClick={sendEmail}
                     >
-                      SEND
-                    </button>
+                      <span className={styles.scroller}></span>
+                      <div className={styles.send_email_txt}>SEND</div>
+                    </div>
                   </form>
                 </div>
               </section>

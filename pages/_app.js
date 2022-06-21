@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useRouter } from "next/router";
 
@@ -21,12 +21,18 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLoadingPage(false);
     router.events.on("routeChangeStart", () => setLoadingPage(true));
     router.events.on("routeChangeComplete", () => setLoadingPage(false));
   });
 
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("vito-portfolio-about");
+      localStorage.removeItem("vito-portfolio-projects");
+    };
+  }, []);
   return (
     <ContextProvider>
       <Context.Consumer>

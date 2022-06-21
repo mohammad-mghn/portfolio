@@ -42,13 +42,21 @@ function Projects() {
   ]);
 
   const addposthandler = () => {
-    fetch("api/projectsPage")
-      .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        setData(JSON.parse(data));
-        console.log(JSON.parse(data)[0]);
-      });
+    if (localStorage.getItem("vito-portfolio-projects") === null) {
+      fetch("api/projectsPage")
+        .then((response) => response.json())
+        .then((data) => {
+          setLoading(false);
+          setData(JSON.parse(data).reverse());
+          localStorage.setItem(
+            "vito-portfolio-projects",
+            JSON.stringify(JSON.parse(data).reverse())
+          );
+        });
+    } else {
+      setLoading(false);
+      setData(JSON.parse(localStorage.getItem("vito-portfolio-projects")));
+    }
   };
 
   useEffect(() => {

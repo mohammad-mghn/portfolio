@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Navigation, Keyboard } from "swiper";
+import SwiperCore, { Navigation, Keyboard, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -16,14 +16,35 @@ import en from "javascript-time-ago/locale/en";
 import styles from "../styles/projects.module.css";
 
 const Project = (props) => {
-  const { covers, description, title, options, date } = props.project;
+  SwiperCore.use([Autoplay]);
+  const { description, title, options, date } = props.project;
 
+  var covers = [
+    "https://images2.imgbox.com/21/ec/enuOc90x_o.png",
+    "https://images2.imgbox.com/e6/3d/tnrEntae_o.png",
+    "https://images2.imgbox.com/8c/be/kZmfvzua_o.png",
+  ];
   // get this moment time
   const nowDate = new Date();
 
   // https://www.npmjs.com/package/javascript-time-ago
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
+
+  const generateRandom = (maxLimit = 100, minLimit = 3000) => {
+    // generate a floating number which is in range of 1 to 0
+    // to so to make it between zero to our maximum limit multiply it to our maximum number.
+    let randomNum = Math.random() * maxLimit;
+
+    // but still it's floating, so floor method makes it integer number which is needed
+    // however floating is cool but to for css processing.
+    randomNum = Math.floor(randomNum);
+
+    if (randomNum < minLimit) {
+      return minLimit;
+    }
+    return randomNum;
+  };
 
   return (
     <section className={styles.project}>
@@ -34,6 +55,11 @@ const Project = (props) => {
         keyboard={true}
         modules={[Navigation, Keyboard]}
         className={styles.slider}
+        loop={true}
+        autoplay={{
+          delay: generateRandom(5000, 4000),
+          disableOnInteraction: true,
+        }}
       >
         {covers.map((cover, index) => (
           <SwiperSlide className={styles.slide} key={index}>
