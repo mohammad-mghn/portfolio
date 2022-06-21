@@ -82,6 +82,10 @@
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #1b1b1b 100%),
       linear-gradient(180deg, #ff9f1c 60%, rgba(255, 159, 28, 0) 100%);
   }
+  .preview_image {
+    margin-right: 0;
+    width: 95%;
+  }
   .title {
     margin: 0 0 0 3vw;
   }
