@@ -2,6 +2,7 @@
   all: unset;
   height: fit-content;
   width: fit-content;
-  color: var(--orangeColor);
+  color: var(--paragraphColor);
   cursor: pointer;
+  transition: all 500ms;
 }

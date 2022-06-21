@@ -31,7 +31,6 @@
   display: flex;
   align-items: center;
   column-gap: 0.75rem;
-  /* background-color: blueviolet; */
 }
 .link_text {
   position: relative;

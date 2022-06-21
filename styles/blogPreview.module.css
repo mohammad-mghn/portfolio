@@ -1,0 +1,112 @@
+.container {
+  margin-bottom: 2rem;
+  height: 18rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  box-shadow: var(--boxShadow);
+  overflow: hidden;
+}
+.main {
+  width: 55%;
+}
+.preview_image_container {
+  display: grid;
+  place-items: center;
+  width: 45%;
+  background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, #1b1b1b 100%),
+    linear-gradient(-90deg, #ff9f1c 80%, rgba(255, 159, 28, 0) 100%);
+}
+.preview_image {
+  width: 95%;
+}
+.title {
+  margin: 0.5rem 0 0 1rem;
+  color: var(--h2Color);
+}
+.preview_text {
+  height: 10.5rem;
+  overflow-y: hidden;
+  padding-right: 2rem;
+  margin: 0.5rem 0 0 2rem;
+  color: var(--h3Color);
+}
+
+.readmore__details {
+  /* background-color: aquamarine; */
+  height: 4rem;
+  padding: 1rem 3rem 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.button_container {
+  position: relative;
+  height: 2.25rem;
+  width: 8rem;
+  overflow: hidden;
+}
+.button_scroller {
+  width: 25rem;
+}
+.options {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+.option_container {
+  color: var(--h2Color);
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+.icon {
+  color: var(--orangeColor);
+  font-size: 1.25rem;
+}
+@media screen and (max-width: 1000px) {
+  .container {
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    height: 120vw;
+  }
+  .main {
+    width: 100%;
+    height: 60vw;
+  }
+  .preview_image_container {
+    width: 100%;
+    height: 60vw;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #1b1b1b 100%),
+      linear-gradient(180deg, #ff9f1c 60%, rgba(255, 159, 28, 0) 100%);
+  }
+  .title {
+    margin: 0 0 0 3vw;
+  }
+  .preview_text {
+    height: 37vw;
+    overflow-y: scroll;
+    padding-right: 3vw;
+    margin: 1vw 0 0 6vw;
+  }
+  .readmore__details {
+    margin-top: 2vw;
+    height: 10vw;
+    padding: 1vw 3vw 0 3vw;
+  }
+  .button_container {
+    height: 7vw;
+    font-size: 3vw;
+    width: 25vw;
+  }
+  .options,
+  .option_container {
+    column-gap: 2vw;
+  }
+  .icon {
+    color: var(--orangeColor);
+    font-size: 4vw;
+  }
+}

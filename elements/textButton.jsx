@@ -2,9 +2,13 @@ import React from "react";
 
 import styles from "../styles/textButton.module.css";
 
-const TextButton = ({ onClick, text, className }) => {
+const TextButton = ({ onClick, text, className, style }) => {
   return (
-    <button className={`${styles.button} ${className}`} onClick={onClick}>
+    <button
+      style={style}
+      className={`${styles.button} ${className}`}
+      onClick={onClick}
+    >
       {text}
     </button>
   );
