@@ -16,7 +16,6 @@ import en from "javascript-time-ago/locale/en";
 import styles from "../styles/projects.module.css";
 
 const Project = (props) => {
-  SwiperCore.use([Autoplay]);
   const { description, title, options, date } = props.project;
 
   var covers = [
@@ -31,7 +30,9 @@ const Project = (props) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
 
-  const generateRandom = (maxLimit = 100, minLimit = 3000) => {
+  SwiperCore.use([Autoplay]);
+
+  const generateRandom = (maxLimit = 8000, minLimit = 3000) => {
     // generate a floating number which is in range of 1 to 0
     // to so to make it between zero to our maximum limit multiply it to our maximum number.
     let randomNum = Math.random() * maxLimit;
@@ -43,6 +44,7 @@ const Project = (props) => {
     if (randomNum < minLimit) {
       return minLimit;
     }
+
     return randomNum;
   };
 
@@ -57,7 +59,7 @@ const Project = (props) => {
         className={styles.slider}
         loop={true}
         autoplay={{
-          delay: generateRandom(5000, 4000),
+          delay: generateRandom(7000, 4000),
           disableOnInteraction: true,
         }}
       >

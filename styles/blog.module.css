@@ -1,0 +1,16 @@
+.container {
+  padding: 6rem 5vw 0 5vw;
+  /* background-color: aqua; */
+}
+.filter_section {
+  position: relative;
+  /* background-color: aquamarine; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.field_filter_container{
+    /* background-color: red; */
+    display: flex;
+    column-gap: 1rem;
+}

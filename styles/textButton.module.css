@@ -1,0 +1,7 @@
+.button {
+  all: unset;
+  height: fit-content;
+  width: fit-content;
+  color: var(--orangeColor);
+  cursor: pointer;
+}
