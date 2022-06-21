@@ -84,6 +84,7 @@
   }
   .preview_image {
     margin-right: 0;
+    margin-top: -10vw;
     width: 95%;
   }
   .title {
