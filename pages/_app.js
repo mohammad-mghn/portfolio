@@ -62,9 +62,7 @@ function MyApp({ Component, pageProps }) {
                   <>
                     <LoadingPage visibility={loadingPage} />
                     <OneMin OneMin={oneMin} setOneMin={setOneMin} />
-                    {/* <AnimatePresence exitBeforeEnter> */}
                     <Component {...pageProps} key={router.asPath} />
-                    {/* </AnimatePresence> */}
                   </>
                 </PageTransition>
               </div>

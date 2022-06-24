@@ -99,6 +99,8 @@
     cursor: pointer;
     transform: translateY(-5%);
     font-size: 10vw;
+
+    font-size: 12vw;
   }
   .desktop_menu_container {
     display: none;
@@ -129,6 +131,7 @@
   .close_button {
     font-size: 12vw;
     color: var(--h3Color);
+    font-size: 14vw;
   }
   .mobile_contextToggler {
     all: unset;
@@ -156,3 +159,22 @@
     cursor: pointer;
   }
 }
+/* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
