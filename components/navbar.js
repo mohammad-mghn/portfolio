@@ -9,13 +9,14 @@ import ContextToggle from "../modules/contextToggle";
 
 import { CSSTransition } from "react-transition-group";
 
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+
 import styles from "../styles/navbar.module.css";
 
 import VIcon from "../public/V-icon.svg";
-import MenuDark from "../public/icon/menu-dark.svg";
-import MenuLight from "../public/icon/menu-light.svg";
-import closeButton from "../public/icon/close.svg";
-import closeButtonLight from "../public/icon/close-light.svg";
 
 function Navbar() {
   const router = useRouter();
@@ -62,7 +63,6 @@ function Navbar() {
   return (
     <Context.Consumer>
       {(context) => {
-        
         return (
           <header className={styles.header}>
             <nav id="navbar" className={styles.navbar}>
@@ -83,13 +83,7 @@ function Navbar() {
                     setShowNavbar(true);
                   }}
                 >
-                  <Image
-                    src={context.isLight ? MenuLight : MenuDark}
-                    alt="theme's image vito mohagheghian web"
-                    className={styles.menu_icon}
-                    width="100%"
-                    height="100%"
-                  />
+                  <MenuRoundedIcon className={styles.menu_icon} />
                 </button>
               </div>
               <div className={styles.desktop_menu_container}>
@@ -130,13 +124,7 @@ function Navbar() {
                       setShowNavbar(false);
                     }}
                   >
-                    <Image
-                      src={context.isLight ? closeButtonLight : closeButton}
-                      alt="vito mohagheghian close button"
-                      height="100%"
-                      width="100%"
-                      className={styles.close_button_img}
-                    />
+                    <CloseRoundedIcon className={styles.close_button} />
                   </button>
                   <ul className={styles.links}>
                     {menu.map((item, index) => (
@@ -153,7 +141,7 @@ function Navbar() {
                       </Link>
                     ))}
                   </ul>
-                  <div className={styles.contextToggler}>
+                  <div className={styles.mobile_contextToggler}>
                     <ContextToggle />
                   </div>
                 </div>

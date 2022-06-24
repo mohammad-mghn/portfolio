@@ -4,6 +4,10 @@ import Image from "next/image";
 
 import { Context } from "./Context";
 
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+
 import styles from "../styles/contextToggle.module.css";
 
 import lightIcon from "../public/icon/light.svg";
@@ -13,19 +17,13 @@ class ContextToggle extends Component {
   static contextType = Context;
   render() {
     return (
-      <div className={styles.container}>
-        <button
-          className={styles.themeButton}
-          onClick={this.context.toggleTheme}
-        >
-          <Image
-            src={!this.context.isLight ? lightIcon : darkIcon}
-            width={!this.context.isLight ? "25%" : "20%"}
-            height={!this.context.isLight ? "25%" : "20%"}
-            alt="theme icon"
-          />
-        </button>
-      </div>
+      <button className={styles.container} onClick={this.context.toggleTheme}>
+        {this.context.isLight ? (
+          <DarkModeRoundedIcon className={styles.button} />
+        ) : (
+          <LightModeRoundedIcon className={styles.button} />
+        )}
+      </button>
     );
   }
 }

@@ -3,12 +3,10 @@
   height: 100%;
   display: grid;
   place-items: center;
-}
-.themeButton {
-  width: 50%;
-  height: 100%;
-}
-.themeButton,
-.languageButton {
   user-select: none;
+}
+
+.button{
+  font-size: 180%;
+  color: var(--h3Color);
 }

@@ -22,6 +22,10 @@
 .menu_icon_container {
   display: none;
 }
+.menu_icon {
+  font-size: 11vw;
+  color: var(--h3Color);
+}
 .desktop_menu_container {
   display: flex;
   align-items: center;
@@ -72,9 +76,12 @@
   right: 0rem;
   top: 50%;
   transform: translateY(-50%);
-  height: 1.5rem;
+  height: 3rem;
   width: 3rem;
-  /* background-color: aqua; */
+}
+
+.mobile_menu_container {
+  display: none;
 }
 @media screen and (max-width: 560px) {
   .icon_and_menu {
@@ -86,11 +93,14 @@
   .menu_icon_container {
     height: 2.75rem;
     width: 2.75rem;
+    font-size: 0.95rem;
     display: grid;
     place-items: center;
   }
   .menu_icon {
     cursor: pointer;
+    transform: translateY(-5%);
+    font-size: 300%;
   }
   .desktop_menu_container {
     display: none;
@@ -118,16 +128,13 @@
     z-index: 5;
     box-shadow: -1px 0 20px rgba(0, 0, 0, 0.25);
   }
-  .close_button_container {
-    height: 2rem;
-    width: 2rem;
+  .close_button {
+    font-size: 12vw;
+    color: var(--h3Color);
   }
-  .contextToggler {
+  .mobile_contextToggler {
     all: unset;
     position: relative;
-  }
-  .contextToggler {
-    all: unset;
     width: 20vw;
     height: 10vw;
   }
