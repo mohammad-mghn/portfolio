@@ -98,7 +98,7 @@
   .menu_icon {
     cursor: pointer;
     transform: translateY(-5%);
-    font-size: 12vw;
+    font-size: 10vw;
   }
   .desktop_menu_container {
     display: none;
@@ -127,7 +127,7 @@
     box-shadow: -1px 0 20px rgba(0, 0, 0, 0.25);
   }
   .close_button {
-    font-size: 15vw;
+    font-size: 12vw;
     color: var(--h3Color);
   }
   .mobile_contextToggler {

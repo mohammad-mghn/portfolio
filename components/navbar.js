@@ -10,8 +10,6 @@ import ContextToggle from "../modules/contextToggle";
 import { CSSTransition } from "react-transition-group";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
 import styles from "../styles/navbar.module.css";
