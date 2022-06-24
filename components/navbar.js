@@ -81,7 +81,10 @@ function Navbar() {
                     setShowNavbar(true);
                   }}
                 >
-                  <MenuRoundedIcon className={styles.menu_icon} />
+                  <MenuRoundedIcon
+                    className={styles.menu_icon}
+                    style={{ fontSize: "12vw" }}
+                  />
                 </button>
               </div>
               <div className={styles.desktop_menu_container}>
@@ -122,7 +125,10 @@ function Navbar() {
                       setShowNavbar(false);
                     }}
                   >
-                    <CloseRoundedIcon className={styles.close_button} />
+                    <CloseRoundedIcon
+                      className={styles.close_button}
+                      style={{ fontSize: "12vw" }}
+                    />
                   </button>
                   <ul className={styles.links}>
                     {menu.map((item, index) => (
