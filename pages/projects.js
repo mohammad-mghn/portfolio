@@ -62,6 +62,7 @@ function Projects() {
   useEffect(() => {
     addposthandler();
   }, []);
+
   return (
     <>
       <Header

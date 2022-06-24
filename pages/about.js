@@ -81,22 +81,22 @@ const About = () => {
     },
   ]);
 
-  const addposthandler = () => {
-    if (localStorage.getItem("vito-portfolio-about") === null) {
-      fetch("api/aboutPage")
-        .then((response) => response.json())
-        .then((data) => {
-          setLoading(false);
-          setData(JSON.parse(data));
-          localStorage.setItem("vito-portfolio-about", data);
-        });
-    } else {
-      setLoading(false);
-      setData(JSON.parse(localStorage.getItem("vito-portfolio-about")));
-    }
-  };
-
   useEffect(() => {
+    const addposthandler = () => {
+      if (localStorage.getItem("vito-portfolio-about") === null) {
+        fetch("api/aboutPage")
+          .then((response) => response.json())
+          .then((data) => {
+            setLoading(false);
+            setData(JSON.parse(data));
+            console.log(data);
+            localStorage.setItem("vito-portfolio-about", data);
+          });
+      } else {
+        setLoading(false);
+        setData(JSON.parse(localStorage.getItem("vito-portfolio-about")));
+      }
+    };
     addposthandler();
 
     const onScroll = () => {

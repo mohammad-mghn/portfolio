@@ -32,7 +32,7 @@ const RatesSection = ({ rates, title }) => {
         viewport={{ amount: 0.3 }}
       >
         <section>
-          <h4 className={styles.sections_header}>{title}45674</h4>
+          <h4 className={styles.sections_header}>{title}</h4>
           <div className={styles.rates}>
             <div style={{ width: "100%" }}>
               {rates.leftSide.map((item, index) => (

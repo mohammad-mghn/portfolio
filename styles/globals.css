@@ -162,3 +162,49 @@ a {
     font-size: 4vw !important;
   }
 }
+article p {
+  color: var(--paragraphColor);
+  margin: 1% 0 1.5% 2.5%;
+  line-height: 200%;
+  font-size: 1.11rem;
+}
+article h2 {
+  width: 100%;
+  font-size: 2rem;
+  color: var(--h1Color);
+  overflow: hidden;
+}
+article h3 {
+  width: 100%;
+  font-size: 1.5rem;
+  color: var(--h2Color);
+  overflow: hidden;
+}
+article img {
+  margin-left: 50%;
+  transform: translate(-50%);
+  width: 75%;
+}
+article a {
+  font-weight: 900;
+  transition: all 500ms;
+}
+article a:hover {
+  color: var(--h1Color);
+  text-decoration: underline;
+}
+@media screen and (max-width: 1000px) {
+  article p {
+    font-size: 4vw;
+  }
+  article h2 {
+    
+    font-size: 6vw;
+  }
+  article h3 {
+    font-size: 5vw;
+  }
+  article img {
+    width: 100%;
+  }
+}

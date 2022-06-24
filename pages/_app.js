@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }) {
     return () => {
       localStorage.removeItem("vito-portfolio-about");
       localStorage.removeItem("vito-portfolio-projects");
+      localStorage.removeItem("vito-portfolio-blogs");
     };
   }, []);
   return (

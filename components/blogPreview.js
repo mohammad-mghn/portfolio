@@ -23,12 +23,18 @@ const BlogPreview = (props) => {
             : data.previewText}
         </p>
         <div className={styles.readmore__details}>
-          <Button
-            text="Read more"
-            href={`blog/${data.title.replaceAll(" ", "-")}`}
-            containerClassName={styles.button_container}
-            scrollerClassName={styles.button_scroller}
-          />
+          <span
+            onClick={() => {
+              props.setLoading(true);
+            }}
+          >
+            <Button
+              text="Read more"
+              href={`blog/${data._id}`}
+              containerClassName={styles.button_container}
+              scrollerClassName={styles.button_scroller}
+            />
+          </span>
           <div className={styles.options}>
             <div className={styles.option_container}>
               <RemoveRedEyeOutlinedIcon className={styles.icon} />
@@ -44,7 +50,7 @@ const BlogPreview = (props) => {
             </div>
             <div className={styles.option_container}>
               <EventNoteRoundedIcon className={styles.icon} />
-              <h3 className={styles.option_header}>{data.viewsCount}</h3>
+              <h3 className={styles.option_header}>{data.date}</h3>
             </div>
           </div>
         </div>

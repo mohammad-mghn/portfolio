@@ -11,6 +11,7 @@ export const lightTheme = {
   darkerRrangeColor: "#FF9F1C",
   redColor: "#B10000",
   inputColor: "rgba(41, 41, 41, 0.1)",
+  borderColor: "#BDBDBD",
   boxShadow:
     "-5px -5px 10px rgba(255, 255, 255, 0.62), 10px 10px 10px rgba(0, 0, 0, 0.1)",
 };
@@ -28,6 +29,7 @@ export const darkTheme = {
   darkerRrangeColor: "#FF9F1C",
   redColor: "#B10000",
   inputColor: "rgba(41, 41, 41, 0.34)",
+  borderColor: "#2A2A2A",
   boxShadow:
     "-4px -4px 5px rgba(255, 255, 255, 0.03), 4px 4px 15px rgba(0, 0, 0, 0.3)",
 };

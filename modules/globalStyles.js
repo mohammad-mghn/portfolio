@@ -16,8 +16,7 @@ export const GlobalStyles = createGlobalStyle`
     --boxShadow:
      ${({ theme }) => theme.boxShadow};
     --fontSize: "Nunito", "lalezar"; 
-    --flex-direction: ${({ theme }) => theme.flexDirection};
-    --direction: ${({ theme }) => theme.direction};
+    --borderColor: ${({ theme }) => theme.borderColor};
   }
   body{
     background-color: ${({ theme }) => theme.background};
