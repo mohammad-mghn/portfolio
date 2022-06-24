@@ -14,7 +14,7 @@ First, run the development server:
   <img alt="git" src="https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white" />
   <img alt="NextJs" src="https://img.shields.io/badge/-NextJs-ea2845?style=flat-square&logo=next.js&logoColor=white" />
   <img alt="Yarn" src="https://img.shields.io/badge/-Yarn-DD0031?style=flat-square&logo=Yarn&logoColor=white" />
-  <img alt="Yarn" src="  https://img.shields.io/badge/-framer_motion-ff0000?style=flat-square&logo=framer&logoColor=white" />
+  <img alt="Framer-motion" src="https://img.shields.io/badge/-framer_motion-ff0000?style=flat-square&logo=framer&logoColor=white" />
   <img alt="html5" src="https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" />
   <img alt="Brave browser" src="https://img.shields.io/badge/-Brave_Browser-FB542B?style=flat-square&logo=brave&logoColor=white" />
   <img alt="Gmail" src="https://img.shields.io/badge/-Gmail-EC4A3F?style=flat-square&logo=gmail&logoColor=white" />
