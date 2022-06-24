@@ -91,16 +91,14 @@
     width: calc(100% - 0.5rem);
   }
   .menu_icon_container {
-    height: 2.75rem;
-    width: 2.75rem;
-    font-size: 0.95rem;
+    font-size: 3vw;
     display: grid;
     place-items: center;
   }
   .menu_icon {
     cursor: pointer;
     transform: translateY(-5%);
-    font-size: 300%;
+    font-size: 10vw;
   }
   .desktop_menu_container {
     display: none;
