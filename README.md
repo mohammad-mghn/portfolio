@@ -31,6 +31,10 @@ First, run the development server:
    <p>You're able to send me an email, or click on social media icons to redirect to related page.</p>
 
 
+
+Clone ,or donwload the zip file.
+
+
 ```bash
 npm run dev
 # or
