@@ -1,3 +1,13 @@
+<h1><img src="https://emojis.slackmojis.com/emojis/images/1531849430/4246/blob-sunglasses.gif?1531849430" width="30"/> Hey! Nice to see you.</h1>
+
+
+<div style="display:flex; align-items:center;" >Welcome to my page! </br> I'm Vito, Front-end developer from <img src="https://cdn-icons.flaticon.com/png/512/4009/premium/4009076.png?token=exp=1651840438~hmac=07c289c9d50e7d75ae74a3fa52d6b1f4" width="16"/> <b>Esfahan, Iran</b>. </div>
+
+
+
+<h2><a href="https://mohagheghian.netlify.app" target="_blank">Check my website 🔥</a></h2>
+
+
 <h3>Things I code with</h3>
 <p>
   <img alt="React" src="https://img.shields.io/badge/-React-45b8d8?style=flat-square&logo=react&logoColor=white" />
@@ -65,4 +75,3 @@
 ------------
 <p align="center">This <i>README</i> file is generated <b>every 3 hours</b>!</br>Last refresh: Friday, 6 May, 5:00 GMT<br /></p>
 <p align="center"><img alt="Stars" src="https://img.shields.io/github/stars/vito-mohagheghian/vito-mohagheghian?style=flat-square&labelColor=343b41"/></p>
-
