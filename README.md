@@ -6,7 +6,6 @@ First, run the development server:
 
 <p>
   <img alt="React" src="https://img.shields.io/badge/-React-45b8d8?style=flat-square&logo=react&logoColor=white" />
-  <img alt="Webpack" src="https://img.shields.io/badge/-Webpack-8DD6F9?style=flat-square&logo=webpack&logoColor=white" /> 
   <img alt="Css3" src="https://img.shields.io/badge/-Css3-2088FF?style=flat-square&logo=css3&logoColor=white" />
   <img alt="Vercel" src="https://img.shields.io/badge/-Vercel-5849BE?style=flat-square&logo=vercel&logoColor=white" />
   <img alt="Figma" src="https://img.shields.io/badge/-Figma-311C87?style=flat-square&logo=figma&logoColor=white" />
@@ -15,10 +14,6 @@ First, run the development server:
   <img alt="NextJs" src="https://img.shields.io/badge/-NextJs-ea2845?style=flat-square&logo=next.js&logoColor=white" />
   <img alt="Yarn" src="https://img.shields.io/badge/-Yarn-DD0031?style=flat-square&logo=Yarn&logoColor=white" />
   <img alt="Framer-motion" src="https://img.shields.io/badge/-framer_motion-ff0000?style=flat-square&logo=framer&logoColor=white" />
-  <img alt="html5" src="https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" />
-  <img alt="Brave browser" src="https://img.shields.io/badge/-Brave_Browser-FB542B?style=flat-square&logo=brave&logoColor=white" />
-  <img alt="Gmail" src="https://img.shields.io/badge/-Gmail-EC4A3F?style=flat-square&logo=gmail&logoColor=white" />
-  <img alt="Postman" src="https://img.shields.io/badge/-Postman-F9A03C?style=flat-square&logo=postman&logoColor=white" />
   <img alt="Prettier" src="https://img.shields.io/badge/-Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=white" />
   <img alt="Js" src="https://img.shields.io/badge/-Js-F7B93E?style=flat-square&logo=javascript&logoColor=white" />
   <img alt="MongoDB" src="https://img.shields.io/badge/-MongoDB-13aa52?style=flat-square&logo=mongodb&logoColor=white" />
