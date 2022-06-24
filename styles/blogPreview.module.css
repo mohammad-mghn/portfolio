@@ -116,10 +116,7 @@
   .option_container {
     column-gap: 2vw;
   }
-  .icon {
-    font-size: 10;
-    font-size: 3.5vw;
-  }
+  .icon,
   .option_header {
     font-size: 2.5vw;
   }
