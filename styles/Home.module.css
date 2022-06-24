@@ -98,6 +98,9 @@
     height: fit-content;
     flex-direction: column;
   }
+  .main_container{
+    height: calc(100vh - 6rem);
+  }
   .sidebar {
     height: 75vw;
     width: 90vw;
