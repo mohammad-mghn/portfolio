@@ -16,13 +16,8 @@ import en from "javascript-time-ago/locale/en";
 import styles from "../styles/projects.module.css";
 
 const Project = (props) => {
-  const { description, title, options, date } = props.project;
+  const { description, title, options, date, covers } = props.project;
 
-  var covers = [
-    "https://images2.imgbox.com/21/ec/enuOc90x_o.png",
-    "https://images2.imgbox.com/e6/3d/tnrEntae_o.png",
-    "https://images2.imgbox.com/8c/be/kZmfvzua_o.png",
-  ];
   // get this moment time
   const nowDate = new Date();
 

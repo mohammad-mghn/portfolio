@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import Link from "next/link";
 import Image from "next/image";
 
 import Header from "../modules/head";
@@ -238,8 +239,19 @@ const About = () => {
               <div className={styles.projects_child}>
                 <h5 className={styles.projects_text}>
                   To see my codes check my{" "}
-                  <span className={styles.bold_link}>Github</span>, Or check{" "}
-                  <span className={styles.bold_link}>Projects</span> page.
+                  <a
+                    href="https://github.com/vito-mohagheghian"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.bold_link}
+                  >
+                    Github
+                  </a>
+                  , Or check{" "}
+                  <Link href="/projects">
+                    <span className={styles.bold_link}>Projects</span>
+                  </Link>{" "}
+                  page.
                 </h5>
               </div>
             </div>
