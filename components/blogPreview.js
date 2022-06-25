@@ -37,10 +37,6 @@ const BlogPreview = (props) => {
           </span>
           <div className={styles.options}>
             <div className={styles.option_container}>
-              <RemoveRedEyeOutlinedIcon className={styles.icon} />
-              <h3 className={styles.option_header}>{data.viewsCount}</h3>
-            </div>
-            <div className={styles.option_container}>
               <FavoriteBorderRoundedIcon className={styles.icon} />
               <h3 className={styles.option_header}>{data.likesCount}</h3>
             </div>
