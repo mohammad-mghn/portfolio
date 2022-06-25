@@ -62,14 +62,16 @@ const CommentForm = ({ comments, id, setComments, forceUpdate }) => {
         <span className={styles.input_container}>
           <input type="text" className={styles.input} placeholder="Name" />
           <input type="email" className={styles.input} placeholder="Email" />
-          <button
+
+          <div
             className={styles.button}
             onClick={() => {
               commentHandler();
             }}
           >
-            Done
-          </button>
+            <span className={styles.scroller}></span>
+            <div className={styles.button_txt}>Done</div>
+          </div>
         </span>
       </form>
     </div>

@@ -26,9 +26,7 @@
   left: -100%;
 }
 .container:hover {
+  color: var(--background);
   box-shadow: 1px 1px 0px var(--orangeColor) inset,
     -1px -1px 0px var(--orangeColor) inset, 0 0 20px var(--orangeColor);
-}
-.container:hover {
-  color: var(--background);
 }

@@ -33,16 +33,13 @@
   content: attr(data-number);
   position: absolute;
   left: 80%;
-  top: 88%;
+  top: 89%;
   font-family: "Nunito";
   font-style: normal;
   font-weight: 700;
   font-size: 0.75rem;
   color: var(--paragraphColor);
   opacity: 0.75;
-}
-.sidebar::after:hover {
-  color: var(--orangeColor);
 }
 .allione {
   height: 100%;
@@ -114,7 +111,7 @@
     content: attr(data-number);
     position: absolute;
     left: 80%;
-    top: 88.125%;
+    top: 89%;
     font-family: "Nunito";
     font-style: normal;
     font-weight: 700;

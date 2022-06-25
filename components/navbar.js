@@ -83,7 +83,7 @@ function Navbar() {
                 >
                   <MenuRoundedIcon
                     className={styles.menu_icon}
-                    style={{ fontSize: "12vw" }}
+                    style={{ fontSize: "10vw" }}
                   />
                 </button>
               </div>

@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps }) {
       }, 60000);
       localStorage.setItem("vito-portfolio-onemin", JSON.stringify(true));
     }
+
     return () => {
       localStorage.removeItem("vito-portfolio-about");
       localStorage.removeItem("vito-portfolio-projects");
@@ -49,8 +50,6 @@ function MyApp({ Component, pageProps }) {
             <ThemeProvider theme={context.isLight ? lightTheme : darkTheme}>
               <GlobalStyles />
               <Navbar />
-              {/* hidden overflow is for type of page transition 
-              to unable vertical scrollbar during animation */}
               <div
                 style={{
                   position: "relative",

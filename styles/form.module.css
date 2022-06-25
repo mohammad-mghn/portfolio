@@ -4,7 +4,7 @@
   /* background-color: aquamarine; */
 }
 .header {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   height: 3rem;
   display: flex;
   align-items: center;
@@ -13,11 +13,11 @@
   color: var(--h2Color);
   font-size: 1.5rem;
 }
-.close_button{
+.close_button {
   cursor: pointer;
   transition: all 500ms;
 }
-.close_button:hover{
+.close_button:hover {
   color: var(--orangeColor);
 }
 .header::after {
@@ -37,9 +37,6 @@
 .input_container {
   display: flex;
   column-gap: 1%;
-}
-.form {
-  position: relative;
 }
 .textarea,
 .input {
@@ -64,19 +61,43 @@
   height: 10rem;
 }
 .button {
+  all: unset;
   position: relative;
+  box-sizing: border-box;
   width: 14%;
-  border-radius: 0.5rem;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
   color: var(--orangeColor);
   border: 3px solid var(--orangeColor);
+  border-radius: 0.5rem;
   transition: all 500ms;
-  box-shadow: none;
+  cursor: pointer;
+}
+.scroller {
+  position: absolute;
+  top: -5rem;
+  left: -80rem;
+  width: 80rem;
+  height: 25rem;
+  background: var(--orangeColor);
+  transform: rotate(-50deg);
+  transition: all 750ms ease-Out;
+}
+.button_txt {
+  position: relative;
+  transition: all 500ms;
+}
+.button:hover .scroller {
+  left: -31rem;
 }
 .button:hover {
-  color: var(--background);
-  background-color: var(--orangeColor);
+  box-shadow: 1px 1px 0px var(--orangeColor) inset,
+    -1px -1px 0px var(--orangeColor) inset, 0 0 15px var(--orangeColor);
 }
-
+.button:hover .button_txt {
+  color: var(--background);
+}
 @media screen and (max-width: 1000px) {
   .container {
     padding: 1vw 1vw;
