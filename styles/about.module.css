@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 22.5rem;
+  height: 26.5rem;
   width: 100%;
 }
 .autobiography {
@@ -109,7 +109,7 @@
 }
 .autobiography_paragraph {
   margin: 1rem 0 0 2rem;
-  height: 13.5rem;
+  height: 16.5rem;
   overflow-y: scroll;
   font-size: 1.1rem;
   line-height: 1.75rem;

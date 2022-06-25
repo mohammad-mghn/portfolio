@@ -36,6 +36,7 @@ function MyApp({ Component, pageProps }) {
       localStorage.setItem("vito-portfolio-onemin", JSON.stringify(true));
     }
   }, []);
+
   useEffect(() => {
     return () => {
       localStorage.removeItem("vito-portfolio-about");
@@ -43,6 +44,7 @@ function MyApp({ Component, pageProps }) {
       localStorage.removeItem("vito-portfolio-blogs");
     };
   });
+
   return (
     <ContextProvider>
       <Context.Consumer>
