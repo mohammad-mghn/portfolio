@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }) {
       localStorage.removeItem("vito-portfolio-projects");
       localStorage.removeItem("vito-portfolio-blogs");
     };
-  }, []);
+  });
   return (
     <ContextProvider>
       <Context.Consumer>
