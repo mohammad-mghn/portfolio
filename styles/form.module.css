@@ -39,7 +39,8 @@
   column-gap: 1%;
 }
 .textarea,
-.input {
+.input,
+.input_name {
   padding: 0.5rem;
   font-size: 1rem;
   width: 42%;
@@ -52,8 +53,21 @@
   resize: none;
 }
 .textarea::placeholder,
-.input::placeholder {
+.input::placeholder,
+.input_name::placeholder {
   color: var(--h2Color);
+}
+.input_name[aria-invalid="true"] {
+  color: rgb(189, 0, 0);
+  border: 2px solid rgb(189, 0, 0);
+}
+.input_name[aria-invalid="true"]:invalid {
+  color: var(--orangeColor);
+  border: none;
+}
+.input_name[aria-invalid="false"] {
+  color: var(--orangeColor);
+  border: none;
 }
 .textarea {
   font-size: 1rem;
@@ -81,7 +95,7 @@
   width: 80rem;
   height: 25rem;
   background: var(--orangeColor);
-  transform: rotate(-50deg);
+  transform: rotate(50deg);
   transition: all 750ms ease-Out;
 }
 .button_txt {
@@ -124,5 +138,12 @@
   }
   .avatar {
     width: 10vw;
+  }
+
+  .button:hover .button_txt {
+    color: var(--orangeColor);
+  }
+  .scroller {
+    display: none;
   }
 }

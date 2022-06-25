@@ -74,9 +74,9 @@
   top: -5rem;
   left: -80rem;
   width: 80rem;
-  height: 25rem;
+  height: 55rem;
   background: var(--orangeColor);
-  transform: rotate(-50deg);
+  transform: rotate(50deg);
   transition: all 0.75s ease-Out;
 }
 .send_email_button:hover .scroller {

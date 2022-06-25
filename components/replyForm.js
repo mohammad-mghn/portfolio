@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useId } from "react";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -14,6 +14,8 @@ const ReplyForm = ({
 }) => {
   const form = useRef();
 
+  const unId = useId();
+
   const replyHandler = () => {
     const date = new Date();
 
@@ -24,13 +26,28 @@ const ReplyForm = ({
       this.body = body;
     }
 
-    const newReply = new Comment(
-      form.current[1].value,
-      form.current[2].value,
-      form.current[0].value,
-      date.getTime()
-    );
-
+    if (
+      "vito.mohagheghian".includes(
+        form.current[1].value.toLowerCase().replace(" ", "") ||
+          "vitomohagheghian".includes(
+            form.current[1].value.toLocaleLowerCase().replace(" ", "")
+          )
+      )
+    ) {
+      var newReply = new Comment(
+        unId,
+        form.current[2].value,
+        form.current[0].value,
+        date.getTime()
+      );
+    } else {
+      var newReply = new Comment(
+        unId,
+        form.current[2].value,
+        form.current[0].value,
+        date.getTime()
+      );
+    }
     const parentComment = comments[CommentIndex];
     parentComment.replies.push(newReply);
     setComments(parentComment.replies);
@@ -76,12 +93,36 @@ const ReplyForm = ({
       >
         <textarea className={styles.textarea} placeholder="Comment"></textarea>
         <span className={styles.input_container}>
-          <input type="text" className={styles.input} placeholder="Name" />
+          <input
+            type="text"
+            className={styles.input_name}
+            placeholder="Name"
+            aria-invalid="false"
+            onChange={(e) => {
+              console.log(typeof e.target.value);
+              if (e.target.value.replace(" ", "") !== "") {
+                if (
+                  "vito.mohagheghian".includes(
+                    e.target.value.toLowerCase().replace(" ", "") ||
+                      "vitomohagheghian".includes(
+                        e.target.value.toLocaleLowerCase().replace(" ", "")
+                      )
+                  )
+                ) {
+                  form.current[1].setAttribute("aria-invalid", "true");
+                } else {
+                  form.current[1].setAttribute("aria-invalid", "false");
+                }
+              } else {
+                form.current[1].setAttribute("aria-invalid", "false");
+              }
+            }}
+          />
           <input type="email" className={styles.input} placeholder="Email" />
           <div
             className={styles.button}
             onClick={() => {
-              commentHandler();
+              replyHandler();
             }}
           >
             <span className={styles.scroller}></span>

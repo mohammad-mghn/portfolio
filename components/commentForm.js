@@ -1,9 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useId } from "react";
 
 import styles from "../styles/form.module.css";
 
 const CommentForm = ({ comments, id, setComments, forceUpdate }) => {
   const form = useRef();
+
+  const unId = useId();
 
   const commentHandler = () => {
     const date = new Date();
@@ -16,13 +18,28 @@ const CommentForm = ({ comments, id, setComments, forceUpdate }) => {
       this.replies = [];
     }
 
-    const newComment = new Comment(
-      form.current[1].value,
-      form.current[2].value,
-      form.current[0].value,
-      date.getTime()
-    );
-
+    if (
+      "vito.mohagheghian".includes(
+        form.current[1].value.toLowerCase().replace(" ", "") ||
+          "vitomohagheghian".includes(
+            form.current[1].value.toLocaleLowerCase().replace(" ", "")
+          )
+      )
+    ) {
+      var newComment = new Comment(
+        unId,
+        form.current[2].value,
+        form.current[0].value,
+        date.getTime()
+      );
+    } else {
+      var newComment = new Comment(
+        form.current[1].value,
+        form.current[2].value,
+        form.current[0].value,
+        date.getTime()
+      );
+    }
     const AllComments = comments;
 
     AllComments.push(newComment);
@@ -60,7 +77,36 @@ const CommentForm = ({ comments, id, setComments, forceUpdate }) => {
       >
         <textarea className={styles.textarea} placeholder="Comment"></textarea>
         <span className={styles.input_container}>
-          <input type="text" className={styles.input} placeholder="Name" />
+          <input
+            type="text"
+            className={styles.input_name}
+            placeholder="Name"
+            aria-invalid="false"
+            onChange={(e) => {
+              console.log(
+                e.target.value,
+                "vito.mohagheghian".includes(
+                  e.target.value.toLowerCase().replace(" ", "")
+                )
+              );
+              if (e.target.value.replace(" ", "") !== "") {
+                if (
+                  "vito.mohagheghian".includes(
+                    e.target.value.toLowerCase().replace(" ", "") ||
+                      "vitomohagheghian".includes(
+                        e.target.value.toLocaleLowerCase().replace(" ", "")
+                      )
+                  )
+                ) {
+                  form.current[1].setAttribute("aria-invalid", "true");
+                } else {
+                  form.current[1].setAttribute("aria-invalid", "false");
+                }
+              } else {
+                form.current[1].setAttribute("aria-invalid", "false");
+              }
+            }}
+          />
           <input type="email" className={styles.input} placeholder="Email" />
 
           <div

@@ -51,6 +51,7 @@
   overflow: hidden;
 }
 .button_scroller {
+  left: -25rem;
   width: 25rem;
 }
 .options {
