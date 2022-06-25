@@ -99,7 +99,6 @@ const ReplyForm = ({
             placeholder="Name"
             aria-invalid="false"
             onChange={(e) => {
-              console.log(typeof e.target.value);
               if (e.target.value.replace(" ", "") !== "") {
                 if (
                   "vito.mohagheghian".includes(

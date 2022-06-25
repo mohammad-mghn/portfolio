@@ -83,12 +83,7 @@ const CommentForm = ({ comments, id, setComments, forceUpdate }) => {
             placeholder="Name"
             aria-invalid="false"
             onChange={(e) => {
-              console.log(
-                e.target.value,
-                "vito.mohagheghian".includes(
-                  e.target.value.toLowerCase().replace(" ", "")
-                )
-              );
+            
               if (e.target.value.replace(" ", "") !== "") {
                 if (
                   "vito.mohagheghian".includes(

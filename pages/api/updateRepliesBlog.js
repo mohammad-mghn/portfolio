@@ -15,7 +15,7 @@ async function Handler(req, res) {
       client.close();
     }
   );
-  console.log("===================12");
+
   res.status(200).json({ PostMessage: "successful" });
 }
 export default Handler;

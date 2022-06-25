@@ -26,11 +26,7 @@ function MyApp({ Component, pageProps }) {
     setLoadingPage(false);
     router.events.on("routeChangeStart", () => setLoadingPage(true));
     router.events.on("routeChangeComplete", () => setLoadingPage(false));
-    return () => {
-      localStorage.removeItem("vito-portfolio-about");
-      localStorage.removeItem("vito-portfolio-projects");
-      localStorage.removeItem("vito-portfolio-blogs");
-    };
+
   });
 
   useEffect(() => {
@@ -41,12 +37,15 @@ function MyApp({ Component, pageProps }) {
       localStorage.setItem("vito-portfolio-onemin", JSON.stringify(true));
     }
 
-    return () => {
+  }, []);
+  useEffect(
+    () => () => {
       localStorage.removeItem("vito-portfolio-about");
       localStorage.removeItem("vito-portfolio-projects");
       localStorage.removeItem("vito-portfolio-blogs");
-    };
-  }, []);
+    },
+    []
+  );
   return (
     <ContextProvider>
       <Context.Consumer>

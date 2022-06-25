@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const db = client.db();
   const postsCollection = db.collection("about_page");
 
-  const postDocuments = await postsCollection.find({}).toArray();
-  console.log(postDocuments);
+  const postDocuments = await postsCollection.find({}).toArray(); 
+  
   res.status(200).json(JSON.stringify(postDocuments));
 }
