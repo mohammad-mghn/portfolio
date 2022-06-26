@@ -14,6 +14,8 @@ const Reply = ({ reply, setReplyForm }) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
 
+  const time = timeAgo.format(Date.now() + nowDate.getTime() - reply.time);
+
   if (reply) {
     return (
       <>
@@ -26,7 +28,7 @@ const Reply = ({ reply, setReplyForm }) => {
                 {reply.name.length > 20 ? "..." : ""}
               </h6>
               <h6 className={styles.time_heading}>
-                {timeAgo.format(Date.now() + nowDate.getTime() - reply.time)}
+                {time[0].toLocaleUpperCase() + time.slice(1)}
               </h6>
             </div>
             <button

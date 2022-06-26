@@ -27,6 +27,8 @@ const Comment = ({ reply, id, index, comments }) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
 
+  const time = timeAgo.format(Date.now() + nowDate.getTime() - reply.time);
+
   if (reply) {
     return (
       <>
@@ -36,7 +38,7 @@ const Comment = ({ reply, id, index, comments }) => {
             <div className={styles.name__time__container}>
               <h6 className={styles.name_heading}>{reply.name.slice(0, 15)}</h6>
               <h6 className={styles.time_heading}>
-                {timeAgo.format(Date.now() + nowDate.getTime() - reply.time)}
+                {time[0].toLocaleUpperCase() + time.slice(1)}
               </h6>
             </div>
             <button

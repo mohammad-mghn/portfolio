@@ -25,6 +25,8 @@ const Project = (props) => {
   TimeAgo.addLocale(en);
   const timeAgo = new TimeAgo("en-US");
 
+  const time = timeAgo.format(Date.now() + nowDate.getTime() - date);
+
   SwiperCore.use([Autoplay]);
 
   const generateRandom = (maxLimit = 8000, minLimit = 3000) => {
@@ -97,7 +99,7 @@ const Project = (props) => {
             ))}
           </div>
           <div className={styles.date}>
-            {timeAgo.format(Date.now() + nowDate.getTime() - date)}
+            {time[0].toLocaleUpperCase() + time.slice(1)}
           </div>
         </div>
       </div>
