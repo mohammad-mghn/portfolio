@@ -3,10 +3,6 @@ import { memo } from "react";
 import Header from "../modules/head";
 import Button from "../elements/button";
 
-import About from "./about";
-import Contact from "./contact";
-import Projects from "./projects";
-
 import AllInOne from "../public/home_landing_image.svg";
 
 import styles from "../styles/Home.module.css";
@@ -39,9 +35,6 @@ function Home() {
           </div>
         </main>
       </div>
-      <About />
-      <Contact />
-      <Projects />
     </>
   );
 }
