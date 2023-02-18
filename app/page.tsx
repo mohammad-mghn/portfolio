@@ -1,7 +1,12 @@
+import Header from "@/components/home/header";
 import React from "react";
 
 async function Page() {
-  return <main className="pt-24">s</main>;
+  return (
+    <main >
+      <Header />
+    </main>
+  );
 }
 
 export default Page;
