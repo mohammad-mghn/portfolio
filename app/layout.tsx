@@ -10,7 +10,7 @@ const nunito = Nunito({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <head />
 
       <body className={`bg-primary ${nunito.className}`}>

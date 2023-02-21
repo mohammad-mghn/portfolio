@@ -9,9 +9,9 @@ module.exports = {
       colors: {
         brand: "#FF9F1C",
         primary: "#1B1B1B",
-        secondary: "#3D3D3D",
+        secondary: "#B4B4B4",
         header: "#FFFFFF",
-        border: "#202020",
+        border: "#3D3D3D",
         text: "#999999",
         "darker-text": "#474747",
         "lighter-text": "#FFFFFF",

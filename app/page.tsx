@@ -1,10 +1,15 @@
-import Header from "@/components/home/header";
+import { AboutLanding, AutoBiography } from "@/components/about";
+import { Header } from "@/components/home";
 import React from "react";
 
 async function Page() {
   return (
-    <main >
+    <main>
       <Header />
+
+      <AboutLanding />
+
+      <AutoBiography />
     </main>
   );
 }
