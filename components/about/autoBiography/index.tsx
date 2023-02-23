@@ -1,11 +1,13 @@
-import { styles } from "@/styles";
 import React from "react";
+
 import Detail from "./detail";
+
+import { styles } from "@/styles";
 
 function AutoBiography() {
   return (
     <>
-      <section className="flex items-center justify-between flex-col lg:flex-row">
+      <section className="px-2 flex items-center justify-between flex-col lg:flex-row">
         <div className="w-full lg:w-[70%]">
           <h1 className="text-secondary font-semibold text-2xl">Autobiography</h1>
 

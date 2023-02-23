@@ -12,7 +12,7 @@ function Header() {
         <div className="flex flex-col justify-center py-16">
           <p className="text-sm opacity-75 text-text md:text-xl">hi I’m</p>
 
-          <h1 className="text-3xl font-medium text-lighter-text md:text-5xl lg:text-7xl md:leading-tight lg:leading-snug">
+          <h1 className="text-3xl font-medium text-lighter-text md:text-5xl lg:text-6xl md:leading-tight lg:leading-snug">
             Vito
             <br />
             Mohagheghian<span className="text-4xl md:text-7xl text-brand">.</span>
@@ -24,7 +24,7 @@ function Header() {
           </p>
 
           <div className="flex items-center mt-5 gap-x-4">
-            <button className={`px-4 py-2 md:px-6 md:py-3 ${styles.button}`}>
+            <button className={`px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand ${styles.button}`}>
               Resume
               <Image src={DownloadIcon} alt="download icon" className="w-4 md:w-6" />
             </button>

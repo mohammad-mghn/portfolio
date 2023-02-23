@@ -15,6 +15,10 @@ module.exports = {
         text: "#999999",
         "darker-text": "#474747",
         "lighter-text": "#FFFFFF",
+        "border-darker": "#1F1F1F",
+      },
+      width: {
+        "10%": "100%",
       },
     },
   },

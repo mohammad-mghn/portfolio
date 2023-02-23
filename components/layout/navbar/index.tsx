@@ -48,7 +48,7 @@ function Navbar() {
                     max-w-[calc(100%-3rem)] md:max-w-[calc(100%-6rem)] xl:max-w-[80rem] 
                     px-3 mx-auto
                     flex items-center justify-between 
-                    rounded-lg border-2 border-border
+                    rounded-lg border-2 border-border-darker
                     z-10
                     ${styles.box}`}
       >
