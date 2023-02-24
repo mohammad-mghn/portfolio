@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 import { ChartType } from "@/types/chart";

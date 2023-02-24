@@ -13,6 +13,33 @@ body {
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.27);
 }
 
+.three-dots {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.customize-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.customize-scrollbar::-webkit-scrollbar-track {
+  width: 4px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.customize-scrollbar::-webkit-scrollbar {
+  width: 3px !important;
+}
+.customize-scrollbar::-webkit-scrollbar-thumb {
+  background: #474747;
+  border-radius: 5rem;
+}
+.customize-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,4 +55,18 @@ body {
   to {
     right: 0;
   }
+}
+
+.swiper-button-prev::after {
+  color: #1b1b1b !important;
+  transform: translateX(-0.75rem);
+  font-size: 1rem !important;
+  font-weight: 900 !important;
+}
+
+.swiper-button-next::after {
+  color: #1b1b1b !important;
+  transform: translateX(0.75rem);
+  font-size: 1rem !important;
+  font-weight: 900 !important;
 }
