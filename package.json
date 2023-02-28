@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "portfolio-and-blog",
-=======
   "name": "portfolio",
->>>>>>> develop
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,27 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.8.2",
-    "@mui/material": "^5.8.2",
-    "emailjs-com": "^3.2.0",
-    "framer-motion": "^6.3.11",
-    "javascript-time-ago": "^2.5.4",
-    "mongodb": "^4.7.0",
-    "next": "^12.1.6",
-    "next-page-transitions": "^1.0.0-beta.2",
-    "react": "18.0.0",
-    "react-dom": "18.1.0",
-    "react-transition-group": "^4.4.2",
-    "styled-components": "^5.3.5",
-    "swiper": "^8.2.4"
-  },
-  "devDependencies": {
-    "eslint": "8.14.0",
-    "eslint-config-next": "12.1.6"
-=======
     "@next/font": "13.1.6",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
@@ -51,6 +26,5 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.6"
->>>>>>> develop
   }
 }
