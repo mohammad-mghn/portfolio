@@ -17,9 +17,6 @@ module.exports = {
         "lighter-text": "#FFFFFF",
         "border-darker": "#1F1F1F",
       },
-      width: {
-        "10%": "100%",
-      },
     },
   },
   plugins: [],

@@ -1,9 +1,12 @@
 import React from "react";
 
-import { Header } from "@/components/home";
-import Charts from "@/components/about/charts";
+import Contact from "@/components/contact";
+import Github from "@/components/home/gtihub";
+import Footer from "@/components/layout/footer";
+import Support from "@/components/home/support";
 import { SelectedProjects } from "@/components/projects";
-import { AboutLanding, AutoBiography } from "@/components/about";
+import { Blog, Header, Instagram } from "@/components/home";
+import { AboutLanding, AutoBiography, Charts } from "@/components/about";
 
 async function Page() {
   return (
@@ -16,7 +19,19 @@ async function Page() {
 
       <Charts />
 
+      <Github />
+
       <SelectedProjects />
+
+      <Instagram />
+
+      <Blog />
+
+      <Contact />
+
+      <Support />
+
+      <Footer />
     </main>
   );
 }

@@ -11,7 +11,7 @@ function AutoBiography() {
         <div className="w-full lg:w-[70%]">
           <h1 className="text-secondary font-semibold text-2xl">Autobiography</h1>
 
-          <p className="mt-4 px-3 text-text text-sm lg:text-base text-justify leading-relaxed opacity-90">
+          <p className="mt-4 md:px-3 text-text text-sm lg:text-base text-justify leading-relaxed opacity-80">
             My name is Mohammad Mohagehghian, however, they usually call me as Vito and I am a Junior Web Developer,
             tending to find the development team. I am an accomplished coder and programmer, and I enjoy using my skills
             to contribute to the exciting technological advances and convert ideas to reality. I’m 16 years old, so I’m

@@ -1,8 +1,8 @@
 import { Nunito } from "@next/font/google";
 
-import "../styles/globals.css";
-
 import Navbar from "@/components/layout/navbar";
+
+import "../styles/globals.css";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -13,10 +13,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="scroll-smooth">
       <head />
 
-      <body className={`bg-primary ${nunito.className}`}>
+      <body className={`${nunito.className} bg-primary customize-scrollbar fat-scrollber`}>
         <Navbar />
 
-        <div className="pt-24 px-6 mx-auto md:px-12 xl:max-w-[85rem]">{children}</div>
+        <div className="pt-24 px-4 sm:px-6 md:px-12 mx-auto xl:max-w-[85rem]">{children}</div>
       </body>
     </html>
   );

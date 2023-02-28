@@ -20,22 +20,24 @@ body {
 }
 
 .customize-scrollbar::-webkit-scrollbar {
-  height: 6px;
+  width: 3px !important;
+}
+
+.customize-scrollbar.fat-scrollber::-webkit-scrollbar {
+  width: 6px !important;
 }
 
 .customize-scrollbar::-webkit-scrollbar-track {
-  width: 4px;
+  width: 3px;
   background: transparent;
   overflow: hidden;
 }
 
-.customize-scrollbar::-webkit-scrollbar {
-  width: 3px !important;
-}
 .customize-scrollbar::-webkit-scrollbar-thumb {
   background: #474747;
   border-radius: 5rem;
 }
+
 .customize-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #999999;
 }
@@ -43,6 +45,19 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.growth {
+  animation: growth 500ms ease-out;
+}
+
+@keyframes growth {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
 
 .slide-in {
   animation: slide-in 500ms ease-out;
@@ -69,4 +84,35 @@ body {
   transform: translateX(0.75rem);
   font-size: 1rem !important;
   font-weight: 900 !important;
+}
+
+.input:first {
+  width: 48%;
+}
+.input:nth-child(2) {
+  width: 48%;
+}
+
+.social-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-svg.lighter:hover h1 {
+  color: #ff9f1c;
+}
+.social-svg svg {
+  width: 100%;
+}
+.social-svg svg path {
+  fill: #3e3e3e;
+}
+
+.social-svg.lighter svg path {
+  fill: #b4b4b4;
+}
+.social-svg:hover svg path {
+  fill: #ff9f1c;
+  transition: all 300ms;
 }

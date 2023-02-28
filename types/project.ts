@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+import { ReactNode } from "react";
 
 export type project = {
   date: string;
@@ -6,5 +7,5 @@ export type project = {
   tags: string[];
   description: string;
   media: string[] | any[];
-  links: { icon: StaticImageData; link: string }[];
+  links: { icon: () => JSX.Element; link: string }[];
 };

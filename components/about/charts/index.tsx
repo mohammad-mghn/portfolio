@@ -3,7 +3,7 @@ import ChartSection from "./section";
 
 function Charts() {
   return (
-    <div>
+    <>
       <ChartSection
         header="Skills"
         data={[
@@ -37,7 +37,7 @@ function Charts() {
           { title: "gf", value: 10 },
         ]}
       />
-    </div>
+    </>
   );
 }
 

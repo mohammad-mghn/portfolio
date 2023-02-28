@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import { styles } from "@/styles";
-import { CloseIcon, FarsiIcon, LightIcon } from "@/public/icons";
+import { CloseIcon, FarsiIcon } from "@/public/icons";
 import NavLink from "./navLink";
 
 type Props = {
@@ -21,7 +21,7 @@ function NavbarResponsive({ responsiveNavbar, responsiveNavbarHandler, links, pa
 
       {responsiveNavbar && (
         <nav
-          className={`absolute right-0 w-36 py-10 h-full md:hidden flex flex-col items-center justify-between slide-in z-10 ${styles.box}`}
+          className={`fixed right-0 w-36 py-10 h-full md:hidden flex flex-col items-center justify-between slide-in z-10 ${styles.box}`}
         >
           <button onClick={responsiveNavbarHandler}>
             <Image src={CloseIcon} alt="clsoe icon" className="w-7" />
@@ -33,14 +33,9 @@ function NavbarResponsive({ responsiveNavbar, responsiveNavbarHandler, links, pa
             ))}
           </ul>
 
-          <div className="flex items-center gap-x-3">
-            <button className="w-5">
-              <Image src={FarsiIcon} alt="language icon" />
-            </button>
-            <button className="w-5">
-              <Image src={LightIcon} alt="language icon" />
-            </button>
-          </div>
+          <button className="w-5">
+            <Image src={FarsiIcon} alt="language icon" />
+          </button>
         </nav>
       )}
     </>
