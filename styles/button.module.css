@@ -1,0 +1,32 @@
+.container {
+  all: unset;
+  display: grid;
+  place-items: center;
+  color: var(--orangeColor);
+  overflow: hidden;
+  border: 3px solid var(--orangeColor);
+  border-radius: 0.5rem;
+  transition: all 500ms;
+  cursor: pointer;
+}
+.text {
+  z-index: 1;
+}
+.scroller {
+  position: absolute;
+  top: -2.5rem;
+  left: -500%;
+  width: 400%;
+  height: 1220%;
+  background: var(--orangeColor);
+  transform: rotate(-50deg);
+  transition: all 0.75s ease-Out;
+}
+.container:hover .scroller {
+  left: -100%;
+}
+.container:hover {
+  color: var(--background);
+  box-shadow: 1px 1px 0px var(--orangeColor) inset,
+    -1px -1px 0px var(--orangeColor) inset, 0 0 20px var(--orangeColor);
+}

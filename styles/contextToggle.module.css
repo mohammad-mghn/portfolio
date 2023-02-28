@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  user-select: none;
+}
+
+.button{
+  font-size: 180%;
+  color: var(--h3Color);
+}

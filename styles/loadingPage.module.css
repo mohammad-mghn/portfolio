@@ -1,0 +1,47 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background);
+  z-index: 2;
+  transition: display 700ms;
+  animation: page-transition 500ms;
+}
+.loadingBar {
+  position: relative;
+  margin-top: 0.5rem;
+  width: 12rem;
+  height: 0.9rem;
+  border-radius: 1rem;
+  background-color: var(--lineBackground);
+}
+.loadingTrack {
+  position: absolute;
+  margin: 0.15rem;
+  max-width: 11.75rem;
+  width: 11.75rem;
+  height: 0.6rem;
+  border-radius: 1rem;
+  background-color: var(--orangeColor);
+  animation: loading 2500ms;
+}
+@keyframes loading {
+  0% {
+    width: 4rem;
+  }
+  75% {
+    width: 8rem;
+  }
+  90% {
+    width: 9rem;
+  }
+  100% {
+    width: 11rem;
+  }
+}

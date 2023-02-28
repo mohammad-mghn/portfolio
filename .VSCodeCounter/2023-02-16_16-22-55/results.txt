@@ -1,0 +1,123 @@
+Date : 2023-02-16 16:22:55
+Directory : c:\Vito\portfolio\portfolio
+Total : 80 files,  4720 codes, 85 comments, 415 blanks, all 5220 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JavaScript         |         38 |      2,234 |         55 |        330 |      2,619 |
+| CSS                |         19 |      1,869 |         30 |         34 |      1,933 |
+| XML                |         16 |        495 |          0 |         16 |        511 |
+| JavaScript JSX     |          4 |         57 |          0 |         16 |         73 |
+| JSON               |          1 |         32 |          0 |          1 |         33 |
+| Markdown           |          1 |         30 |          0 |         17 |         47 |
+| JSON with Comments |          1 |          3 |          0 |          1 |          4 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                               | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                  |         80 |      4,720 |         85 |        415 |      5,220 |
+| . (Files)                                                          |          4 |         69 |          1 |         21 |         91 |
+| components                                                         |         13 |        948 |         29 |        149 |      1,126 |
+| elements                                                           |          4 |         57 |          0 |         16 |         73 |
+| hooks                                                              |          1 |         40 |         11 |         17 |         68 |
+| modules                                                            |          5 |        140 |          0 |         22 |        162 |
+| pages                                                              |         18 |      1,102 |         14 |        140 |      1,256 |
+| pages (Files)                                                      |          8 |        672 |         13 |         80 |        765 |
+| pages\api                                                          |          8 |        191 |          0 |         33 |        224 |
+| pages\blog                                                         |          2 |        239 |          1 |         27 |        267 |
+| public                                                             |         16 |        495 |          0 |         16 |        511 |
+| public (Files)                                                     |          7 |        459 |          0 |          7 |        466 |
+| public\icon                                                        |          9 |         36 |          0 |          9 |         45 |
+| styles                                                             |         19 |      1,869 |         30 |         34 |      1,933 |
++--------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                           | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Vito\portfolio\portfolio\.eslintrc.json                         | JSON with Comments |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\README.md                              | Markdown           |         30 |          0 |         17 |         47 |
+| c:\Vito\portfolio\portfolio\components\blogPreview.js              | JavaScript         |         59 |          0 |          7 |         66 |
+| c:\Vito\portfolio\portfolio\components\blogReadPage.js             | JavaScript         |        122 |          0 |         20 |        142 |
+| c:\Vito\portfolio\portfolio\components\comment.js                  | JavaScript         |         74 |          0 |         13 |         87 |
+| c:\Vito\portfolio\portfolio\components\commentForm.js              | JavaScript         |        108 |          0 |         15 |        123 |
+| c:\Vito\portfolio\portfolio\components\comments.js                 | JavaScript         |         20 |          0 |          4 |         24 |
+| c:\Vito\portfolio\portfolio\components\loadingPage.js              | JavaScript         |         18 |          0 |          6 |         24 |
+| c:\Vito\portfolio\portfolio\components\navbar.js                   | JavaScript         |        143 |          7 |         18 |        168 |
+| c:\Vito\portfolio\portfolio\components\oneMin.js                   | JavaScript         |         34 |          0 |          5 |         39 |
+| c:\Vito\portfolio\portfolio\components\project.js                  | JavaScript         |         88 |          7 |         16 |        111 |
+| c:\Vito\portfolio\portfolio\components\ratesSection.js             | JavaScript         |         54 |          0 |          7 |         61 |
+| c:\Vito\portfolio\portfolio\components\reply.js                    | JavaScript         |         42 |          0 |          9 |         51 |
+| c:\Vito\portfolio\portfolio\components\replyForm.js                | JavaScript         |        124 |          0 |         13 |        137 |
+| c:\Vito\portfolio\portfolio\components\typingAnimation.js          | JavaScript         |         62 |         15 |         16 |         93 |
+| c:\Vito\portfolio\portfolio\elements\blogDetail.jsx                | JavaScript JSX     |          9 |          0 |          3 |         12 |
+| c:\Vito\portfolio\portfolio\elements\button.jsx                    | JavaScript JSX     |         18 |          0 |          5 |         23 |
+| c:\Vito\portfolio\portfolio\elements\rate.jsx                      | JavaScript JSX     |         16 |          0 |          4 |         20 |
+| c:\Vito\portfolio\portfolio\elements\textButton.jsx                | JavaScript JSX     |         14 |          0 |          4 |         18 |
+| c:\Vito\portfolio\portfolio\hooks\useLocalStorgeLikedBlog.js       | JavaScript         |         40 |         11 |         17 |         68 |
+| c:\Vito\portfolio\portfolio\modules\Context.js                     | JavaScript         |         46 |          0 |          6 |         52 |
+| c:\Vito\portfolio\portfolio\modules\contextToggle.js               | JavaScript         |         23 |          0 |          9 |         32 |
+| c:\Vito\portfolio\portfolio\modules\globalStyles.js                | JavaScript         |         24 |          0 |          1 |         25 |
+| c:\Vito\portfolio\portfolio\modules\head.js                        | JavaScript         |         13 |          0 |          4 |         17 |
+| c:\Vito\portfolio\portfolio\modules\theme.js                       | JavaScript         |         34 |          0 |          2 |         36 |
+| c:\Vito\portfolio\portfolio\next.config.js                         | JavaScript         |          4 |          1 |          2 |          7 |
+| c:\Vito\portfolio\portfolio\package.json                           | JSON               |         32 |          0 |          1 |         33 |
+| c:\Vito\portfolio\portfolio\pages\404.js                           | JavaScript         |         73 |          5 |         15 |         93 |
+| c:\Vito\portfolio\portfolio\pages\_app.js                          | JavaScript         |         67 |          0 |         13 |         80 |
+| c:\Vito\portfolio\portfolio\pages\about.js                         | JavaScript         |        227 |          4 |         16 |        247 |
+| c:\Vito\portfolio\portfolio\pages\admin.js                         | JavaScript         |         18 |          0 |          3 |         21 |
+| c:\Vito\portfolio\portfolio\pages\api\aboutPage.js                 | JavaScript         |         10 |          0 |          3 |         13 |
+| c:\Vito\portfolio\portfolio\pages\api\addBlog.js                   | JavaScript         |         45 |          0 |          6 |         51 |
+| c:\Vito\portfolio\portfolio\pages\api\addhello.js                  | JavaScript         |         62 |          0 |          6 |         68 |
+| c:\Vito\portfolio\portfolio\pages\api\blogs.js                     | JavaScript         |         10 |          0 |          3 |         13 |
+| c:\Vito\portfolio\portfolio\pages\api\projectsPage.js              | JavaScript         |         10 |          0 |          3 |         13 |
+| c:\Vito\portfolio\portfolio\pages\api\updateBlog.js                | JavaScript         |         18 |          0 |          4 |         22 |
+| c:\Vito\portfolio\portfolio\pages\api\updateCommentsBlog.js        | JavaScript         |         18 |          0 |          4 |         22 |
+| c:\Vito\portfolio\portfolio\pages\api\updateRepliesBlog.js         | JavaScript         |         18 |          0 |          4 |         22 |
+| c:\Vito\portfolio\portfolio\pages\blog\[blogPage].js               | JavaScript         |         56 |          0 |         11 |         67 |
+| c:\Vito\portfolio\portfolio\pages\blog\index.js                    | JavaScript         |        183 |          1 |         16 |        200 |
+| c:\Vito\portfolio\portfolio\pages\contact.js                       | JavaScript         |        157 |          4 |         15 |        176 |
+| c:\Vito\portfolio\portfolio\pages\error.js                         | JavaScript         |          9 |          0 |          3 |         12 |
+| c:\Vito\portfolio\portfolio\pages\index.js                         | JavaScript         |         37 |          0 |          5 |         42 |
+| c:\Vito\portfolio\portfolio\pages\projects.js                      | JavaScript         |         84 |          0 |         10 |         94 |
+| c:\Vito\portfolio\portfolio\public\V-icon.svg                      | XML                |          9 |          0 |          1 |         10 |
+| c:\Vito\portfolio\portfolio\public\about_landing_image.svg         | XML                |         91 |          0 |          1 |         92 |
+| c:\Vito\portfolio\portfolio\public\contact_landing_image.svg       | XML                |         36 |          0 |          1 |         37 |
+| c:\Vito\portfolio\portfolio\public\contact_landing_image_light.svg | XML                |         36 |          0 |          1 |         37 |
+| c:\Vito\portfolio\portfolio\public\home_landing_image.svg          | XML                |        132 |          0 |          1 |        133 |
+| c:\Vito\portfolio\portfolio\public\home_landing_page.svg           | XML                |        132 |          0 |          1 |        133 |
+| c:\Vito\portfolio\portfolio\public\icon\dark.svg                   | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\icon\deploy.svg                 | XML                |         12 |          0 |          1 |         13 |
+| c:\Vito\portfolio\portfolio\public\icon\figma.svg                  | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\icon\github.svg                 | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\icon\instagram.svg              | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\icon\light.svg                  | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\icon\menu-dark.svg              | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\icon\menu-light.svg             | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\icon\twitter.svg                | XML                |          3 |          0 |          1 |          4 |
+| c:\Vito\portfolio\portfolio\public\man_avatar.svg                  | XML                |         23 |          0 |          1 |         24 |
+| c:\Vito\portfolio\portfolio\styles\404.module.css                  | CSS                |         64 |          0 |          1 |         65 |
+| c:\Vito\portfolio\portfolio\styles\Home.module.css                 | CSS                |        137 |          6 |          3 |        146 |
+| c:\Vito\portfolio\portfolio\styles\about.module.css                | CSS                |        269 |          0 |          1 |        270 |
+| c:\Vito\portfolio\portfolio\styles\blog.module.css                 | CSS                |         75 |          0 |          1 |         76 |
+| c:\Vito\portfolio\portfolio\styles\blogPage.module.css             | CSS                |        153 |          1 |          1 |        155 |
+| c:\Vito\portfolio\portfolio\styles\blogPreview.module.css          | CSS                |        128 |          0 |          2 |        130 |
+| c:\Vito\portfolio\portfolio\styles\button.module.css               | CSS                |         32 |          0 |          1 |         33 |
+| c:\Vito\portfolio\portfolio\styles\comment.module.css              | CSS                |         72 |          0 |          2 |         74 |
+| c:\Vito\portfolio\portfolio\styles\contact.module.css              | CSS                |        194 |          0 |          2 |        196 |
+| c:\Vito\portfolio\portfolio\styles\contextToggle.module.css        | CSS                |         11 |          0 |          1 |         12 |
+| c:\Vito\portfolio\portfolio\styles\form.module.css                 | CSS                |        148 |          0 |          2 |        150 |
+| c:\Vito\portfolio\portfolio\styles\globals.css                     | CSS                |        200 |          4 |          7 |        211 |
+| c:\Vito\portfolio\portfolio\styles\layout.module.css               | CSS                |          0 |          0 |          1 |          1 |
+| c:\Vito\portfolio\portfolio\styles\loadingPage.module.css          | CSS                |         47 |          0 |          1 |         48 |
+| c:\Vito\portfolio\portfolio\styles\navbar.module.css               | CSS                |        154 |         19 |          3 |        176 |
+| c:\Vito\portfolio\portfolio\styles\oneMin.module.css               | CSS                |         37 |          0 |          2 |         39 |
+| c:\Vito\portfolio\portfolio\styles\projects.module.css             | CSS                |         93 |          0 |          1 |         94 |
+| c:\Vito\portfolio\portfolio\styles\rate.module.css                 | CSS                |         47 |          0 |          1 |         48 |
+| c:\Vito\portfolio\portfolio\styles\textButton.module.css           | CSS                |          8 |          0 |          1 |          9 |
+| Total                                                              |                    |      4,720 |         85 |        415 |      5,220 |
++--------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

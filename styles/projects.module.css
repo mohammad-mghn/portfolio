@@ -1,0 +1,93 @@
+.container {
+  padding: 6rem 5% 2rem 5%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 2rem;
+}
+.project {
+  height: 30rem;
+  width: 27rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--boxShadow);
+}
+.slider {
+  height: 17rem;
+  background: linear-gradient(180deg, transparent, var(--background) 100%),
+    linear-gradient(180deg, #ff9f1c 67.19%, var(--background) 100%);
+  border-radius: 0.5rem;
+}
+.slide {
+  display: grid;
+  place-items: center;
+}
+.cover {
+  width: 85%;
+}
+.title {
+  padding: 1% 2.5%;
+  height: 2.5rem;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--paragraphColor);
+  overflow: hidden;
+}
+.description {
+  padding-left: 5%;
+  height: 8rem;
+  width: 97.5%;
+  overflow-y: scroll;
+  color: var(--h2Color);
+}
+.description::-webkit-scrollbar {
+  width: 0.25rem;
+}
+.description::-webkit-scrollbar-thumb {
+  background-color: var(--h3Color);
+}
+.description::-webkit-scrollbar-thumb:active {
+  background-color: var(--h2Color);
+}
+.options__date {
+  height: 2.5rem;
+  width: 100%;
+  padding: 0 2.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.option,
+.date {
+  color: var(--h3Color);
+  transition: all 500ms;
+}
+.option:hover {
+  color: var(--orangeColor);
+}
+@media screen and (max-width: 960px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media screen and (max-width: 480px) {
+  .project {
+    height: fit-content;
+    width: 90vw;
+  }
+  .slider {
+    height: 62vw;
+  }
+  .title {
+    height: 8vw;
+    font-size: 5vw;
+  }
+  .description {
+    height: 34vw;
+    font-size: 3.75vw;
+  }
+  .option,
+  .date {
+    font-size: 3.75vw;
+  }
+}

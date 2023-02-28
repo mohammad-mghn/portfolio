@@ -1,0 +1,47 @@
+.rate {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  transition: width 1s;
+}
+.title {
+  font-size: 1.5rem;
+  color: var(--h2Color);
+}
+.rate_track {
+  height: 1rem;
+  width: 15rem;
+  background-color: var(--h3Color);
+  border-radius: 1rem;
+}
+.rate_thumb {
+  margin: 0.15rem;
+  height: 70%;
+  max-width: 98%;
+  background-color: var(--orangeColor);
+  border-radius: 1rem;
+}
+@media screen and (max-width: 1000px) {
+  .rate {
+    height: 5vw;
+    margin-bottom: 4vw;
+  }
+  .title {
+    font-size: 5vw;
+  }
+  .rate_track {
+    height: 3vw;
+    width: 35vw;
+    background-color: var(--h3Color);
+    border-radius: 10vw;
+  }
+  .rate_thumb {
+    margin: 0.25vw;
+    height: 75%;
+    border-radius: 10vw;
+  }
+}
