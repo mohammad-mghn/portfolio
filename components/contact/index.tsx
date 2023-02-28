@@ -59,11 +59,7 @@ function Contact() {
       // setNotification("Please fill out all inputs.");
     }
   };
-  const inputs = [
-    { type: "text", name: "from_name" },
-    { type: "text", name: "title" },
-    { type: "email", name: "from_email" },
-  ];
+
   return (
     <>
       <section className="px-2">
