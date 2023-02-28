@@ -1,8 +1,0 @@
-.button {
-  all: unset;
-  height: fit-content;
-  width: fit-content;
-  color: var(--paragraphColor);
-  cursor: pointer;
-  transition: all 500ms;
-}
