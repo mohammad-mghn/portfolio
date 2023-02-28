@@ -1,15 +1,20 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
+
+import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import NavLink from "./navLink";
 import NavbarResponsive from "./responsive";
 
+import { socials } from "@/data/social";
+
 import { VIcon } from "@/public";
-import { styles } from "@/styles";
 import { FarsiIcon, MenuIcon } from "@/public/icons";
+
+import { styles } from "@/styles";
 
 function Navbar() {
   const links = [
@@ -27,7 +32,7 @@ function Navbar() {
       title: "Projects",
     },
     {
-      path: "https://dev.to/vitomohagheghian",
+      path: socials.devto,
       title: "Blog",
     },
   ];
@@ -53,7 +58,9 @@ function Navbar() {
                     ${styles.box}`}
       >
         <div className="flex items-center gap-x-4">
-          <Image src={VIcon} alt="vito logo" className="w-10" />
+          <Link href="/">
+            <Image src={VIcon} alt="vito logo" className="w-10" />
+          </Link>
 
           <ul className="hidden md:flex gap-x-3">
             {links.map((item) => (

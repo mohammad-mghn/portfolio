@@ -1,4 +1,6 @@
+import { ChartType } from "@/types/chart";
 import React from "react";
+
 import ChartSection from "./section";
 
 function Charts() {
@@ -7,34 +9,43 @@ function Charts() {
       <ChartSection
         header="Skills"
         data={[
-          { title: "1", value: 10 },
-          { title: "2", value: 10 },
-          { title: "3", value: 10 },
-          { title: "4", value: 10 },
-          { title: "5", value: 10 },
-          { title: "6", value: 10 },
-          { title: "7", value: 10 },
-        ]}
-      />
-
-      <ChartSection
-        header="Tools"
-        data={[
-          { title: "Python", value: 10 },
-          { title: "gf", value: 10 },
-          { title: "Python", value: 10 },
-          { title: "fg", value: 10 },
-          { title: "ggggg", value: 10 },
-          { title: "fffff", value: 10 },
-          { title: "aaaaaa", value: 10 },
+          { title: "ReactJs", value: 80 },
+          { title: "NextJs", value: 90 },
+          { title: "JavaScript", value: 75 },
+          { title: "TypeScript", value: 90 },
+          { title: "HTML/CSS", value: 85 },
+          { title: "TailWindCSS", value: 80 },
+          { title: "Sass", value: 95 },
+          { title: "MongoDB", value: 30 },
+          { title: "ReduxJS", value: 80 },
+          { title: "Git", value: 50 },
         ]}
       />
 
       <ChartSection
         header="Languages"
         data={[
-          { title: "Python", value: 10 },
-          { title: "gf", value: 10 },
+          { title: "Farsi - Persian", value: 100 },
+          { title: "English", value: 80 },
+        ]}
+      />
+
+      <ChartSection
+        header="Tools"
+        data={[
+          { title: "VS Code", value: 100 },
+          { title: "Brave", value: 100 },
+          { title: "Gmail", value: 100 },
+          { title: "Windows 11", value: 90 },
+          { title: "Bash", value: 90 },
+          { title: "Figma", value: 75 },
+          { title: "Github", value: 95 },
+          { title: "Spotify", value: 95 },
+          { title: "Postman", value: 90 },
+          { title: "Microsoft todo", value: 80 },
+          { title: "Spline", value: 60 },
+          { title: "DevTo", value: 95 },
+          { title: "StackOverFlow", value: 75 },
         ]}
       />
     </>

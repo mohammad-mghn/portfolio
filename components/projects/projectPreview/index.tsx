@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 import Slider from "./slider";
 
@@ -25,7 +24,7 @@ function ProjectPreview({ title, media, date, description, links, tags }: projec
 
         <div className="pt-1 px-3">
           <p className="pr-1 h-fit md:h-24 overflow-y-auto text-justify text-xs md:text-sm text-text leading-5 opacity-90 customize-scrollbar">
-            {description} sdf sdfsdfsdf sdf sdf sd fsf sd sdf sdfsdf sdf sdf sdf
+            {description}
           </p>
 
           <div className="mt-3 relative flex items-center gap-x-2 overflow-hidden">

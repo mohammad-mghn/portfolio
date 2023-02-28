@@ -26,7 +26,7 @@ function ChartSection({ header, data }: Props) {
         <h1 className="text-secondary font-semibold text-2xl">{header}</h1>
 
         <div className="mt-3 ml-3 flex justify-between flex-col md:flex-row space-y-4 md:space-y-0">
-          <div className="space-y-4 flex-1">
+          <div className="flex-1 space-y-4">
             {leftColumn.map((item, index) => (
               <Chart item={item} key={index} />
             ))}
@@ -34,7 +34,7 @@ function ChartSection({ header, data }: Props) {
 
           <div className="hidden md:block mx-5 w-1 bg-border rounded-lg" />
 
-          <div className="space-y-4 flex-1">
+          <div className="flex-1 space-y-4">
             {rightColumn.map((item, index) => (
               <Chart item={item} key={index} />
             ))}

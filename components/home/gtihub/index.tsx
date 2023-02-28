@@ -1,5 +1,10 @@
-import { styles } from "@/styles";
 import React from "react";
+
+import Link from "next/link";
+
+import { socials } from "@/data/social";
+
+import { styles } from "@/styles";
 
 function Github() {
   return (
@@ -13,9 +18,12 @@ function Github() {
               Talk is cheap, Show me the code. <span className="text-darker-text text-xs">Linus Torvalds</span>
             </h2>
 
-            <button className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}>
-              Gtihub Page
-            </button>
+            <Link
+              href={socials.github}
+              className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
+            >
+              Github Page
+            </Link>
           </div>
         </div>
       </section>

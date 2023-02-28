@@ -1,5 +1,9 @@
 import React from "react";
 
+import Link from "next/link";
+
+import { socials } from "@/data/social";
+
 import { styles } from "@/styles";
 
 function Blog() {
@@ -14,9 +18,12 @@ function Blog() {
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
             </h2>
 
-            <button className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}>
+            <Link
+              href={socials.devto}
+              className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
+            >
               Dev to Profile
-            </button>
+            </Link>
           </div>
         </div>
       </section>

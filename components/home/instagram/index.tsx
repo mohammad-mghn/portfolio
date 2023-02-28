@@ -1,10 +1,13 @@
 import React from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 
-import { styles } from "@/styles";
+import { socials } from "@/data/social";
 
 import { FirstPost, SercondPost, ThirdPost } from "@/public/instagram-posts";
+
+import { styles } from "@/styles";
 
 function Instagram() {
   return (
@@ -15,7 +18,7 @@ function Instagram() {
         <div className="md:mt-3 ml-3">
           <h2 className="text-xs md:text-lg text-text opacity-80">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit.{" "}
-            <Link href={"https://instagram.com/vito.mohagheghian"} className="text-brand">
+            <Link href={socials.instagram} className="text-brand">
               @vito.moheghaghian
             </Link>
           </h2>
@@ -39,9 +42,12 @@ function Instagram() {
           </div>
         </div>
 
-        <button className={`${styles.button} mx-auto my-8 px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}>
+        <Link
+          href={socials.instagram}
+          className={`mx-auto my-8 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand ${styles.button}`}
+        >
           Check My Page
-        </button>
+        </Link>
       </section>
 
       <div className={styles.divider} />
