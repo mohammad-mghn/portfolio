@@ -12,7 +12,7 @@ import Link from "next/link";
 function SelectedProjects() {
   return (
     <>
-      <section className="md:px-2 ltr">
+      <section className="md:px-2">
         <h1 className="text-secondary font-semibold text-2xl">پروژه ها انتخابی</h1>
 
         <div className="md:ml-3 mt-5 flex flex-wrap flex-col lg:flex-row justify-center items-center gap-4 ltr">
