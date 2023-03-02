@@ -1,6 +1,6 @@
 import React from "react";
 
-import Projects from "@/components/projects/projects";
+import Projects from "@/components/fa/projects/projects";
 
 function Page() {
   return <Projects />;

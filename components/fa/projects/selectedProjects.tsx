@@ -15,7 +15,7 @@ function SelectedProjects() {
       <section className="md:px-2 ltr">
         <h1 className="text-secondary font-semibold text-2xl">پروژه ها انتخابی</h1>
 
-        <div className="md:ml-3 mt-5 flex flex-wrap flex-col lg:flex-row justify-center items-center gap-4">
+        <div className="md:ml-3 mt-5 flex flex-wrap flex-col lg:flex-row justify-center items-center gap-4 ltr">
           {projects.slice(0, 6).map((item: project, index: number) => (
             <ProjectPreview {...item} key={index} />
           ))}
