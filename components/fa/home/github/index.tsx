@@ -10,19 +10,19 @@ function Github() {
   return (
     <>
       <section className="px-2 pb-3">
-        <h1 className="text-secondary font-semibold text-2xl">My blog on Dev.to</h1>
+        <h1 className="text-secondary font-semibold text-2xl">صفحه ی گیت هاب من</h1>
 
         <div className="mt-3 ml-3">
           <div className="w-full flex items-center justify-between flex-wrap gap-x-2 gap-y-4">
             <h2 className="text-sm md:text-xl text-text opacity-80">
-              Talk is cheap, Show me the code. <span className="text-darker-text text-xs">Linus Torvalds</span>
+              سخن ببی ارزش است، کد را به من نشان دهید. <span className="text-darker-text text-xs">لینوس توروالز</span>
             </h2>
 
             <Link
               href={socials.github}
               className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
             >
-              Github Page
+              گیت هاب
             </Link>
           </div>
         </div>

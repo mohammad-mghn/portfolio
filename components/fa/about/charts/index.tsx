@@ -6,7 +6,7 @@ function Charts() {
   return (
     <>
       <ChartSection
-        header="Skills"
+        header="مهارت ها"
         data={[
           { title: "ReactJs", value: 80 },
           { title: "NextJs", value: 90 },
@@ -22,7 +22,7 @@ function Charts() {
       />
 
       <ChartSection
-        header="Languages"
+        header="زبان ها"
         data={[
           { title: "Farsi - Persian", value: 100 },
           { title: "English", value: 80 },
@@ -30,7 +30,7 @@ function Charts() {
       />
 
       <ChartSection
-        header="Tools"
+        header="ابزار ها"
         data={[
           { title: "VS Code", value: 100 },
           { title: "Brave", value: 100 },

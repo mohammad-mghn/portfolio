@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import TypingAnimation from "../typingAnimation";
+import TypingAnimation from "../../typingAnimation";
 
 import { styles } from "@/styles";
 import { AboutImage } from "@/public";
@@ -12,12 +12,12 @@ function AboutLanding() {
     <section className=" flex flex-col items-center justify-between py-20 lg:flex-row gap-y-14">
       <div>
         <h1 className="max-w-[18rem] md:max-w-[25.5rem] text-3xl font-medium text-lighter-text md:text-3xl lg:text-5xl md:leading-tight lg:leading-snug">
-          Who am I and What I’m great at?
+          من کی ام و<br /> تو چی خوبم ؟
         </h1>
 
         <TypingAnimation
-          staticText="I'm"
-          content={["Front-end Dev.", "React Dev.", "a Freelancer.", "UI designer."]}
+          staticText="من یک"
+          content={["فرانت-اند دولوپر هستم.", "طراح سایت هستم.", "فریلنسر هستم."]}
           Typingspeed={75}
           deletingSpeed={50}
           deletePauseTime={750}
@@ -26,14 +26,14 @@ function AboutLanding() {
           cursorClassName={"text-brand "}
         />
 
-        <p className="mt-3 max-w-[15rem] md:max-w-[20rem] text-text text-sm md:text-xl leading-relaxed opacity-75">
-          In which I’m really pasionate in learning and coding.
+        <p className="mt-3 max-w-[15rem] md:max-w-[20rem] text-text text-xs md:text-lg leading-relaxed opacity-75">
+          که علاقه مند به یادگیری برنامه نویسی و حل الگوریتم و هستم
         </p>
         <Link
           href="https://github.com/vito-mohagheghian"
           className={`mt-4 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand ${styles.button}`}
         >
-          Github page
+          صفحه گیت هاب
         </Link>
       </div>
 

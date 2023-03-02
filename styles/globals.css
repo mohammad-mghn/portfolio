@@ -116,3 +116,11 @@ body {
   fill: #ff9f1c;
   transition: all 300ms;
 }
+
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}

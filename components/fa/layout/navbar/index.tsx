@@ -12,28 +12,28 @@ import NavbarResponsive from "./responsive";
 import { socials } from "@/data/social";
 
 import { VIcon } from "@/public";
-import { FarsiIcon, MenuIcon } from "@/public/icons";
+import { EnglishIcon, MenuIcon } from "@/public/icons";
 
 import { styles } from "@/styles";
 
 function Navbar() {
   const links = [
-    { path: "/", title: "Home" },
+    { path: "/fa", title: "خانه" },
     {
-      path: "/about",
-      title: "About",
+      path: "/about/fa",
+      title: "درباره",
     },
     {
-      path: "/contact",
-      title: "Contact",
+      path: "/contact/fa",
+      title: "تماس",
     },
     {
-      path: "/projects",
-      title: "Projects",
+      path: "/projects/fa",
+      title: "پروژه ها",
     },
     {
       path: socials.devto,
-      title: "Blog",
+      title: "بلاگ",
     },
   ];
 
@@ -58,19 +58,19 @@ function Navbar() {
                     ${styles.box}`}
       >
         <div className="flex items-center gap-x-4">
-          <Link href="/">
+          <Link href="/fa">
             <Image src={VIcon} alt="vito logo" className="w-10" />
           </Link>
 
-          <ul className="hidden md:flex gap-x-3">
+          <ul className="hidden md:flex gap-x-4">
             {links.map((item) => (
               <NavLink item={item} path={path} key={item.title} />
             ))}
           </ul>
         </div>
 
-        <Link href={"/fa"} className="w-5 hidden md:block">
-          <Image src={FarsiIcon} alt="language icon" />
+        <Link href={"/"} className="w-5 hidden md:block">
+          <Image src={EnglishIcon} alt="language icon" />
         </Link>
 
         <button className="md:hidden" onClick={responsiveNavbarHandler}>

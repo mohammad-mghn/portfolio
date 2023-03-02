@@ -3,6 +3,7 @@
 import React from "react";
 
 type Props = {
+  staticText: string;
   content: string[];
   Typingspeed: number;
   deletingSpeed: number;
@@ -16,6 +17,7 @@ type Props = {
 
 const TypingAnimation = (props: Props) => {
   const {
+    staticText,
     content,
     Typingspeed,
     deletingSpeed,
@@ -90,9 +92,10 @@ const TypingAnimation = (props: Props) => {
     // Start the typing effect on load
     interval = setInterval(Type, Typingspeed);
   }, []);
+  
   return (
     <div className={containerClassName} style={{ display: "flex", alignItems: "center", columnGap: ".25rem" }}>
-      <div className={PrimaryTextClassName}>I&apos;m</div>
+      <div className={PrimaryTextClassName}>{staticText}</div>
       <div className={typingClassName} id="typingElement"></div>
       <div className={cursorClassName} id="cursor">
         |

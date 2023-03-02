@@ -1,12 +1,12 @@
 import React from "react";
 
-import Github from "@/components/home/gtihub";
-import Footer from "@/components/layout/footer";
+import Layout from "@/components/layout";
+import Github from "@/components/home/github";
 import { AboutLanding, AutoBiography, Charts } from "@/components/about";
 
 function About() {
   return (
-    <main>
+    <Layout>
       <AboutLanding />
 
       <AutoBiography />
@@ -14,9 +14,7 @@ function About() {
       <Charts />
 
       <Github />
-
-      <Footer />
-    </main>
+    </Layout>
   );
 }
 

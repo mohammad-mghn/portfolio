@@ -1,6 +1,7 @@
 import { Nunito } from "@next/font/google";
 
 import Navbar from "@/components/layout/navbar";
+import ScrollToTop from "@/components/scrollToTop";
 
 import "../styles/globals.css";
 
@@ -14,9 +15,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
 
       <body className={`${nunito.className} bg-primary customize-scrollbar fat-scrollber`}>
-        <Navbar />
+   
 
-        <div className="pt-24 px-4 sm:px-6 md:px-12 mx-auto xl:max-w-[85rem]">{children}</div>
+       {children}
+
+        <ScrollToTop />
       </body>
     </html>
   );
