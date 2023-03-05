@@ -12,8 +12,8 @@ import { styles } from "@/styles";
 function Header() {
   return (
     <>
-      <section className="flex flex-col items-center justify-between py-6 lg:flex-row gap-y-14">
-        <div className="flex flex-col justify-center py-16">
+      <section className="flex flex-col sm:items-center justify-between py-6 lg:flex-row gap-y-14">
+        <div className="flex flex-col items-start justify-center py-16">
           <p className="text-sm opacity-75 text-text md:text-xl">hi I’m</p>
 
           <h1 className="text-3xl font-medium text-lighter-text md:text-5xl lg:text-6xl md:leading-tight lg:leading-snug">
