@@ -16,18 +16,23 @@ function Support() {
           <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between flex-wrap gap-x-2 gap-y-4">
             <h2 className="text-sm md:text-xl text-text opacity-80">Buy me a coffee (coffee be de)</h2>
 
-            <button className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}>
-              Dev to Profile
-            </button>
+            <Link
+              target={"_blank"}
+              href={socials.buyMeACoffee}
+              className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
+            >
+              Coffee Be De
+            </Link>
           </div>
           <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between flex-wrap gap-x-2 gap-y-4">
             <h2 className="text-sm md:text-xl text-text opacity-80">Send me Tether</h2>
 
             <Link
-              href={socials.devto}
+              target="_blank"
+              href={socials.wallet}
               className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
             >
-              Dev to Profile
+              Wallet Address
             </Link>
           </div>
         </div>

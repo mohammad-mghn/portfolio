@@ -40,7 +40,7 @@ function ProjectPreview({ title, media, date, description, links, tags }: projec
           <div className="mt-3 flex items-center justify-between">
             <div className="flex items-center gap-x-2">
               {links.map((item, index) => (
-                <Link href={item.link} className="w-5 social-svg" key={index}>
+                <Link target={"_blank"} href={item.link} className="w-5 social-svg" key={index}>
                   <item.icon />
                 </Link>
               ))}

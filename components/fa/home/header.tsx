@@ -33,11 +33,12 @@ function Header() {
               <Image src={DownloadIcon} alt="download icon" className="w-4 md:w-6" />
             </Link>
 
-            <button
+            <Link
+              href="/contact/fa"
               className={`px-3 py-2 md:px-5 md:py-3 text-text text-sm md:text-[1.125rem] font-semibold hover:underline`}
             >
               در تماس باشیم
-            </button>
+            </Link>
           </div>
         </div>
 

@@ -19,6 +19,7 @@ function Blog() {
             </h2>
 
             <Link
+              target={"_blank"}
               href={socials.devto}
               className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
             >

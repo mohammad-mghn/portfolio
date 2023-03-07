@@ -14,16 +14,16 @@ function Footer() {
       </h1>
 
       <div className="flex items-center gap-x-4">
-        <Link href={socials.linkedin} className="w-5 social-svg lighter">
+        <Link target={"_blank"} href={socials.linkedin} className="w-5 social-svg lighter">
           <LinkedInIcon />
         </Link>
-        <Link href={socials.github} className="w-5 social-svg lighter">
+        <Link target={"_blank"} href={socials.github} className="w-5 social-svg lighter">
           <GithubIcon />
         </Link>
-        <Link href={socials.instagram} className="w-5 social-svg lighter">
+        <Link target={"_blank"} href={socials.instagram} className="w-5 social-svg lighter">
           <InstagramIcon />
         </Link>
-        <Link href={socials.twitter} className="w-5 social-svg lighter">
+        <Link target={"_blank"} href={socials.twitter} className="w-5 social-svg lighter">
           <TwitterIcon />
         </Link>
       </div>

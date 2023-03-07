@@ -33,11 +33,12 @@ function Header() {
               <Image src={DownloadIcon} alt="download icon" className="w-4 md:w-6" />
             </Link>
 
-            <button
+            <Link
+              href="/contact"
               className={`px-3 py-2 md:px-5 md:py-3 text-text text-sm md:text-[1.125rem] font-semibold hover:underline`}
             >
               Get in touch
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -47,7 +48,10 @@ function Header() {
       <div className="mt-6 flex items-center justify-between gap-x-3 md:gap-x-5">
         <div className="bg-border h-[3px] flex-1 rounded-lg" />
 
-        <a href="#about" className="text-md text-center text-border hover:text-text font-bold transition-all duration-300">
+        <a
+          href="#about"
+          className="text-md text-center text-border hover:text-text font-bold transition-all duration-300"
+        >
           Scroll to down
         </a>
 

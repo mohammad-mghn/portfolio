@@ -30,6 +30,7 @@ function AboutLanding() {
           In which I’m really pasionate in learning and coding.
         </p>
         <Link
+          target={"_blank"}
           href="https://github.com/vito-mohagheghian"
           className={`mt-4 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand ${styles.button}`}
         >
