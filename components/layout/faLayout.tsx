@@ -10,7 +10,7 @@ function FaLayout({ children }: { children: ReactNode }) {
     <div className={`${IranYekan.className} rtl`}>
       <Navbar />
 
-      <main className="pt-24 px-4 sm:px-6 md:px-12 mx-auto xl:max-w-[85rem]">
+      <main className="pt-24 px-6 md:px-12 mx-auto xl:max-w-[85rem]">
         {children}
 
         <Footer />

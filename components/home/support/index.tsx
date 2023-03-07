@@ -12,7 +12,7 @@ function Support() {
       <section className="px-2 pb-3">
         <h1 className="text-secondary text-2xl font-semibold">Support me</h1>
 
-        <div className="mt-3 ml-3 space-y-3">
+        <div className="mt-3 ml-3 space-y-4">
           <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between flex-wrap gap-x-2 gap-y-4">
             <h2 className="text-sm md:text-xl text-text opacity-80">Buy me a coffee (coffee be de)</h2>
 

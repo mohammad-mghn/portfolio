@@ -8,7 +8,7 @@ import { GithubIcon, InstagramIcon, LinkedInIcon, TwitterIcon } from "@/public/i
 
 function Footer() {
   return (
-    <footer className="mb-5 flex items-center justify-between flex-col md:flex-row">
+    <footer className="mb-5 flex items-center justify-between flex-col md:flex-row  gap-y-3">
       <h1 className="text-xs md:text-base text-text font-bold">
         © Made with ❤️ and lots of ☕ from 2020 - {new Date().getFullYear()}
       </h1>

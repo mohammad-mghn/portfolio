@@ -47,7 +47,7 @@ function Header() {
       <div className="mt-6 flex items-center justify-between gap-x-3 md:gap-x-5">
         <div className="bg-border h-[3px] flex-1 rounded-lg" />
 
-        <a href="#id" className="text-md text-center text-border hover:text-text font-bold transition-all duration-300">
+        <a href="#about" className="text-md text-center text-border hover:text-text font-bold transition-all duration-300">
           Scroll to down
         </a>
 
