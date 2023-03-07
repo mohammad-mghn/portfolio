@@ -59,11 +59,7 @@ function Contact() {
       // setNotification("Please fill out all inputs.");
     }
   };
-  const inputs = [
-    { type: "text", name: "from_name" },
-    { type: "text", name: "title" },
-    { type: "email", name: "from_email" },
-  ];
+
   return (
     <>
       <section className="px-2">
@@ -100,7 +96,12 @@ function Contact() {
                 <button
                   className="flex items-center gap-1 sm:gap-2 social-svg lighter"
                   onClick={() => {
-                    console.log("copied");
+                    try {
+                      navigator.clipboard.writeText("vito.mohagheghian@gmail.com");
+                      alert("Email address copied into your clipboard! 🤙");
+                    } catch {
+                      window.open("mailto:vito.mohagheghian@gmail.com");
+                    }
                   }}
                 >
                   <span className="w-4 sm:w-5">
@@ -110,7 +111,7 @@ function Contact() {
                   <h1 className="text-[.8rem] lg:text-[.95rem] text-text">vito.mohagheghian@gmail.com</h1>
                 </button>
 
-                <Link href={""} className="flex items-center gap-1 sm:gap-2 social-svg lighter">
+                <Link target={"_blank"} href={socials.telegram} className="flex items-center gap-1 sm:gap-2 social-svg lighter">
                   <span className="w-4 sm:w-5">
                     <TelegramIcon />
                   </span>
@@ -122,28 +123,28 @@ function Contact() {
               <div className="mt-2 flex items-center justify-between sm:justify-center sm:gap-x-6">
                 <span className="inline-block h-5 w-1 bg-brand rounded-lg" />
 
-                <Link href={socials.linkedin} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.linkedin} className="w-5 social-svg lighter">
                   <LinkedInIcon />
                 </Link>
-                <Link href={socials.github} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.github} className="w-5 social-svg lighter">
                   <GithubIcon />
                 </Link>
-                <Link href={socials.codewars} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.codewars} className="w-5 social-svg lighter">
                   <CodewarsIcon />
                 </Link>
-                <Link href={socials.instagram} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.instagram} className="w-5 social-svg lighter">
                   <InstagramIcon />
                 </Link>
-                <Link href={socials.devto} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.devto} className="w-5 social-svg lighter">
                   <DevToIcon />
                 </Link>
-                <Link href={socials.twitter} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.twitter} className="w-5 social-svg lighter">
                   <TwitterIcon />
                 </Link>
-                <Link href={socials.stackoverflow} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.stackoverflow} className="w-5 social-svg lighter">
                   <StackoverflowIcon />
                 </Link>
-                <Link href={socials.discord} className="w-5 social-svg lighter">
+                <Link target={"_blank"} href={socials.discord} className="w-5 social-svg lighter">
                   <DiscordIcon />
                 </Link>
               </div>

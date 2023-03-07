@@ -1,15 +1,13 @@
 import React from "react";
 
+import Layout from "@/components/layout";
 import Contact from "@/components/contact";
-import Footer from "@/components/layout/footer";
 
 function About() {
   return (
-    <main>
+    <Layout>
       <Contact />
-
-      <Footer />
-    </main>
+    </Layout>
   );
 }
 

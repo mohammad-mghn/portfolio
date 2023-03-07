@@ -1,9 +1,12 @@
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 
-import { styles } from "@/styles";
-import { CloseIcon, FarsiIcon } from "@/public/icons";
 import NavLink from "./navLink";
+
+import { CloseIcon, FarsiIcon } from "@/public/icons";
+
+import { styles } from "@/styles";
 
 type Props = {
   path: string | null;
@@ -33,9 +36,9 @@ function NavbarResponsive({ responsiveNavbar, responsiveNavbarHandler, links, pa
             ))}
           </ul>
 
-          <button className="w-5">
+          <Link href={"/fa"} className="w-5">
             <Image src={FarsiIcon} alt="language icon" />
-          </button>
+          </Link>
         </nav>
       )}
     </>

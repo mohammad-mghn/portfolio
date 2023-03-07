@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation, Keyboard, Autoplay } from "swiper";
+import SwiperCore, { Navigation, Autoplay } from "swiper";
 
 import { generateRandomNum } from "@/modules/generateRandomNum";
 
@@ -28,10 +28,10 @@ function Slider({ media }: Props) {
       navigation={true}
       pagination={true}
       className="swiper"
-      modules={[Navigation, Keyboard]}
+      modules={[Navigation]}
       autoplay={{
         disableOnInteraction: true,
-        delay: generateRandomNum(7500, 2500),
+        delay: generateRandomNum(8000, 3000),
       }}
     >
       {media.map((item, index) => (

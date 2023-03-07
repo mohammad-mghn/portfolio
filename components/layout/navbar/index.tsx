@@ -69,9 +69,9 @@ function Navbar() {
           </ul>
         </div>
 
-        <button className="w-5 hidden md:block">
+        <Link href={"/fa"} className="w-5 hidden md:block">
           <Image src={FarsiIcon} alt="language icon" />
-        </button>
+        </Link>
 
         <button className="md:hidden" onClick={responsiveNavbarHandler}>
           <Image src={MenuIcon} alt="menu icon" className="w-8" />

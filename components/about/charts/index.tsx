@@ -1,4 +1,3 @@
-import { ChartType } from "@/types/chart";
 import React from "react";
 
 import ChartSection from "./section";
