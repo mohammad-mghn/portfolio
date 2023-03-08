@@ -8,10 +8,10 @@
 
 <div align="center">
 <br/>
-<a href="https://devevent.ir/">
+<a href="https://vito.vercel.app">
 <img src="public/v-icon.svg" alt="Logo" width="150" height="140">
 </a>
-<h4 align="center"><strong>A community for people interested in participating in programming events</strong></h4>
+<h4 align="center"><strong><a href="https://vito.vercel.app">Simple portfolio for developers<a/></strong></h4>
 <p align="center">
   <a href="#tech-stack">Tech Stack</a> •
   <a href="#roadmap">Roadmap</a> •
@@ -20,7 +20,6 @@
   <a href="#support">Support</a> •
   <a href="#contact">Contact</a>
 </p>
-<a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore Back-end</strong></a> Codes
 </div>
 
 <h2 id="tech-stack">
@@ -90,7 +89,7 @@ Now click this link [https://localhost:3000](https://localhost:3000)
 </h2>
 
 <a href="https://coffeebede.ir/buycoffee/vitovito">
-<img src="https://img.shields.io/badge/buy_us_a_coffee-5D67E6?&style=for-the-badge&logo=buy-me-a-coffee&logoColor=white" />
+<img src="https://img.shields.io/badge/buy_us_a_coffee-ff8a30?&style=for-the-badge&logo=buy-me-a-coffee&logoColor=white" />
 </a>
 
 <p align="right"><a href="#header">back to top</a></p>
@@ -99,6 +98,6 @@ Now click this link [https://localhost:3000](https://localhost:3000)
 🦜 Contact
 </h2>
 
-<a href="https://twitter.com/hereisvito" target="_blank"><img alt="Twitter" src="https://img.shields.io/badge/twitter-39A0E3.svg?&style=for-the-badge&logo=twitter&logoColor=white" /></a>   <a href="https://www.instagram.com/vito.mohagheghian/" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Instargam-5D67E6?&style=for-the-badge&logo=instagram&logoColor=white" /></a> <a href="mailto:vito.mohagheghian@gmail.com" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Email-802FE9?&style=for-the-badge&logo=gmail&logoColor=white" /></a>
+<a href="https://twitter.com/hereisvito" target="_blank"><img alt="Twitter" src="https://img.shields.io/badge/twitter-ffe03a.svg?&style=for-the-badge&logo=twitter&logoColor=white" /></a>   <a href="https://www.instagram.com/vito.mohagheghian/" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Instargam-ff8a30?&style=for-the-badge&logo=instagram&logoColor=white" /></a> <a href="mailto:vito.mohagheghian@gmail.com" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Email-fe2424?&style=for-the-badge&logo=gmail&logoColor=white" /></a>
 
 <p align="right"><a href="#header">back to top</a></p>
