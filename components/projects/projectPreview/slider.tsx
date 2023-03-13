@@ -36,7 +36,7 @@ function Slider({ media }: Props) {
     >
       {media.map((item, index) => (
         <SwiperSlide className="!flex !items-center !justify-center" key={index}>
-          <Image src={item} alt="" className="max-w-[75%] md:max-w-[80%] max-h-[13rem]" />
+          <img src={item} alt="" className="max-w-[75%] md:max-w-[80%] h-[13rem]" loading="lazy" />
         </SwiperSlide>
       ))}
     </Swiper>
