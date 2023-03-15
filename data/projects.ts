@@ -5,10 +5,7 @@ import { GithubIcon, InstagramIcon, TwitterIcon, FigmaIcon } from "@/public/icon
 
 export const projects: project[] = [
   {
-    media: [
-      "https://raw.githubusercontent.com/vito-mohagheghian/portfolio/master/public/instagram-posts/2.png",
-      Sample,
-    ],
+    media: ["https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/portfolio1.png?raw=true", Sample],
     title: "Portfolio",
     date: "Edited on: March, 2023",
     tags: ["NextJs", "TailWindCSS", "TypeScript"],
