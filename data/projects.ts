@@ -5,6 +5,26 @@ import { GithubIcon, FigmaIcon, WebIcon } from "@/public/icons/socials";
 export const projects: project[] = [
   {
     media: [
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/devsevent/1.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/devsevent/2.png?raw=true",
+    ],
+    title: "Devs event",
+    date: "Edited on: November, 2022",
+    tags: ["NextJs", "TailwindCSS", "team work", "TypeScript"],
+    description: `Creating this kind of big projects on web with technoglies like ReactJs and Redux is containing lots of problems, and bugs that trying to fix them is really good way to improve our programming skills.`,
+    links: [
+      {
+        icon: GithubIcon,
+        link: "https://github.com/vito-mohagheghian/devs-event",
+      },
+      {
+        icon: WebIcon,
+        link: "https://devevent.ir/",
+      },
+    ],
+  },
+  {
+    media: [
       "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/1.png?raw=true",
       "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/2.png?raw=true",
       "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/3.png?raw=true",
@@ -77,6 +97,65 @@ export const projects: project[] = [
       {
         icon: WebIcon,
         link: "https://wins-11.vercel.app/",
+      },
+    ],
+  },
+  {
+    media: [
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/owlearn/1.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/owlearn/2.png?raw=true",
+    ],
+    title: "Owlearn",
+    date: "Edited on: Jun, 2021",
+    tags: ["ReactJs", "Scss", "NextJs"],
+    description: `Creating this kind of big projects on web with technoglies like ReactJs and Redux is containing lots of problems, and bugs that trying to fix them is really good way to improve our programming skills.`,
+    links: [
+      {
+        icon: GithubIcon,
+        link: "https://github.com/vito-mohagheghian/owlearn",
+      },
+      {
+        icon: WebIcon,
+        link: "https://owlearn-vitrem.vercel.app/",
+      },
+    ],
+  },
+  {
+    media: [
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/1.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/2.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/3.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/4.png?raw=true",
+    ],
+    title: "Jordan Shop",
+    date: "Edited on: May, 2021",
+    tags: ["ReactJs", "ReduxJs"],
+    description: `Shopping web app called Jordan Store with home page, log in, register, products, men, women and kids. You can create an account, log in or log out. Add or remove products to your cart. Reacts and Redux.js build it. It is fully responsive. ✔React ✔ Redux.Js  ✔ framer-motion ✔ Material UI ✔ CSSTransition   ✔ Responsive ✔ MIT License ✔ Deploy ✔ open source ✔ deployed on vercel`,
+    links: [
+      {
+        icon: WebIcon,
+        link: "https://jordan-shop.vercel.app/",
+      },
+      {
+        icon: GithubIcon,
+        link: "https://github.com/vito-mohagheghian/Jordan-shoes-shop",
+      },
+      {
+        icon: FigmaIcon,
+        link: "https://www.figma.com/file/ssjsnsmfMqpCTGLk9JbaTn/vito's-portfolio?node-id=675%3A18",
+      },
+    ],
+  },
+  {
+    media: ["https://github.com/vito-mohagheghian/portfolio/blob/images-db/animate-on-scroll/1.png?raw=true"],
+    title: "Nextjs-animate-on-scroll",
+    date: "Edited on: Jan, 2022",
+    tags: ["NextJs", "TailwindCSS", "team work", "TypeScript"],
+    description: `An NPM package wrote to make components animated on scroll in NextJs. It’s wholly open-sourced, so you can see the codes without limit, it’s based on the framer-motion package and created with create-react-library. ✔ Easy to establish ✔ light-weight package ✔   GPL-3.0 license ✔ friendly doc.`,
+    links: [
+      {
+        icon: GithubIcon,
+        link: "https://github.com/vito-mohagheghian/nextjs-animate-on-scroll",
       },
     ],
   },
