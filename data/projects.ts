@@ -12,7 +12,7 @@ export const projects: project[] = [
     title: "Portfolio",
     date: "Edited on: March, 2023",
     tags: ["NextJs", "TailWindCSS", "TypeScript"],
-    description: `My own portfolio with projects, blog, about, contact, and home page. You can see date when I’m available, and see my all social media name, you can email me on the contact page, check my other social media with direct link, check my projects with a lot of features, review my skills, tools, and my language status, and you can use my own blog, too. It’s completely responsive with the MongoDB NoSQL server. For more information, check the <a href=https://github.com/vito-mohagheghian/portfolio target=”_blank” rel='noreferre'>GitHub page</a>.✔ MIT License ✔ Responsive ✔ is online✔ blog page ✔ comments and reply feature ✔ short link ✔ loading page ✔ open source ✔ available for all browsers ✔ light/dark theme`,
+    description: `My own portfolio with projects, blog, about, contact, and home page. You can see date when I’m available, and see my all social media name, you can email me on the contact page, check my other social media with direct link, check my projects with a lot of features, review my skills, tools, and my language status, and you can use my own blog, too. It’s completely responsive with the MongoDB NoSQL server. For more information, check the GitHub page ✔ MIT License ✔ Responsive ✔ is online✔ blog page ✔ comments and reply feature ✔ short link ✔ loading page ✔ open source ✔ available for all browsers ✔ light/dark theme`,
     links: [
       {
         icon: GithubIcon,
