@@ -27,7 +27,7 @@ function Slider({ media }: Props) {
       keyboard={true}
       navigation={true}
       pagination={true}
-      className="swiper"
+      className="swiper !h-[14rem]"
       modules={[Navigation]}
       autoplay={{
         disableOnInteraction: true,
@@ -35,8 +35,8 @@ function Slider({ media }: Props) {
       }}
     >
       {media.map((item, index) => (
-        <SwiperSlide className="!flex !items-center !justify-center" key={index}>
-          <Image src={item} alt="" className="max-w-[75%] md:max-w-[80%] max-h-[13rem]" />
+        <SwiperSlide className="!flex !items-center !justify-center !h-[14rem]" key={index}>
+          <img src={item} alt="" className="max-w-[100%] max-h-[14rem]" loading="lazy" />
         </SwiperSlide>
       ))}
     </Swiper>

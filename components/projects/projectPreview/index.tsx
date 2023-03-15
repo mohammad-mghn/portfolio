@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 
 import Slider from "./slider";
@@ -31,7 +30,7 @@ function ProjectPreview({ title, media, date, description, links, tags }: projec
             {tags.map((item, index) => (
               <div className="flex items-center gap-x-2" key={index}>
                 <span className="inline-block h-4 w-1 bg-darker-text rounded-lg" />
-                <span className="text-darker-text text-[.65rem] md:text-xs font-bold">{item}</span>
+                <span className="text-darker-text text-[.65rem] md:text-xs font-bold whitespace-nowrap">{item}</span>
               </div>
             ))}
             <span className="inline-block absolute right-0 w-5 h-4 bg-gradient-to-r from-transparent to-primary" />
@@ -40,7 +39,7 @@ function ProjectPreview({ title, media, date, description, links, tags }: projec
           <div className="mt-3 flex items-center justify-between">
             <div className="flex items-center gap-x-2">
               {links.map((item, index) => (
-                <Link target={"_blank"} href={item.link} className="w-5 social-svg" key={index}>
+                <Link target={"_blank"} href={item.link} className="w-5 h-5 social-svg" key={index}>
                   <item.icon />
                 </Link>
               ))}
