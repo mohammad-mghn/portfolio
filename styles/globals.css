@@ -124,3 +124,15 @@ body {
 .ltr {
   direction: ltr;
 }
+
+@layer components {
+  .button:hover {
+    background-color: theme("colors.brand");
+    color: theme("colors.primary");
+    transition: all 300ms ease-in-out;
+  }
+  .button svg {
+    width: theme("width.6");
+    height: theme("height.6");
+  }
+}
