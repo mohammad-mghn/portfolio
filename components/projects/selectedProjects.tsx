@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 import ProjectPreview from "./projectPreview";
 import Header from "../elements/header";
@@ -8,7 +9,6 @@ import { projects } from "@/data/projects";
 import { styles } from "@/styles";
 
 import { project } from "@/types/project";
-import Link from "next/link";
 
 function SelectedProjects() {
   return (
@@ -24,7 +24,7 @@ function SelectedProjects() {
 
         <Link
           href="/projects"
-          aria-label="projets page"
+          aria-label="projects page"
           className={`${styles.button} mx-auto my-8 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand`}
         >
           See More

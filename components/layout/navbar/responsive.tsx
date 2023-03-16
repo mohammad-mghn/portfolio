@@ -7,6 +7,7 @@ import NavLink from "./navLink";
 import { CloseIcon } from "@/public/icons";
 
 import { styles } from "@/styles";
+import ToggleAnimate from "@/components/toggleAnimate";
 
 type Props = {
   path: string | null;
@@ -22,12 +23,12 @@ function NavbarResponsive({ responsiveNavbar, responsiveNavbarHandler, links, pa
         <div className={`fixed top-0 right-0 w-full h-full md:hidden`} onClick={responsiveNavbarHandler} />
       )}
 
-      {responsiveNavbar && (
+      <ToggleAnimate toggle={responsiveNavbar} className="navbar">
         <nav
           className={`fixed right-0 w-36 py-10 h-full md:hidden flex flex-col items-center justify-between slide-in z-10 ${styles.box}`}
         >
-          <button title="clse menu" onClick={responsiveNavbarHandler}>
-            <Image src={CloseIcon} alt="clsoe icon" className="w-7" />
+          <button title="close menu" onClick={responsiveNavbarHandler}>
+            <Image src={CloseIcon} alt="close icon" className="w-7" />
           </button>
 
           <ul className="flex flex-col items-center gap-y-3">
@@ -59,7 +60,7 @@ function NavbarResponsive({ responsiveNavbar, responsiveNavbarHandler, links, pa
             </svg>
           </Link>
         </nav>
-      )}
+      </ToggleAnimate>
     </>
   );
 }
