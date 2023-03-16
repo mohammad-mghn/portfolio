@@ -85,7 +85,7 @@ function Contact() {
                 className="py-2 px-3 w-full min-h-[15rem] text-md text-text placeholder:text-darker-text rounded-lg bg-[#3D3D3D40] outline-none"
                 placeholder="م.ث: چند روزه که ..."
               />
-              <button className={`mt-2 w-full py-3 flex justify-center ${styles.button}`} onClick={sendEmail}>
+              <button title="ارسال" className={`mt-2 w-full py-3 flex justify-center ${styles.button}`} onClick={sendEmail}>
                 ارسال
               </button>
             </form>
@@ -95,6 +95,7 @@ function Contact() {
 
               <div className="mt-4 flex items-center justify-between sm:justify-center sm:gap-x-5">
                 <button
+                title="کپی ادرس ایمیل"
                   className="flex items-center gap-1 sm:gap-2 social-svg lighter"
                   onClick={() => {
                     try {

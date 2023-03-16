@@ -26,6 +26,7 @@ function ScrollToTop() {
     <>
       {toggle && (
         <button
+          title="scroll to top"
           className="fixed bottom-6 right-6 h-10 w-10 flex items-center justify-center bg-brand rounded-lg z-[5]"
           onClick={scrollToTopHandler}
         >

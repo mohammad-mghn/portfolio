@@ -13,7 +13,7 @@ type Props = {
 function NavLink({ item, path }: Props) {
   return (
     <li className="relative md:h-14 flex items-center">
-      <Link href={item.path} className={`text-xl ${item.path === path ? "text-brand" : " text-text"}`}>
+      <Link href={item.path} className={`text-xl hover:text-brand ${item.path === path ? "text-brand" : " text-text"}`}>
         {item.title}
         <span
           className={`${
