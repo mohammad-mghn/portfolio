@@ -1,5 +1,7 @@
 import React from "react";
+import Link from "next/link";
 
+import Header from "@/components/elements/header";
 import ProjectPreview from "../../projects/projectPreview/";
 
 import { projects } from "@/data/projects";
@@ -7,13 +9,12 @@ import { projects } from "@/data/projects";
 import { styles } from "@/styles";
 
 import { project } from "@/types/project";
-import Link from "next/link";
 
 function SelectedProjects() {
   return (
     <>
       <section className="md:px-2">
-        <h1 className="text-secondary font-semibold text-2xl">پروژه ها انتخابی</h1>
+        <Header>پروژه ها انتخابی</Header>
 
         <div className="md:ml-3 mt-5 flex flex-wrap flex-col lg:flex-row justify-center items-center gap-4 ltr">
           {projects.slice(0, 6).map((item: project, index: number) => (

@@ -3,6 +3,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import Header from "@/components/elements/header";
+
 import { socials } from "@/data/social";
 
 import { FirstPost, SercondPost, ThirdPost } from "@/public/instagram-posts";
@@ -13,7 +15,7 @@ function Instagram() {
   return (
     <>
       <section className="px-2">
-        <h1 className="text-secondary font-semibold text-2xl">My Instagram</h1>
+        <Header>My Instagram</Header>
 
         <div className="md:mt-3 ml-3">
           <h2 className="text-xs md:text-lg text-text opacity-80">

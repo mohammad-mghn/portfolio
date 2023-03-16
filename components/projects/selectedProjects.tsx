@@ -1,6 +1,7 @@
 import React from "react";
 
 import ProjectPreview from "./projectPreview";
+import Header from "../elements/header";
 
 import { projects } from "@/data/projects";
 
@@ -13,7 +14,7 @@ function SelectedProjects() {
   return (
     <>
       <section className="md:px-2">
-        <h1 className="text-secondary font-semibold text-2xl">Selected Projects</h1>
+        <Header>Selected Projects</Header>
 
         <div className="md:ml-3 mt-5 flex flex-wrap flex-col lg:flex-row justify-center items-center gap-4">
           {projects.slice(0, 6).map((item: project, index: number) => (

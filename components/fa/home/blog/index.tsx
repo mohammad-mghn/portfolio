@@ -2,6 +2,8 @@ import React from "react";
 
 import Link from "next/link";
 
+import Header from "@/components/elements/header";
+
 import { socials } from "@/data/social";
 
 import { styles } from "@/styles";
@@ -10,7 +12,7 @@ function Blog() {
   return (
     <>
       <section className="px-2 pb-3">
-        <h1 className="text-secondary font-semibold text-2xl">وبلاگ من داخل Dev.to</h1>
+        <Header>وبلاگ من داخل Dev.to</Header>
 
         <div className="mt-3 ml-3">
           <div className="w-full flex items-center justify-between flex-wrap gap-x-2 gap-y-4">

@@ -10,7 +10,7 @@ import "swiper/swiper-bundle.min.css";
 
 function ProjectPreview({ title, media, date, description, links, tags }: project) {
   return (
-    <div className="w-full md:w-[25rem] rounded-lg border-2 border-border-darker overflow-hidden shadow-dark">
+    <div className="w-full md:w-[25rem] rounded-lg border-2 border-border-darker overflow-hidden shadow-dark hover:-mt-4 transition-all duration-700">
       <div className="py-4 md:py-5 max-h-64 flex items-center justify-center bg-gradient-to-b from-brand to-transparent">
         <Slider media={media} />
       </div>

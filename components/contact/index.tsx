@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
 
 import Input from "./input";
+import Header from "../elements/header";
 
 import emailjs from "emailjs-com";
 
@@ -63,7 +64,7 @@ function Contact() {
   return (
     <>
       <section className="px-2">
-        <h1 className="text-secondary font-semibold text-2xl">Get in touch</h1>
+        <Header>Get in touch</Header>
 
         <h2 className="mt-3 ml-3 text-xs md:text-lg text-text opacity-80">
           I’m interested in freelance opportunities – especially ambitious or large projects. However, if you have other
@@ -111,7 +112,11 @@ function Contact() {
                   <h1 className="text-[.8rem] lg:text-[.95rem] text-text">vito.mohagheghian@gmail.com</h1>
                 </button>
 
-                <Link target={"_blank"} href={socials.telegram} className="flex items-center gap-1 sm:gap-2 social-svg lighter">
+                <Link
+                  target={"_blank"}
+                  href={socials.telegram}
+                  className="flex items-center gap-1 sm:gap-2 social-svg lighter"
+                >
                   <span className="w-4 sm:w-5">
                     <TelegramIcon />
                   </span>

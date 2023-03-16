@@ -2,6 +2,8 @@ import React from "react";
 
 import Link from "next/link";
 
+import Header from "@/components/elements/header";
+
 import { socials } from "@/data/social";
 
 import { styles } from "@/styles";
@@ -10,7 +12,7 @@ function Support() {
   return (
     <>
       <section className="px-2 pb-3">
-        <h1 className="text-secondary text-2xl font-semibold">حمایت از من</h1>
+        <Header>حمایت از من</Header>
 
         <div className="mt-3 ml-3 space-y-4">
           <div className="w-full flex flex-row items-center md:items-center justify-between flex-wrap gap-x-2 gap-y-4">

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import Input from "./input";
+import Header from "@/components/elements/header";
 
 import emailjs from "emailjs-com";
 
@@ -63,7 +64,7 @@ function Contact() {
   return (
     <>
       <section className="px-2">
-        <h1 className="text-secondary font-semibold text-2xl">باهم در تماس باش</h1>
+        <Header>باهم در تماس باش</Header>
 
         <h2 className="mt-3 ml-3 text-xs md:text-lg text-text opacity-80">
           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون

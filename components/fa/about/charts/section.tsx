@@ -1,6 +1,7 @@
 import React from "react";
 
 import Chart from "./chart";
+import Header from "@/components/elements/header";
 
 import { ChartType } from "@/types/chart";
 
@@ -23,7 +24,7 @@ function ChartSection({ header, data }: Props) {
   return (
     <>
       <section className="px-2">
-        <h1 className="text-secondary font-semibold text-2xl">{header}</h1>
+        <Header>{header}</Header>
 
         <div className="mt-3 ml-3 flex justify-between flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="flex-1 space-y-4">

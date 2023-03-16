@@ -3,13 +3,14 @@ import React from "react";
 import Detail from "./detail";
 
 import { styles } from "@/styles";
+import Header from "@/components/elements/header";
 
 function AutoBiography() {
   return (
     <>
       <section className="px-2 flex items-center justify-between flex-col lg:flex-row">
         <div className="w-full lg:w-[70%]">
-          <h1 className="text-secondary text-2xl font-semibold">خود زندگینامه</h1>
+          <Header>خود زندگینامه</Header>
 
           <p className="mt-4 md:px-3 text-text text-sm lg:text-base text-justify leading-relaxed opacity-80">
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون
@@ -28,7 +29,7 @@ function AutoBiography() {
         <div className="my-6 lg:my-0 h-1 w-full lg:h-[16rem] lg:w-1 bg-border rounded-lg" />
 
         <div className="w-full lg:w-[25%]">
-          <h2 className="mb-2 text-secondary text-2xl font-semibold">جزئیات</h2>
+          <Header>جزئیات</Header>
 
           <Detail title="اسم مستعار" value="ویتو - Vito" />
           <Detail title="محل زندگی" value="اصفهان, ایران, اسیا, زمین" />
