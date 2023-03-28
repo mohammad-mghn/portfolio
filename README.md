@@ -2,16 +2,16 @@
   Vito Portfolio
 </h1>
 
-<a href="https://vito.vercel.app">
+<a href="https://vito-dev.ir">
 <img src="banner.png" alt="A community for people interested in participating in programming events">
 </a>
 
 <div align="center">
 <br/>
-<a href="https://vito.vercel.app">
+<a href="https://vito-dev.ir">
 <img src="public/v-icon.svg" alt="Logo" width="150" height="140">
 </a>
-<h4 align="center"><strong><a href="https://vito.vercel.app">Simple portfolio for developers<a/></strong></h4>
+<h4 align="center"><strong><a href="https://vito-dev.ir">Simple portfolio for developers<a/></strong></h4>
 <p align="center">
   <a href="#tech-stack">Tech Stack</a> •
   <a href="#roadmap">Roadmap</a> •
