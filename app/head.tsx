@@ -7,27 +7,26 @@ export default function Head() {
       <meta name="description" content="vito mohagheghian portfolio, web developer(Front-end)" />
       <meta
         name="keywords"
-        content="ویتو محققیان , محمد محققیان , vito moahgehghian , mohammad mohagheghian , برنامه نویس ReactJs, برنامه نویس Front-end, برنامه نویس وب "
+        content="vito mohagheghian, mohammad mohagheghian, ویتو محققیان, محمد محققیان, Front-end developer, vito"
       />
-      <link rel="canonical" href="https://vito.vercel.app" />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="Vito Mohagheghian" />
+      <meta property="og:site_name" content="vito mohagheghian" />
       <link
         rel="alternate"
         type="application/rss+xml"
-        href="https://vito.vercel.app/about"
+        href="https://vito-dev.ir.ir/about"
         title="About Vito Mohagheghian درباره ی ویتو محققیان"
       />
       <link
         rel="alternate"
         type="application/rss+xml"
-        href="https://vito.vercel.app/projects"
+        href="https://vito-dev.ir.ir/projects"
         title="Vito Mohagheghian Projects پروژه های ویتو محققیان"
       />
       <link
         rel="alternate"
         type="application/rss+xml"
-        href="https://vito.vercel.app/contact"
+        href="https://vito-dev.ir.ir/contact"
         title="keep in touch with Vito Mohagheghian ارتباط با ویتو محققیان"
       />
     </>
