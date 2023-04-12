@@ -17,9 +17,9 @@ function AutoBiography() {
           <p className="mt-4 md:px-3 text-text text-sm lg:text-base text-justify leading-relaxed opacity-80">
             My name is Mohammad Mohagehghian, however, they usually call me as Vito and I am a Junior Web Developer,
             tending to find the development team. I am an accomplished coder and programmer, and I enjoy using my skills
-            to contribute to the exciting technological advances and convert ideas to reality. I’m 16 years old, so I’m
+            to contribute to the exciting technological advances and convert ideas to reality. I’m 17 years old, so I’m
             studying in high school. While in school, I learned web development as well as JavaScript. Currently, I’m
-            living in Esfahan, Iran as I was born there. Although I have a short experience, I tried to make this
+            living in Isfahan, Iran as I was born there. Although I have a short experience, I tried to make this
             experience as useful as it could be. My story: In 2020, one of my friends make a call and started to talk
             about programming, and the Python, I was interested in programming all time so just searched about Python,
             and after a while, I learned the Flax as a back-end framework to be an introduction to Django, however, I

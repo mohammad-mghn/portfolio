@@ -47,7 +47,7 @@ function Header() {
           </div>
         </div>
 
-        <Image src={Info} alt="Vito Mohagheghian Info" className="w-[25rem]" />
+        <Image src={Info} alt="Vvito mohagheghian Info" className="w-[25rem]" />
       </section>
 
       <div className="mt-6 flex items-center justify-between gap-x-3 md:gap-x-5">

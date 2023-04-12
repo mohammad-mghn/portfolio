@@ -14,19 +14,19 @@ export default function Head() {
       <link
         rel="alternate"
         type="application/rss+xml"
-        href="https://vito-dev.ir.ir/about"
+        href="https://vito-dev.ir/about"
         title="About Vito Mohagheghian درباره ی ویتو محققیان"
       />
       <link
         rel="alternate"
         type="application/rss+xml"
-        href="https://vito-dev.ir.ir/projects"
+        href="https://vito-dev.ir/projects"
         title="Vito Mohagheghian Projects پروژه های ویتو محققیان"
       />
       <link
         rel="alternate"
         type="application/rss+xml"
-        href="https://vito-dev.ir.ir/contact"
+        href="https://vito-dev.ir/contact"
         title="keep in touch with Vito Mohagheghian ارتباط با ویتو محققیان"
       />
     </>
