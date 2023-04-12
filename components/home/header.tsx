@@ -15,7 +15,7 @@ function Header() {
         <div className="flex flex-col items-start justify-center py-16">
           <p className="text-sm opacity-75 text-text md:text-xl">hi I’m</p>
 
-          <h1 className="text-3xl font-medium text-lighter-text md:text-5xl lg:text-6xl md:leading-tight lg:leading-snug">
+          <h1 className="font-medium text-lighter-text text-4xl md:text-5xl lg:text-5xl xl:text-6xl md:leading-tight lg:leading-snug xl:leading-normal">
             Vito
             <br />
             Mohagheghian<span className="text-4xl md:text-7xl text-brand">.</span>
@@ -27,10 +27,7 @@ function Header() {
           </p>
 
           <div className="flex items-center mt-5 gap-x-4">
-            <Link
-              className={`px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand ${styles.button}`}
-              href={resumeLink}
-            >
+            <Link className={`px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand ${styles.button}`} href={resumeLink}>
               Resume
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -50,7 +47,7 @@ function Header() {
           </div>
         </div>
 
-        <Image src={Info} alt="Vito Mohagheghian Info" className="w-[25rem]" />
+        <Image src={Info} alt="Vvito mohagheghian Info" className="w-[25rem]" />
       </section>
 
       <div className="mt-6 flex items-center justify-between gap-x-3 md:gap-x-5">

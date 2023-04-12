@@ -15,7 +15,7 @@ function Header() {
         <div className="flex flex-col justify-center py-16">
           <p className="text-sm opacity-75 text-text md:text-xl">درود من </p>
 
-          <h1 className="text-3xl font-medium text-lighter-text md:text-5xl lg:text-6xl md:leading-tight lg:leading-snug">
+          <h1 className="font-medium text-lighter-text text-4xl md:text-5xl lg:text-5xl xl:text-6xl md:leading-tight lg:leading-snug xl:leading-normal">
             ویتو
             <br />
             محققیان<span className="text-4xl md:text-7xl text-brand">.</span>

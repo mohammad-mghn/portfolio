@@ -36,7 +36,7 @@ export const projects: project[] = [
     links: [
       {
         icon: WebIcon,
-        link: "https://vito.vercel.app",
+        link: "https://vito-dev.ir",
       },
       {
         icon: GithubIcon,

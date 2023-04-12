@@ -46,6 +46,7 @@ See the open [issues](https://github.com/vitomohagheghian/portfolio/issues) for 
 </h2>
 
 download zip file, or clone it using git.
+
 ```
 git clone https://github.com/vito-mohagheghian/portfolio.git
 ```
@@ -55,13 +56,12 @@ then install dependencies using
 ```
 npm install
 
-# or 
+# or
 
 yarn dev
 ```
 
-
-to setup 
+to setup
 
 ```bash
 npm run dev
@@ -70,6 +70,7 @@ npm run dev
 
 yarn dev
 ```
+
 Now click this link [https://localhost:3000](https://localhost:3000)
 
 <p align="right"><a href="#header">back to top</a></p>
@@ -98,6 +99,6 @@ Now click this link [https://localhost:3000](https://localhost:3000)
 🦜 Contact
 </h2>
 
-<a href="https://twitter.com/hereisvito" target="_blank"><img alt="Twitter" src="https://img.shields.io/badge/twitter-ffe03a.svg?&style=for-the-badge&logo=twitter&logoColor=white" /></a>   <a href="https://www.instagram.com/vito.mohagheghian/" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Instargam-ff8a30?&style=for-the-badge&logo=instagram&logoColor=white" /></a> <a href="mailto:vito.mohagheghian@gmail.com" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Email-fe2424?&style=for-the-badge&logo=gmail&logoColor=white" /></a>
+<a href="https://twitter.com/hereisvito" target="_blank"><img alt="Twitter" src="https://img.shields.io/badge/twitter-ffe03a.svg?&style=for-the-badge&logo=twitter&logoColor=white" /></a> <a href="https://www.instagram.com/vito.mohagheghian/" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Instargam-ff8a30?&style=for-the-badge&logo=instagram&logoColor=white" /></a> <a href="mailto:vito.mohagheghian@gmail.com" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Email-fe2424?&style=for-the-badge&logo=gmail&logoColor=white" /></a>
 
 <p align="right"><a href="#header">back to top</a></p>
