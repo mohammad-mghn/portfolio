@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import React from "react";
@@ -15,16 +16,15 @@ function AutoBiography() {
           <Header>Autobiography</Header>
 
           <p className="mt-4 md:px-3 text-text text-sm lg:text-base text-justify leading-relaxed opacity-80">
-            My name is Mohammad Mohagehghian, however, they usually call me as Vito and I am a Junior Web Developer,
-            tending to find the development team. I am an accomplished coder and programmer, and I enjoy using my skills
-            to contribute to the exciting technological advances and convert ideas to reality. I’m 17 years old, so I’m
-            studying in high school. While in school, I learned web development as well as JavaScript. Currently, I’m
-            living in Isfahan, Iran as I was born there. Although I have a short experience, I tried to make this
-            experience as useful as it could be. My story: In 2020, one of my friends make a call and started to talk
-            about programming, and the Python, I was interested in programming all time so just searched about Python,
-            and after a while, I learned the Flax as a back-end framework to be an introduction to Django, however, I
-            was more passionate in styling and interface, so I became a front-end developer, after learning HTML, CSS,
-            and Js, React, and Next.js. I’m interested in Redux as well so it’s in my plans.
+            My name is Mohammad Mohagehghian, but most people call me Vito. I’m a junior web developer looking to join a
+            development team. I’m an accomplished coder and programmer, and I enjoy using my skills to contribute to
+            exciting technological advances and turn ideas into reality. I’m currently 17 years old and studying in high
+            school. While in school, I learned web development as well as JavaScript. Currently, I’m living in Isfahan,
+            Iran where I was born. Although I have limited experience, I’ve tried to make the most of it. In 2020, one
+            of my friends called me and started talking about programming and Python. I was interested in programming
+            all the time so I searched about Python and after a while, I learned Flask as a back-end framework as an
+            introduction to Django. However, I was more passionate about styling and interface so I became a front-end
+            developer after. Currently I'm learning some advanced topics of JS, And Front-end techs.
           </p>
         </div>
 
