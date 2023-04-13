@@ -5,6 +5,10 @@ export default function Head() {
       <link rel="icon" href="../v-icon.svg" />
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <meta name="description" content="وبسایت محمد محققیان ملقب به ویتو محققیان ، برنامه نویس وب -فرانت اند" />
+      <meta
+        name="keywords"
+        content="ویتو محققیان, محمد محققیان"
+      />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="vito mohagheghian" />
       <meta
