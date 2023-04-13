@@ -11,6 +11,7 @@ export default function Head() {
       />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="vito mohagheghian" />
+      <meta property="og:image" content="https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/1.png?raw=true" />
       <link
         rel="alternate"
         type="application/rss+xml"
