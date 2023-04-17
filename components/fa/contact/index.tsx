@@ -122,7 +122,7 @@ function Contact() {
                     <TelegramIcon />
                   </span>
 
-                  <h1 className="text-[.8rem] lg:text-[.95rem] text-text">Hereisvito</h1>
+                  <h1 className="text-[.8rem] lg:text-[.95rem] text-text">hereisvito</h1>
                 </Link>
               </div>
 
