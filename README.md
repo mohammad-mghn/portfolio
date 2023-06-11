@@ -89,7 +89,7 @@ Now click this link [https://localhost:3000](https://localhost:3000)
 💸 Support
 </h2>
 
-<a href="https://coffeebede.ir/buycoffee/vitovito">
+<a href="https://www.coffeebede.com/vitomohagheghian">
 <img src="https://img.shields.io/badge/buy_us_a_coffee-ff8a30?&style=for-the-badge&logo=buy-me-a-coffee&logoColor=white" />
 </a>
 
