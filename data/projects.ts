@@ -5,6 +5,38 @@ import { GithubIcon, FigmaIcon, WebIcon } from "@/public/icons/socials";
 export const projects: project[] = [
   {
     media: [
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/1.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/2.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/3.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/4.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/5.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/6.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/7.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/8.png?raw=true",
+      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/9.png?raw=true",
+    ],
+    title: "IRTC",
+    date: "Edited on: June, 2023",
+    tags: ["NextJs", "TailWindCSS", "TypeScript", "JWT", "ReduxJs", "UI/UX design"],
+    description: `Introducing an interactive learning and training platform designed to empower students and educators alike. This website offers a comprehensive panel admin where you can effortlessly create and manage blogs, courses, and user information. With the ability to customize roles and permissions, you have full control over the learning experience. Engage with students through interactive discussions and foster a collaborative learning environment. The platform is equipped with a user-friendly interface, making it easy to navigate and utilize its various features. Rest assured that user data is securely stored with advanced encryption protocols. Explore the limitless potential of education with this dynamic and innovative website. ✔ full blog features ✔ full admin features ✔ export all users as excel file 🎉 ✔ high security using JWT`,
+    // ! this field
+    links: [
+      {
+        icon: WebIcon,
+        link: "https://irtc.iran.liara.run",
+      },
+      {
+        icon: GithubIcon,
+        link: "https://github.com/ecommerce-six/itc-frontend",
+      },
+      {
+        icon: FigmaIcon,
+        link: "https://www.figma.com/file/MwvPkir0VT0YoAZWgtgSSh/IRTC?type=design&node-id=0%3A1&t=FyKjt7ZDSFEDcbRI-1",
+      },
+    ],
+  },
+  {
+    media: [
       "https://github.com/vito-mohagheghian/portfolio/blob/images-db/devsevent/1.png?raw=true",
       "https://github.com/vito-mohagheghian/portfolio/blob/images-db/devsevent/2.png?raw=true",
     ],
@@ -23,6 +55,7 @@ export const projects: project[] = [
       },
     ],
   },
+
   {
     media: [
       "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/1.png?raw=true",
