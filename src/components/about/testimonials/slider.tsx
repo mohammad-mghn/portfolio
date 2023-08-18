@@ -12,6 +12,7 @@ function TestimonialsSlider() {
   return (
     <section className="mt-10 ">
       <Swiper
+        loop
         speed={500}
         spaceBetween={0}
         slidesPerView={"auto"}

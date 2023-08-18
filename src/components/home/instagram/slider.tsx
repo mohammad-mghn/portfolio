@@ -15,6 +15,7 @@ function InstagramSlider() {
   return (
     <section>
       <Swiper
+        loop
         speed={500}
         slidesPerView={"auto"}
         className="relative swiper"
