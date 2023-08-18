@@ -92,31 +92,31 @@ export const projects: project[] = [
       },
     ],
   },
-  {
-    media: [
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/1.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/2.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/3.png?raw=true",
-    ],
-    title: "Portfolio",
-    date: "Edited on: March, 2022",
-    tags: ["NextJs", "TailWindCSS", "TypeScript", "UI Design"],
-    description: `My own portfolio with projects, blog, about, contact, and home page. You can see date when I’m available, and see my all social media name, you can email me on the contact page, check my other social media with direct link, check my projects with a lot of features, review my skills, tools, and my language status, and you can use my own blog, too. It’s completely responsive with the MongoDB NoSQL server. For more information, check the GitHub page.✔ MIT License ✔ Responsive ✔ is online✔ blog page ✔ comments and reply feature ✔ short link ✔ loading page ✔ open source ✔ available for all browsers ✔ light/dark theme`,
-    links: [
-      {
-        icon: WebIcon,
-        link: "https://vito-dev.ir",
-      },
-      {
-        icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/portfolio",
-      },
-      {
-        icon: FigmaIcon,
-        link: "https://www.figma.com/file/ssjsnsmfMqpCTGLk9JbaTn/vito's-portfolio?node-id=984%3A2588&t=64qiBRnhwL0UQU83-1",
-      },
-    ],
-  },
+  // {
+  //   media: [
+  //     "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/1.png?raw=true",
+  //     "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/2.png?raw=true",
+  //     "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/3.png?raw=true",
+  //   ],
+  //   title: "Portfolio",
+  //   date: "Edited on: March, 2022",
+  //   tags: ["NextJs", "TailWindCSS", "TypeScript", "UI Design"],
+  //   description: `My own portfolio with projects, blog, about, contact, and home page. You can see date when I’m available, and see my all social media name, you can email me on the contact page, check my other social media with direct link, check my projects with a lot of features, review my skills, tools, and my language status, and you can use my own blog, too. It’s completely responsive with the MongoDB NoSQL server. For more information, check the GitHub page.✔ MIT License ✔ Responsive ✔ is online✔ blog page ✔ comments and reply feature ✔ short link ✔ loading page ✔ open source ✔ available for all browsers ✔ light/dark theme`,
+  //   links: [
+  //     {
+  //       icon: WebIcon,
+  //       link: "https://vito-dev.ir",
+  //     },
+  //     {
+  //       icon: GithubIcon,
+  //       link: "https://github.com/vito-mohagheghian/portfolio",
+  //     },
+  //     {
+  //       icon: FigmaIcon,
+  //       link: "https://www.figma.com/file/ssjsnsmfMqpCTGLk9JbaTn/vito's-portfolio?node-id=984%3A2588&t=64qiBRnhwL0UQU83-1",
+  //     },
+  //   ],
+  // },
   {
     media: [
       "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/1.png?raw=true",
