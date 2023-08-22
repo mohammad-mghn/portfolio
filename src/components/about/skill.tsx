@@ -7,7 +7,6 @@ import { SkillType } from "@/types/skill";
 type Props = { skill: SkillType; index: number };
 
 function Skill({ skill, index }: Props) {
-  console.log(skill, (800 + 511 * index).toString());
 
   return (
     <Link

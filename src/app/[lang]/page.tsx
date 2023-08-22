@@ -14,6 +14,8 @@ import {
   Testimonials,
   AutoBiography,
 } from "@/components/about";
+import { useDictionary } from "@/dictionaries";
+import { localType } from "@/types/local";
 
 export const metadata: Metadata = {
   title: "Vito Mohagheghian",
@@ -30,33 +32,34 @@ export const metadata: Metadata = {
   },
 };
 
+async function Page({ params: { lang } }: { params: { lang: string } }) {
+  const local: localType = await useDictionary(lang);
 
-async function Page() {
   return (
-    <Layout>
-      <Hero />
+    <Layout local={local}>
+      <Hero local={local.hero} />
 
-      <AboutLanding />
+      <AboutLanding local={local.about} />
 
-      <AutoBiography />
+      <AutoBiography local={local.about} />
 
-      <Skills />
+      <Skills local={local.skills} />
 
-      <Languages />
+      <Languages local={local.languages} />
 
-      <Github />
+      <Github local={local.github} />
 
-      <SelectedProjects />
+      <SelectedProjects local={local.selected_projects} />
 
-      <Testimonials />
+      <Testimonials local={local.testimonials} />
 
-      <Instagram />
+      <Instagram local={local.instagram} />
 
-      <Blog />
+      <Blog local={local.devto} />
 
-      <Contact />
+      <Contact local={local.contact} />
 
-      <Support />
+      <Support local={local.support} />
     </Layout>
   );
 }

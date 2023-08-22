@@ -7,8 +7,9 @@ const TypingAnimation = dynamic(() => import("../typingAnimation"));
 
 import { styles } from "@/styles";
 import { AboutImage } from "@/public";
+import { localType } from "@/types/local";
 
-function AboutLanding() {
+function AboutLanding({ local }: { local: localType["about"] }) {
   return (
     <section
       className="flex flex-col sm:items-center justify-between py-20 lg:flex-row gap-y-14"
@@ -16,16 +17,16 @@ function AboutLanding() {
     >
       <div data-aos="fade-up-right">
         <h1 className="max-w-[18rem] md:max-w-[25.5rem] text-3xl font-medium text-lighter-text md:text-3xl lg:text-5xl md:leading-tight lg:leading-snug">
-          Who am I and What I’m great at?
+          {local.header}
         </h1>
 
         <TypingAnimation
-          staticText="I'm"
+          staticText={local.roles.primary}
           content={[
-            "Front-end Dev.",
-            "React Dev.",
-            "a Freelancer.",
-            "UI designer.",
+            local.roles["front-end-dev"],
+            local.roles["react-dev"],
+            local.roles.freelancer,
+            local.roles["ui-designer"],
           ]}
           Typingspeed={75}
           deletingSpeed={50}
@@ -38,14 +39,14 @@ function AboutLanding() {
         />
 
         <p className="mt-3 max-w-[15rem] md:max-w-[20rem] text-text text-sm md:text-xl leading-relaxed opacity-75">
-          In which I’m really pasionate in learning and coding.
+          {local.description}
         </p>
         <Link
           target={"_blank"}
           href="https://github.com/vito-mohagheghian"
           className={`mt-4 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand ${styles.button}`}
         >
-          Github page
+          {local.github}
         </Link>
       </div>
 

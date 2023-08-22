@@ -7,12 +7,13 @@ import Header from "@/components/elements/header";
 import { socials } from "@/data/social";
 
 import { styles } from "@/styles";
+import { localType } from "@/types/local";
 
-function Blog() {
+function Blog({ local }: { local: localType["devto"] }) {
   return (
     <>
       <section className="px-2 pb-3">
-        <Header>My blog on Dev.to</Header>
+        <Header>{local.header}</Header>
 
         <div className="mt-3 ml-3">
           <div className="w-full flex items-center justify-between flex-wrap gap-x-2 gap-y-4">
@@ -20,8 +21,7 @@ function Blog() {
               className="text-xs md:text-lg text-text opacity-80"
               data-aos="fade-right"
             >
-              Explore captivating weekly blog posts and join the journey of
-              curiosity!
+              {local.description}
             </h2>
 
             <Link
@@ -30,7 +30,7 @@ function Blog() {
               className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
               data-aos="fade-left"
             >
-              Dev to - Profile
+              {local.profile}
             </Link>
           </div>
         </div>

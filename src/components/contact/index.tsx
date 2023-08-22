@@ -28,8 +28,9 @@ import {
 import { MapImage } from "@/public";
 
 import { styles } from "@/styles";
+import { localType } from "@/types/local";
 
-function Contact() {
+function Contact({ local }: { local: localType["contact"] }) {
   // for getting data from form tag
   const form: any = useRef();
 
@@ -71,15 +72,13 @@ function Contact() {
   return (
     <>
       <section className="px-2">
-        <Header>Get in touch</Header>
+        <Header>{local.header}</Header>
 
         <h2
           className="mt-3 ml-3 text-xs md:text-base text-text opacity-80"
           data-aos="fade-up"
         >
-          I’m interested in freelance opportunities – especially ambitious or
-          large projects. However, if you have other request or question, don’t
-          hesitate to use the form.
+          {local.description}
         </h2>
         <div className="md:ml-3" data-aos="fade-right">
           <div className="mt-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-y-8">
@@ -90,36 +89,36 @@ function Contact() {
               <Input
                 type="text"
                 name="title"
-                label="Subject"
-                placeholder="e.g: I want to..."
+                label={local.form.title.label}
+                placeholder={local.form.title.place_holder}
               />
               <Input
                 type="text"
                 name="from_name"
-                label="Name"
-                placeholder="e.g: Vito Mohagheghian"
+                label={local.form.name.label}
+                placeholder={local.form.name.place_holder}
               />
               <Input
                 type="email"
                 name="from_email"
-                label="E-mail"
-                placeholder="e.g: vito.mohagheghian@gmail.com"
+                label={local.form.email.label}
+                placeholder={local.form.name.place_holder}
               />
               <label htmlFor="text" className="block text-text">
-                Text
+                {local.form.body.label}
               </label>
               <textarea
                 id="text"
                 name="message"
                 className="py-2 px-3 w-full min-h-[15rem] max-h-[30rem] text-md text-text placeholder:text-darker-text rounded-lg bg-[#3D3D3D40] outline-none"
-                placeholder="e.g: I made a pull request..."
+                placeholder={local.form.body.place_holder}
               />
               <button
                 title="Send"
                 className={`mt-2 w-full py-3 flex justify-center ${styles.button}`}
                 onClick={sendEmail}
               >
-                Send
+                {local.form.send}
               </button>
             </form>
 

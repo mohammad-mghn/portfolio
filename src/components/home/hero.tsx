@@ -3,12 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { resumeLink } from "@/data/hero";
+import { localType } from "@/types/local";
 
 import { Info } from "@/public";
 
 import { styles } from "@/styles";
 
-function Hero() {
+function Hero({ local }: { local: localType["hero"] }) {
   return (
     <>
       <section className="flex flex-col sm:items-center justify-between py-6 lg:flex-row gap-y-14">
@@ -16,15 +17,14 @@ function Hero() {
           <p className="text-sm opacity-75 text-text md:text-xl">hi I’m</p>
 
           <h1 className="font-medium text-lighter-text text-4xl md:text-5xl lg:text-5xl xl:text-6xl md:leading-tight lg:leading-snug xl:leading-normal">
-            Vito
+            {local.first_name}
             <br />
-            Mohagheghian
+            {local.last_name}
             <span className="text-4xl md:text-7xl text-brand">.</span>
           </h1>
 
           <p className="mt-2 max-w-[18rem] md:max-w-[25rem] text-text text-sm md:text-xl !leading-relaxed opacity-90">
-            Frontend developer weaving pixels into stories. Passionate about
-            code, freelancing, and turning ideas into digital experiences.
+            {local.description}
           </p>
 
           <div className="flex items-center mt-5 gap-x-4">
@@ -32,7 +32,7 @@ function Hero() {
               className={`px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand ${styles.button}`}
               href={resumeLink}
             >
-              Resume
+              {local.resume}
               <svg
                 width="30"
                 height="30"
@@ -52,7 +52,7 @@ function Hero() {
               href="/contact"
               className={`px-3 py-2 md:px-5 md:py-3 text-text text-sm md:text-[1.125rem] font-semibold hover:underline`}
             >
-              Get in touch
+              {local.get_in_touch}
             </Link>
           </div>
         </div>
@@ -67,7 +67,7 @@ function Hero() {
           href="#about"
           className="text-md text-center text-border hover:text-text font-bold transition-all duration-300"
         >
-          Scroll to down
+          {local.scroll_down}
         </a>
 
         <div className="bg-border h-[3px] flex-1 rounded-lg" />

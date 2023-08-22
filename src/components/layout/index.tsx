@@ -2,8 +2,15 @@ import React, { ReactNode } from "react";
 import Footer from "./footer";
 
 import Navbar from "./navbar";
+import { localType } from "@/types/local";
 
-function Layout({ children }: { children: ReactNode }) {
+function Layout({
+  children,
+  local,
+}: {
+  children: ReactNode;
+  local?: localType;
+}) {
   return (
     <>
       <Navbar />
@@ -11,7 +18,7 @@ function Layout({ children }: { children: ReactNode }) {
       <main className="pt-24 px-6 md:px-12 mx-auto xl:max-w-[85rem]">
         {children}
 
-        <Footer />
+        <Footer local={local!.footer} />
       </main>
     </>
   );

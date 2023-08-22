@@ -9,20 +9,21 @@ import { socials } from "@/data/social";
 
 import { styles } from "@/styles";
 import InstagramSlider from "./slider";
+import { localType } from "@/types/local";
 
-function Instagram() {
+function Instagram({ local }: { local: localType["instagram"] }) {
   return (
     <>
       <section className="px-2">
-        <Header>My Instagram</Header>
+        <Header>{local.header}</Header>
 
         <h2
           className="md:mt-3 ml-3 text-xs md:text-base text-text opacity-80"
           data-aos="fade-up"
         >
-          Tech geek sharing cool stuff on Instagram. Let&apos;s connect!{" "}
+          {local.description}{" "}
           <Link href={socials.instagram} className="text-brand">
-            @vito.mohagheghian
+            @{local.id}
           </Link>
         </h2>
 
@@ -34,7 +35,7 @@ function Instagram() {
           href={socials.instagram}
           className={`mx-auto my-8 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand ${styles.button}`}
         >
-          Check My Page
+          {local.check_my_page}
         </Link>
       </section>
 

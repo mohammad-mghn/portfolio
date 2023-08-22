@@ -5,8 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import Testimonial from "./testimonial";
 
-import { generateRandomNum } from "@/modules";
+import { Pagination } from "swiper/modules";
 import { testimonials } from "@/data/testimonials";
+
+import "swiper/css";
+import "swiper/css/pagination";
 
 function TestimonialsSlider() {
   return (
@@ -15,12 +18,9 @@ function TestimonialsSlider() {
         loop
         speed={500}
         spaceBetween={0}
+        modules={[Pagination]}
         slidesPerView={"auto"}
-        className="relative swiper"
-        autoplay={{
-          disableOnInteraction: true,
-          delay: generateRandomNum(4000, 8000),
-        }}
+        className="!pb-11 relative swiper"
         pagination={{
           clickable: true,
         }}

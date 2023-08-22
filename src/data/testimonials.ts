@@ -5,13 +5,19 @@ export const testimonials: testimonialType[] = [
     name: "Mohammad Shahi - Backend Dev, PO",
     link: "https://mshahi.ir/",
     socialMedia: "Portfolio",
-    text: "Vito is a bright, young man who has a deep passion for programming and his work. Being at a young age, he possesses abundant energy and enthusiasm towards his tasks, constantly seeking opportunities for learning and skill enhancement. His capabilities are evident from the projects he has undertaken and completed thus far.",
+    text: "Vito is a bright, young man who has a deep passion for programming and his work. Being at a young age, he possesses abundant energy and enthusiasm towards his tasks, constantly seeking opportunities for learning and skill enhancement. His capabilities are evident from the projects he has undertaken and completed thus far.",  
   },
   {
     name: "Mahdi Nazari - Front-end Dev, PO",
     link: "https://mahdi-nazari.ir/",
     socialMedia: "Portfolio",
     text: "lorem Eu ex officia sit id mollit sit ex aliquip duis esse ullamco. Lorem eiusmod deserunt ea duis labore qui veniam laborum. Deserunt quis aliquip culpa est. Nulla esse Lorem amet laborum dolor velit exercitation. Ea esse duis non consectetur dolore Lorem non id reprehenderit id dolor sit excepteur.",
+  },
+  {
+    name: "Ami Mahdi Shad - Front-end Dev",
+    link: "https://mahdi-nazari.ir/",
+    socialMedia: "Portfolio",
+    text: `Continuous interactions with Vito provided me with a golden opportunity to gain deeper insights into Frontend development techniques . His contributions helped me understand the achievement of high performance and enhanced user experience through meticulous attention to details and specialized optimizations. Throughout this collaboration, I realized that Vito leverages his strong technical knowledge and always strives to elevate the quality of work. As a perfectionist, he showcases an emphasis on details in all aspects of the project, guiding the entire team towards continuous improvement. I thoroughly enjoyed collaborating with Vito and this experience provided me with an excellent chance to enhance my skills in Frontend development and perfectionist thinking.`,
   },
   {
     name: "Dayana Raadfar - Designer",

@@ -10,12 +10,14 @@ import {
   LinkedInIcon,
   TwitterIcon,
 } from "@/public/icons/socials";
+import { useDictionary } from "@/dictionaries";
+import { localType } from "@/types/local";
 
-function Footer() {
+async function Footer({ local }: { local: localType["footer"] }) {
   return (
     <footer className="mb-5 flex items-center justify-between flex-col md:flex-row  gap-y-3">
       <h1 className="text-xs md:text-base text-text font-bold">
-        © Made with ❤️ and lots of ☕ from 2020 - {new Date().getFullYear()}
+        {local.copyright} - {new Date().getFullYear()}
       </h1>
 
       <div className="flex items-center gap-x-4">

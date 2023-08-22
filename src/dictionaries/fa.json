@@ -1,0 +1,90 @@
+{
+  "hero": {
+    "first_name": "Vito",
+    "last_name": "Mohagheghian",
+    "description": "Frontend developer weaving pixels into stories. Passionate about code, freelancing, and turning ideas into digital experiences.",
+    "resume": "Resume",
+    "get_in_touch": "Get in touch",
+    "scroll_down": "Scroll to down"
+  },
+  "about": {
+    "header": "Who am I and What I’m great at?",
+    "roles": {
+      "primary": "I'm",
+      "front-end-dev": "Front-end Dev.",
+      "react-dev": "React Dev.",
+      "freelancer": "Freelancer.",
+      "ui-designer": "UI Designer."
+    },
+    "description": "In which I’m really pasionate in learning and coding.",
+    "github": "Github Page",
+    "autobiography_header": "Autobiography",
+    "autobiography": "Mohammad Mohagheghian, a junior web developer, but you can call me Vito. I specialize in front-end development and software engineering in small cases. I thoroughly enjoy utilizing my skills to contribute to technological advancements and transform ideas into reality. My programming journey began during high school when I got introduced to Python. I grasped the basics of programming and found joy in creating various projects without limitations. However, I encountered a challenge. I constantly desired my applications to boast a captivating UI. Using basic GUI libraries with numerous styling issues hindered my creativity. As a result, I transitioned into front-end development and JavaScript. The deeper I delved into front-end development, the more my affection for programming grew. I also developed a keen interest in startup ecosystems. Presently, I reside in my hometown, Isfahan, Iran. These days, I am accumulating experiences and acquiring new skills. My goal is to implement ideas just only limited by my imagination. Feel free to explore my skills, projects, and also the experiences of others who have collaborated with me.",
+    "details_header": "Details",
+    "details": {
+      "nick_name": { "header": "Nickname", "value": "Vito" },
+      "location": {
+        "header": "Location",
+        "value": "Esfahan, Iran, Asia, Earth"
+      },
+      "name": { "header": "Name", "value": "Mohammad Mohagheghian" }
+    }
+  },
+  "skills": {
+    "header": "Skills & tools",
+    "description": "Passionately diving deep into tech crafting perfect products with finesse - NOT just listing.",
+    "pov": "For related projects click on skills."
+  },
+  "languages": {
+    "header": "Languages",
+    "description": "Persistently learning English daily, practicing extensively for enhanced, practical communication skills."
+  },
+  "github": {
+    "header": "My GitHub page",
+    "quote": "Talk is cheap, Show me the code.",
+    "quote_owner": "Linus Torvalds",
+    "github": "Github Page"
+  },
+  "selected_projects": {
+    "header": "Selected Projects",
+    "see_more": "See More Projects"
+  },
+  "testimonials": {
+    "header": "Hmmm, a little brag",
+    "description": "Colleague's opinion about working with me in a FEW words.",
+    "pov": "swipe for more."
+  },
+  "instagram": {
+    "header": "My Instagram",
+    "description": "Tech geek sharing cool stuff on Instagram. Let's connect!",
+    "id": "vito.mohagheghian",
+    "check_my_page": "Check My Page"
+  },
+  "devto": {
+    "header": "My blog on Dev.to",
+    "description": "Explore captivating weekly blog posts an join the journey of curiosity!",
+    "profile": "Dev to - Profile"
+  },
+  "contact": {
+    "header": "Get in touch",
+    "description": " I’m interested in freelance opportunities – especially ambitious or large projects. However, if you have other request or question, don’t hesitate to use the form.",
+    "form": {
+      "title": { "label": "Subject", "place_holder": "e.g: I want to..." },
+      "name": { "label": "Name", "place_holder": "e.g: Vito Mohagheghian" },
+      "email": { "label": "E-mail", "place_holder": "e.g: I want to..." },
+      "body": {
+        "label": "Text",
+        "place_holder": "e.g: vito.mohagheghian@gmail.com"
+      },
+      "send": "Send"
+    }
+  },
+  "support": {
+    "header": "Support me",
+    "buy_me_a_coffee": "Buy me a coffee (coffee be de)",
+    "coffee_be_de_button": "Coffee Be De",
+    "tether": "Send me Tether",
+    "wallet_address": "Wallet Address"
+  },
+  "footer": { "copyright": " © Made with ❤️ and lots of ☕ from 2020" }
+}

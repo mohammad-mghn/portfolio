@@ -28,11 +28,11 @@ body {
 }
 
 .customize-scrollbar::-webkit-scrollbar {
-  width: 3px !important;
+  width: 3px;
 }
 
-.customize-scrollbar.fat-scrollber::-webkit-scrollbar {
-  width: 6px !important;
+.fat-scrollbar::-webkit-scrollbar {
+  width: 7.5px !important;
 }
 
 .customize-scrollbar::-webkit-scrollbar-track {
@@ -49,8 +49,6 @@ body {
 .customize-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #999999;
 }
-
-
 
 .growth {
   animation: growth 500ms ease-out;
@@ -210,4 +208,11 @@ body {
 .fa-navbar-exit-active {
   left: -100%;
   transition: all 300ms;
+}
+.swiper-pagination-bullet {
+  background-color: #3e3e3e !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ff9f1c !important;
 }

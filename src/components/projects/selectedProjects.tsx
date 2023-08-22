@@ -9,12 +9,17 @@ import { projects } from "@/data/projects";
 import { styles } from "@/styles";
 
 import { project } from "@/types/project";
+import { localType } from "@/types/local";
 
-function SelectedProjects() {
+function SelectedProjects({
+  local,
+}: {
+  local: localType["selected_projects"];
+}) {
   return (
     <>
       <section className="md:px-2">
-        <Header>Selected Projects</Header>
+        <Header>{local.header}</Header>
 
         <div className="md:ml-3 mt-5 flex flex-wrap flex-col lg:flex-row justify-center items-center gap-4">
           {projects.slice(0, 6).map((item: project, index: number) => (
@@ -28,7 +33,7 @@ function SelectedProjects() {
           className={`${styles.button} mx-auto my-8 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand`}
           data-aos="fade-up"
         >
-          See More Projects
+          {local.see_more}
         </Link>
       </section>
 
