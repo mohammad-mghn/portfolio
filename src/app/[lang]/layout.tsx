@@ -1,5 +1,7 @@
 import { Nunito } from "next/font/google";
 
+import { Analytics } from "@vercel/analytics/react";
+
 import AOSWrapper from "@/components/aos/wrapper";
 import ScrollToTop from "@/components/scrollToTop";
 import { Footer, Navbar } from "@/components/layout";
@@ -60,6 +62,8 @@ export default async function RootLayout({
         <Footer local={local!.footer} />
 
         <ScrollToTop />
+
+        <Analytics />
       </body>
     </html>
   );
