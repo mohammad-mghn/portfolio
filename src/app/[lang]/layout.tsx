@@ -10,9 +10,9 @@ import { useDictionary } from "@/dictionaries";
 
 import "../../styles/globals.css";
 
-// ! it's not working anymore
 const nunito = Nunito({
   subsets: ["latin"],
+  display: "swap",
 });
 
 type props = {
@@ -43,12 +43,12 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={lang} dir={dir} className="scroll-smooth">
+    <html lang={"en"} dir={dir} className="scroll-smooth">
       <head />
 
       <body
         className={`${
-          lang === "fa" ? IranYekan.className : "nunito"
+          lang === "fa" ? IranYekan.className : nunito.className
         } bg-primary customize-scrollbar fat-scrollbar`}
       >
         <Navbar local={local.navbar} />
