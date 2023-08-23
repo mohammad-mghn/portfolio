@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 
-import Layout from "@/components/layout";
 import Contact from "@/components/contact";
 import Github from "@/components/home/github";
 import Support from "@/components/home/support";
@@ -32,11 +31,11 @@ export const metadata: Metadata = {
   },
 };
 
-async function Page({ params: { lang } }: { params: { lang: string } }) {
+async function HomePage({ params: { lang } }: { params: { lang: string } }) {
   const local: localType = await useDictionary(lang);
 
   return (
-    <Layout local={local}>
+    <>
       <Hero local={local.hero} />
 
       <AboutLanding local={local.about} />
@@ -60,8 +59,8 @@ async function Page({ params: { lang } }: { params: { lang: string } }) {
       <Contact local={local.contact} />
 
       <Support local={local.support} />
-    </Layout>
+    </>
   );
 }
 
-export default Page;
+export default HomePage;

@@ -1,90 +1,104 @@
 {
+  "navbar": {
+    "links": {
+      "home": "خانه",
+      "about": "درباره",
+      "contact": "ارتباط",
+      "projects": "پروژه ها",
+      "blog": "بلاگ"
+    },
+    "other_lang": "En",
+    "lang": "fa"
+  },
   "hero": {
-    "first_name": "Vito",
-    "last_name": "Mohagheghian",
-    "description": "Frontend developer weaving pixels into stories. Passionate about code, freelancing, and turning ideas into digital experiences.",
-    "resume": "Resume",
-    "get_in_touch": "Get in touch",
-    "scroll_down": "Scroll to down"
+    "i_am": "منم",
+    "first_name": "ویتو",
+    "last_name": "محققیان",
+    "description": "توسعه‌دهنده فرانت‌اند، بافتن پیکسل‌ها به داستان‌ها. عاشق کدنویسی، فریلنسری و تبدیل ایده‌ها به تجربیات دیجیتال.",
+    "resume": "رزومه ام",
+    "get_in_touch": "در تماس باشیم",
+    "scroll_down": "اسکرول به پایین"
   },
   "about": {
-    "header": "Who am I and What I’m great at?",
+    "header": "من کی ام و داخل چی خوب هستم ؟",
     "roles": {
-      "primary": "I'm",
-      "front-end-dev": "Front-end Dev.",
-      "react-dev": "React Dev.",
-      "freelancer": "Freelancer.",
-      "ui-designer": "UI Designer."
+      "primary": "من یک",
+      "front-end-dev": "فرانت-اند دولوپر هستم.",
+      "react-dev": "ری اکت دولوپر هستم.",
+      "freelancer": "فریلنسر هستم.",
+      "ui-designer": "طراح رابط کاربری هستم."
     },
-    "description": "In which I’m really pasionate in learning and coding.",
-    "github": "Github Page",
-    "autobiography_header": "Autobiography",
-    "autobiography": "Mohammad Mohagheghian, a junior web developer, but you can call me Vito. I specialize in front-end development and software engineering in small cases. I thoroughly enjoy utilizing my skills to contribute to technological advancements and transform ideas into reality. My programming journey began during high school when I got introduced to Python. I grasped the basics of programming and found joy in creating various projects without limitations. However, I encountered a challenge. I constantly desired my applications to boast a captivating UI. Using basic GUI libraries with numerous styling issues hindered my creativity. As a result, I transitioned into front-end development and JavaScript. The deeper I delved into front-end development, the more my affection for programming grew. I also developed a keen interest in startup ecosystems. Presently, I reside in my hometown, Isfahan, Iran. These days, I am accumulating experiences and acquiring new skills. My goal is to implement ideas just only limited by my imagination. Feel free to explore my skills, projects, and also the experiences of others who have collaborated with me.",
-    "details_header": "Details",
+    "description": "من واقعاً علاقه‌مند به یادگیری و کدنویسی هستم.",
+    "github": "گیت هاب",
+    "autobiography_header": "خودنویسنامه",
+    "autobiography": "محمد محققیان، یک توسعه‌دهنده وب جوان، اما می‌توانید به من ویتو بگویید. من در زمینه توسعه جلویی و مهندسی نرم‌افزار در موارد کوچک تخصص دارم. از مهارت‌های خود با لذت بهره می‌برم تا به پیشرفت‌های فناوری کمک کنم و ایده‌ها را به واقعیت تبدیل کنم. سفر برنامه‌نویسی من در دوران دبیرستان آغاز شد که با زبان پایتون آشنا شدم. مبانی برنامه‌نویسی را فهمیدم و از ایجاد پروژه‌های مختلف بدون محدودیت لذت بردم. با این حال، با چالشی روبرو شدم. همواره خواستم که برنامه‌هایم واسط کاربری جذابی داشته باشند. استفاده از کتابخانه‌های ابتدایی رابط گرافیکی با مشکلات زیادی در استایلینگ ایده‌آل باعث محدودیت خلاقیت شد. به همین دلیل به توسعه جلویی و جاوااسکریپت معطوف شدم. هر چه عمیق‌تر به توسعه جلویی پیش رفتم، علاقه‌ام به برنامه‌نویسی افزایش یافت. همچنین به بیشتر محیط‌های استارتاپی علاقه‌مند شدم. در حال حاضر، در شهر مادری خود، اصفهان، ایران، ساکن هستم. در این روزها، تجربیات را جمع‌آوری می‌کنم و مهارت‌های جدیدی را فرا می‌گیرم. هدف من پیاده‌سازی ایده‌هاست که تنها محدودیتشان توسط تخیل من باشد. از اینجا می‌توانید به مهارت‌ها، پروژه‌هایم و همچنین تجربیات افرادی که با من همکاری داشته‌اند، پرداخته و کاوش کنید.",
+    "details_header": "جزئیات",
     "details": {
-      "nick_name": { "header": "Nickname", "value": "Vito" },
+      "nick_name": { "header": "اسم مستعار", "value": "ویتو" },
       "location": {
-        "header": "Location",
-        "value": "Esfahan, Iran, Asia, Earth"
+        "header": "محل سکونت",
+        "value": "اصفهان، ایران زمین، اسیا، زمین"
       },
-      "name": { "header": "Name", "value": "Mohammad Mohagheghian" }
+      "name": { "header": "نام", "value": "محمد محققیان" }
     }
   },
   "skills": {
-    "header": "Skills & tools",
-    "description": "Passionately diving deep into tech crafting perfect products with finesse - NOT just listing.",
-    "pov": "For related projects click on skills."
+    "header": "مهارت‌ها و ابزارها",
+    "description": "با علاقه‌ای عمیق و شور به تکنولوژی، به دقت و زیبایی در حال تولید محصولات کامل هستم - نه فقط  مهارت هام رو فهرست‌نویسی کنم.",
+    "pov": "برای پروژه های مربوطه روی هر کدام بزنید."
   },
   "languages": {
-    "header": "Languages",
-    "description": "Persistently learning English daily, practicing extensively for enhanced, practical communication skills."
+    "header": "زبان ها",
+    "description": "روزانه پیوسته در حال یادگیری زبان انگلیسی هستم، با به دنبال تمرینات گسترده به منظور بهبود و تقویت   مهارت‌های ارتباطی عملی هستم."
   },
   "github": {
-    "header": "My GitHub page",
-    "quote": "Talk is cheap, Show me the code.",
-    "quote_owner": "Linus Torvalds",
-    "github": "Github Page"
+    "header": "صفحه ی گیت هاب من",
+    "quote": "حرف به ارزشه ، کدتو نشونم بده",
+    "quote_owner": "لینوس توروالز",
+    "github": "گیت هاب من"
   },
   "selected_projects": {
-    "header": "Selected Projects",
-    "see_more": "See More Projects"
+    "header": "پروژه های منتخب",
+    "see_more": "نمایش پروژه ی بیشتر"
   },
   "testimonials": {
-    "header": "Hmmm, a little brag",
-    "description": "Colleague's opinion about working with me in a FEW words.",
-    "pov": "swipe for more."
+    "header": "اووووم، یکمی تعرف کنم از خودم",
+    "description": "نظر همکار هام درباره ی کار کردن با من",
+    "pov": "بکشید برای بیشتر"
   },
   "instagram": {
-    "header": "My Instagram",
-    "description": "Tech geek sharing cool stuff on Instagram. Let's connect!",
+    "header": "اینستاگرام من",
+    "description": "چیز باحالی پیدا کنم ، در اینستاگرام به اشتراک میذارمش.",
     "id": "vito.mohagheghian",
-    "check_my_page": "Check My Page"
+    "check_my_page": "یک سر به پیجم بزن"
   },
   "devto": {
-    "header": "My blog on Dev.to",
-    "description": "Explore captivating weekly blog posts an join the journey of curiosity!",
-    "profile": "Dev to - Profile"
+    "header": "بلاگ من در Dev.to",
+    "description": "Eپست‌های جذاب و هفتگی را بررسی کنید و به سفر کنید تا در جستجوی دانش و کنجکاوی شرکت کنید!",
+    "profile": "Dev to - پروفایل"
   },
   "contact": {
-    "header": "Get in touch",
-    "description": " I’m interested in freelance opportunities – especially ambitious or large projects. However, if you have other request or question, don’t hesitate to use the form.",
+    "header": "در ارتباط باشیم",
+    "description": " من به فرصت‌های آزادکاری علاقه‌مند هستم - به ویژه پروژه‌های جسورانه یا بزرگ. با این حال، اگر درخواست یا سوال دیگری دارید، از فرم استفاده نکنید.",
     "form": {
-      "title": { "label": "Subject", "place_holder": "e.g: I want to..." },
-      "name": { "label": "Name", "place_holder": "e.g: Vito Mohagheghian" },
-      "email": { "label": "E-mail", "place_holder": "e.g: I want to..." },
+      "title": { "label": "عنوان", "place_holder": "برای مثال: من میخواهم..." },
+      "name": { "label": "نام", "place_holder": "برای مثال: محمد محققیان" },
+      "email": { "label": "ایمیل", "place_holder": "برای مثال: vito..." },
       "body": {
-        "label": "Text",
-        "place_holder": "e.g: vito.mohagheghian@gmail.com"
+        "label": "متن",
+        "place_holder": "برای مثال: یک شغل ..."
       },
-      "send": "Send"
+      "send": "ارسال"
     }
   },
   "support": {
-    "header": "Support me",
-    "buy_me_a_coffee": "Buy me a coffee (coffee be de)",
-    "coffee_be_de_button": "Coffee Be De",
-    "tether": "Send me Tether",
-    "wallet_address": "Wallet Address"
+    "header": "حمایت از من",
+    "buy_me_a_coffee": "یه کافی برام بکیر",
+    "coffee_be_de_button": "کافی بده",
+    "tether": "تتر بفرست",
+    "wallet_address": "کیف پول"
   },
-  "footer": { "copyright": " © Made with ❤️ and lots of ☕ from 2020" }
+  "footer": {
+    "copyright": "ساخته شده با ❤️ و تعداد زیادی ☕ از 1400 تا اینجا با شما"
+  }
 }

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { resumeLink } from "@/data/hero";
 import { localType } from "@/types/local";
 
-import { Info } from "@/public";
+import { Info } from "@/../public";
 
 import { styles } from "@/styles";
 
@@ -14,7 +14,9 @@ function Hero({ local }: { local: localType["hero"] }) {
     <>
       <section className="flex flex-col sm:items-center justify-between py-6 lg:flex-row gap-y-14">
         <div className="flex flex-col items-start justify-center py-16">
-          <p className="text-sm opacity-75 text-text md:text-xl">hi I’m</p>
+          <p className="text-sm opacity-75 text-text md:text-xl">
+            {local.i_am}
+          </p>
 
           <h1 className="font-medium text-lighter-text text-4xl md:text-5xl lg:text-5xl xl:text-6xl md:leading-tight lg:leading-snug xl:leading-normal">
             {local.first_name}

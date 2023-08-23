@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 
 import ToggleAnimate from "./toggleAnimate";
 
-import { TopIcon } from "@/public/icons";
+import { TopIcon } from "@/../public/icons";
 
 function ScrollToTop() {
   const [toggle, setToggle] = useState(false);

@@ -1,8 +1,20 @@
 {
+  "navbar": {
+    "links": {
+      "home": "Home",
+      "about": "About",
+      "contact": "Contact",
+      "projects": "Projects",
+      "blog": "Blog"
+    },
+    "other_lang": "Fa",
+    "lang": "en"
+  },
   "hero": {
+    "i_am": "I'm",
     "first_name": "Vito",
     "last_name": "Mohagheghian",
-    "description": "Frontend developer weaving pixels into stories. Passionate about code, freelancing, and turning ideas into digital experiences.",
+    "description": "Frontend developer, weaving pixels into stories. Passionate about code, freelancing, and turning ideas into digital experiences.",
     "resume": "Resume",
     "get_in_touch": "Get in touch",
     "scroll_down": "Scroll to down"

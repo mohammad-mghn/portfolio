@@ -6,18 +6,17 @@ import { socials } from "@/data/social";
 
 import {
   GithubIcon,
-  InstagramIcon,
-  LinkedInIcon,
   TwitterIcon,
-} from "@/public/icons/socials";
-import { useDictionary } from "@/dictionaries";
+  LinkedInIcon,
+  InstagramIcon,
+} from "@/../public/icons/socials";
 import { localType } from "@/types/local";
 
 async function Footer({ local }: { local: localType["footer"] }) {
   return (
-    <footer className="mb-5 flex items-center justify-between flex-col md:flex-row  gap-y-3">
+    <footer className="mb-5 px-6 md:px-12 mx-auto xl:max-w-[85rem] flex items-center justify-between flex-col md:flex-row gap-y-3">
       <h1 className="text-xs md:text-base text-text font-bold">
-        {local.copyright} - {new Date().getFullYear()}
+        {local.copyright} - <span>{new Date().getFullYear()}</span>
       </h1>
 
       <div className="flex items-center gap-x-4">

@@ -23,9 +23,9 @@ import {
   StackoverflowIcon,
   TelegramIcon,
   TwitterIcon,
-} from "@/public/icons/socials";
+} from "@/../public/icons/socials";
 
-import { MapImage } from "@/public";
+import { MapImage } from "@/../public";
 
 import { styles } from "@/styles";
 import { localType } from "@/types/local";

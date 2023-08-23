@@ -16,7 +16,7 @@ function Github({ local }: { local: localType["github"] }) {
         <Header>{local.github}</Header>
 
         <div className="mt-3 ml-3">
-          <div className="w-full flex items-center justify-between flex-wrap gap-x-2 gap-y-4">
+          <div className="w-full flex items-baseline justify-between flex-wrap gap-x-2 gap-y-4">
             <h2
               className="text-sm md:text-xl text-text opacity-80"
               data-aos="fade-right"

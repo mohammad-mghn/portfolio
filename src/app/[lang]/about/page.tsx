@@ -1,7 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
 
-import Layout from "@/components/layout";
 import Github from "@/components/home/github";
 import {
   Skills,
@@ -10,6 +9,7 @@ import {
   AutoBiography,
   Testimonials,
 } from "@/components/about";
+
 import { localType } from "@/types/local";
 import { useDictionary } from "@/dictionaries";
 
@@ -17,10 +17,11 @@ export const metadata: Metadata = {
   title: "Vito Mohagheghian • About",
 };
 
-async function About({ params: { lang } }: { params: { lang: string } }) {
+async function AboutPage({ params: { lang } }: { params: { lang: string } }) {
   const local: localType = await useDictionary(lang);
+
   return (
-    <Layout local={local}>
+    <>
       <AboutLanding local={local.about} />
 
       <AutoBiography local={local.about} />
@@ -32,8 +33,8 @@ async function About({ params: { lang } }: { params: { lang: string } }) {
       <Github local={local.github} />
 
       <Testimonials local={local.testimonials} />
-    </Layout>
+    </>
   );
 }
 
-export default About;
+export default AboutPage;

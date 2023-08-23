@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 const TypingAnimation = dynamic(() => import("../typingAnimation"));
 
 import { styles } from "@/styles";
-import { AboutImage } from "@/public";
+import { AboutImage } from "@/../public";
 import { localType } from "@/types/local";
 
 function AboutLanding({ local }: { local: localType["about"] }) {

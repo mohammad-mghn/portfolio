@@ -1,6 +1,6 @@
 import { project } from "@/types/project";
 
-import { GithubIcon, FigmaIcon, WebIcon } from "@/public/icons/socials";
+import { GithubIcon, FigmaIcon, WebIcon } from "@/../public/icons/socials";
 
 export const projects: project[] = [
   {

@@ -23,7 +23,7 @@ import {
   OnTimeIcon,
   TeamworkIcon,
   FigmaIcon,
-} from "@/public/icons/skills";
+} from "@/../public/icons/skills";
 
 export const skills = [
   { title: "ReactJs", icon: ReactIcon },

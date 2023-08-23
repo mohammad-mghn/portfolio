@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // fontFamily: ["nunito", "Iranyekan"],
       animation: {
         "fade-in": "fade-in 750s ease-out",
       },

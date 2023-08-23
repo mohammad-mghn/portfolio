@@ -1,5 +1,17 @@
 export type localType = {
+  navbar: {
+    links: {
+      home: string;
+      about: string;
+      contact: string;
+      projects: string;
+      blog: string;
+    };
+    other_lang: "En" | "Fa";
+    lang: "en" | "fa";
+  };
   hero: {
+    i_am: string;
     first_name: string;
     last_name: string;
     description: string;

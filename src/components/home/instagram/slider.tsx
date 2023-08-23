@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { socials } from "@/data/social";
 import { generateRandomNum } from "@/modules";
 
-import { FirstPost, SercondPost, ThirdPost } from "@/public/instagram-posts";
+import { FirstPost, SercondPost, ThirdPost } from "@/../public/instagram-posts";
 
 function InstagramSlider() {
   return (
