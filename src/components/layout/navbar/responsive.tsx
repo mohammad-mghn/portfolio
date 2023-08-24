@@ -1,13 +1,10 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 import NavLink from "./navLink";
+import ToggleAnimate from "@/components/toggleAnimate";
 
 import { CloseIcon } from "@/../public/icons";
-
-import { styles } from "@/styles";
-import ToggleAnimate from "@/components/toggleAnimate";
 
 type Props = {
   lang: string;
@@ -19,15 +16,19 @@ type Props = {
   links: { title: string; path: string }[];
 };
 
-function NavbarResponsive({
-  path,
-  links,
-  lang,
-  otherLang,
-  otherLangPath,
-  responsiveNavbar,
-  responsiveNavbarHandler,
-}: Props) {
+function NavbarResponsive(props: Props) {
+  const {
+    path,
+    links,
+    lang,
+    otherLang,
+    otherLangPath,
+    responsiveNavbar,
+    responsiveNavbarHandler,
+  } = props;
+
+  const ltr = lang === "en";
+
   return (
     <>
       {responsiveNavbar && (
@@ -37,9 +38,16 @@ function NavbarResponsive({
         />
       )}
 
-      <ToggleAnimate toggle={responsiveNavbar} className="navbar">
+      <ToggleAnimate
+        toggle={responsiveNavbar}
+        className={ltr ? "navbar" : "fa-navbar"}
+      >
         <nav
-          className={`fixed right-0 w-36 py-10 h-full md:hidden flex flex-col items-center justify-between slide-in z-10 ${styles.box}`}
+          className={`fixed ${
+            ltr ? "right-0" : "left-0"
+          } w-36 py-10 h-full md:hidden bg-primary flex flex-col items-center justify-between ${
+            ltr ? "slide-in" : "slide-in-fa"
+          } border-border-darker z-10`}
         >
           <button title="close menu" onClick={responsiveNavbarHandler}>
             <Image src={CloseIcon} alt="close icon" className="w-7" />

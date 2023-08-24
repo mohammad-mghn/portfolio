@@ -1,12 +1,11 @@
-import React from "react";
-
 import Link from "next/link";
 
-import { socials } from "@/data/social";
+import { socials } from "@/data";
 
 import { styles } from "@/styles";
-import Header from "@/components/elements/header";
-import { localType } from "@/types/local";
+import Header from "@/components/common/header";
+import { localType } from "@/types";
+import { Divider } from "@/components/common";
 
 function Support({ local }: { local: localType["support"] }) {
   return (
@@ -52,7 +51,7 @@ function Support({ local }: { local: localType["support"] }) {
         </div>
       </section>
 
-      <div className={styles.divider} />
+      <Divider />
     </>
   );
 }

@@ -1,11 +1,8 @@
-import React from "react";
 import type { Metadata } from "next";
 
 import Contact from "@/components/contact";
-import Github from "@/components/home/github";
-import Support from "@/components/home/support";
 import { SelectedProjects } from "@/components/projects";
-import { Blog, Hero, Instagram } from "@/components/home";
+import { Blog, Github, Hero, Instagram, Support } from "@/components/home";
 import {
   Skills,
   Languages,
@@ -13,13 +10,16 @@ import {
   Testimonials,
   AutoBiography,
 } from "@/components/about";
+
 import { useDictionary } from "@/dictionaries";
-import { localType } from "@/types/local";
+
+import { localType } from "@/types";
 
 export const metadata: Metadata = {
   title: "Vito Mohagheghian",
-  description: "vito mohagheghian portfolio, web developer(Front-end)",
-  keywords: `Vito Mohagehghian, front-end developer, web developer, programmer Esfahan, Iran , ReactJs and Nextjs developer`,
+  description:
+    "vito mohagheghian portfolio a software engineer currently developing skills in Front-end",
+  keywords: `Vito Mohagehghian, front-end developer, web developer, programmer Isfahan, Iran , ReactJs and Nextjs developer`,
   openGraph: {
     type: "profile",
     url: "https://vito-dev.ir/",

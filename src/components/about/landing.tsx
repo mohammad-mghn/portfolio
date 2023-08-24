@@ -1,13 +1,12 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-const TypingAnimation = dynamic(() => import("../typingAnimation"));
+const TypingAnimation = dynamic(() => import("../common/typingAnimation"));
 
 import { styles } from "@/styles";
 import { AboutImage } from "@/../public";
-import { localType } from "@/types/local";
+import { localType } from "@/types";
 
 function AboutLanding({ local }: { local: localType["about"] }) {
   return (
@@ -16,7 +15,7 @@ function AboutLanding({ local }: { local: localType["about"] }) {
       id="about"
     >
       <div data-aos="fade-up-right">
-        <h1 className="max-w-[18rem] md:max-w-[25.5rem] text-3xl font-medium text-lighter-text md:text-3xl lg:text-5xl md:leading-tight lg:leading-snug">
+        <h1 className="max-w-[18rem] md:max-w-[25.5rem] text-3xl font-medium text-lighter-text md:text-3xl lg:text-5xl md:leading-tight lg:leading-snug rtl:!leading-loose">
           {local.header}
         </h1>
 
@@ -28,7 +27,7 @@ function AboutLanding({ local }: { local: localType["about"] }) {
             local.roles.freelancer,
             local.roles["ui-designer"],
           ]}
-          Typingspeed={75}
+          TypingSpeed={75}
           deletingSpeed={50}
           deletePauseTime={750}
           typePauseTime={0}
@@ -38,7 +37,7 @@ function AboutLanding({ local }: { local: localType["about"] }) {
           cursorClassName={"text-brand "}
         />
 
-        <p className="mt-3 max-w-[15rem] md:max-w-[20rem] text-text text-sm md:text-xl leading-relaxed opacity-75">
+        <p className="mt-3 max-w-[15rem] md:max-w-[20rem] text-text text-sm md:text-xl leading-relaxed rtl:!leading-loose opacity-75">
           {local.description}
         </p>
         <Link

@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { socials } from "@/data/social";
+import { socials } from "@/data";
 import { generateRandomNum } from "@/modules";
 
 import { FirstPost, SercondPost, ThirdPost } from "@/../public/instagram-posts";

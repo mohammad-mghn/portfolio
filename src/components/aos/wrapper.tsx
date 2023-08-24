@@ -1,8 +1,7 @@
 "use client";
 
-import React, { ReactNode } from "react";
-
 import AOS from "aos";
+import React, { ReactNode } from "react";
 
 import "aos/dist/aos.css";
 

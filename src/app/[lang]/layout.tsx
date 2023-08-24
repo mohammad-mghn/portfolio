@@ -1,15 +1,17 @@
 import { Nunito } from "next/font/google";
-
 import { Analytics } from "@vercel/analytics/react";
 
 import AOSWrapper from "@/components/aos/wrapper";
-import ScrollToTop from "@/components/scrollToTop";
+import { ScrollToTop } from "@/components/common";
 import { Footer, Navbar } from "@/components/layout";
 
 import { IranYekan } from "@/../public/fonts";
 
 import { useDictionary } from "@/dictionaries";
 
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "../../styles/globals.css";
 
 const nunito = Nunito({

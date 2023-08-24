@@ -1,4 +1,3 @@
-import React from "react";
 import { Metadata } from "next";
 
 import Github from "@/components/home/github";
@@ -10,11 +9,16 @@ import {
   Testimonials,
 } from "@/components/about";
 
-import { localType } from "@/types/local";
 import { useDictionary } from "@/dictionaries";
+
+import { localType } from "@/types";
 
 export const metadata: Metadata = {
   title: "Vito Mohagheghian • About",
+  keywords:
+    "vito Mohagheghian about, محمد محققیان درباره, ویتو محققیان درباره, mohammad mohagheghian about",
+  description:
+    "read about vito mohagheghian a software engineer currently developing skills in Front-end",
 };
 
 async function AboutPage({ params: { lang } }: { params: { lang: string } }) {

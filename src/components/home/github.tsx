@@ -1,13 +1,12 @@
-import React from "react";
-
 import Link from "next/link";
 
-import Header from "@/components/elements/header";
+import { Header, Divider } from "@/components/common";
 
 import { socials } from "@/data/social";
 
 import { styles } from "@/styles";
-import { localType } from "@/types/local";
+
+import { localType } from "@/types";
 
 function Github({ local }: { local: localType["github"] }) {
   return (
@@ -39,7 +38,7 @@ function Github({ local }: { local: localType["github"] }) {
         </div>
       </section>
 
-      <div className={styles.divider} />
+      <Divider />
     </>
   );
 }

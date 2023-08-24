@@ -1,15 +1,11 @@
 "use client";
 
-import React from "react";
+import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Testimonial from "./testimonial";
 
-import { Pagination } from "swiper/modules";
-import { testimonials } from "@/data/testimonials";
-
-import "swiper/css";
-import "swiper/css/pagination";
+import { testimonials } from "@/data";
 
 function TestimonialsSlider() {
   return (

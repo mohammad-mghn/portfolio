@@ -1,13 +1,12 @@
-import React from "react";
-
 import Link from "next/link";
 
-import Header from "@/components/elements/header";
+import { Divider, Header } from "@/components/common";
 
-import { socials } from "@/data/social";
+import { socials } from "@/data";
 
 import { styles } from "@/styles";
-import { localType } from "@/types/local";
+
+import { localType } from "@/types";
 
 function Blog({ local }: { local: localType["devto"] }) {
   return (
@@ -18,7 +17,7 @@ function Blog({ local }: { local: localType["devto"] }) {
         <div className="mt-3 ml-3">
           <div className="w-full flex items-center justify-between flex-wrap gap-x-2 gap-y-4">
             <h2
-              className="text-xs md:text-lg text-text opacity-80"
+              className="text-xs md:text-lg text-text rtl:leading-loose opacity-80"
               data-aos="fade-right"
             >
               {local.description}
@@ -36,7 +35,7 @@ function Blog({ local }: { local: localType["devto"] }) {
         </div>
       </section>
 
-      <div className={styles.divider} />
+      <Divider />
     </>
   );
 }

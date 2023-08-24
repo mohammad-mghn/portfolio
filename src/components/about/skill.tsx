@@ -1,19 +1,15 @@
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 
-import { SkillType } from "@/types/skill";
+import { SkillType } from "@/types";
 
 type Props = { skill: SkillType; index: number };
 
 function Skill({ skill, index }: Props) {
-
   return (
-    <Link
-      href={""}
+    <div
       className="p-1 pr-2 flex items-center gap-x-2 sm:gap-x-3 rounded-lg border-2 border-border-darker shadow-dark-200 group"
-      aria-label="see projects"
       data-aos="fade-up"
+      aria-label="see projects"
       data-aos-delay={(50 * index).toString()}
     >
       <Image
@@ -21,10 +17,10 @@ function Skill({ skill, index }: Props) {
         alt={skill.title}
         className="w-6 md:w-8 h-6 md:h-8 rounded-md"
       />
-      <h3 className="text-text text-sm md:text-base group-hover:text-brand transition-colors duration-300">
+      <h3 className="text-text group-hover:text-brand text-sm md:text-base transition-colors duration-300">
         {skill.title}
       </h3>
-    </Link>
+    </div>
   );
 }
 

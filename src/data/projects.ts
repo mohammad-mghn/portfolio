@@ -1,4 +1,4 @@
-import { project } from "@/types/project";
+import { project } from "@/types";
 
 import { GithubIcon, FigmaIcon, WebIcon } from "@/../public/icons/socials";
 
@@ -76,7 +76,7 @@ export const projects: project[] = [
     title: "Dev tab",
     date: "Edited on: Feb, 2023",
     tags: ["NextJs", "TailWindCSS", "TypeScript", "web-scrapping", "ReactJs"],
-    description: `A community for people interested in participating in programming events. able to customize background ,and topics to follow your stack news. update each 2 mins.  ✓ responisve ✓dev.to ✓stackoverflow ✓github ✓hackernews ✓able to add bookmarks.`,
+    description: `A community for people interested in participating in programming events. able to customize background ,and topics to follow your stack news. update each 2 mins.  ✓ responisve ✓dev.to ✓stackOverFlow ✓github ✓ hackernews ✓able to add bookmarks.`,
     links: [
       {
         icon: WebIcon,

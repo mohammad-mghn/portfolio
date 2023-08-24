@@ -1,15 +1,14 @@
-import React from "react";
 import Link from "next/link";
 
+import { Header, Divider } from "../common";
 import ProjectPreview from "./projectPreview";
-import Header from "../elements/header";
 
-import { projects } from "@/data/projects";
+import { projects } from "@/data";
 
 import { styles } from "@/styles";
 
-import { project } from "@/types/project";
-import { localType } from "@/types/local";
+import { project } from "@/types";
+import { localType } from "@/types";
 
 function SelectedProjects({
   local,
@@ -37,7 +36,7 @@ function SelectedProjects({
         </Link>
       </section>
 
-      <div className={styles.divider} />
+      <Divider />
     </>
   );
 }

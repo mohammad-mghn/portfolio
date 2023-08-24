@@ -8,7 +8,7 @@ export const socials = {
   instagram: "https://www.instagram.com/vito.mohagheghian/",
   codewars: "https://www.codewars.com/users/vito-mohagheghian",
   linkedin: "https://www.linkedin.com/in/vito-mohagheghian/",
-  stackoverflow: "https://stackoverflow.com/users/16104004/vito-mohagheghian",
+  stackOverFlow: "https://stackOverFlow.com/users/16104004/vito-mohagheghian",
   wallet:
     "https://link.trustwallet.com/send?coin=60&address=0x0198DA29fcCECb17713c8deB467E745358b3773d&token_id=0xdAC17F958D2ee523a2206206994597C13D831ec7",
 };

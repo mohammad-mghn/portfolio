@@ -1,11 +1,9 @@
-import React from "react";
-
 import Link from "next/link";
 
 type Props = {
   item: {
-    title: string;
     path: string;
+    title: string;
   };
   lang: string;
   path: string | null;

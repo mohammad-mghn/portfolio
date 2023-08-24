@@ -1,12 +1,9 @@
-import React from "react";
-
+import { Divider } from "../common";
 import ProjectPreview from "./projectPreview";
 
-import { projects } from "@/data/projects";
+import { projects } from "@/data";
 
-import { project } from "@/types/project";
-
-import { styles } from "@/styles";
+import { project } from "@/types";
 
 function Projects() {
   return (
@@ -19,7 +16,7 @@ function Projects() {
         </div>
       </section>
 
-      <div className={styles.divider} />
+      <Divider />
     </>
   );
 }

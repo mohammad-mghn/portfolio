@@ -2,25 +2,15 @@ import Link from "next/link";
 
 import Slider from "./slider";
 
-import { project } from "@/types/project";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { project } from "@/types";
 
 type props = project & {
   index: number;
 };
 
-function ProjectPreview({
-  title,
-  media,
-  date,
-  description,
-  links,
-  tags,
-  index,
-}: props) {
+function ProjectPreview(props: props) {
+  const { title, media, date, description, links, tags, index } = props;
+
   return (
     <div
       className="w-full md:w-[25rem] rounded-lg border-2 border-border-darker overflow-hidden shadow-dark-400 transition-all duration-700"
@@ -35,7 +25,7 @@ function ProjectPreview({
         <div className="pr-3 flex items-center gap-x-2">
           <span className="inline-block h-5 w-1 bg-brand rounded-lg" />
           <h1 className="text-text text-md md:text-lg font-semibold three-dots">
-            {title}
+            <Link href={links[0].link}>{title}</Link>
           </h1>
         </div>
 
@@ -60,10 +50,10 @@ function ProjectPreview({
             <div className="flex items-center gap-x-2">
               {links.map((item, index) => (
                 <Link
-                  target={"_blank"}
-                  href={item.link}
-                  className="w-5 h-5 social-svg"
                   key={index}
+                  href={item.link}
+                  target={"_blank"}
+                  className="w-5 h-5 social-svg"
                 >
                   <item.icon />
                 </Link>

@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        port: "",
+        protocol: "https",
+        hostname: "github.com",
+        pathname: "/vito-mohagheghian/portfolio/blob/images-db/**",
+      },
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

@@ -1,3 +1,7 @@
-export { default as Blog } from "./blog";
-export { default as Hero } from "./hero";
-export { default as Instagram } from "./instagram";
+import Blog from "./blog";
+import Hero from "./hero";
+import Github from "./github";
+import Support from "./support";
+import Instagram from "./instagram";
+
+export { Blog, Hero, Github, Instagram, Support };

@@ -1,25 +1,19 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React from "react";
 import Link from "next/link";
-
-import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "next/image";
 import SwiperCore from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 
 import { generateRandomNum } from "@/modules";
 
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+SwiperCore.use([Autoplay, Navigation]);
 
 type Props = {
   media: any[];
   link: string;
 };
-
-SwiperCore.use([Autoplay, Navigation]);
 
 function Slider({ media, link }: Props) {
   return (
@@ -30,8 +24,8 @@ function Slider({ media, link }: Props) {
       keyboard={true}
       navigation={true}
       pagination={true}
-      className="swiper !h-[14rem]"
       modules={[Navigation]}
+      className="swiper !h-[14rem]"
       autoplay={{
         disableOnInteraction: true,
         delay: generateRandomNum(8000, 3000),
@@ -46,11 +40,12 @@ function Slider({ media, link }: Props) {
             href={link}
             className={"mx-auto flex items-center justify-center w-full"}
           >
-            <img
+            <Image
               src={item}
-              alt=""
+              width={360}
+              height={260}
               className="max-w-[90%] max-h-[14rem]"
-              loading="lazy"
+              alt="Vito Mohagheghian project preview"
             />
           </Link>
         </SwiperSlide>

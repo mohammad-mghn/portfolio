@@ -1,7 +1,6 @@
-import React from "react";
 import Link from "next/link";
 
-import { testimonialType } from "@/types/testimonails";
+import { testimonialType } from "@/types";
 
 function Testimonial({ link, name, text, socialMedia }: testimonialType) {
   return (
@@ -24,7 +23,7 @@ function Testimonial({ link, name, text, socialMedia }: testimonialType) {
       </Link>
 
       <p className="mt-3 text-text">
-        <span className="mr-2 translate-y-1 inline-block h-5 w-1 bg-brand rounded-lg" />
+        <span className="ltr:mr-2 rtl:ml-2 translate-y-1 inline-block h-5 w-1 bg-brand rounded-lg" />
         <span className="-pt-4 text-base sm:text-base">{text}</span>
       </p>
     </div>

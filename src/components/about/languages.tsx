@@ -1,12 +1,9 @@
-import React from "react";
+import Skill from "./skill";
+import { Divider, Header } from "../common";
 
-import Skill from "../skill";
-import Header from "@/components/elements/header";
+import { languages } from "@/data";
 
-import { languages } from "@/data/languages";
-
-import { styles } from "@/styles";
-import { localType } from "@/types/local";
+import { localType } from "@/types";
 
 function Languages({ local }: { local: localType["languages"] }) {
   return (
@@ -14,7 +11,7 @@ function Languages({ local }: { local: localType["languages"] }) {
       <Header>{local.header}</Header>
       <div className="mt-1 md:mt-3 md:ml-3">
         <h2
-          className="text-xs md:text-base text-text opacity-80"
+          className="text-xs md:text-base text-text rtl:leading-loose opacity-80"
           data-aos="fade-up"
         >
           {local.description}
@@ -28,7 +25,8 @@ function Languages({ local }: { local: localType["languages"] }) {
           </div>
         </div>
       </div>
-      <div className={styles.divider} />
+
+      <Divider />
     </section>
   );
 }

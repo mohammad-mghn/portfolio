@@ -1,15 +1,13 @@
-import React from "react";
-
 import Link from "next/link";
-import Image from "next/image";
 
-import Header from "@/components/elements/header";
+import InstagramSlider from "./slider";
+import { Header, Divider } from "@/components/common";
 
-import { socials } from "@/data/social";
+import { socials } from "@/data";
 
 import { styles } from "@/styles";
-import InstagramSlider from "./slider";
-import { localType } from "@/types/local";
+
+import { localType } from "@/types";
 
 function Instagram({ local }: { local: localType["instagram"] }) {
   return (
@@ -18,7 +16,7 @@ function Instagram({ local }: { local: localType["instagram"] }) {
         <Header>{local.header}</Header>
 
         <h2
-          className="md:mt-3 ml-3 text-xs md:text-base text-text opacity-80"
+          className="md:mt-3 rtl:mt-3 ml-3 text-xs md:text-base text-text rtl:leading-loose opacity-80"
           data-aos="fade-up"
         >
           {local.description}{" "}
@@ -39,7 +37,7 @@ function Instagram({ local }: { local: localType["instagram"] }) {
         </Link>
       </section>
 
-      <div className={styles.divider} />
+      <Divider />
     </>
   );
 }

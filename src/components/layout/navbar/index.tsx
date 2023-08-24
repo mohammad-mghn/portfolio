@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
-
 import Link from "next/link";
 import Image from "next/image";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 
 import NavLink from "./navLink";
 import NavbarResponsive from "./responsive";
 
-import { socials } from "@/data/social";
+import { socials } from "@/data";
 
 import { VIcon } from "@/../public";
 import { MenuIcon } from "@/../public/icons";
 
-import { styles } from "@/styles";
-import { localType } from "@/types/local";
+import { localType } from "@/types";
 
 function Navbar({ local }: { local: localType["navbar"] }) {
   const links = [
@@ -38,11 +36,11 @@ function Navbar({ local }: { local: localType["navbar"] }) {
     },
   ];
 
-  const otherLangPath: `/${string}` = `/${local.other_lang.toLocaleLowerCase()}`;
-
   const path = usePathname();
 
   const [responsiveNavbar, setResponsiveNavbar] = useState(false);
+
+  const otherLangPath: `/${string}` = `/${local.other_lang.toLocaleLowerCase()}`;
 
   const responsiveNavbarHandler = () => {
     setResponsiveNavbar((prevValue) => !prevValue);
@@ -51,7 +49,7 @@ function Navbar({ local }: { local: localType["navbar"] }) {
   return (
     <>
       <nav
-        className={`fixed top-4 sm:top-6 left-[50%] translate-x-[-50%] h-14 w-full max-w-[calc(100%-1.75rem)] md:max-w-[calc(100%-6rem)] xl:max-w-[80rem] px-3 mx-auto flex items-center justify-between rounded-lg border-2 border-border-darker z-10 ${styles.box}`}
+        className={`fixed top-4 sm:top-6 left-[50%] translate-x-[-50%] h-14 w-full max-w-[calc(100%-1.75rem)] md:max-w-[calc(100%-6rem)] xl:max-w-[80rem] px-3 mx-auto bg-primary flex items-center justify-between rounded-lg border-2 border-border-darker shadow-dark-400 z-10`}
       >
         <div className="flex items-center gap-x-4">
           <Link href={`/${local.lang}`}>

@@ -1,34 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 type Props = {
-  staticText: string;
   content: string[];
-  Typingspeed: number;
+  staticText: string;
+  TypingSpeed: number;
   deletingSpeed: number;
-  deletePauseTime: number;
   typePauseTime: number;
-  containerClassName?: string;
-  PrimaryTextClassName?: string;
+  deletePauseTime: number;
   typingClassName?: string;
   cursorClassName?: string;
+  containerClassName?: string;
+  PrimaryTextClassName?: string;
 };
 
 const TypingAnimation = (props: Props) => {
   const {
-    staticText,
     content,
-    Typingspeed,
+    staticText,
+    TypingSpeed,
     deletingSpeed,
-    deletePauseTime,
     typePauseTime,
-    containerClassName,
-    PrimaryTextClassName,
     typingClassName,
     cursorClassName,
+    deletePauseTime,
+    containerClassName,
+    PrimaryTextClassName,
   } = props;
-  React.useEffect(() => {
+
+  useEffect(() => {
     // Current sentence being processed
     var part = 0;
 
@@ -84,19 +85,24 @@ const TypingAnimation = (props: Props) => {
         // Start to display the next sentence after some time
         setTimeout(function () {
           cursorElement!.className = "inline-block " + cursorClassName;
-          interval = setInterval(Type, Typingspeed);
+          interval = setInterval(Type, TypingSpeed);
         }, typePauseTime);
       }
     }
 
     // Start the typing effect on load
-    interval = setInterval(Type, Typingspeed);
+    interval = setInterval(Type, TypingSpeed);
   }, []);
-  
+
   return (
-    <div className={containerClassName} style={{ display: "flex", alignItems: "center", columnGap: ".25rem" }}>
+    <div
+      className={containerClassName}
+      style={{ display: "flex", alignItems: "center", columnGap: ".25rem" }}
+    >
       <div className={PrimaryTextClassName}>{staticText}</div>
+
       <div className={typingClassName} id="typingElement"></div>
+
       <div className={cursorClassName} id="cursor">
         |
       </div>

@@ -1,13 +1,13 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { resumeLink } from "@/data/hero";
-import { localType } from "@/types/local";
+import { resumeLink } from "@/data";
 
 import { Info } from "@/../public";
 
 import { styles } from "@/styles";
+
+import { localType } from "@/types";
 
 function Hero({ local }: { local: localType["hero"] }) {
   return (
@@ -18,14 +18,14 @@ function Hero({ local }: { local: localType["hero"] }) {
             {local.i_am}
           </p>
 
-          <h1 className="font-medium text-lighter-text text-4xl md:text-5xl lg:text-5xl xl:text-6xl md:leading-tight lg:leading-snug xl:leading-normal">
+          <h1 className="font-medium text-lighter-text text-4xl md:text-5xl lg:text-5xl xl:text-6xl md:leading-tight lg:leading-snug xl:leading-normal rtl:!leading-loose">
             {local.first_name}
             <br />
             {local.last_name}
             <span className="text-4xl md:text-7xl text-brand">.</span>
           </h1>
 
-          <p className="mt-2 max-w-[18rem] md:max-w-[25rem] text-text text-sm md:text-xl !leading-relaxed opacity-90">
+          <p className="mt-2 max-w-[18rem] md:max-w-[25rem] text-text text-sm md:text-xl !leading-relaxed rtl:!leading-loose opacity-90">
             {local.description}
           </p>
 

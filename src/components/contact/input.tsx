@@ -1,8 +1,6 @@
-import React from "react";
-
 type Props = {
-  label: string;
   name: string;
+  label: string;
   placeholder: string;
   type: "email" | "text";
 };

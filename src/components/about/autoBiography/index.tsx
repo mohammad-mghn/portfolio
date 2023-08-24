@@ -1,10 +1,7 @@
-import React from "react";
-
 import Detail from "./detail";
-import Header from "@/components/elements/header";
+import { Header, Divider } from "@/components/common";
 
-import { styles } from "@/styles";
-import { localType } from "@/types/local";
+import { localType } from "@/types";
 
 function AutoBiography({ local }: { local: localType["about"] }) {
   return (
@@ -18,7 +15,7 @@ function AutoBiography({ local }: { local: localType["about"] }) {
           <Header>{local.autobiography_header}</Header>
 
           <p
-            className="mt-4 md:px-3 text-text text-sm lg:text-base text-justify leading-relaxed opacity-80"
+            className="mt-4 md:px-3 text-text text-sm lg:text-base text-justify leading-relaxed rtl:!leading-loose sm:rtl:!leading-relaxed opacity-80"
             data-aos="fade-up"
           >
             {local.autobiography}
@@ -49,7 +46,7 @@ function AutoBiography({ local }: { local: localType["about"] }) {
         </div>
       </section>
 
-      <div className={styles.divider} />
+      <Divider />
     </>
   );
 }

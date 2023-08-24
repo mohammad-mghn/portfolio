@@ -68,6 +68,10 @@ body {
   animation: slide-in 300ms ease-out;
 }
 
+.slide-in-fa {
+  animation: slide-in-fa 300ms ease-out;
+}
+
 @keyframes slide-in {
   from {
     right: -100%;
@@ -75,10 +79,6 @@ body {
   to {
     right: 0;
   }
-}
-
-.slide-in-fa {
-  animation: slide-in-fa 300ms ease-out;
 }
 
 @keyframes slide-in-fa {
@@ -210,6 +210,7 @@ body {
   left: -100%;
   transition: all 300ms;
 }
+
 .swiper-pagination-bullet {
   background-color: #3e3e3e !important;
 }

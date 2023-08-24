@@ -1,8 +1,8 @@
 // export { default as GithubIcon } from "./github.svg";
-// export { default as TwittesrIcon } from "./twitter.svg";
+// export { default as TwittesrIcon } from "./X.svg";
 // export { default as instagramIcon } from "./instagram.svg";
 
-export const TwitterIcon = () => (
+export const XIcon = () => (
   <svg
     width="25"
     height="25"
@@ -63,7 +63,7 @@ export const DiscordIcon = () => (
     />
   </svg>
 );
-export const StackoverflowIcon = () => (
+export const stackOverFlowIcon = () => (
   <svg
     width="27"
     height="27"
@@ -91,7 +91,7 @@ export const DevToIcon = () => (
     />
   </svg>
 );
-export const CodewarsIcon = () => (
+export const CodeWarsIcon = () => (
   <svg
     width="26"
     height="27"
