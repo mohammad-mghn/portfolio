@@ -1,5 +1,7 @@
-export { default as Skills } from "./skills";
-export { default as Languages } from "./languages";
-export { default as AboutLanding } from "./landing";
-export { default as Testimonials } from "./testimonials";
-export { default as AutoBiography } from "./autobiography";
+import Skills from "./skills";
+import Languages from "./languages";
+import AboutLanding from "./landing";
+import Testimonials from "./testimonials";
+import AutoBiography from "./autobiography";
+
+export { Skills, Languages, AboutLanding, Testimonials, AutoBiography };
