@@ -8,8 +8,9 @@ import {
   Languages,
   AboutLanding,
   Testimonials,
-  AutoBiography,
 } from "@/components/about";
+
+import AutoBiography from "@/components/about/autobiography";
 
 import { useDictionary } from "@/dictionaries";
 
