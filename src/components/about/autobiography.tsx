@@ -1,4 +1,4 @@
-import Detail from "./detail";
+import Detail from "./autobiography/detail";
 import { Header, Divider } from "@/components/common";
 
 import { localType } from "@/types";
