@@ -8,7 +8,7 @@ import {
   Testimonials,
 } from "@/components/about";
 
-import AutoBiography from "@/components/about/autobiography";
+import AutoBiography from "@/components/about/autobiography/autobiography";
 
 import { useDictionary } from "@/dictionaries";
 
