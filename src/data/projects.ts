@@ -63,7 +63,7 @@ export const projects: project[] = [
       },
       {
         icon: WebIcon,
-        link: "https://wins-11.vercel.app/",
+        link: "https://wins-11.ir/",
       },
     ],
   },
@@ -80,7 +80,7 @@ export const projects: project[] = [
     links: [
       {
         icon: WebIcon,
-        link: "https://dev-tab.vercel.app/",
+        link: "https://devtab.vercel.app/",
       },
       {
         icon: GithubIcon,
