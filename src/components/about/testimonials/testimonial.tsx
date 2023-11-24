@@ -4,10 +4,7 @@ import { testimonialType } from "@/types";
 
 function Testimonial({ link, name, text, socialMedia }: testimonialType) {
   return (
-    <div
-      className="p-3 rounded-lg border-2 border-border-darker shadow-dark-200"
-      data-aos="zoom-out-up"
-    >
+    <div className="p-3 rounded-lg border-2 border-border-darker shadow-dark-200">
       <Link
         href={link}
         className="text-text text-xs sm:text-sm opacity-70 hover:text-brand hover:opacity-100 transition-colors duration-300"

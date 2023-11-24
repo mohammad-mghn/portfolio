@@ -12,11 +12,7 @@ function ProjectPreview(props: props) {
   const { title, media, date, description, links, tags, index } = props;
 
   return (
-    <div
-      className="w-full md:w-[25rem] rounded-lg border-2 border-border-darker overflow-hidden shadow-dark-400 transition-all duration-700"
-      data-aos="zoom-out"
-      data-aos-delay={(75 * index).toString()}
-    >
+    <div className="w-full md:w-[25rem] rounded-lg border-2 border-border-darker overflow-hidden shadow-dark-400 transition-all duration-700">
       <div className="py-4 md:py-5 max-h-64 flex items-center justify-center bg-gradient-to-b from-brand to-transparent">
         <Slider media={media} link={links[0].link} />
       </div>

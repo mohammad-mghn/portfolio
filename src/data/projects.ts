@@ -58,12 +58,12 @@ export const projects: project[] = [
     description: `Creating this kind of big projects on web with technoglies like ReactJs and Redux is containing lots of problems, and bugs that trying to fix them is really good way to improve our programming skills.`,
     links: [
       {
-        icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/wins-11",
+        icon: WebIcon,
+        link: "https://wins11.ir/",
       },
       {
-        icon: WebIcon,
-        link: "https://wins-11.ir/",
+        icon: GithubIcon,
+        link: "https://github.com/vito-mohagheghian/wins-11",
       },
     ],
   },

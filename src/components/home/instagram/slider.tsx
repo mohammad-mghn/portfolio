@@ -30,7 +30,6 @@ function InstagramSlider() {
           <Link
             href={socials.instagram}
             className="w-full flex items-center justify-center"
-            data-aos="flip-left"
           >
             <Image
               src={FirstPost}
@@ -43,7 +42,6 @@ function InstagramSlider() {
           <Link
             href={socials.instagram}
             className="w-full flex items-center justify-center"
-            data-aos="flip-left"
           >
             <Image
               src={SercondPost}
@@ -56,7 +54,6 @@ function InstagramSlider() {
           <Link
             href={socials.instagram}
             className="w-full flex items-center justify-center"
-            data-aos="flip-left"
           >
             <Image
               src={ThirdPost}
