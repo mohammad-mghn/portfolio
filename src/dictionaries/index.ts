@@ -6,3 +6,4 @@ const dictionaries: any = {
 export const useDictionary = (lang: string) => {
   return dictionaries[lang]();
 };
+console.log(import("./en.json").then((r) => r.default));

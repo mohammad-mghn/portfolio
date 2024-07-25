@@ -218,3 +218,41 @@ body {
 .swiper-pagination-bullet-active {
   background-color: #ff9f1c !important;
 }
+
+.slide-ltr {
+  animation: slide-ltr 750ms ease-out;
+}
+.slide-rtl {
+  animation: slide-rtl 750ms ease-out;
+}
+.slide-ltr:dir(rtl) {
+  animation: slide-rtl 750ms ease-out;
+}
+.slide-rtl:dir(rtl) {
+  animation: slide-ltr 750ms ease-out;
+}
+.slide-ttb {
+  animation: slide-ttb 750ms ease-out;
+}
+
+@keyframes slide-ltr {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slide-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slide-ttb {
+  from {
+    top: -4rem;
+  }
+}

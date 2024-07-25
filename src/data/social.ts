@@ -1,10 +1,10 @@
 export const socials = {
-  telegram: "https://t.me/Hereisvito",
+  telegram: "https://t.me/hereisvito",
   discord: "https://discord.gg/qbT2Yu4NmW",
   devto: "https://dev.to/vitomohagheghian",
   x: "https://x.com/hereisvito",
   github: "https://github.com/vito-mohagheghian",
-  buyMeACoffee: "https://www.coffeebede.com/vitovito",
+  buyMeACoffee: "https://www.coffeebede.com/vitomohagheghian",
   instagram: "https://www.instagram.com/vito.mohagheghian/",
   codewars: "https://www.codewars.com/users/vito-mohagheghian",
   linkedin: "https://www.linkedin.com/in/vito-mohagheghian/",
