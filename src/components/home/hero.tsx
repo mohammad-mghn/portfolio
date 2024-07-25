@@ -13,7 +13,7 @@ function Hero({ local }: { local: localType["hero"] }) {
   return (
     <>
       <section className="flex flex-col sm:items-center justify-between py-6 lg:flex-row gap-y-14">
-        <div className="flex flex-col items-start justify-center py-16">
+        <div className="flex flex-col items-start justify-center py-16 slide-ltr">
           <p className="text-sm opacity-75 text-text md:text-xl">
             {local.i_am}
           </p>
@@ -59,7 +59,11 @@ function Hero({ local }: { local: localType["hero"] }) {
           </div>
         </div>
 
-        <Image src={Info} alt="Vvito mohagheghian Info" className="w-[25rem]" />
+        <Image
+          src={Info}
+          alt="Vvito mohagheghian Info"
+          className="w-[25rem] slide-rtl"
+        />
       </section>
 
       <div className="mt-6 flex items-center justify-between gap-x-3 md:gap-x-5">

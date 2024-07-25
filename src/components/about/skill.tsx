@@ -10,7 +10,9 @@ function Skill({ skill, index }: Props) {
       className="p-1 pr-2 flex items-center gap-x-2 sm:gap-x-3 rounded-lg border-2 border-border-darker shadow-dark-200 group"
       data-aos="fade-up"
       aria-label="see projects"
-      data-aos-delay={(50 * index).toString()}
+      data-aos-delay={"150"}
+      data-aos-duration={"750"}
+      data-aos-once={true}
     >
       <Image
         src={skill.icon}

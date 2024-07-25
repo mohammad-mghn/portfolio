@@ -49,7 +49,7 @@ function Navbar({ local }: { local: localType["navbar"] }) {
   return (
     <>
       <nav
-        className={`fixed top-4 sm:top-6 left-[50%] translate-x-[-50%] h-14 w-full max-w-[calc(100%-1.75rem)] md:max-w-[calc(100%-6rem)] xl:max-w-[80rem] px-3 mx-auto bg-primary flex items-center justify-between rounded-lg border-2 border-border-darker shadow-dark-400 z-10`}
+        className={`fixed top-4 sm:top-6 left-[50%] translate-x-[-50%] h-14 w-full max-w-[calc(100%-1.75rem)] md:max-w-[calc(100%-6rem)] xl:max-w-[80rem] px-3 mx-auto bg-primary flex items-center justify-between rounded-lg border-2 border-border-darker shadow-dark-400 z-10 slide-ttb`}
       >
         <div className="flex items-center gap-x-4">
           <Link href={`/${local.lang}`}>

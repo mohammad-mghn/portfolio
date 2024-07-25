@@ -1,3 +1,4 @@
+import React from "react";
 import { Nunito } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 
