@@ -61,7 +61,7 @@ function Hero({ local }: { local: localType["hero"] }) {
 
         <Image
           src={Info}
-          alt="Vvito mohagheghian Info"
+          alt="Mohammad mohagheghian Info"
           className="w-[25rem] slide-rtl"
         />
       </section>

@@ -16,9 +16,9 @@ import { localType } from "@/types";
 export const metadata: Metadata = {
   title: "Vito Mohagheghian • About",
   keywords:
-    "vito Mohagheghian about, محمد محققیان درباره, ویتو محققیان درباره, mohammad mohagheghian about",
+    "Mohammad Mohagheghian about, محمد محققیان درباره, ویتو محققیان درباره, mohammad mohagheghian about",
   description:
-    "read about vito mohagheghian a software engineer currently developing skills in Front-end",
+    "read about mohammad mohagheghian a software engineer currently developing skills in Front-end",
 };
 
 async function AboutPage({ params: { lang } }: { params: { lang: string } }) {

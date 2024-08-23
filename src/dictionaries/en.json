@@ -12,7 +12,7 @@
   },
   "hero": {
     "i_am": "I'm",
-    "first_name": "Vito",
+    "first_name": "Mohammad",
     "last_name": "Mohagheghian",
     "description": "Frontend developer, weaving pixels into stories. Passionate about code, freelancing, and turning ideas into digital experiences.",
     "resume": "Resume",
@@ -82,7 +82,7 @@
     "description": " I’m interested in freelance opportunities – especially ambitious or large projects. However, if you have other request or question, don’t hesitate to use the form.",
     "form": {
       "title": { "label": "Subject", "place_holder": "e.g: I want to..." },
-      "name": { "label": "Name", "place_holder": "e.g: Vito Mohagheghian" },
+      "name": { "label": "Name", "place_holder": "e.g: Mohammad Mohagheghian" },
       "email": { "label": "E-mail", "place_holder": "e.g: I want to..." },
       "body": {
         "label": "Text",

@@ -9,7 +9,7 @@ import { localType } from "@/types";
 export const metadata: Metadata = {
   title: "Vito Mohagheghian • Contact",
   keywords:
-    "vito Mohagheghian contact, vito mohagheghian social media , محمد محققیان درباره, ویتو محققیان درباره, mohammad mohagheghian contact, mohammad mohagheghian social media",
+    "Mohammad Mohagheghian contact, Mohammad mohagheghian social media , محمد محققیان درباره, ویتو محققیان درباره, mohammad mohagheghian contact, mohammad mohagheghian social media",
   description:
     "contact with vito mohagheghian a software engineer currently developing skills in Front-end",
 };
