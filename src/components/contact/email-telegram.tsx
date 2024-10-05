@@ -40,7 +40,7 @@ function EmailAndTelegram() {
           <TelegramIcon />
         </span>
 
-        <h1 className="text-[3.45vw] lg:text-base text-text">hereisvito</h1>
+        <h1 className="text-[3.45vw] lg:text-base text-text">mohammadmghn</h1>
       </Link>
     </div>
   );

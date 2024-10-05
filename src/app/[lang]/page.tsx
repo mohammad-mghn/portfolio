@@ -16,17 +16,25 @@ import { useDictionary } from "@/dictionaries";
 import { localType } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Vito Mohagheghian",
+  title: "Mohammad Mohagheghian",
   description:
-    "vito mohagheghian portfolio a software engineer currently developing skills in Front-end",
-  keywords: `Vito Mohagehghian, front-end developer, web developer, programmer Isfahan, Iran , ReactJs and Nextjs developer`,
+    "Mohammad Mohagheghian portfolio a software engineer currently developing skills in Front-end",
+  keywords: [
+    "Mohammad Mohagehghian",
+    "Mohagheghian",
+    "front-end developer",
+    "web developer",
+    "programmer Isfahan, Iran",
+    "ReactJs and Nextjs developer",
+  ],
+
   openGraph: {
     type: "profile",
     url: "https://vito-dev.ir/",
-    siteName: "Vito Mohagheghian Portfolio",
+    siteName: "Mohammad Mohagheghian Portfolio",
     images: [
-      "https://raw.githubusercontent.com/vito-mohagheghian/portfolio/images-db/portfolio/1.png",
-      "https://raw.githubusercontent.com/vito-mohagheghian/portfolio/images-db/portfolio/2.png",
+      "https://raw.githubusercontent.com/mohammad-mghn/portfolio/images-db/portfolio/1.png",
+      "https://raw.githubusercontent.com/mohammad-mghn/portfolio/images-db/portfolio/2.png",
     ],
   },
 };

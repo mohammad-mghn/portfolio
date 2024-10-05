@@ -42,7 +42,7 @@ function AboutLanding({ local }: { local: localType["about"] }) {
         </p>
         <Link
           target={"_blank"}
-          href="https://github.com/vito-mohagheghian"
+          href="https://github.com/mohammad-mghn"
           className={`mt-4 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand ${styles.button}`}
         >
           {local.github}

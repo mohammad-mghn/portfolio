@@ -1,5 +1,5 @@
 <h1 align="center" id="header">
-  Vito Portfolio
+  Mohammad Mohagheghian Portfolio
 </h1>
 
 <a href="https://vito-dev.ir">
@@ -35,9 +35,9 @@
 🛣️ Roadmap
 </h2>
 
-See project's [raodmap](https://github.com/users/vito-mohagheghian/projects/1) on GitHub page.
+See project's [raodmap](https://github.com/users/mohammad-mghn/projects/1) on GitHub page.
 
-See the open [issues](https://github.com/vitomohagheghian/portfolio/issues) for a full list of proposed features (and known issues).
+See the open [issues](https://github.com/mohammad-mghn/portfolio/issues) for a full list of proposed features (and known issues).
 
 <p align="right"><a href="#header">back to top</a></p>
 
@@ -48,7 +48,7 @@ See the open [issues](https://github.com/vitomohagheghian/portfolio/issues) for 
 download zip file, or clone it using git.
 
 ```
-git clone https://github.com/vito-mohagheghian/portfolio.git
+git clone https://github.com/mohammad-mghn/portfolio.git
 ```
 
 then install dependencies using
@@ -99,6 +99,6 @@ Now click this link [https://localhost:3000](https://localhost:3000)
 🦜 Contact
 </h2>
 
-<a href="https://twitter.com/hereisvito" target="_blank"><img alt="Twitter" src="https://img.shields.io/badge/twitter-ffe03a.svg?&style=for-the-badge&logo=twitter&logoColor=white" /></a> <a href="https://www.instagram.com/vito.mohagheghian/" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Instargam-ff8a30?&style=for-the-badge&logo=instagram&logoColor=white" /></a> <a href="mailto:vito.mohagheghian@gmail.com" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Email-fe2424?&style=for-the-badge&logo=gmail&logoColor=white" /></a>
+<a href="https://twitter.com/mohammadmghn" target="_blank"><img alt="Twitter" src="https://img.shields.io/badge/twitter-ffe03a.svg?&style=for-the-badge&logo=twitter&logoColor=white" /></a> <a href="https://www.instagram.com/vito.mohagheghian/" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Instargam-ff8a30?&style=for-the-badge&logo=instagram&logoColor=white" /></a> <a href="mailto:vito.mohagheghian@gmail.com" target="_blank"><img alt="Instagram" src="https://img.shields.io/badge/Email-fe2424?&style=for-the-badge&logo=gmail&logoColor=white" /></a>
 
 <p align="right"><a href="#header">back to top</a></p>
