@@ -18,15 +18,23 @@ import { localType } from "@/types";
 export const metadata: Metadata = {
   title: "Mohammad Mohagheghian",
   description:
-    "mohammad mohagheghian portfolio a software engineer currently developing skills in Front-end",
-  keywords: `Mohammad Mohagehghian,Vito Mohagheghian, front-end developer, web developer, programmer Isfahan, Iran , ReactJs and Nextjs developer`,
+    "Mohammad Mohagheghian portfolio a software engineer currently developing skills in Front-end",
+  keywords: [
+    "Mohammad Mohagehghian",
+    "Mohagheghian",
+    "front-end developer",
+    "web developer",
+    "programmer Isfahan, Iran",
+    "ReactJs and Nextjs developer",
+  ],
+
   openGraph: {
     type: "profile",
     url: "https://vito-dev.ir/",
     siteName: "Mohammad Mohagheghian Portfolio",
     images: [
-      "https://raw.githubusercontent.com/vito-mohagheghian/portfolio/images-db/portfolio/1.png",
-      "https://raw.githubusercontent.com/vito-mohagheghian/portfolio/images-db/portfolio/2.png",
+      "https://raw.githubusercontent.com/mohammad-mghn/portfolio/images-db/portfolio/1.png",
+      "https://raw.githubusercontent.com/mohammad-mghn/portfolio/images-db/portfolio/2.png",
     ],
   },
 };

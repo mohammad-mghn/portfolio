@@ -53,7 +53,11 @@ function Navbar({ local }: { local: localType["navbar"] }) {
       >
         <div className="flex items-center gap-x-4">
           <Link href={`/${local.lang}`}>
-            <Image src={VIcon} alt="vito logo" className="w-10" />
+            <Image
+              src={VIcon}
+              alt="Mohammad Mohagheghian logo"
+              className="w-10"
+            />
           </Link>
 
           <ul className="hidden md:flex gap-x-3">

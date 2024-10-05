@@ -5,15 +5,15 @@ import { GithubIcon, FigmaIcon, WebIcon } from "@/../public/icons/socials";
 export const projects: project[] = [
   {
     media: [
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/1.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/2.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/3.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/4.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/5.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/6.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/7.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/8.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/irtc/9.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/1.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/2.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/3.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/4.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/5.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/6.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/7.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/8.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/9.png?raw=true",
     ],
     title: "IRTC",
     date: "Edited on: June, 2023",
@@ -46,11 +46,11 @@ export const projects: project[] = [
   },
   {
     media: [
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/wins-11/1.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/wins-11/2.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/wins-11/3.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/wins-11/4.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/wins-11/5.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/wins-11/1.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/wins-11/2.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/wins-11/3.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/wins-11/4.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/wins-11/5.png?raw=true",
     ],
     title: "Windows 11 on web",
     date: "Edited on: May, 2022",
@@ -63,15 +63,15 @@ export const projects: project[] = [
       },
       {
         icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/wins-11",
+        link: "https://github.com/mohammad-mghn/wins-11",
       },
     ],
   },
   {
     media: [
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/dev-tab/1.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/dev-tab/2.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/dev-tab/3.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/dev-tab/1.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/dev-tab/2.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/dev-tab/3.png?raw=true",
     ],
     title: "Dev tab",
     date: "Edited on: Feb, 2023",
@@ -84,7 +84,7 @@ export const projects: project[] = [
       },
       {
         icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/dev-tab",
+        link: "https://github.com/mohammad-mghn/dev-tab",
       },
       {
         icon: FigmaIcon,
@@ -94,9 +94,9 @@ export const projects: project[] = [
   },
   // {
   //   media: [
-  //     "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/1.png?raw=true",
-  //     "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/2.png?raw=true",
-  //     "https://github.com/vito-mohagheghian/portfolio/blob/images-db/portfolio/3.png?raw=true",
+  //     "https://github.com/mohammad-mghn/portfolio/blob/images-db/portfolio/1.png?raw=true",
+  //     "https://github.com/mohammad-mghn/portfolio/blob/images-db/portfolio/2.png?raw=true",
+  //     "https://github.com/mohammad-mghn/portfolio/blob/images-db/portfolio/3.png?raw=true",
   //   ],
   //   title: "Portfolio",
   //   date: "Edited on: March, 2022",
@@ -109,7 +109,7 @@ export const projects: project[] = [
   //     },
   //     {
   //       icon: GithubIcon,
-  //       link: "https://github.com/vito-mohagheghian/portfolio",
+  //       link: "https://github.com/mohammad-mghn/portfolio",
   //     },
   //     {
   //       icon: FigmaIcon,
@@ -119,10 +119,10 @@ export const projects: project[] = [
   // },
   {
     media: [
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/1.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/2.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/3.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/jordan-shop/4.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/jordan-shop/1.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/jordan-shop/2.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/jordan-shop/3.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/jordan-shop/4.png?raw=true",
     ],
     title: "Jordan Shop",
     date: "Edited on: May, 2021",
@@ -135,7 +135,7 @@ export const projects: project[] = [
       },
       {
         icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/Jordan-shoes-shop",
+        link: "https://github.com/mohammad-mghn/Jordan-shoes-shop",
       },
       {
         icon: FigmaIcon,
@@ -145,8 +145,8 @@ export const projects: project[] = [
   },
   {
     media: [
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/devsevent/1.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/devsevent/2.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/devsevent/1.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/devsevent/2.png?raw=true",
     ],
     title: "Devs event",
     date: "Edited on: November, 2022",
@@ -159,14 +159,14 @@ export const projects: project[] = [
       },
       {
         icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/devs-event",
+        link: "https://github.com/mohammad-mghn/devs-event",
       },
     ],
   },
   {
     media: [
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/owlearn/1.png?raw=true",
-      "https://github.com/vito-mohagheghian/portfolio/blob/images-db/owlearn/2.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/owlearn/1.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/owlearn/2.png?raw=true",
     ],
     title: "Owlearn",
     date: "Edited on: Jun, 2021",
@@ -179,7 +179,7 @@ export const projects: project[] = [
       },
       {
         icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/owlearn",
+        link: "https://github.com/mohammad-mghn/owlearn",
       },
     ],
   },
@@ -201,13 +201,13 @@ export const projects: project[] = [
       },
       {
         icon: GithubIcon,
-        link: "https://github.com/vito-mohagheghian/Instagram-clone",
+        link: "https://github.com/mohammad-mghn/Instagram-clone",
       },
     ],
   },
   // {
   //   media: [
-  //     "https://github.com/vito-mohagheghian/portfolio/blob/images-db/animate-on-scroll/1.png?raw=true",
+  //     "https://github.com/mohammad-mghn/portfolio/blob/images-db/animate-on-scroll/1.png?raw=true",
   //   ],
   //   title: "Nextjs-animate-on-scroll",
   //   date: "Edited on: Jan, 2022",
@@ -216,7 +216,7 @@ export const projects: project[] = [
   //   links: [
   //     {
   //       icon: GithubIcon,
-  //       link: "https://github.com/vito-mohagheghian/nextjs-animate-on-scroll",
+  //       link: "https://github.com/mohammad-mghn/nextjs-animate-on-scroll",
   //     },
   //   ],
   // },

@@ -45,7 +45,7 @@ function Slider({ media, link }: Props) {
               width={360}
               height={260}
               className="max-w-[90%] max-h-[14rem]"
-              alt="Vito Mohagheghian project preview"
+              alt="Mohammad Mohagheghian project preview"
             />
           </Link>
         </SwiperSlide>

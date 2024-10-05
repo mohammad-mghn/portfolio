@@ -6,7 +6,7 @@ const nextConfig = {
         port: "",
         protocol: "https",
         hostname: "github.com",
-        pathname: "/vito-mohagheghian/portfolio/blob/images-db/**",
+        pathname: "/mohammad-mghn/portfolio/blob/images-db/**",
       },
     ],
   },

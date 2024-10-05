@@ -14,9 +14,12 @@ import { useDictionary } from "@/dictionaries";
 import { localType } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Vito Mohagheghian • About",
-  keywords:
-    "Mohammad Mohagheghian about, محمد محققیان درباره, ویتو محققیان درباره, mohammad mohagheghian about",
+  title: "Mohammad Mohagheghian • About",
+  keywords: [
+    "Mohammad Mohagheghian about",
+    " محمد محققیان درباره",
+    " mohammad mohagheghian about",
+  ],
   description:
     "read about mohammad mohagheghian a software engineer currently developing skills in Front-end",
 };
