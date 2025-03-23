@@ -18,6 +18,7 @@ function Contact({ local }: { local: localType["contact"] }) {
         <h2
           className="mt-3 ml-3 text-xs md:text-base text-text rtl:leading-loose opacity-80"
           data-aos="fade-up"
+          data-aos-once="true"
         >
           {local.description}
         </h2>

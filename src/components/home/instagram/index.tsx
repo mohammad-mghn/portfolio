@@ -18,6 +18,7 @@ function Instagram({ local }: { local: localType["instagram"] }) {
         <h2
           className="md:mt-3 rtl:mt-3 ml-3 text-xs md:text-base text-text rtl:leading-loose opacity-80"
           data-aos="fade-up"
+          data-aos-once="true"
         >
           {local.description}{" "}
           <Link href={socials.instagram} className="text-brand">

@@ -14,6 +14,7 @@ function Skills({ local }: { local: localType["skills"] }) {
         <h2
           className="text-xs md:text-base text-text rtl:leading-loose opacity-80"
           data-aos="fade-up"
+          data-aos-once="true"
         >
           {local.description}
         </h2>
@@ -27,6 +28,7 @@ function Skills({ local }: { local: localType["skills"] }) {
             className="py-2 text-xs sm:text-base text-darker-text select-none"
             data-aos="fade-left"
             data-aos-delay="10000"
+            data-aos-once="true"
           >
             {local.pov}
           </p>

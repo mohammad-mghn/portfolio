@@ -10,11 +10,7 @@ import { styles } from "@/styles";
 import { project } from "@/types";
 import { localType } from "@/types";
 
-function SelectedProjects({
-  local,
-}: {
-  local: localType["selected_projects"];
-}) {
+function SelectedProjects({ local }: { local: localType["selected_projects"] }) {
   return (
     <>
       <section className="md:px-2">
@@ -31,6 +27,7 @@ function SelectedProjects({
           aria-label="projects page"
           className={`${styles.button} mx-auto my-8 px-4 py-2 md:px-6 md:py-3 w-fit border-[3px] border-brand`}
           data-aos="fade-up"
+          data-aos-once="true"
         >
           {local.see_more}
         </Link>

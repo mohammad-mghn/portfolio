@@ -5,6 +5,7 @@ function Header({ children }: { children: ReactNode }) {
     <h1
       className="w-fit text-secondary text-2xl rtl:text-xl font-semibold relative group duration-500"
       data-aos="zoom-out-right"
+      data-aos-once="true"
     >
       <span>{children}</span>
 

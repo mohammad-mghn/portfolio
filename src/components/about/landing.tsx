@@ -10,11 +10,8 @@ import { localType } from "@/types";
 
 function AboutLanding({ local }: { local: localType["about"] }) {
   return (
-    <section
-      className="flex flex-col sm:items-center justify-between py-20 lg:flex-row gap-y-14"
-      id="about"
-    >
-      <div data-aos="fade-up-right">
+    <section className="flex flex-col sm:items-center justify-between py-20 lg:flex-row gap-y-14" id="about">
+      <div data-aos="fade-up-right" data-aos-once="true">
         <h1 className="max-w-[18rem] md:max-w-[25.5rem] text-3xl font-medium text-lighter-text md:text-3xl lg:text-5xl md:leading-tight lg:leading-snug rtl:!leading-loose">
           {local.header}
         </h1>
@@ -31,9 +28,7 @@ function AboutLanding({ local }: { local: localType["about"] }) {
           deletingSpeed={50}
           deletePauseTime={750}
           typePauseTime={0}
-          containerClassName={
-            "mt-2 text-md md:text-lg lg:text-xl font-semibold text-text"
-          }
+          containerClassName={"mt-2 text-md md:text-lg lg:text-xl font-semibold text-text"}
           cursorClassName={"text-brand "}
         />
 
@@ -54,6 +49,7 @@ function AboutLanding({ local }: { local: localType["about"] }) {
         alt="about image"
         className="sm:px-5 w-[30rem]"
         data-aos="fade-down-left"
+        data-aos-once="true"
       />
     </section>
   );

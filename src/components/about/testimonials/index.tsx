@@ -12,6 +12,7 @@ function Testimonials({ local }: { local: localType["testimonials"] }) {
         <h2
           className="text-xs md:text-base text-text rtl:leading-loose opacity-80"
           data-aos="fade-up"
+          data-aos-once="true"
         >
           {local.description}
 

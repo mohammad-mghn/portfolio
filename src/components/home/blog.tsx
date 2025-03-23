@@ -19,6 +19,7 @@ function Blog({ local }: { local: localType["devto"] }) {
             <h2
               className="text-xs md:text-lg text-text rtl:leading-loose opacity-80"
               data-aos="fade-right"
+              data-aos-once="true"
             >
               {local.description}
             </h2>
@@ -28,6 +29,7 @@ function Blog({ local }: { local: localType["devto"] }) {
               href={socials.devto}
               className={`${styles.button} px-4 py-2 md:px-6 md:py-3 border-[3px] border-brand`}
               data-aos="fade-left"
+              data-aos-once="true"
             >
               {local.profile}
             </Link>
