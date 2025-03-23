@@ -4,43 +4,30 @@ import { GithubIcon, FigmaIcon, WebIcon } from "@/../public/icons/socials";
 
 export const projects: project[] = [
   {
-    media: [
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/1.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/2.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/3.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/4.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/5.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/6.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/7.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/8.png?raw=true",
-      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/9.png?raw=true",
-    ],
-    title: "IRTC",
-    date: "Edited on: June, 2023",
-    tags: [
-      "NextJs",
-      "TypeScript",
-      "Front-end dev",
-      "UI/UX design",
-      "JWT",
-      "TailWindCSS",
-      "ReduxJs",
-    ],
-    description: `Introducing an interactive learning and training platform designed to empower both students and educators alike. This website offers a comprehensive admin panel where you can effortlessly create and manage blogs, courses, and user information. With the ability to customize roles and permissions, you gain full control over the learning experience. Engage with students through interactive discussions and foster a collaborative learning environment. The platform comes equipped with a user-friendly interface, making it easy to navigate and utilize its various features. Rest assured that user data is securely stored using advanced encryption protocols. Explore the limitless potential of education with this dynamic and innovative website. ✔ Full blog features ✔ Full admin features ✔ Export all users as an Excel file 🎉 ✔ High security using JWT. I learn lots of new stuffs as well as technical and communicating skills in teams.
-    `,
+    media: ["https://github.com/mohammad-mghn/portfolio/blob/images-db/salecar/1.png?raw=true"],
+    title: "SaleCar",
+    date: "Edited on: June, 2024",
+    tags: ["NextJs", "ReduxJs", "JWT", "UI/UX design", "TailWindCSS", "Front-end dev"],
+    description: `SaleCar is an online car marketplace based in the United Arab Emirates (UAE), connecting buyers and sellers with a seamless and user-friendly experience. The platform includes advanced search filters, WhatsApp integration for direct inquiries, and SEO-optimized car listings to enhance visibility. It is designed to streamline the car-buying process in the UAE market.`,
     // ! this field
     links: [
       {
         icon: WebIcon,
-        link: "https://irtc.iran.liara.run",
+        link: "https://www.salecar.ae/",
       },
+    ],
+  },
+  {
+    media: ["https://github.com/mohammad-mghn/portfolio/blob/images-db/rehansa/1.png?raw=true"],
+    title: "Rehansa",
+    date: "Edited on: Feb, 2025",
+    tags: ["NextJs", "ReactJs", "TailWindCSS", "Next-intl", "TypeScript", "Front-end dev", "UI/UX design"],
+    description: `Rehansa is a business website designed for a German-based tech company, featuring a sleek, modern, and 3D-enhanced design. It highlights the company's technological services while providing an interactive experience. The site is bilingual, supporting both German (Deutsch) and English, and includes communication options for potential clients to get in touch easily.`,
+    // ! this field
+    links: [
       {
-        icon: GithubIcon,
-        link: "https://github.com/ecommerce-six/irtc-frontend",
-      },
-      {
-        icon: FigmaIcon,
-        link: "https://www.figma.com/file/MwvPkir0VT0YoAZWgtgSSh/IRTC?type=design&node-id=0%3A1&t=FyKjt7ZDSFEDcbRI-1",
+        icon: WebIcon,
+        link: "https://rehansa.org/",
       },
     ],
   },
@@ -64,6 +51,67 @@ export const projects: project[] = [
       {
         icon: GithubIcon,
         link: "https://github.com/mohammad-mghn/wins-11",
+      },
+    ],
+  },
+  {
+    media: [
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/1.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/2.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/3.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/4.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/5.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/6.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/7.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/8.png?raw=true",
+      "https://github.com/mohammad-mghn/portfolio/blob/images-db/irtc/9.png?raw=true",
+    ],
+    title: "IRTC",
+    date: "Edited on: June, 2023",
+    tags: ["NextJs", "TypeScript", "Front-end dev", "UI/UX design", "JWT", "TailWindCSS", "ReduxJs"],
+    description: `Introducing an interactive learning and training platform designed to empower both students and educators alike. This website offers a comprehensive admin panel where you can effortlessly create and manage blogs, courses, and user information. With the ability to customize roles and permissions, you gain full control over the learning experience. Engage with students through interactive discussions and foster a collaborative learning environment. The platform comes equipped with a user-friendly interface, making it easy to navigate and utilize its various features. Rest assured that user data is securely stored using advanced encryption protocols. Explore the limitless potential of education with this dynamic and innovative website. ✔ Full blog features ✔ Full admin features ✔ Export all users as an Excel file 🎉 ✔ High security using JWT. I learn lots of new stuffs as well as technical and communicating skills in teams.
+    `,
+    // ! this field
+    links: [
+      {
+        icon: WebIcon,
+        link: "https://irtc.iran.liara.run",
+      },
+      {
+        icon: GithubIcon,
+        link: "https://github.com/ecommerce-six/irtc-frontend",
+      },
+      {
+        icon: FigmaIcon,
+        link: "https://www.figma.com/file/MwvPkir0VT0YoAZWgtgSSh/IRTC?type=design&node-id=0%3A1&t=FyKjt7ZDSFEDcbRI-1",
+      },
+    ],
+  },
+  {
+    media: ["https://github.com/mohammad-mghn/portfolio/blob/images-db/pttfco/1.png?raw=true"],
+    title: "PTTFCO",
+    date: "Edited on: March, 2025",
+    tags: ["NextJs", "ReactJs", "TailWindCSS", "Next-intl", "TypeScript", "Front-end dev", "UI/UX design"],
+    description: `PTTFCO (Pishgaman Tose Tejareat Farda Co.) is an Iranian tech services company website with a professional and visually engaging 3D design. The platform showcases the company's expertise in technology solutions while ensuring easy communication with clients. It is a bilingual website, supporting Persian and English, making it accessible to both local and international audiences.`,
+    // ! this field
+    links: [
+      {
+        icon: WebIcon,
+        link: "https://pttfco-com.vercel.app/",
+      },
+    ],
+  },
+  {
+    media: ["https://github.com/mohammad-mghn/portfolio/blob/images-db/venus-itc/1.png?raw=true"],
+    title: "Venus-ITC",
+    date: "Edited on: Jan, 2025",
+    tags: ["NextJs", "TypeScript", "Front-end dev", "TailWindCSS"],
+    description: `Venus-ITC is an IT consultancy platform that presents technology solutions and digital transformation services. Designed for corporate engagement, the website features a clean and structured layout, focusing on lead generation and client interaction.`,
+    // ! this field
+    links: [
+      {
+        icon: WebIcon,
+        link: "https://www.venus-itc.com/",
       },
     ],
   },
@@ -184,9 +232,7 @@ export const projects: project[] = [
     ],
   },
   {
-    media: [
-      "https://images.livemint.com/img/2023/02/17/600x338/instagram_channels__1676618914528_1676618914961_1676618914961.webp",
-    ],
+    media: ["https://github.com/mohammad-mghn/portfolio/blob/images-db/instagram-clone/1.png?raw=true"],
     title: "Instagram clone",
     date: "Edited on: Feb, 2021",
     tags: ["NextJs", "MongoDB", "JavaScript"],
