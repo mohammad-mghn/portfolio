@@ -1,8 +1,10 @@
 import "server-only";
-import { experience, milestones } from "@/content/seed/journey";
+import { ventures } from "@/content/seed/founding";
+import { experience, journey } from "@/content/seed/journey";
 import { projects } from "@/content/seed/projects";
 import { about, recommendations, recommendationsUrl, siteSettings } from "@/content/seed/site";
 import { formatDate } from "@/lib/format";
+import { buildJourney, type RawJourneyStop } from "./journey";
 import { companyKey, pick, pickStr, toBlocks, toImg } from "./localize";
 import type { BuiltAt, ContentSource, ExperienceType, Locale, PillarKey, Project, ProjectSummary } from "./types";
 
@@ -34,6 +36,13 @@ const summary = (p: (typeof projects)[number], locale: Locale): ProjectSummary =
   featured: p.featured,
   links: p.links,
 });
+
+/** A journey stop that points at an id that does not exist is a seed bug, so fail the build loudly. */
+function byId<T extends { _id: string }>(list: readonly T[], id: string, what: string): T {
+  const hit = list.find((x) => x._id === id);
+  if (!hit) throw new Error(`Seed: journey stop references ${what} "${id}", which does not exist`);
+  return hit;
+}
 
 export const seedSource: ContentSource = {
   async getSiteSettings(locale) {
@@ -105,18 +114,57 @@ export const seedSource: ContentSource = {
     };
   },
 
-  async getMilestones(locale) {
-    return [...milestones].sort(byOrder).map((m) => ({
-      id: m._id,
-      year: pickStr(m.year, locale),
-      title: pickStr(m.title, locale),
-      outcome: pickStr(m.outcome, locale),
-      kind: m.kind,
-      weight: m.weight,
-      tags: m.tags,
-      media: toImg(m.media, locale),
-      sceneBreak: m.sceneBreak,
-      placement: m.placement,
+  async getJourney(locale) {
+    const [roles, ventureList, projectList] = await Promise.all([
+      this.getExperience(locale),
+      this.getVentures(locale),
+      this.getProjects(locale),
+    ]);
+    const raw: RawJourneyStop[] = journey.stops.map((stop) => {
+      if (stop._type === "journeyProject") {
+        return {
+          type: "project",
+          key: stop._key,
+          projects: stop.projects.map((id) => {
+            const slug = byId(projects, id, "project").slug;
+            return projectList.find((p) => p.slug === slug)!;
+          }),
+        };
+      }
+      const overrides = {
+        weight: stop.weight,
+        sceneBreak: stop.sceneBreak,
+        media: toImg(stop.media, locale),
+        highlights: stop.highlights ? pick(stop.highlights, locale, []) : undefined,
+        href: stop.href,
+      };
+      if (stop._type === "journeyVenture") {
+        const slug = byId(ventures, stop.venture, "venture").slug;
+        return { type: "venture", key: stop._key, venture: ventureList.find((v) => v.slug === slug)!, ...overrides };
+      }
+      return {
+        type: "role",
+        key: stop._key,
+        roles: stop.roles.map((id) => roles.find((r) => r.id === byId(experience, id, "experience")._id)!),
+        ...overrides,
+      };
+    });
+    return buildJourney(raw);
+  },
+
+  async getVentures(locale) {
+    return [...ventures].sort(byOrder).map((v) => ({
+      slug: v.slug,
+      name: pickStr(v.name, locale),
+      role: pickStr(v.role, locale),
+      since: v.since,
+      partner: pickStr(v.partner, locale),
+      traction: pickStr(v.traction, locale),
+      summary: pickStr(v.summary, locale),
+      facts: pick(v.facts, locale, []),
+      note: pick(v.note, locale, []),
+      links: v.links,
+      cover: toImg(v.cover, locale),
     }));
   },
 

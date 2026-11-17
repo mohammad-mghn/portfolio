@@ -1,162 +1,87 @@
 /**
- * Seed content: the 3D journey (2021 → now) and the full experience timeline.
- * Source of truth: LinkedIn, read 17 Nov 2026. Experience text is word for word.
- * Journey stops mix jobs, own products, client work, side projects and open source;
- * 2025–2026 stops are `weight: "major"` and drawn bigger.
- * Persian for experience bullets comes in the Persian copy pass (falls back to English).
+ * Seed content: the full experience list (word for word from LinkedIn, read 17 Nov 2026) and the
+ * 3D journey on the home page.
+ *
+ * The journey follows work experience, oldest first. A stop only points at things that already
+ * exist: experience roles, a venture, or 1–3 projects. Names, dates and covers are read from those,
+ * so nothing is typed twice. Roles are the big stops; the projects built there follow as small cards.
  */
 import type { L } from "@/lib/content/types";
 import type { SeedImage } from "./site";
 
-type SeedMilestone = {
-  _id: string;
-  _type: "milestone";
-  order: number;
-  year: L;
-  kind: "roots" | "career" | "venture" | "now";
+type StopOverrides = {
+  /** "major" stops (2025 on) are drawn bigger and hold longer than "minor" ones. */
   weight: "major" | "minor";
-  title: L;
-  outcome: L;
-  tags: string[];
+  /** The scene turns from paper to night at the first stop that sets this. */
+  sceneBreak?: boolean;
   media?: SeedImage;
-  sceneBreak: boolean;
-  placement: "auto" | "start" | "end";
+  /** Up to 3 short "what I built" lines. Defaults to each role's spec.built. */
+  highlights?: L<string[]>;
+  /** Overrides the link (default: the company's anchor on /engineering or the venture on /founding). */
+  href?: string;
 };
 
-export const milestones: SeedMilestone[] = [
-  {
-    _id: "milestone.2021",
-    _type: "milestone",
-    order: 1,
-    year: { en: "2021", fa: "۲۰۲۱" },
-    kind: "career",
-    weight: "minor",
-    title: { en: "First client work", fa: "اولین کار برای مشتری" },
-    outcome: {
-      en: "Freelance from July 2021. On Lusyman, an online shop, I led 2 junior developers; the site reached about 1,000 daily users and 100,000+ monthly visits.",
-      fa: "فریلنس از تیر ۱۴۰۰. در لوسیمن، یک فروشگاه آنلاین، دو توسعه‌دهندهٔ جونیور را هدایت کردم؛ سایت به حدود ۱٬۰۰۰ کاربر روزانه و بیش از ۱۰۰ هزار بازدید ماهانه رسید.",
+export type SeedJourneyStop =
+  | ({ _key: string; _type: "journeyRole"; /** experience `_id`s at one company */ roles: string[] } & StopOverrides)
+  | ({ _key: string; _type: "journeyVenture"; /** venture `_id` */ venture: string } & StopOverrides)
+  | { _key: string; _type: "journeyProject"; /** 1–3 project `_id`s shown on one small card */ projects: string[] };
+
+export const journey: { _id: "journey"; _type: "journey"; stops: SeedJourneyStop[] } = {
+  _id: "journey",
+  _type: "journey",
+  stops: [
+    // 2021 — freelance years, and the open-source work from the same time
+    { _key: "freelance", _type: "journeyRole", roles: ["experience.freelance"], weight: "minor" },
+    { _key: "p-lusyman", _type: "journeyProject", projects: ["project.lusyman"] },
+    { _key: "p-windows-11", _type: "journeyProject", projects: ["project.windows-11"] },
+    { _key: "p-dev-tools", _type: "journeyProject", projects: ["project.dev-tab", "project.devs-event"] },
+    { _key: "p-irtc", _type: "journeyProject", projects: ["project.irtc"] },
+
+    // 2024 — Pishgaman Farda (full-time) and the client projects built there
+    {
+      _key: "pishgaman-farda",
+      _type: "journeyRole",
+      roles: ["experience.pishgaman-frontend", "experience.pishgaman-senior"],
+      weight: "minor",
     },
-    tags: ["Client", "Redux", "React Query"],
-    sceneBreak: false,
-    placement: "auto",
-  },
-  {
-    _id: "milestone.2022",
-    _type: "milestone",
-    order: 2,
-    year: { en: "2022", fa: "۲۰۲۲" },
-    kind: "career",
-    weight: "minor",
-    title: { en: "Windows 11, in a browser tab", fa: "ویندوز ۱۱ در یک تب مرورگر" },
-    outcome: {
-      en: "An open-source Windows 11 simulation in React and Redux, now at 140+ GitHub stars. The same year: Devs Event, my first project on a remote team.",
-      fa: "شبیه‌سازی متن‌باز ویندوز ۱۱ با React و Redux که حالا بیش از ۱۴۰ ستاره در گیت‌هاب دارد. همان سال Devs Event، اولین پروژه‌ام در یک تیم دورکار.",
+    { _key: "p-salecar", _type: "journeyProject", projects: ["project.salecar"] },
+    { _key: "p-sinkara", _type: "journeyProject", projects: ["project.sinkara"] },
+    { _key: "p-company-sites", _type: "journeyProject", projects: ["project.rehansa", "project.venus-itc", "project.pttfco"] },
+
+    // 2024 — university association
+    { _key: "amcsui", _type: "journeyRole", roles: ["experience.amcsui-frontend", "experience.amcsui-technical-lead"], weight: "minor" },
+
+    // 2025 — RCOINX (full-time)
+    {
+      _key: "rcoinx",
+      _type: "journeyRole",
+      roles: ["experience.rcoinx"],
+      weight: "minor",
+      media: { src: "/work/rcoinx/1.jpg", width: 1280, height: 681, alt: { en: "RCOINX home page", fa: "صفحهٔ اصلی RCOINX" } },
     },
-    tags: ["Open source", "React", "Redux"],
-    media: { src: "/work/windows-11/1.png", width: 2079, height: 1309, alt: { en: "Windows 11 On Web", fa: "Windows 11 On Web" } },
-    sceneBreak: false,
-    placement: "auto",
-  },
-  {
-    _id: "milestone.2024",
-    _type: "milestone",
-    order: 3,
-    year: { en: "2024", fa: "۲۰۲۴" },
-    kind: "career",
-    weight: "minor",
-    title: { en: "Clients in the UAE and Germany", fa: "مشتری‌هایی در امارات و آلمان" },
-    outcome: {
-      en: "At Pishgaman Farda: SaleCar, a car marketplace for the UAE, and shared UIs for clients in Germany and the UAE, reaching 5,000+ users according to the client. Then led the Sinkara CEM frontend.",
-      fa: "در پیشگامان فردا: SaleCar، بازارگاه خودرو برای امارات، و رابط‌های مشترک برای مشتری‌هایی در آلمان و امارات که به گفتهٔ مشتری به بیش از ۵٬۰۰۰ کاربر رسیدند. بعد هم راهبری فرانت‌اند Sinkara CEM.",
+
+    // 2025 — Nobar (full-time), three roles
+    {
+      _key: "nobar",
+      _type: "journeyRole",
+      roles: ["experience.nobar-founding-frontend", "experience.nobar-senior-frontend", "experience.nobar-software-engineer"],
+      weight: "major",
+      sceneBreak: true,
+      highlights: {
+        en: ["A design system of 100+ components", "A captcha product in 4 npm packages", "Backend services for the cloud platform"],
+        fa: ["دیزاین سیستمی با بیش از ۱۰۰ کامپوننت", "محصول کپچا در ۴ پکیج npm", "سرویس‌های بک‌اند پلتفرم ابری"],
+      },
     },
-    tags: ["Client", "Next.js", "Lead"],
-    media: { src: "/work/salecar/cover.png", width: 1600, height: 1000, alt: { en: "SaleCar", fa: "SaleCar" } },
-    sceneBreak: false,
-    placement: "auto",
-  },
-  {
-    _id: "milestone.2025-nobar",
-    _type: "milestone",
-    order: 4,
-    year: { en: "2025", fa: "۲۰۲۵" },
-    kind: "career",
-    weight: "major",
-    title: { en: "Founding frontend at Nobar", fa: "فرانت‌اند بنیان‌گذار در نوبر" },
-    outcome: {
-      en: "Took a B2B cloud product from an early prototype to production across the website, user console and dashboard, on a design system of 100+ components.",
-      fa: "یک محصول ابری B2B را از نمونهٔ اولیه به محصول نهایی رساندم؛ در وب‌سایت، کنسول کاربر و داشبورد، روی دیزاین سیستمی با بیش از ۱۰۰ کامپوننت.",
-    },
-    tags: ["Nobar", "Design system", "B2B cloud"],
-    sceneBreak: true,
-    placement: "auto",
-  },
-  {
-    _id: "milestone.2025-rooza",
-    _type: "milestone",
-    order: 5,
-    year: { en: "2025", fa: "۲۰۲۵" },
-    kind: "venture",
-    weight: "major",
-    title: { en: "From an open-source PR to co-founding Rooza", fa: "از یک مشارکت متن‌باز تا هم‌بنیان‌گذاری روزا" },
-    outcome: {
-      en: "A design-system contribution to Widgetify led Mahdi Khodadadi to offer me paid work or equity. I chose equity, and we built Rooza: 3,000+ users on Chrome and Firefox.",
-      fa: "مشارکتم در دیزاین سیستم Widgetify باعث شد مهدی خدادادی پیشنهاد کار پولی یا سهم بدهد. سهم را انتخاب کردم و روزا را ساختیم: بیش از ۳٬۰۰۰ کاربر روی کروم و فایرفاکس.",
-    },
-    tags: ["Founding", "Open source", "Extension"],
-    media: { src: "/work/rooza/1.jpg", width: 1672, height: 941, alt: { en: "Rooza", fa: "روزا" } },
-    sceneBreak: false,
-    placement: "auto",
-  },
-  {
-    _id: "milestone.2026-agent-assist",
-    _type: "milestone",
-    order: 6,
-    year: { en: "2026", fa: "۲۰۲۶" },
-    kind: "venture",
-    weight: "major",
-    title: { en: "Agent Assist, with Hassan Faraji", fa: "Agent Assist، با حسن فرجی" },
-    outcome: {
-      en: "A browser extension that brings approved replies into helpdesks, CRMs and email. 100+ support agents use it at companies including Digikala and Mobinnet.",
-      fa: "افزونه‌ای که پاسخ‌های تأییدشده را به هلپ‌دسک، CRM و ایمیل می‌آورد. بیش از ۱۰۰ کارشناس پشتیبانی در شرکت‌هایی مثل دیجی‌کالا و مبین‌نت از آن استفاده می‌کنند.",
-    },
-    tags: ["Founding", "Extension", "B2B"],
-    media: { src: "/work/agent-assist/1.png", width: 2078, height: 1239, alt: { en: "Agent Assist", fa: "Agent Assist" } },
-    sceneBreak: false,
-    placement: "auto",
-  },
-  {
-    _id: "milestone.2026-captcha",
-    _type: "milestone",
-    order: 7,
-    year: { en: "2026", fa: "۲۰۲۶" },
-    kind: "career",
-    weight: "major",
-    title: { en: "A captcha product, from scratch", fa: "یک محصول کپچا، از صفر" },
-    outcome: {
-      en: "Built Nobar's captcha, including its checkbox and challenge frames, as a monorepo of 4 npm packages with 99%+ test coverage.",
-      fa: "کپچای نوبر را با فریم‌های چک‌باکس و چالش، به‌صورت مونوریپویی از ۴ پکیج npm و پوشش تست بیش از ۹۹٪ ساختم.",
-    },
-    tags: ["Nobar", "Monorepo", "Testing"],
-    sceneBreak: false,
-    placement: "auto",
-  },
-  {
-    _id: "milestone.now",
-    _type: "milestone",
-    order: 8,
-    year: { en: "Now", fa: "اکنون" },
-    kind: "now",
-    weight: "major",
-    title: { en: "Engineer first: into the backend", fa: "اول مهندسی: رفتن به سمت بک‌اند" },
-    outcome: {
-      en: "Software Engineer at Nobar since September 2026, on a large microservice system with FastAPI, OpenStack and OpenShift, building features across the full stack.",
-      fa: "از شهریور ۱۴۰۵ مهندس نرم‌افزار در نوبر؛ روی یک سیستم بزرگ میکروسرویسی با FastAPI، OpenStack و OpenShift، و ساختن فیچرها در کل استک.",
-    },
-    tags: ["Backend", "FastAPI", "Cloud"],
-    sceneBreak: false,
-    placement: "auto",
-  },
-];
+
+    // 2025 — Rooza (co-founder)
+    { _key: "rooza", _type: "journeyVenture", venture: "venture.rooza", weight: "major" },
+    { _key: "p-rooza", _type: "journeyProject", projects: ["project.rooza"] },
+
+    // 2026 — Agent Assist (co-founder)
+    { _key: "agent-assist", _type: "journeyVenture", venture: "venture.agent-assist", weight: "major" },
+    { _key: "p-agent-assist", _type: "journeyProject", projects: ["project.agent-assist"] },
+  ],
+};
 
 type SeedExperience = {
   _id: string;

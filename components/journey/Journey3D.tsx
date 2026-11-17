@@ -1,30 +1,61 @@
 "use client";
 
+import { useLenis } from "lenis/react";
 import Image from "next/image";
-import { useRef } from "react";
-import type { Milestone } from "@/lib/content/types";
+import { useEffect, useRef, type ReactNode } from "react";
+import { Link } from "@/i18n/navigation";
+import type { Img, JourneyLink } from "@/lib/content/types";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { setTone } from "@/lib/tone";
-import { cameraAt, layoutJourney, stopGap, type JourneyLayout, type Vec3 } from "./layout";
+import { cameraAt, layoutJourney, WEIGHTS, type JourneyLayout, type Vec3 } from "./layout";
 import styles from "./Journey.module.css";
 
-type Labels = {
-  eyebrow: string;
-  title: string;
-  hint: string;
-  kinds: Record<Milestone["kind"], string>;
-};
+/** A stop as the scene draws it. Every string arrives formatted for the locale (see JourneySection). */
+export type StopView =
+  | {
+      kind: "role";
+      id: string;
+      weight: "major" | "minor";
+      /** Role number, "01" … "07". */
+      number: string;
+      /** "Pishgaman Farda · Full-time": shown in the bottom bar while this role and its projects pass. */
+      chapter: string;
+      year: string;
+      title: string;
+      type: string;
+      roles: { title: string; period: string }[];
+      highlights: string[];
+      media?: Img;
+      link: JourneyLink;
+      cta: string;
+      sceneBreak: boolean;
+    }
+  | {
+      kind: "project";
+      id: string;
+      weight: "project";
+      number: string;
+      chapter: string;
+      /** "Built at Pishgaman Farda", "Freelance client project"… */
+      attach: string;
+      items: { slug: string; title: string; meta: string; cover?: Img; link: JourneyLink; cta: string }[];
+    };
+
+type Labels = { eyebrow: string; title: string; hint: string };
 
 type Props = {
-  milestones: Milestone[];
+  stops: StopView[];
   dir: "ltr" | "rtl";
   labels: Labels;
-  /** Locale-formatted counters, e.g. "01" or "۰۱". */
-  numbers: string[];
+  /** Number of roles, formatted: the "07" in "02 / 07". */
+  total: string;
 };
 
 const LIGHT = { bg: "#edeae3", ink: "#151412", card: "#f4f2ec", hair: "#d3cec3", thread: "#ff5a1f" };
 const DARK = { bg: "#121311", ink: "#ece8df", card: "#1c1d1a", hair: "#2f302b", thread: "#ff7a3d" };
+
+/** A card can be clicked once it is this opaque, i.e. it is the one in front of the camera. */
+const LIVE_OPACITY = 0.6;
 
 const smoothstep = (a: number, b: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
@@ -33,12 +64,42 @@ const smoothstep = (a: number, b: number, x: number) => {
 
 type Star = Vec3 & { r: number };
 
-export function Journey3D({ milestones, dir, labels, numbers }: Props) {
+/** Internal pages go through the router (case studies open in the overlay), other sites open a new tab. */
+function StopLink({ link, className, children }: { link: JourneyLink; className?: string; children: ReactNode }) {
+  if (link.kind === "external") {
+    return (
+      <a href={link.href} target="_blank" rel="noreferrer" className={className}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={link.href} scroll={link.kind === "modal" ? false : undefined} className={className}>
+      {children}
+    </Link>
+  );
+}
+
+const Arrow = ({ external }: { external: boolean }) => (
+  <span aria-hidden className={external ? undefined : "inline-block rtl:-scale-x-100"}>
+    {external ? "↗" : "→"}
+  </span>
+);
+
+export function Journey3D({ stops, dir, labels, total }: Props) {
   const root = useRef<HTMLElement>(null);
-  const count = milestones.length;
-  const breakIndex = milestones.findIndex((m) => m.sceneBreak);
-  // Scroll length in "stops": early (minor) stops pass quicker than the last two years.
-  const scrollStops = milestones.reduce((sum, m) => sum + (m.weight === "major" ? 1.2 : 0.75), 0);
+  const lenis = useLenis();
+  const lenisRef = useRef(lenis);
+  useEffect(() => {
+    lenisRef.current = lenis;
+  }, [lenis]);
+
+  const count = stops.length;
+  const breakIndex = stops.findIndex((s) => s.kind === "role" && s.sceneBreak);
+  // Scroll length in "stops": projects pass quickly, recent roles hold longest.
+  const scrollStops = stops.reduce((sum, s) => sum + WEIGHTS[s.weight].scroll, 0);
+  // Rebuild the scene only when the stops themselves change, not on every content refresh.
+  const stopsKey = stops.map((s) => `${s.id}:${s.weight}`).join("|");
 
   useGSAP(
     () => {
@@ -48,10 +109,13 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
       const world = section.querySelector<HTMLElement>(`.${styles.world}`)!;
       const cards = gsap.utils.toArray<HTMLElement>(`.${styles.card}`, section);
       const ghosts = gsap.utils.toArray<HTMLElement>(`.${styles.ghost}`, section);
+      const ghostStop = ghosts.map((el) => Number(el.dataset.i));
       const threadCanvas = section.querySelector<HTMLCanvasElement>(`.${styles.thread}`)!;
       const starCanvas = section.querySelector<HTMLCanvasElement>(`.${styles.stars}`)!;
       const counter = section.querySelector<HTMLElement>(`.${styles.counter}`)!;
+      const chapter = section.querySelector<HTMLElement>(`.${styles.chapter}`)!;
       const bar = section.querySelector<HTMLElement>(`.${styles.barFill}`)!;
+      const weights = stops.map((s) => s.weight);
 
       const mm = gsap.matchMedia();
       mm.add(
@@ -77,8 +141,10 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
           let layout: JourneyLayout;
           let stars: Star[] = [];
           const state = { p: 0 };
+          const live = cards.map(() => false);
           let lastP = -1;
           let lastTone = -1;
+          let lastStop = -1;
           let dirty = true;
           let stuck = false;
 
@@ -95,35 +161,28 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
             tctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-            layout = layoutJourney({
-              count,
-              dir,
-              vw: W,
-              vh: H,
-              compact,
-              placements: milestones.map((m) => m.placement),
-              weights: milestones.map((m) => m.weight),
-            });
+            layout = layoutJourney({ dir, vw: W, vh: H, compact, weights, heights: cards.map((el) => el.offsetHeight) });
             stage.style.perspective = `${layout.perspective}px`;
+            stage.style.setProperty("--stem", `${layout.stem}px`);
 
             cards.forEach((el, i) => {
               const p = layout.points[i];
               el.style.transform = `translate3d(${p.x}px, ${p.y}px, ${p.z}px) translate(-50%, -50%)`;
             });
-            ghosts.forEach((el, i) => {
-              const g = layout.ghosts[i];
+            ghosts.forEach((el, n) => {
+              const g = layout.ghosts[ghostStop[n]];
               el.style.transform = `translate3d(${g.x}px, ${g.y}px, ${g.z}px) translate(-50%, -50%)`;
             });
 
             // Deterministic star field spanning the whole flight.
-            const total = layout.length + layout.depth;
+            const span = layout.length + layout.depth;
             const n = compact ? 70 : 170;
             let seed = 7;
             const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
             stars = Array.from({ length: n }, () => ({
               x: (rnd() - 0.5) * W * 2.6,
               y: (rnd() - 0.5) * H * 2.6,
-              z: layout.depth * 0.8 - rnd() * total,
+              z: layout.depth * 0.8 - rnd() * span,
               r: 0.4 + rnd() * 1.3,
             }));
             dirty = true;
@@ -134,7 +193,8 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
             const P = layout.perspective;
             if (Z > P - 40) return null;
             const s = P / (P - Z);
-            return { x: W / 2 + (pt.x - cam.x) * s, y: H / 2 + (pt.y - cam.y) * s, s, Z };
+            // The world's origin sits at 52% of the stage height (see the CSS), 2% below the vanishing point.
+            return { x: W / 2 + (pt.x - cam.x) * s, y: H / 2 + (H * 0.02 + pt.y - cam.y) * s, s, Z };
           };
 
           const fade = (Z: number, nearFrom = 0.22, nearTo = 0.55) => {
@@ -156,9 +216,15 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
               const o = fade(layout.points[i].z + cam.z);
               el.style.opacity = o.toFixed(3);
               el.style.visibility = o < 0.01 ? "hidden" : "visible";
+              // Only the card in front of the camera takes clicks; the faded ones behind it do not.
+              const isLive = o >= LIVE_OPACITY;
+              if (isLive !== live[i]) {
+                live[i] = isLive;
+                el.toggleAttribute("data-live", isLive);
+              }
             });
-            ghosts.forEach((el, i) => {
-              const o = fade(layout.ghosts[i].z + cam.z, -0.15, 0.12) * 0.85;
+            ghosts.forEach((el, n) => {
+              const o = fade(layout.ghosts[ghostStop[n]].z + cam.z, -0.15, 0.12) * 0.85;
               el.style.opacity = o.toFixed(3);
               el.style.visibility = o < 0.01 ? "hidden" : "visible";
             });
@@ -211,6 +277,26 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
                 tctx.stroke();
               }
             }
+            // A bead on the thread at every stop: a ring for a role, a dot where a project's stem lands.
+            const bg = gsap.utils.interpolate(LIGHT.bg, DARK.bg, tone);
+            layout.anchors.forEach((anchor, i) => {
+              const q = project(anchor, cam);
+              if (!q) return;
+              const alpha = fade(q.Z);
+              if (alpha <= 0.01) return;
+              const isProject = weights[i] === "project";
+              const r = (isProject ? 3 : 5.5) * Math.min(2, q.s);
+              tctx.globalAlpha = alpha;
+              tctx.beginPath();
+              tctx.arc(q.x, q.y, r, 0, Math.PI * 2);
+              tctx.fillStyle = isProject ? color : bg;
+              tctx.fill();
+              if (!isProject) {
+                tctx.lineWidth = 1.6 * Math.min(2, q.s);
+                tctx.strokeStyle = color;
+                tctx.stroke();
+              }
+            });
             const head = pts.find((q) => q && q.Z < -layout.depth * 0.08);
             if (head) {
               const r = 5 * Math.min(2, head.s);
@@ -222,17 +308,16 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
               tctx.beginPath();
               tctx.arc(head.x, head.y, r * 6, 0, Math.PI * 2);
               tctx.fill();
-              tctx.globalAlpha = 1;
-              tctx.fillStyle = color;
-              tctx.beginPath();
-              tctx.arc(head.x, head.y, r, 0, Math.PI * 2);
-              tctx.fill();
             }
             tctx.globalAlpha = 1;
 
-            // HUD
+            // HUD: the role number and chapter stay put while that role's project cards pass.
             const stop = Math.round(state.p);
-            counter.textContent = `${numbers[stop]} / ${numbers[count - 1]}`;
+            if (stop !== lastStop) {
+              lastStop = stop;
+              counter.textContent = `${stops[stop].number} / ${total}`;
+              chapter.textContent = stops[stop].chapter;
+            }
             bar.style.transform = `scaleX(${count > 1 ? state.p / (count - 1) : 1})`;
           };
 
@@ -251,14 +336,28 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
               },
             },
           });
-          // Travel time follows the gap to each stop; recent stops also hold a little longer.
-          const hold = (i: number) => (milestones[i].weight === "major" ? 0.45 : 0.2);
+          // Travel time follows the gap to each stop; the camera then rests on it for its `hold`.
+          // The last stop holds like a major one so the section does not end abruptly on a small card.
+          const hold = (i: number) => (i === count - 1 ? WEIGHTS.major.hold : WEIGHTS[weights[i]].hold);
           tl.addLabel("m0").to({}, { duration: hold(0) });
           for (let i = 1; i < count; i++) {
-            tl.to(state, { p: i, duration: stopGap(milestones[i].weight) })
+            tl.to(state, { p: i, duration: WEIGHTS[weights[i]].gap })
               .addLabel(`m${i}`)
               .to({}, { duration: hold(i) });
           }
+
+          // Keyboard: tabbing to a card that is still far away flies the camera to it.
+          const onFocusIn = (e: FocusEvent) => {
+            const target = e.target as HTMLElement | null;
+            if (!target?.matches(":focus-visible")) return;
+            const i = cards.indexOf(target.closest<HTMLElement>(`.${styles.card}`)!);
+            const st = tl.scrollTrigger;
+            if (i < 0 || !st) return;
+            const y = st.labelToScroll(`m${i}`);
+            if (lenisRef.current) lenisRef.current.scrollTo(y);
+            else window.scrollTo({ top: y });
+          };
+          section.addEventListener("focusin", onFocusIn);
 
           const onResize = () => {
             build();
@@ -273,12 +372,14 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
           return () => {
             gsap.ticker.remove(render);
             ro.disconnect();
+            section.removeEventListener("focusin", onFocusIn);
             setTone("journey", false);
             section.dataset.mode = "flat";
             [...cards, ...ghosts].forEach((el) => {
               el.style.transform = "";
               el.style.opacity = "";
               el.style.visibility = "";
+              el.removeAttribute("data-live");
             });
             world.style.transform = "";
             stage.style.perspective = "";
@@ -288,8 +389,12 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
 
       return () => mm.revert();
     },
-    { scope: root, dependencies: [milestones, dir], revertOnUpdate: true },
+    { scope: root, dependencies: [stopsKey, dir, total], revertOnUpdate: true },
   );
+
+  // One outlined year per new year, behind the first role that starts in it: 2021, 2024, 2025, 2026.
+  const roleStops = stops.flatMap((s, i) => (s.kind === "role" ? [{ i, year: s.year, weight: s.weight }] : []));
+  const ghostYears = roleStops.filter((r, n) => n === 0 || roleStops[n - 1].year !== r.year);
 
   return (
     <section
@@ -305,53 +410,103 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
         <canvas className={styles.thread} aria-hidden />
 
         <div className={styles.world}>
-          {milestones.map((m, i) => (
-            <span
-              key={`${m.id}-ghost`}
-              className={styles.ghost}
-              data-weight={m.weight}
-              // Two stops in the same year share one numeral.
-              data-dup={i > 0 && milestones[i - 1].year === m.year ? "" : undefined}
-              aria-hidden
-            >
-              {m.year}
+          {ghostYears.map((g) => (
+            <span key={`ghost-${g.i}`} className={styles.ghost} data-i={g.i} data-weight={g.weight} aria-hidden>
+              {g.year}
             </span>
           ))}
           <ol className={styles.list}>
-            {milestones.map((m, i) => (
-              <li key={m.id} className={styles.card} data-kind={m.kind} data-weight={m.weight}>
-                <div className="text-label flex items-center justify-between gap-4 opacity-70">
-                  <span>
-                    {numbers[i]} / {numbers[count - 1]}
-                  </span>
-                  <span>{labels.kinds[m.kind]}</span>
-                </div>
-                <p className={styles.year}>{m.year}</p>
-                {m.media ? (
-                  <div className={styles.media}>
-                    <Image
-                      src={m.media.src}
-                      alt={m.media.alt}
-                      width={m.media.width}
-                      height={m.media.height}
-                      sizes="(max-width: 767px) 80vw, 520px"
-                      className="h-full w-full object-cover object-top"
-                    />
+            {stops.map((s) =>
+              s.kind === "role" ? (
+                <li key={s.id} className={styles.card} data-kind="role" data-weight={s.weight}>
+                  <div className="text-label flex items-center justify-between gap-4 opacity-70">
+                    <span>
+                      {s.number} / {total}
+                    </span>
+                    <span>{s.type}</span>
                   </div>
-                ) : null}
-                <h3 className={styles.cardTitle}>{m.title}</h3>
-                <p className={styles.outcome}>{m.outcome}</p>
-                {m.tags.length ? (
-                  <ul className="mt-5 flex flex-wrap gap-1.5">
-                    {m.tags.map((t) => (
-                      <li key={t} className={styles.tag}>
-                        {t}
+                  <p className={styles.year}>{s.year}</p>
+                  {s.media ? (
+                    <div className={styles.media}>
+                      <Image
+                        src={s.media.src}
+                        alt={s.media.alt}
+                        width={s.media.width}
+                        height={s.media.height}
+                        sizes="(max-width: 767px) 80vw, 520px"
+                        className="h-full w-full object-cover object-top"
+                      />
+                    </div>
+                  ) : null}
+                  <h3 className={styles.cardTitle}>
+                    <StopLink link={s.link} className={styles.cover}>
+                      {s.title}
+                    </StopLink>
+                  </h3>
+                  <ul className={styles.roles}>
+                    {s.roles.map((r) => (
+                      <li key={`${r.title}-${r.period}`}>
+                        <span className={styles.roleTitle}>{r.title}</span>
+                        <span className={styles.period}>{r.period}</span>
                       </li>
                     ))}
                   </ul>
-                ) : null}
-              </li>
-            ))}
+                  {s.highlights.length ? (
+                    <ul className={styles.highlights}>
+                      {s.highlights.map((h) => (
+                        <li key={h}>{h}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  <p className={styles.cta} aria-hidden>
+                    {s.cta} <Arrow external={s.link.kind === "external"} />
+                  </p>
+                </li>
+              ) : s.items.length === 1 ? (
+                <li key={s.id} className={styles.card} data-kind="project" data-weight="project">
+                  {s.items[0].cover ? (
+                    <div className={styles.thumb}>
+                      <Image
+                        src={s.items[0].cover.src}
+                        alt=""
+                        width={s.items[0].cover.width}
+                        height={s.items[0].cover.height}
+                        sizes="280px"
+                        loading="eager"
+                        className="h-full w-full object-cover object-top"
+                      />
+                    </div>
+                  ) : null}
+                  <p className={styles.attach}>{s.attach}</p>
+                  <h4 className={styles.projectTitle}>
+                    <StopLink link={s.items[0].link} className={styles.cover}>
+                      {s.items[0].title}
+                    </StopLink>
+                  </h4>
+                  <p className={styles.meta}>{s.items[0].meta}</p>
+                  <p className={styles.cta} aria-hidden>
+                    {s.items[0].cta} <Arrow external={s.items[0].link.kind === "external"} />
+                  </p>
+                </li>
+              ) : (
+                <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-stack="">
+                  <p className={styles.attach}>{s.attach}</p>
+                  <ul className={styles.stack}>
+                    {s.items.map((item) => (
+                      <li key={item.slug}>
+                        <StopLink link={item.link} className={styles.stackLink}>
+                          <span>
+                            <span className={styles.projectTitle}>{item.title}</span>
+                            <span className={styles.meta}>{item.meta}</span>
+                          </span>
+                          <Arrow external={item.link.kind === "external"} />
+                        </StopLink>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ),
+            )}
           </ol>
         </div>
 
@@ -362,12 +517,13 @@ export function Journey3D({ milestones, dir, labels, numbers }: Props) {
           </h2>
         </header>
         <div className={styles.hudBottom} aria-hidden>
-          <span className="text-label">{labels.hint}</span>
+          <span className={`text-label ${styles.hint}`}>{labels.hint}</span>
           <span className={styles.bar}>
             <span className={styles.barFill} />
           </span>
+          <span className={`text-label ${styles.chapter}`}>{stops[0].chapter}</span>
           <span className={`text-label ${styles.counter}`}>
-            {numbers[0]} / {numbers[count - 1]}
+            {stops[0].number} / {total}
           </span>
         </div>
       </div>

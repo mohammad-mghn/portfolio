@@ -101,20 +101,64 @@ export type Recommendation = {
   href?: string;
 };
 
-export type MilestoneKind = "roots" | "career" | "venture" | "now";
+/** Where a journey card goes: a case study in the overlay, a page anchor, or another site. */
+export type JourneyLink = { href: string; kind: "modal" | "page" | "external" };
 
-export type Milestone = {
+/** A job, a role group at one company, or a co-founded venture: the big stops of the journey. */
+export type JourneyRoleStop = {
+  kind: "role";
   id: string;
-  year: string;
-  title: string;
-  outcome: string;
-  kind: MilestoneKind;
-  /** "major" stops (the last two years) are drawn bigger than "minor" early ones. */
+  /** "major" stops (2025 on) are drawn bigger than "minor" early ones. */
   weight: "major" | "minor";
-  tags: string[];
+  /** Year the first role started, "2024". */
+  year: string;
+  /** Company or venture name. */
+  title: string;
+  employment: ExperienceType;
+  /** Roles held there, oldest first. Dates are "YYYY-MM". */
+  roles: { title: string; start: string; end?: string }[];
+  /** Up to 3 short lines on what was built. */
+  highlights: string[];
   media?: Img;
+  link: JourneyLink;
   sceneBreak: boolean;
-  placement: "auto" | "start" | "end";
+};
+
+export type JourneyProjectItem = {
+  slug: string;
+  title: string;
+  kind: string;
+  year: string;
+  cover?: Img;
+  link: JourneyLink;
+};
+
+/** One small card with 1–3 projects, shown after the role they were built in. */
+export type JourneyProjectStop = {
+  kind: "project";
+  id: string;
+  weight: "project";
+  /** How the projects relate to the role before them. */
+  attach: { kind: "builtAt"; company: string } | { kind: "freelance" | "cofounded" | "personal" };
+  items: JourneyProjectItem[];
+};
+
+export type JourneyStop = JourneyRoleStop | JourneyProjectStop;
+
+/** A product Mohammad co-founded, as told on the Founding page. */
+export type Venture = {
+  slug: string;
+  name: string;
+  role: string;
+  /** "YYYY-MM". */
+  since: string;
+  partner: string;
+  traction: string;
+  summary: string;
+  facts: string[];
+  note: string[];
+  links: { label: string; href: string }[];
+  cover?: Img;
 };
 
 export type ExperienceType = "founder" | "employee" | "freelance" | "community";
@@ -187,7 +231,8 @@ export type Project = ProjectSummary & {
 export interface ContentSource {
   getSiteSettings(locale: Locale): Promise<SiteSettings>;
   getAbout(locale: Locale): Promise<About>;
-  getMilestones(locale: Locale): Promise<Milestone[]>;
+  getJourney(locale: Locale): Promise<JourneyStop[]>;
+  getVentures(locale: Locale): Promise<Venture[]>;
   getExperience(locale: Locale): Promise<Experience[]>;
   getProjects(locale: Locale): Promise<ProjectSummary[]>;
   getProject(locale: Locale, slug: string): Promise<Project | null>;

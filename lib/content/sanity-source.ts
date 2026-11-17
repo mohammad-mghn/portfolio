@@ -2,6 +2,7 @@ import "server-only";
 import { defineQuery } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
 import { formatDate } from "@/lib/format";
+import { buildJourney, type RawJourneyStop } from "./journey";
 import { companyKey, pick, pickStr } from "./localize";
 import type {
   BuiltAt,
@@ -10,7 +11,6 @@ import type {
   Img,
   L,
   Locale,
-  MilestoneKind,
   PillarKey,
   Project,
   ProjectGroup,
@@ -29,7 +29,11 @@ const img = (i: SImg | undefined, locale: Locale): Img | undefined =>
 
 const SITE = defineQuery(`*[_type == "siteSettings"][0]`);
 const ABOUT = defineQuery(`*[_type == "about"][0]{ ..., "portrait": portrait${IMG} }`);
-const MILESTONES = defineQuery(`*[_type == "milestone"] | order(order asc){ ..., "media": media${IMG} }`);
+// Journey stops hold references only; they are resolved against the lists below by id or slug.
+const JOURNEY = defineQuery(
+  `*[_type == "journey"][0].stops[]{ _key, _type, weight, sceneBreak, highlights, href, "media": media${IMG}, "roles": roles[]._ref, "venture": venture->slug.current, "projects": projects[]->slug.current }`,
+);
+const VENTURES = defineQuery(`*[_type == "venture"] | order(order asc){ ..., "slug": slug.current, "cover": cover${IMG} }`);
 const BUILT_AT = `"builtAt": builtAt->{ _id, company, type }`;
 const EXPERIENCE = defineQuery(
   `*[_type == "experience"] | order(order asc){ ..., "projects": *[_type == "project" && builtAt._ref == ^._id && defined(slug.current)] | order(order asc){ "slug": slug.current, title } }`,
@@ -154,19 +158,53 @@ export const sanitySource: ContentSource = {
     };
   },
 
-  async getMilestones(locale) {
-    const list = (await fetchDoc<Doc[]>(MILESTONES)) ?? [];
-    return list.map((m) => ({
-      id: m._id,
-      year: pickStr(m.year, locale),
-      title: pickStr(m.title, locale),
-      outcome: pickStr(m.outcome, locale),
-      kind: (m.kind ?? "career") as MilestoneKind,
-      weight: m.weight === "major" ? "major" : "minor",
-      tags: m.tags ?? [],
-      media: img(m.media, locale),
-      sceneBreak: Boolean(m.sceneBreak),
-      placement: m.placement ?? "auto",
+  async getJourney(locale) {
+    const [stops, roles, ventureList, projectList] = await Promise.all([
+      fetchDoc<Doc[] | null>(JOURNEY),
+      this.getExperience(locale),
+      this.getVentures(locale),
+      this.getProjects(locale),
+    ]);
+    const found = <T,>(list: (T | undefined)[]) => list.filter((x): x is T => Boolean(x));
+    const raw: RawJourneyStop[] = [];
+    for (const s of stops ?? []) {
+      if (s._type === "journeyProject") {
+        const refs = (s.projects ?? []) as string[];
+        raw.push({ type: "project", key: s._key, projects: found(refs.map((slug) => projectList.find((p) => p.slug === slug))) });
+        continue;
+      }
+      const overrides = {
+        weight: s.weight === "major" ? ("major" as const) : ("minor" as const),
+        sceneBreak: Boolean(s.sceneBreak),
+        media: img(s.media, locale),
+        highlights: s.highlights ? pick<string[]>(s.highlights, locale, []) : undefined,
+        href: s.href as string | undefined,
+      };
+      if (s._type === "journeyVenture") {
+        const venture = ventureList.find((v) => v.slug === s.venture);
+        if (venture) raw.push({ type: "venture", key: s._key, venture, ...overrides });
+        continue;
+      }
+      const refs = (s.roles ?? []) as string[];
+      raw.push({ type: "role", key: s._key, roles: found(refs.map((id) => roles.find((r) => r.id === id))), ...overrides });
+    }
+    return buildJourney(raw);
+  },
+
+  async getVentures(locale) {
+    const list = (await fetchDoc<Doc[]>(VENTURES)) ?? [];
+    return list.map((v) => ({
+      slug: v.slug ?? "",
+      name: pickStr(v.name, locale),
+      role: pickStr(v.role, locale),
+      since: v.since ?? "",
+      partner: pickStr(v.partner, locale),
+      traction: pickStr(v.traction, locale),
+      summary: pickStr(v.summary, locale),
+      facts: pick<string[]>(v.facts, locale, []),
+      note: pick<string[]>(v.note, locale, []),
+      links: ((v.links ?? []) as Doc[]).map((l) => ({ label: l.label ?? "", href: l.href ?? "" })),
+      cover: img(v.cover, locale),
     }));
   },
 

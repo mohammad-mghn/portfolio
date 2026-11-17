@@ -19,7 +19,8 @@ const getSource = cache(async (): Promise<ContentSource> => {
 
 export const getSiteSettings = cache(async (locale: Locale) => (await getSource()).getSiteSettings(locale));
 export const getAbout = cache(async (locale: Locale) => (await getSource()).getAbout(locale));
-export const getMilestones = cache(async (locale: Locale) => (await getSource()).getMilestones(locale));
+export const getJourney = cache(async (locale: Locale) => (await getSource()).getJourney(locale));
+export const getVentures = cache(async (locale: Locale) => (await getSource()).getVentures(locale));
 export const getExperience = cache(async (locale: Locale) => (await getSource()).getExperience(locale));
 export const getProjects = cache(async (locale: Locale) => (await getSource()).getProjects(locale));
 export const getProject = cache(async (locale: Locale, slug: string) => (await getSource()).getProject(locale, slug));

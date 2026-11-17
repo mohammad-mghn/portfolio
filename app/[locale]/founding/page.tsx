@@ -9,8 +9,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { getAbout, getProjectSlugs, getSiteSettings } from "@/lib/content";
-import { getVentures } from "@/lib/content/founding";
+import { getAbout, getProjectSlugs, getSiteSettings, getVentures } from "@/lib/content";
 import { formatIndex, formatMonth } from "@/lib/format";
 import { alternatesFor } from "@/lib/site";
 

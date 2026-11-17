@@ -1,12 +1,14 @@
 /**
  * Founding page content: the ventures as companies, and the founder's story.
  * Facts come from LinkedIn (projects, experience, the Rooza post and Hassan Faraji's Agent Assist post).
- * Seed-only for now: the story is long-form copy that changes rarely.
  */
 import type { L } from "@/lib/content/types";
 import type { SeedImage } from "./site";
 
 export type SeedVenture = {
+  _id: string;
+  _type: "venture";
+  order: number;
   slug: string;
   name: L;
   role: L;
@@ -22,6 +24,9 @@ export type SeedVenture = {
 
 export const ventures: SeedVenture[] = [
   {
+    _id: "venture.rooza",
+    _type: "venture",
+    order: 1,
     slug: "rooza",
     name: { en: "Rooza", fa: "روزا" },
     role: { en: "Co-founder & software engineer", fa: "هم‌بنیان‌گذار و مهندس نرم‌افزار" },
@@ -70,6 +75,9 @@ export const ventures: SeedVenture[] = [
     cover: { src: "/work/rooza/1.jpg", width: 1672, height: 941, alt: { en: "Rooza", fa: "روزا" } },
   },
   {
+    _id: "venture.agent-assist",
+    _type: "venture",
+    order: 2,
     slug: "agent-assist",
     name: { en: "Agent Assist", fa: "Agent Assist" },
     role: { en: "Co-founder & software engineer", fa: "هم‌بنیان‌گذار و مهندس نرم‌افزار" },

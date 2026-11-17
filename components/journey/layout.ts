@@ -1,18 +1,31 @@
 export type Vec3 = { x: number; y: number; z: number };
-export type Placement = "auto" | "start" | "end";
-export type Weight = "major" | "minor";
+export type Weight = "major" | "minor" | "project";
 
-/** How much flight a stop gets: recent ("major") stops sit further apart than early ones. */
-export const stopGap = (w: Weight | undefined) => (w === "minor" ? 0.7 : 1);
+/**
+ * How much room a stop gets, by weight:
+ * `gap` is the flight distance to it (× the base depth), `hold` how long the camera rests on it,
+ * `scroll` its share of the section's scroll length. Roles from 2025 on are "major", earlier
+ * roles "minor", and the project cards between them are small and pass quickly.
+ * A project's gap (0.48) is just past the point where the card behind has fully faded.
+ */
+export const WEIGHTS: Record<Weight, { gap: number; hold: number; scroll: number }> = {
+  major: { gap: 1, hold: 0.45, scroll: 1.2 },
+  minor: { gap: 0.7, hold: 0.2, scroll: 0.75 },
+  project: { gap: 0.48, hold: 0.12, scroll: 0.5 },
+};
 
 export type JourneyLayout = {
   /** Card centres in world space (z goes into the screen, negative). */
   points: Vec3[];
   /** Oversized ghost year numerals, set back and to the opposite side for parallax. */
   ghosts: Vec3[];
-  /** Pre-sampled Catmull-Rom curve through all stops (the glowing thread). */
+  /** Where the thread passes each stop: under a role card, at the end of a project card's stem. */
+  anchors: Vec3[];
+  /** Pre-sampled Catmull-Rom curve through all anchors (the glowing thread). */
   samples: Vec3[];
-  /** Base distance between two stops; minor stops use a fraction of it (see `stopGap`). */
+  /** Length of the short line that ties a project card to the thread. */
+  stem: number;
+  /** Base distance between two stops; each weight uses a fraction of it (see `WEIGHTS`). */
   depth: number;
   /** Distance from the first stop to the last. */
   length: number;
@@ -21,13 +34,13 @@ export type JourneyLayout = {
 };
 
 type Options = {
-  count: number;
   dir: "ltr" | "rtl";
   vw: number;
   vh: number;
   compact: boolean;
-  placements?: Placement[];
-  weights?: Weight[];
+  weights: Weight[];
+  /** Rendered card heights, so a project's stem starts exactly at the card's bottom edge. */
+  heights?: number[];
 };
 
 const catmull = (p0: Vec3, p1: Vec3, p2: Vec3, p3: Vec3, t: number): Vec3 => {
@@ -55,35 +68,42 @@ export function sampleSpline(points: Vec3[], perSegment: number): Vec3[] {
  * Pure placement of the journey in 3D. Cards alternate lanes along a gentle sine and recede
  * into depth; RTL mirrors x so the first stop enters from the reading-start side.
  */
-export function layoutJourney({ count, dir, vw, vh, compact, placements, weights }: Options): JourneyLayout {
+export function layoutJourney({ dir, vw, vh, compact, weights, heights }: Options): JourneyLayout {
+  const count = weights.length;
   const depth = compact ? 1050 : 1500;
   const perspective = compact ? 900 : 1200;
   const lane = compact ? vw * 0.05 : Math.min(vw * 0.16, 320);
   const mirror = dir === "rtl" ? -1 : 1;
+  const stem = compact ? 36 : 52;
+  // Wide major cards sit a little closer to the centre line; small project cards a little further out.
+  const pull: Record<Weight, number> = { major: 0.85, minor: 1.1, project: 1.25 };
 
   let z = 0;
-  const points: Vec3[] = Array.from({ length: count }, (_, i) => {
-    const placement = placements?.[i] ?? "auto";
-    const side = placement === "start" ? -1 : placement === "end" ? 1 : i % 2 === 0 ? -1 : 1;
-    if (i > 0) z -= depth * stopGap(weights?.[i]);
-    // Major cards are wider, so they sit a little closer to the centre line.
-    const pull = weights?.[i] === "major" ? 0.85 : 1.1;
+  const points: Vec3[] = weights.map((w, i) => {
+    const side = i % 2 === 0 ? -1 : 1;
+    if (i > 0) z -= depth * WEIGHTS[w].gap;
     return {
-      x: side * lane * pull * mirror,
+      x: side * lane * pull[w] * mirror,
       y: Math.sin(i * 1.3) * vh * (compact ? 0.025 : 0.05),
       z,
     };
   });
 
-  const ghosts = points.map((p) => ({
+  const ghosts = points.map((p, i) => ({
     x: compact ? 0 : -p.x * 2.6,
     y: p.y + vh * (compact ? -0.2 : -0.04),
-    z: p.z - depth * 0.5,
+    // Closer behind its stop when a project card follows, so the numeral fades before that card arrives.
+    z: p.z - depth * (weights[i + 1] === "project" ? 0.3 : 0.5),
   }));
 
-  // The thread runs just beneath each card (cards would otherwise hide it), like a path on the ground.
+  // The thread runs just beneath each role card (cards would otherwise hide it), like a path on
+  // the ground, and rises to meet the stem under each project card.
   const drop = vh * (compact ? 0.33 : 0.36);
-  const anchors = points.map((p) => ({ x: p.x * 1.15, y: p.y + drop, z: p.z + depth * 0.08 }));
+  const anchors = points.map((p, i) =>
+    weights[i] === "project"
+      ? { x: p.x, y: p.y + (heights?.[i] ?? 240) / 2 + stem, z: p.z }
+      : { x: p.x * 1.15, y: p.y + drop, z: p.z + depth * 0.08 },
+  );
   const first = anchors[0];
   const last = anchors[count - 1] ?? first;
   const controls: Vec3[] = [
@@ -95,7 +115,9 @@ export function layoutJourney({ count, dir, vw, vh, compact, placements, weights
   return {
     points,
     ghosts,
-    samples: sampleSpline(controls, compact ? 18 : 28),
+    anchors,
+    samples: sampleSpline(controls, compact ? 14 : 22),
+    stem,
     depth,
     length: -z,
     perspective,

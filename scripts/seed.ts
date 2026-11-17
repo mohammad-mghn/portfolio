@@ -10,7 +10,7 @@ import { createReadStream, existsSync } from "node:fs";
 import { basename, join } from "node:path";
 import { createClient } from "@sanity/client";
 import { config } from "dotenv";
-import { experience, milestones } from "../content/seed/journey";
+import { experience } from "../content/seed/journey";
 import { projects } from "../content/seed/projects";
 import { about, recommendations, siteSettings } from "../content/seed/site";
 
@@ -85,9 +85,6 @@ async function main() {
     portrait: await image({ src: "/brand/portrait.png", alt: siteSettings.name }),
   });
 
-  for (const m of milestones) {
-    docs.push({ ...m, media: await image("media" in m ? (m.media as SeedImage) : undefined) });
-  }
   for (const e of experience) docs.push({ ...e });
 
   for (const p of projects) {

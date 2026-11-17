@@ -60,13 +60,18 @@
     "eyebrow": "The journey",
     "title": "2021 to now.",
     "hint": "Scroll to travel",
-    "kinds": {
-      "roots": "Start",
-      "career": "Engineering",
-      "venture": "Founding",
-      "now": "Now"
+    "more": "Full experience",
+    "present": "Present",
+    "builtAt": "Built at {company}",
+    "attach": {
+      "freelance": "Freelance client project",
+      "cofounded": "Co-founded product",
+      "personal": "Open source and personal"
     },
-    "more": "Full experience"
+    "viewRole": "See the role",
+    "viewStory": "Read the story",
+    "viewProject": "Open project",
+    "visit": "Visit site"
   },
   "building": {
     "eyebrow": "Experience",
