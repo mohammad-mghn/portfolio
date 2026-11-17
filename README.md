@@ -6,6 +6,7 @@ Editorial portfolio with a 3D scroll journey, in **English and Persian (RTL)**. 
 pnpm install
 pnpm dev          # http://localhost:3001  (Persian at /fa, panel at /studio)
 pnpm build        # production build
+pnpm preview      # production build served on http://localhost:3002 (measure speed here)
 pnpm lint && pnpm typecheck
 pnpm seed:check   # the seed content fits the CMS schema
 pnpm cms:check    # the CMS path shows the same content as the seed, in both languages
@@ -110,4 +111,5 @@ scripts/                 seed, and the two offline checks
 - The journey falls back to a plain grouped list for `prefers-reduced-motion` and before the page is interactive.
 - Persian has its own type scale ("Persian type" in `app/globals.css`): Estedad for headings and text, Markazi Text for accent words, and the English faces for Latin words inside Persian text. Fonts and their licences are listed in `public/fonts/LICENSES.md`.
 - Content marked `data-reveal` / `data-split` is visible without JavaScript; the motion code only hides what is still below the screen (`components/motion/ScrollReveals.tsx`).
+- Measure speed on `pnpm preview`, never on `pnpm dev`: the dev server sends unminified code with debugging tools, so Lighthouse reports a slow LCP, Speed Index and TBT there that the real site does not have. Use an Incognito window, because browser extensions add to TBT.
 - Section spacing comes from two tokens in `app/globals.css`: `--space-section` (every light section pads with it, top and bottom) and `--space-band` (dark bands).

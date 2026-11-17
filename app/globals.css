@@ -411,6 +411,18 @@
 }
 
 /*
+ * The language link names the other language in its own script. On English pages that is "فا":
+ * set in the Persian font, a little larger than the Latin labels beside it so it reads the same size.
+ */
+:root:not([lang="fa"]) .lang-switch {
+  font-family: "Estedad Switch", var(--font-label);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/*
  * Menu: the social links. On desktop each one is a full-width row with a larger label, so the
  * whole line is the click target instead of a 10px word.
  */

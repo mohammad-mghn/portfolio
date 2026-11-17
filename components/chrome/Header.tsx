@@ -55,7 +55,7 @@ export function Header(props: Props) {
           <a
             href={switchHref}
             hrefLang={locale === "fa" ? "en" : "fa"}
-            className="text-label flex min-h-[44px] min-w-[44px] items-center justify-center px-3 transition-opacity duration-300 hover:opacity-60"
+            className="text-label lang-switch flex min-h-[44px] min-w-[44px] items-center justify-center px-3 transition-opacity duration-300 hover:opacity-60"
             aria-label={labels.languageLabel}
           >
             {labels.language}

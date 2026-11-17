@@ -100,7 +100,7 @@ export function Menu({
           <a
             href={top.switchHref}
             hrefLang={top.hrefLang}
-            className="text-label flex min-h-[44px] min-w-[44px] items-center justify-center px-3 hover:text-accent"
+            className="text-label lang-switch flex min-h-[44px] min-w-[44px] items-center justify-center px-3 hover:text-accent"
             aria-label={top.languageLabel}
           >
             {top.language}
