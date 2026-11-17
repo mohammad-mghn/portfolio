@@ -47,5 +47,19 @@
     "tsx": "^4.23.15",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@10.9.0"
+  "packageManager": "pnpm@10.9.0",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@sentry/react": "11.12.0",
+      "@sentry/browser": "11.12.0",
+      "@sentry/core": "11.12.0"
+    },
+    "ignoredBuiltDependencies": [
+      "sharp",
+      "unrs-resolver"
+    ]
+  }
 }

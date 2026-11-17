@@ -15,7 +15,7 @@ WORKDIR /app
 # 1. Dependencies (cached until the lockfile changes)
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # 2. Build

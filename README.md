@@ -106,7 +106,7 @@ scripts/                 seed, and the two offline checks
 
 ## Notes
 
-- `pnpm-workspace.yaml` pins `@sentry/*` to 11.12.0: `sanity@6.23` pulls `@sentry/react@11.13.0`, whose `@sentry/core@11.13.0` was never published. Remove the override once npm is fixed.
+- `package.json` (the `pnpm.overrides` field) pins `@sentry/*` to 11.12.0: `sanity@6.23` pulls `@sentry/react@11.13.0`, whose `@sentry/core@11.13.0` was never published. Remove the override once npm is fixed.
 - Turbopack runs Tailwind only on non-module CSS (`next.config.ts`), so `*.module.css` keeps its scoping.
 - The journey falls back to a plain grouped list for `prefers-reduced-motion` and before the page is interactive.
 - Persian has its own type scale ("Persian type" in `app/globals.css`): Estedad for headings and text, Markazi Text for accent words, and the English faces for Latin words inside Persian text. Fonts and their licences are listed in `public/fonts/LICENSES.md`.
