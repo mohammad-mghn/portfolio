@@ -119,10 +119,12 @@ export type Milestone = {
 
 export type ExperienceType = "founder" | "employee" | "freelance" | "community";
 
-/** One role, word for word from LinkedIn. Roles at the same company share `company`. */
+/** One role, word for word from LinkedIn. Roles at the same company share `company` and `companyKey`. */
 export type Experience = {
   id: string;
   company: string;
+  /** Slug of the English company name: the anchor on /engineering ("nobar", "pishgaman-farda"). */
+  companyKey: string;
   companyNote?: string;
   url?: string;
   role: string;
@@ -136,12 +138,19 @@ export type Experience = {
   tech: string[];
   /** Small spec block: what was built first, then the outcome. */
   spec: { built: string; outcome?: string };
+  /** Client projects built in this role, linked to their pages on /work. */
+  projects: { slug: string; title: string }[];
 };
 
 export type ProjectStatus = "live" | "nda" | "offline" | "archived";
 
-/** How a project relates to Mohammad: his own product, Nobar work, client work or a side project. */
-export type ProjectGroup = "own" | "nobar" | "client" | "side";
+/** How a project relates to Mohammad: a product he co-founded, a client project, or open source / personal work. */
+export type ProjectGroup = "cofounded" | "client" | "personal";
+
+/** The role a client project was built in: a full-time job (type "employee") or the freelance years. */
+export type BuiltAt = { experienceId: string; companyKey: string; company: string; type: ExperienceType };
+
+export type ProjectLinks = { live?: string; repo?: string; figma?: string };
 
 export type ProjectSummary = {
   slug: string;
@@ -152,12 +161,16 @@ export type ProjectSummary = {
   scope: string[];
   status: ProjectStatus;
   group: ProjectGroup;
+  builtAt?: BuiltAt;
+  /** "Co-founded with …" for co-founded products. */
+  partner?: string;
   /** Full case study page (true) or a short card (false). */
   caseStudy: boolean;
   color: string;
   summary: string;
   cover?: Img;
   featured: boolean;
+  links: ProjectLinks;
 };
 
 export type Project = ProjectSummary & {
@@ -169,7 +182,6 @@ export type Project = ProjectSummary & {
   result: RichText;
   gallery: Img[];
   stack: string[];
-  links: { live?: string; repo?: string; figma?: string };
 };
 
 export interface ContentSource {

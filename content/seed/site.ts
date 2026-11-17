@@ -93,8 +93,8 @@ export const about = {
       fa: "هم‌بنیان‌گذار روزا، افزونهٔ دوزبانهٔ تب جدید مرورگر با بیش از ۳٬۰۰۰ کاربر",
     },
     {
-      en: "Built Agent Assist with Hassan Faraji, a tool used by 100+ support agents that brings approved replies into helpdesks, CRMs and email",
-      fa: "ساخت Agent Assist با حسن فرجی؛ ابزاری که بیش از ۱۰۰ کارشناس پشتیبانی با آن پاسخ‌های تأییدشده را در هلپ‌دسک، CRM و ایمیل وارد می‌کنند",
+      en: "Co-founder of Agent Assist with Hassan Faraji, a tool used by 100+ support agents that brings approved replies into helpdesks, CRMs and email",
+      fa: "هم‌بنیان‌گذار Agent Assist در کنار حسن فرجی؛ ابزاری که بیش از ۱۰۰ کارشناس پشتیبانی با آن پاسخ‌های تأییدشده را در هلپ‌دسک، CRM و ایمیل وارد می‌کنند",
     },
     {
       en: "Technical Lead at my university's computer science association, leading 7 developers",
@@ -117,12 +117,13 @@ export const about = {
       key: "engineering",
       title: { en: "Engineering", fa: "مهندسی" },
       proof: {
-        en: "Backend microservices with FastAPI, OpenStack and OpenShift at Nobar, after building its 100+ component design system and frontend monorepo.",
-        fa: "میکروسرویس‌های بک‌اند با FastAPI، OpenStack و OpenShift در نوبر؛ بعد از ساختن دیزاین سیستم بیش از ۱۰۰ کامپوننتی و مونوریپوی فرانت‌اند.",
+        en: "I build the server side of a cloud platform at Nobar. Before that I built its interface: 100+ reusable components used across its products.",
+        fa: "در نوبر سمت سرور یک پلتفرم ابری را می‌سازم. پیش از آن رابط کاربری‌اش را ساختم: بیش از ۱۰۰ کامپوننت قابل استفادهٔ مجدد که در همهٔ محصولاتش به کار می‌رود.",
       },
       points: {
-        en: ["FastAPI · OpenStack · OpenShift", "100+ component design system", "Captcha product, 4 npm packages"],
-        fa: ["FastAPI · OpenStack · OpenShift", "دیزاین سیستم با بیش از ۱۰۰ کامپوننت", "محصول کپچا در ۴ پکیج npm"],
+        // Plain words on the home page; the technology names live on /engineering.
+        en: ["Backend services for a cloud platform", "A design system of 100+ components", "A captcha product built from scratch"],
+        fa: ["سرویس‌های بک‌اند یک پلتفرم ابری", "دیزاین سیستمی با بیش از ۱۰۰ کامپوننت", "محصول کپچا، ساخته‌شده از صفر"],
       },
       href: "/engineering",
     },
@@ -130,12 +131,12 @@ export const about = {
       key: "founding",
       title: { en: "Founding", fa: "بنیان‌گذاری" },
       proof: {
-        en: "Co-founder of Rooza, a new-tab extension with 3,000+ users. Built Agent Assist, used by 100+ support agents at Digikala and Mobinnet.",
-        fa: "هم‌بنیان‌گذار روزا، افزونهٔ تب جدید با بیش از ۳٬۰۰۰ کاربر. سازندهٔ Agent Assist که بیش از ۱۰۰ کارشناس پشتیبانی در دیجی‌کالا و مبین‌نت با آن کار می‌کنند.",
+        en: "Co-founder of Rooza, a new-tab extension with 3,000+ users, and of Agent Assist, used by 100+ support agents at Digikala and Mobinnet.",
+        fa: "هم‌بنیان‌گذار روزا، افزونهٔ تب جدید با بیش از ۳٬۰۰۰ کاربر، و Agent Assist که بیش از ۱۰۰ کارشناس پشتیبانی در دیجی‌کالا و مبین‌نت با آن کار می‌کنند.",
       },
       points: {
-        en: ["Rooza · co-founder", "Agent Assist · with Hassan Faraji", "Chose equity over cash"],
-        fa: ["روزا · هم‌بنیان‌گذار", "Agent Assist · با حسن فرجی", "سهم را به پول نقد ترجیح دادم"],
+        en: ["Rooza · co-founder", "Agent Assist · co-founder", "Chose equity over cash"],
+        fa: ["روزا · هم‌بنیان‌گذار", "Agent Assist · هم‌بنیان‌گذار", "سهم را به پول نقد ترجیح دادم"],
       },
       href: "/founding",
     },
@@ -143,12 +144,12 @@ export const about = {
       key: "product",
       title: { en: "Product building", fa: "ساختن محصول" },
       proof: {
-        en: "From 0 to 1: idea, interface, backend and launch, for my own products and for clients in the UAE, Germany and Iran.",
-        fa: "از صفر تا یک: ایده، رابط کاربری، بک‌اند و انتشار؛ هم برای محصولات خودم و هم برای مشتری‌هایی در امارات، آلمان و ایران.",
+        en: "From idea to launch: design, interface, backend and release, for my own products and for clients in the UAE, Germany and Iran.",
+        fa: "از ایده تا انتشار: طراحی، رابط کاربری، بک‌اند و عرضه؛ هم برای محصولات خودم و هم برای مشتری‌هایی در امارات، آلمان و ایران.",
       },
       points: {
-        en: ["SaleCar · UAE marketplace", "Windows 11 On Web · 140+ stars", "Lusyman · 100K+ monthly visits"],
-        fa: ["SaleCar · بازارگاه خودرو در امارات", "Windows 11 On Web · بیش از ۱۴۰ ستاره", "لوسیمن · بیش از ۱۰۰ هزار بازدید ماهانه"],
+        en: ["SaleCar · car marketplace in the UAE", "Windows 11 On Web · 140+ GitHub stars", "Lusyman · 100K+ monthly visits"],
+        fa: ["SaleCar · بازارگاه خودرو در امارات", "Windows 11 On Web · بیش از ۱۴۰ ستاره در گیت‌هاب", "لوسیمن · بیش از ۱۰۰ هزار بازدید ماهانه"],
       },
       href: "/work",
     },

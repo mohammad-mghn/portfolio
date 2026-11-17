@@ -1,7 +1,9 @@
 /**
  * Seed content: projects. Facts come from Mohammad's LinkedIn (experience, projects and
  * recommendations, read 17 Nov 2026) plus the products' own repos for stack details.
- * No invented metrics. Order = homepage and /work order: own products, Nobar, client work, side projects.
+ * No invented metrics. Order = homepage and /work order: co-founded products, client projects, open source.
+ * Full-time jobs (Nobar, RCOINX, Pishgaman Farda) are experience roles in journey.ts, not projects; a client
+ * project that was built inside a job or as a freelancer points at that role with `builtAt`.
  * Persian is drafted where it shows on the homepage; the rest falls back to English until the Persian pass.
  */
 import type { L } from "@/lib/content/types";
@@ -14,8 +16,12 @@ type SeedProject = {
   slug: string;
   order: number;
   featured: boolean;
-  /** own = Mohammad's products, nobar = Nobar work, client = client work, side = side projects. */
-  group: "own" | "nobar" | "client" | "side";
+  /** cofounded = products Mohammad co-founded, client = client projects, personal = open source and personal. */
+  group: "cofounded" | "client" | "personal";
+  /** The experience role (`_id` in journey.ts) this was built in: a full-time job or the freelance years. */
+  builtAt?: string;
+  /** Who it was co-founded with, e.g. "Co-founded with Mahdi Khodadadi". */
+  partner?: L;
   /** Full case study (true) or a short card (false). */
   caseStudy: boolean;
   title: L;
@@ -52,7 +58,7 @@ const cover = (slug: string, en: string, fa: string): SeedImage => ({
 });
 
 export const projects: SeedProject[] = [
-  // ── Own products ─────────────────────────────────────────────────────────
+  // ── Co-founded products ─────────────────────────────────────────────────────────
   {
     _id: "project.rooza",
     _type: "project",
@@ -60,7 +66,7 @@ export const projects: SeedProject[] = [
     slug: "rooza",
     order: 1,
     featured: true,
-    group: "own",
+    group: "cofounded",
     caseStudy: true,
     title: { en: "Rooza", fa: "روزا" },
     year: "2025",
@@ -70,7 +76,7 @@ export const projects: SeedProject[] = [
     status: "live",
     color: "#7E1418",
     role: { en: "Co-founder & software engineer", fa: "هم‌بنیان‌گذار و مهندس نرم‌افزار" },
-    client: { en: "Co-founded with Mahdi Khodadadi", fa: "هم‌بنیان‌گذاری با مهدی خدادادی" },
+    partner: { en: "Co-founded with Mahdi Khodadadi", fa: "هم‌بنیان‌گذاری با مهدی خدادادی" },
     summary: {
       en: "A bilingual new-tab browser extension with 3,000+ users, three calendars, widgets and its own ad platform. Co-founded with Mahdi Khodadadi.",
       fa: "افزونهٔ دوزبانهٔ تب جدید با بیش از ۳٬۰۰۰ کاربر، سه تقویم، ویجت‌ها و پلتفرم تبلیغاتی اختصاصی. هم‌بنیان‌گذاری با مهدی خدادادی.",
@@ -123,19 +129,20 @@ export const projects: SeedProject[] = [
     slug: "agent-assist",
     order: 2,
     featured: true,
-    group: "own",
+    group: "cofounded",
     caseStudy: true,
     title: { en: "Agent Assist", fa: "Agent Assist" },
     year: "2026",
     sector: { en: "Customer support", fa: "پشتیبانی مشتری" },
     kind: { en: "Browser extension", fa: "افزونهٔ مرورگر" },
-    scope: { en: ["Co-builder", "Extension", "Front-end"], fa: ["هم‌سازنده", "افزونه", "فرانت‌اند"] },
+    scope: { en: ["Co-founder", "Extension", "Front-end"], fa: ["هم‌بنیان‌گذار", "افزونه", "فرانت‌اند"] },
     status: "live",
     color: "#1F2A44",
-    role: { en: "Built with Hassan Faraji", fa: "ساخته‌شده با حسن فرجی" },
+    role: { en: "Co-founder & software engineer", fa: "هم‌بنیان‌گذار و مهندس نرم‌افزار" },
+    partner: { en: "Co-founded with Hassan Faraji", fa: "هم‌بنیان‌گذاری با حسن فرجی" },
     summary: {
-      en: "A browser extension used by 100+ support agents at companies including Digikala and Mobinnet: type / or # to insert an approved reply without switching tabs.",
-      fa: "افزونهٔ مرورگری که بیش از ۱۰۰ کارشناس پشتیبانی در شرکت‌هایی مثل دیجی‌کالا و مبین‌نت از آن استفاده می‌کنند: با تایپ / یا # پاسخ تأییدشده را بدون عوض کردن تب وارد می‌کنند.",
+      en: "A browser extension used by 100+ support agents at companies including Digikala and Mobinnet: type / or # to insert an approved reply without switching tabs. Co-founded with Hassan Faraji.",
+      fa: "افزونهٔ مرورگری که بیش از ۱۰۰ کارشناس پشتیبانی در شرکت‌هایی مثل دیجی‌کالا و مبین‌نت از آن استفاده می‌کنند: با تایپ / یا # پاسخ تأییدشده را بدون عوض کردن تب وارد می‌کنند. هم‌بنیان‌گذاری با حسن فرجی.",
     },
     problem: {
       en: [
@@ -173,75 +180,17 @@ export const projects: SeedProject[] = [
     ],
   },
 
-  // ── Nobar (public screens only) ─────────────────────────────────────────
-  {
-    _id: "project.nobar",
-    _type: "project",
-    needsReview: true,
-    slug: "nobar",
-    order: 3,
-    featured: true,
-    group: "nobar",
-    caseStudy: true,
-    title: { en: "Nobar", fa: "نوبر" },
-    year: "2025",
-    sector: { en: "Cloud infrastructure", fa: "زیرساخت ابری" },
-    kind: { en: "B2B cloud product", fa: "محصول ابری B2B" },
-    scope: { en: ["Design system", "Captcha", "Backend"], fa: ["دیزاین سیستم", "کپچا", "بک‌اند"] },
-    status: "nda",
-    color: "#173A5E",
-    client: { en: "Nobar", fa: "نوبر" },
-    role: {
-      en: "Founding frontend engineer → senior frontend → software engineer",
-      fa: "فرانت‌اند بنیان‌گذار ← فرانت‌اند ارشد ← مهندس نرم‌افزار",
-    },
-    summary: {
-      en: "A B2B cloud product taken from prototype to production: a 100+ component design system, a captcha built as 4 npm packages, and now backend microservices.",
-      fa: "یک محصول ابری B2B از نمونهٔ اولیه تا محصول نهایی: دیزاین سیستمی با بیش از ۱۰۰ کامپوننت، کپچایی در ۴ پکیج npm و حالا میکروسرویس‌های بک‌اند.",
-    },
-    problem: {
-      en: [
-        "An early-stage B2B cloud product needed a frontend foundation that later developers could build on, and one consistent experience across the website, user console and dashboard.",
-      ],
-      fa: [
-        "یک محصول ابری B2B در مراحل اولیه به پایه‌ای برای فرانت‌اند نیاز داشت که توسعه‌دهنده‌های بعدی بتوانند رویش بسازند، و به تجربه‌ای یکدست در وب‌سایت، کنسول کاربر و داشبورد."
-      ],
-    },
-    decision: {
-      en: [
-        "Built a design system of 100+ reusable components, matching the design team's specs closely, and a clean initial codebase.",
-        "Built a captcha product from scratch, including its checkbox and challenge frames, as a monorepo of 4 npm packages with 99%+ test coverage.",
-        "Moved to backend: a large microservice system with FastAPI, OpenStack and OpenShift, building features across frontend panels, the user console, backend services and the website.",
-      ],
-      fa: [
-        "دیزاین سیستمی با بیش از ۱۰۰ کامپوننت قابل استفادهٔ مجدد، دقیقاً مطابق طراحی تیم دیزاین، و یک کدبیس اولیهٔ تمیز ساختم.",
-        "یک محصول کپچا را از صفر ساختم، با فریم‌های چک‌باکس و چالش، به‌صورت مونوریپویی از ۴ پکیج npm با پوشش تست بیش از ۹۹٪.",
-        "رفتن به بک‌اند: یک سیستم بزرگ میکروسرویسی با FastAPI، OpenStack و OpenShift، و ساختن فیچرها در پنل‌های فرانت‌اند، کنسول کاربر، سرویس‌های بک‌اند و وب‌سایت."
-      ],
-    },
-    result: {
-      en: [
-        "Development time cut to about a quarter by moving shared code into reusable packages, and one consistent, smooth experience across the product.",
-      ],
-      fa: [
-        "با انتقال کدهای مشترک به پکیج‌های قابل استفادهٔ مجدد، زمان توسعه تقریباً یک‌چهارم شد و کل محصول تجربه‌ای یکدست و روان پیدا کرد."
-      ],
-    },
-    stack: ["TypeScript", "Next.js", "React", "FastAPI", "OpenStack", "OpenShift"],
-    links: {},
-    gallery: [],
-  },
-
   // ── Client work ──────────────────────────────────────────────────────────
   {
     _id: "project.salecar",
     _type: "project",
     needsReview: true,
     slug: "salecar",
-    order: 4,
+    order: 3,
     featured: true,
     group: "client",
     caseStudy: true,
+    builtAt: "experience.pishgaman-frontend",
     title: { en: "SaleCar", fa: "SaleCar" },
     year: "2024",
     sector: { en: "Automotive marketplace", fa: "بازارگاه خودرو" },
@@ -249,7 +198,6 @@ export const projects: SeedProject[] = [
     scope: { en: ["Front-end", "UI/UX", "Dashboards"], fa: ["فرانت‌اند", "UI/UX", "داشبورد"] },
     status: "offline",
     color: "#14302F",
-    client: { en: "Built at Pishgaman Farda", fa: "ساخته‌شده در پیشگامان فردا" },
     location: { en: "United Arab Emirates", fa: "امارات متحده عربی" },
     role: { en: "Frontend engineer", fa: "مهندس فرانت‌اند" },
     summary: {
@@ -292,10 +240,11 @@ export const projects: SeedProject[] = [
     _type: "project",
     needsReview: true,
     slug: "lusyman",
-    order: 5,
-    featured: false,
+    order: 4,
+    featured: true,
     group: "client",
     caseStudy: true,
+    builtAt: "experience.freelance",
     title: { en: "Lusyman", fa: "لوسیمن" },
     year: "2021",
     sector: { en: "E-commerce", fa: "فروشگاه اینترنتی" },
@@ -336,10 +285,11 @@ export const projects: SeedProject[] = [
     _type: "project",
     needsReview: true,
     slug: "sinkara",
-    order: 6,
+    order: 5,
     featured: false,
     group: "client",
     caseStudy: true,
+    builtAt: "experience.pishgaman-senior",
     title: { en: "Sinkara CEM", fa: "Sinkara CEM" },
     year: "2024",
     sector: { en: "Customer experience", fa: "تجربهٔ مشتری" },
@@ -347,7 +297,6 @@ export const projects: SeedProject[] = [
     scope: { en: ["Front-end lead", "Architecture", "Mentoring"], fa: ["راهبری فرانت‌اند", "معماری", "منتورینگ"] },
     status: "offline",
     color: "#2E4A3F",
-    client: { en: "Built at Pishgaman Farda", fa: "ساخته‌شده در پیشگامان فردا" },
     role: { en: "Senior frontend engineer", fa: "مهندس ارشد فرانت‌اند" },
     summary: {
       en: "Led the frontend of the Sinkara CEM platform, building its core structure and components from scratch and mentoring 2 developers.",
@@ -380,62 +329,15 @@ export const projects: SeedProject[] = [
     gallery: [],
   },
   {
-    _id: "project.rcoinx",
-    _type: "project",
-    needsReview: true,
-    slug: "rcoinx",
-    order: 7,
-    featured: false,
-    group: "client",
-    caseStudy: true,
-    title: { en: "RCOINX", fa: "RCOINX" },
-    year: "2025",
-    sector: { en: "Crypto exchange", fa: "صرافی رمزارز" },
-    kind: { en: "Exchange platform", fa: "پلتفرم صرافی" },
-    scope: { en: ["Front-end", "Trading UI"], fa: ["فرانت‌اند", "رابط معاملات"] },
-    status: "offline",
-    color: "#1E1E3F",
-    role: { en: "Frontend developer", fa: "توسعه‌دهندهٔ فرانت‌اند" },
-    summary: {
-      en: "Trading pages, wallets and dashboards for a cryptocurrency exchange platform, as part of a larger team.",
-      fa: "صفحات معاملات، کیف پول‌ها و داشبوردها برای یک پلتفرم صرافی رمزارز، در یک تیم بزرگ‌تر.",
-    },
-    problem: {
-      en: ["A cryptocurrency exchange platform needed its trading pages, wallets and dashboards built and maintained."],
-      fa: [
-        "یک پلتفرم صرافی ارز دیجیتال به کسی نیاز داشت که صفحه‌های معامله، کیف پول‌ها و داشبوردهایش را بسازد و نگهداری کند."
-      ],
-    },
-    decision: {
-      en: [
-        "Built and maintained trading pages, wallets and dashboards.",
-        "Handled frontend tasks from implementation through maintenance and support, with most of my time on development.",
-      ],
-      fa: [
-        "صفحه‌های معامله، کیف پول‌ها و داشبوردها را ساختم و نگهداری کردم.",
-        "کارهای فرانت‌اند را از پیاده‌سازی تا نگهداری و پشتیبانی انجام دادم و بیشتر وقتم صرف توسعه شد."
-      ],
-    },
-    result: {
-      en: ["Worked as part of a larger team on an enterprise cryptocurrency exchange platform."],
-      fa: [
-        "به‌عنوان بخشی از یک تیم بزرگ‌تر، روی یک پلتفرم سازمانی صرافی ارز دیجیتال کار کردم."
-      ],
-    },
-    stack: [],
-    links: {},
-    cover: { src: "/work/rcoinx/1.jpg", width: 1280, height: 681, alt: { en: "RCOINX home page", fa: "صفحهٔ اصلی RCOINX" } },
-    gallery: [],
-  },
-  {
     _id: "project.rehansa",
     _type: "project",
     needsReview: true,
     slug: "rehansa",
-    order: 8,
+    order: 6,
     featured: false,
     group: "client",
     caseStudy: false,
+    builtAt: "experience.pishgaman-frontend",
     title: { en: "Rehansa", fa: "رهانسا" },
     year: "2024",
     sector: { en: "Technology services", fa: "خدمات فناوری" },
@@ -463,10 +365,11 @@ export const projects: SeedProject[] = [
     _type: "project",
     needsReview: true,
     slug: "pttfco",
-    order: 9,
+    order: 7,
     featured: false,
     group: "client",
     caseStudy: false,
+    builtAt: "experience.pishgaman-frontend",
     title: { en: "Pishgaman Tose Tejarat Farda", fa: "پیشگامان توسعه تجارت فردا" },
     year: "2024",
     sector: { en: "Technology services", fa: "خدمات فناوری" },
@@ -493,10 +396,11 @@ export const projects: SeedProject[] = [
     _type: "project",
     needsReview: true,
     slug: "venus-itc",
-    order: 10,
+    order: 8,
     featured: false,
     group: "client",
     caseStudy: false,
+    builtAt: "experience.pishgaman-frontend",
     title: { en: "Venus", fa: "ونوس" },
     year: "2024",
     sector: { en: "IT consultancy", fa: "مشاورهٔ فناوری اطلاعات" },
@@ -518,15 +422,15 @@ export const projects: SeedProject[] = [
     gallery: [],
   },
 
-  // ── Side projects ────────────────────────────────────────────────────────
+  // ── Open source and personal (IRTC, last, is a freelance client project) ────────────────────────────────────────────────────────
   {
     _id: "project.windows-11",
     _type: "project",
     needsReview: true,
     slug: "windows-11",
-    order: 11,
+    order: 10,
     featured: true,
-    group: "side",
+    group: "personal",
     caseStudy: false,
     title: { en: "Windows 11 On Web", fa: "Windows 11 On Web" },
     year: "2022",
@@ -558,9 +462,9 @@ export const projects: SeedProject[] = [
     _type: "project",
     needsReview: true,
     slug: "devs-event",
-    order: 12,
+    order: 11,
     featured: false,
-    group: "side",
+    group: "personal",
     caseStudy: false,
     title: { en: "Devs Event", fa: "Devs Event" },
     year: "2022",
@@ -587,9 +491,9 @@ export const projects: SeedProject[] = [
     _type: "project",
     needsReview: true,
     slug: "dev-tab",
-    order: 13,
+    order: 12,
     featured: false,
-    group: "side",
+    group: "personal",
     caseStudy: false,
     title: { en: "Dev Tab", fa: "Dev Tab" },
     year: "2022",
@@ -616,10 +520,11 @@ export const projects: SeedProject[] = [
     _type: "project",
     needsReview: true,
     slug: "irtc",
-    order: 14,
+    order: 9,
     featured: false,
-    group: "side",
+    group: "client",
     caseStudy: false,
+    builtAt: "experience.freelance",
     title: { en: "IRTC", fa: "IRTC" },
     year: "2023",
     sector: { en: "Education", fa: "آموزش" },

@@ -72,7 +72,7 @@ export const ventures: SeedVenture[] = [
   {
     slug: "agent-assist",
     name: { en: "Agent Assist", fa: "Agent Assist" },
-    role: { en: "Built with Hassan Faraji", fa: "ساخته‌شده با حسن فرجی" },
+    role: { en: "Co-founder & software engineer", fa: "هم‌بنیان‌گذار و مهندس نرم‌افزار" },
     since: "2026-06",
     partner: { en: "With Hassan Faraji, customer experience lead", fa: "با حسن فرجی، متخصص تجربهٔ مشتری" },
     traction: { en: "100+ support agents", fa: "بیش از ۱۰۰ کارشناس پشتیبانی" },

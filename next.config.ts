@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
     qualities: [75, 90],
   },
+  // Nobar and RCOINX are jobs, not projects: their old /work pages point at the role on /engineering.
+  async redirects() {
+    return ["nobar", "rcoinx"].flatMap((slug) => [
+      { source: `/work/${slug}`, destination: `/engineering#${slug}`, permanent: true },
+      { source: `/:locale(en|fa)/work/${slug}`, destination: `/:locale/engineering#${slug}`, permanent: true },
+    ]);
+  },
   experimental: {
     // Two root layouts (app/[locale] and app/studio) → one global 404.
     globalNotFound: true,

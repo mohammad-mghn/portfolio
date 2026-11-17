@@ -15,6 +15,13 @@ export const toBlocks = (paragraphs: string[], key = "b"): RichText =>
     children: [{ _type: "span", _key: `${key}${i}s`, text, marks: [] }],
   }));
 
+/** "Pishgaman Farda" → "pishgaman-farda": the anchor for a company on /engineering. */
+export const companyKey = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 type SeedImage = { src: string; width: number; height: number; alt: L };
 
 export const toImg = (image: SeedImage | undefined, locale: Locale): Img | undefined =>

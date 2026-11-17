@@ -1,19 +1,32 @@
 import { getTranslations } from "next-intl/server";
 import { SectionHead } from "@/components/ui/SectionHead";
+import { Link } from "@/i18n/navigation";
 import type { Experience, Locale } from "@/lib/content";
 import { formatIndex, formatMonth } from "@/lib/format";
 
-type Group = { company: string; companyNote?: string; url?: string; type: Experience["type"]; roles: Experience[] };
+type Group = {
+  key: string;
+  company: string;
+  companyNote?: string;
+  url?: string;
+  type: Experience["type"];
+  roles: Experience[];
+};
 
-/** Consecutive roles at the same company render under one company heading (Nobar, AMCSUI, Pishgaman Farda). */
+/** Roles at the same company render under one company heading (Nobar, AMCSUI, Pishgaman Farda), in list order. */
 function groupByCompany(list: Experience[]): Group[] {
-  const out: Group[] = [];
+  const groups = new Map<string, Group>();
   for (const e of list) {
-    const last = out.at(-1);
-    if (last && last.company === e.company) last.roles.push(e);
-    else out.push({ company: e.company, companyNote: e.companyNote, url: e.url, type: e.type, roles: [e] });
+    const g = groups.get(e.companyKey);
+    if (g) {
+      g.roles.push(e);
+      g.companyNote ??= e.companyNote;
+      g.url ??= e.url;
+    } else {
+      groups.set(e.companyKey, { key: e.companyKey, company: e.company, companyNote: e.companyNote, url: e.url, type: e.type, roles: [e] });
+    }
   }
-  return out;
+  return [...groups.values()];
 }
 
 /** Roles from 2025 on are the ones that matter now; earlier ones are set smaller. */
@@ -50,7 +63,12 @@ export async function ExperienceTimeline({
           const first = g.roles.at(-1)!.start;
           const last = g.roles.some((r) => !r.end) ? undefined : g.roles.map((r) => r.end!).sort().at(-1);
           return (
-            <li key={`${g.company}-${gi}`} className="grid-12 gap-y-8 border-t border-hair py-12 last:border-b">
+            // The id is the anchor the journey and the Work page link to: /engineering#nobar.
+            <li
+              key={g.key}
+              id={g.key}
+              className="grid-12 scroll-mt-(--header-h) gap-y-8 border-t border-hair py-12 last:border-b"
+            >
               <div className="col-span-full md:col-span-4">
                 <div className="md:sticky md:top-[calc(var(--header-h)+2rem)]" data-reveal>
                   <p className="text-label flex flex-wrap gap-x-3 text-muted">
@@ -95,6 +113,28 @@ export async function ExperienceTimeline({
                         {e.tech.length ? <SpecRow label={t("stack")} value={e.tech.join(" · ")} mono /> : null}
                       </dl>
                     </div>
+
+                    {e.projects.length ? (
+                      <div className="mt-6">
+                        <p className="text-label mb-2 text-muted">{t("projects")}</p>
+                        <ul className="flex flex-wrap gap-2">
+                          {e.projects.map((p) => (
+                            <li key={p.slug}>
+                              <Link
+                                href={`/work/${p.slug}`}
+                                scroll={false}
+                                className="text-label inline-flex items-center gap-2 rounded-full border border-hair px-3 py-2 transition-colors duration-500 ease-house hover:border-ink"
+                              >
+                                {p.title}
+                                <span aria-hidden className="inline-block rtl:-scale-x-100">
+                                  →
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
 
                     {e.bullets.length ? (
                       <ul className="mt-6 flex flex-col gap-3">

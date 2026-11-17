@@ -2,8 +2,9 @@ import "server-only";
 import { defineQuery } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
 import { formatDate } from "@/lib/format";
-import { pick, pickStr } from "./localize";
+import { companyKey, pick, pickStr } from "./localize";
 import type {
+  BuiltAt,
   ContentSource,
   ExperienceType,
   Img,
@@ -29,12 +30,15 @@ const img = (i: SImg | undefined, locale: Locale): Img | undefined =>
 const SITE = defineQuery(`*[_type == "siteSettings"][0]`);
 const ABOUT = defineQuery(`*[_type == "about"][0]{ ..., "portrait": portrait${IMG} }`);
 const MILESTONES = defineQuery(`*[_type == "milestone"] | order(order asc){ ..., "media": media${IMG} }`);
-const EXPERIENCE = defineQuery(`*[_type == "experience"] | order(order asc)`);
+const BUILT_AT = `"builtAt": builtAt->{ _id, company, type }`;
+const EXPERIENCE = defineQuery(
+  `*[_type == "experience"] | order(order asc){ ..., "projects": *[_type == "project" && builtAt._ref == ^._id && defined(slug.current)] | order(order asc){ "slug": slug.current, title } }`,
+);
 const PROJECTS = defineQuery(
-  `*[_type == "project" && defined(slug.current)] | order(order asc){ ..., "slug": slug.current, "cover": cover${IMG} }`,
+  `*[_type == "project" && defined(slug.current)] | order(order asc){ ..., "slug": slug.current, "cover": cover${IMG}, ${BUILT_AT} }`,
 );
 const PROJECT = defineQuery(
-  `*[_type == "project" && slug.current == $slug][0]{ ..., "slug": slug.current, "cover": cover${IMG}, "gallery": gallery[]${IMG} }`,
+  `*[_type == "project" && slug.current == $slug][0]{ ..., "slug": slug.current, "cover": cover${IMG}, "gallery": gallery[]${IMG}, ${BUILT_AT} }`,
 );
 const SLUGS = defineQuery(`*[_type == "project" && defined(slug.current)].slug.current`);
 const RECOMMENDATIONS = defineQuery(`*[_type == "recommendation"] | order(order asc)`);
@@ -48,6 +52,18 @@ async function fetchDoc<T = Doc>(query: string, params: Record<string, string> =
   return data as T;
 }
 
+const GROUPS: ProjectGroup[] = ["cofounded", "client", "personal"];
+
+const toBuiltAt = (b: Doc | null | undefined, locale: Locale): BuiltAt | undefined =>
+  b?._id
+    ? {
+        experienceId: b._id,
+        companyKey: companyKey(b.company?.en ?? ""),
+        company: pickStr(b.company, locale),
+        type: (b.type ?? "employee") as ExperienceType,
+      }
+    : undefined;
+
 const toSummary = (p: Doc, locale: Locale): ProjectSummary => ({
   slug: p.slug,
   title: pickStr(p.title, locale),
@@ -56,12 +72,15 @@ const toSummary = (p: Doc, locale: Locale): ProjectSummary => ({
   kind: pickStr(p.kind, locale),
   scope: pick<string[]>(p.scope, locale, []),
   status: (p.status ?? "live") as ProjectStatus,
-  group: (p.group ?? "side") as ProjectGroup,
+  group: GROUPS.includes(p.group) ? (p.group as ProjectGroup) : "personal",
+  builtAt: toBuiltAt(p.builtAt, locale),
+  partner: pickStr(p.partner, locale) || undefined,
   caseStudy: Boolean(p.caseStudy),
   color: p.color ?? "#151412",
   summary: pickStr(p.summary, locale),
   cover: img(p.cover, locale),
   featured: Boolean(p.featured),
+  links: p.links ?? {},
 });
 
 export const sanitySource: ContentSource = {
@@ -156,6 +175,7 @@ export const sanitySource: ContentSource = {
     return list.map((e) => ({
       id: e._id,
       company: pickStr(e.company, locale),
+      companyKey: companyKey(e.company?.en ?? ""),
       companyNote: pickStr(e.companyNote, locale) || undefined,
       url: e.url,
       role: pickStr(e.role, locale),
@@ -168,6 +188,7 @@ export const sanitySource: ContentSource = {
       bullets: pick<string[]>(e.bullets, locale, []),
       tech: e.tech ?? [],
       spec: { built: pickStr(e.spec?.built, locale), outcome: pickStr(e.spec?.outcome, locale) || undefined },
+      projects: ((e.projects ?? []) as Doc[]).map((p) => ({ slug: p.slug, title: pickStr(p.title, locale) })),
     }));
   },
 
@@ -189,7 +210,6 @@ export const sanitySource: ContentSource = {
       result: pick<RichText>(p.result, locale, []),
       gallery: ((p.gallery ?? []) as SImg[]).map((g) => img(g, locale)).filter(Boolean) as Img[],
       stack: p.stack ?? [],
-      links: p.links ?? {},
     };
     return project;
   },

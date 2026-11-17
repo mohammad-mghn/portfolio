@@ -34,8 +34,15 @@ export async function CaseStudy({
   const r = reveal ? { "data-reveal": "" } : {};
   const sp = reveal ? { "data-split": "" } : {};
 
+  // Co-founded products name the partner, job projects name the company, freelance work says so.
+  const origin: [string, string] = project.partner
+    ? [t("founding"), project.partner]
+    : project.builtAt?.type === "employee"
+      ? [t("builtAt"), project.builtAt.company]
+      : [t("client"), project.client ?? (project.builtAt?.type === "freelance" ? t("freelance") : "—")];
+
   const meta: [string, string][] = [
-    [t("client"), project.client ?? "—"],
+    origin,
     [t("sector"), project.sector],
     [t("scope"), project.scope.join(", ")],
     [t("year"), localizeDigits(project.year, locale)],

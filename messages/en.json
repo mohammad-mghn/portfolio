@@ -73,8 +73,8 @@
     "title": "Where the work happened.",
     "present": "Present",
     "types": {
-      "founder": "Founder",
-      "employee": "Team",
+      "founder": "Co-founder",
+      "employee": "Full-time",
       "freelance": "Freelance",
       "community": "Community"
     }
@@ -142,12 +142,13 @@
     "earlier": "Earlier",
     "quotesTitle": "Words I keep close.",
     "work": "See the work",
-    "resume": "Read the resume"
+    "resume": "Read the resume",
+    "projects": "Projects"
   },
   "founding": {
     "eyebrow": "Founding",
     "title": "Founding",
-    "statement": "Two products I co-built with partners I trust. Real people use both of them every day.",
+    "statement": "Two products I co-founded with partners I trust. Real people use both of them every day.",
     "companiesEyebrow": "The companies",
     "companiesTitle": "What we built.",
     "role": "Role",
@@ -244,7 +245,10 @@
     "figma": "Design file",
     "next": "Next project",
     "close": "Close",
-    "gallery": "Gallery"
+    "gallery": "Gallery",
+    "founding": "Founding",
+    "builtAt": "Built at",
+    "freelance": "Freelance"
   },
   "archive": {
     "eyebrow": "Archive",
@@ -263,20 +267,20 @@
       "archived": "Archived"
     },
     "groups": {
-      "own": "My products",
-      "nobar": "Nobar",
-      "client": "Client work",
-      "side": "Side projects and open source"
+      "cofounded": "Products I co-founded",
+      "client": "Client projects",
+      "personal": "Open source and personal"
     },
     "groupNotes": {
-      "own": "Products I co-founded and run.",
-      "nobar": "Cloud products at Nobar. Public screens only.",
-      "client": "Sites and apps I built for clients.",
-      "side": "Built to learn and to share."
+      "cofounded": "Products I co-founded and run with a partner.",
+      "client": "Built for clients, as a freelancer and at Pishgaman Farda.",
+      "personal": "Built to learn and to share."
     },
     "caseStudy": "Case study",
     "short": "Short read",
-    "count": "{count, plural, one {# project} other {# projects}}"
+    "count": "{count, plural, one {# project} other {# projects}}",
+    "builtAt": "Built at {company}",
+    "freelance": "Freelance"
   },
   "notFound": {
     "eyebrow": "Error 404 — Off the map",

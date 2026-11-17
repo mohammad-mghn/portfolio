@@ -3,10 +3,18 @@ import { experience, milestones } from "@/content/seed/journey";
 import { projects } from "@/content/seed/projects";
 import { about, recommendations, recommendationsUrl, siteSettings } from "@/content/seed/site";
 import { formatDate } from "@/lib/format";
-import { pick, pickStr, toBlocks, toImg } from "./localize";
-import type { ContentSource, ExperienceType, Locale, PillarKey, Project, ProjectSummary } from "./types";
+import { companyKey, pick, pickStr, toBlocks, toImg } from "./localize";
+import type { BuiltAt, ContentSource, ExperienceType, Locale, PillarKey, Project, ProjectSummary } from "./types";
 
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
+
+/** Resolves a project's `builtAt` id to the role it points at. A bad id is a seed bug, so fail the build. */
+const builtAt = (id: string | undefined, locale: Locale): BuiltAt | undefined => {
+  if (!id) return undefined;
+  const e = experience.find((x) => x._id === id);
+  if (!e) throw new Error(`Seed: project builtAt "${id}" does not match an experience _id`);
+  return { experienceId: e._id, companyKey: companyKey(e.company.en), company: pickStr(e.company, locale), type: e.type };
+};
 
 const summary = (p: (typeof projects)[number], locale: Locale): ProjectSummary => ({
   slug: p.slug,
@@ -17,11 +25,14 @@ const summary = (p: (typeof projects)[number], locale: Locale): ProjectSummary =
   scope: pick(p.scope, locale, []),
   status: p.status,
   group: p.group,
+  builtAt: builtAt(p.builtAt, locale),
+  partner: pickStr(p.partner, locale) || undefined,
   caseStudy: p.caseStudy,
   color: p.color,
   summary: pickStr(p.summary, locale),
   cover: toImg(p.cover, locale),
   featured: p.featured,
+  links: p.links,
 });
 
 export const seedSource: ContentSource = {
@@ -113,6 +124,7 @@ export const seedSource: ContentSource = {
     return [...experience].sort(byOrder).map((e) => ({
       id: e._id,
       company: pickStr(e.company, locale),
+      companyKey: companyKey(e.company.en),
       companyNote: pickStr(e.companyNote, locale) || undefined,
       url: e.url,
       role: pickStr(e.role, locale),
@@ -125,6 +137,10 @@ export const seedSource: ContentSource = {
       bullets: pick(e.bullets, locale, []),
       tech: e.tech,
       spec: { built: pickStr(e.spec.built, locale), outcome: pickStr(e.spec.outcome, locale) || undefined },
+      projects: [...projects]
+        .filter((p) => p.builtAt === e._id)
+        .sort(byOrder)
+        .map((p) => ({ slug: p.slug, title: pickStr(p.title, locale) })),
     }));
   },
 
@@ -145,7 +161,6 @@ export const seedSource: ContentSource = {
       result: toBlocks(pick(p.result, locale, []), "r"),
       gallery: p.gallery.map((g) => toImg(g, locale)!),
       stack: p.stack,
-      links: p.links,
     };
     return project;
   },

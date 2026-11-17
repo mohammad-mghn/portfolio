@@ -25,8 +25,8 @@ const statusTone: Record<string, string> = {
   archived: "bg-hair",
 };
 
-/** Own products first, then Nobar, client work, and side projects last. */
-const groupOrder: ProjectGroup[] = ["own", "nobar", "client", "side"];
+/** Co-founded products first, then client projects, then open source and personal work. */
+const groupOrder: ProjectGroup[] = ["cofounded", "client", "personal"];
 
 export default async function WorkIndex({ params }: PageProps<"/[locale]/work">) {
   const { locale } = await params;
@@ -43,6 +43,11 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
   const groups = groupOrder
     .map((key) => ({ key, items: projects.filter((p) => p.group === key) }))
     .filter((g) => g.items.length > 0);
+
+  /** Where a project came from: the partner for co-founded products, the job or "Freelance" for client work. */
+  const origin = (p: ProjectSummary) =>
+    p.partner ??
+    (p.builtAt ? (p.builtAt.type === "freelance" ? t("freelance") : t("builtAt", { company: p.builtAt.company })) : null);
 
   const status = (p: ProjectSummary) => (
     <span className="text-label inline-flex items-center gap-2">
@@ -112,6 +117,7 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
                     </span>
                     <span role="cell" className="relative col-span-3 md:col-span-6">
                       <span className="block text-2xl font-semibold tracking-tight">{p.title}</span>
+                      {origin(p) ? <span className="text-label mt-1.5 block text-muted">{origin(p)}</span> : null}
                       <span className="mt-1 block max-w-xl text-ink-soft md:hidden">{p.kind}</span>
                     </span>
                     <span role="cell" className="relative hidden text-ink-soft md:col-span-3 md:block">
@@ -153,6 +159,7 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
                       </p>
                       <div className="flex-1">
                         <h3 className="text-statement">{p.title}</h3>
+                        {origin(p) ? <p className="text-label mt-2 text-muted">{origin(p)}</p> : null}
                         <p className="mt-3 leading-relaxed text-ink-soft">{p.summary}</p>
                       </div>
                       {status(p)}
