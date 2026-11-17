@@ -6,7 +6,8 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
   const site = await getSiteSettings("en");
   return {
     name: site.name,
-    short_name: site.shortName,
+    // The label under a home-screen icon: short on purpose (the header logo text is longer).
+    short_name: "MGHN",
     description: site.seoDescription,
     start_url: "/",
     scope: "/",

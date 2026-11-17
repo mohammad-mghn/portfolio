@@ -2,6 +2,7 @@ import { imgProps } from "@/lib/img";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Marquee } from "@/components/deferred";
+import { ClothImage } from "@/components/ui/ClothImage";
 import { MoreLink } from "@/components/ui/MoreLink";
 import { SectionHead } from "@/components/ui/SectionHead";
 import type { Locale } from "@/i18n/routing";
@@ -19,7 +20,7 @@ export async function About({ locale, about, index }: { locale: Locale; about: A
       <div className="grid-12 mt-(--space-section-sm) gap-y-12">
         {about.portrait ? (
           <figure className="col-span-2 md:col-span-3" data-reveal>
-            <div className="relative aspect-[4/5] overflow-hidden bg-paper-2">
+            <ClothImage className="aspect-[4/5] bg-paper-2" canvasClassName="grayscale contrast-110">
               <Image
                 src={about.portrait.src}
                 {...imgProps(about.portrait)}
@@ -28,7 +29,7 @@ export async function About({ locale, about, index }: { locale: Locale; about: A
                 sizes="(max-width: 767px) 45vw, 22vw"
                 className="object-cover grayscale contrast-110"
               />
-            </div>
+            </ClothImage>
           </figure>
         ) : null}
 

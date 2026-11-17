@@ -13,7 +13,8 @@ export const siteSettings = {
   _type: "siteSettings",
   needsReview: true,
   name: { en: "Mohammad Mohagheghian", fa: "محمد محققیان" },
-  shortName: "MGHN",
+  /** The text of the logo in the header and the menu. */
+  shortName: "The Mohammad M.",
   tagline: { en: "Engineering · Founding · Product building", fa: "مهندسی · بنیان‌گذاری · محصول‌سازی" },
   headline: {
     en: "Software engineer, founder and product builder.",

@@ -94,7 +94,7 @@ export function Menu({
           aria-label={`${top.shortName} — ${top.homeLabel}`}
         >
           <span className="inline-block size-2 rotate-45 bg-accent" aria-hidden />
-          {top.shortName}
+          <span className="brand-mark">{top.shortName}</span>
         </Link>
         <div className="-me-4 flex items-center">
           <a

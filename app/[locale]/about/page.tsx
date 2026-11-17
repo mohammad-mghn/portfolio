@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { Contact } from "@/components/home/Contact";
 import { Numbers } from "@/components/home/Numbers";
 import { PageLinks } from "@/components/pages/PageLinks";
+import { ClothImage } from "@/components/ui/ClothImage";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { routing } from "@/i18n/routing";
@@ -43,7 +44,10 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         <div className="grid-12 gap-y-12">
           {about.portrait ? (
             <figure className="col-span-2 md:col-span-4">
-              <div className="relative aspect-[4/5] overflow-hidden bg-paper-2 md:sticky md:top-[calc(var(--header-h)+2rem)]">
+              <ClothImage
+                className="aspect-[4/5] bg-paper-2 md:sticky md:top-[calc(var(--header-h)+2rem)]"
+                canvasClassName="grayscale contrast-110"
+              >
                 <Image
                   src={about.portrait.src}
                   {...imgProps(about.portrait)}
@@ -53,7 +57,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
                   className="object-cover grayscale contrast-110"
                   priority
                 />
-              </div>
+              </ClothImage>
             </figure>
           ) : null}
           <div className="col-span-full flex max-w-[44rem] flex-col gap-8 md:col-span-7 md:col-start-6">

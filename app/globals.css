@@ -411,6 +411,42 @@
 }
 
 /*
+ * Displaced heading (lib/effects/displace-text.ts): while its tiles are showing, the real text is
+ * transparent (still there for screen readers and selection) and the tiles draw copies of it.
+ */
+[data-displacing] > :not([data-displace-layer]) {
+  opacity: 0;
+}
+[data-displace-layer] {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+[data-displace-layer] > span {
+  position: absolute;
+  overflow: hidden;
+  contain: layout paint;
+}
+[data-displace-layer] > span > span {
+  position: absolute;
+  display: block;
+}
+
+/*
+ * The logo is a Latin wordmark in both languages: one line, read left to right (so its full stop
+ * stays at the end on the Persian site), in spaced capitals like the English labels.
+ */
+.brand-mark {
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+}
+:root[lang="fa"] .brand-mark {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+/*
  * The language link names the other language in its own script. On English pages that is "فا":
  * set in the Persian font, a little larger than the Latin labels beside it so it reads the same size.
  */

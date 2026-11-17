@@ -48,7 +48,7 @@ export function Header(props: Props) {
         <Link href="/" className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em]" aria-label={`${shortName} — ${labels.home}`}>
           {/* Room for the diamond, which lives in the layer below this header. */}
           <span className="inline-block size-2" aria-hidden />
-          {shortName}
+          <span className="brand-mark">{shortName}</span>
         </Link>
 
         <div className="-me-4 flex items-center">

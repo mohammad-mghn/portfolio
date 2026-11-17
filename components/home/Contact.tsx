@@ -1,3 +1,4 @@
+import { DisplaceText } from "@/components/ui/DisplaceText";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -43,14 +44,14 @@ export async function Contact({
             <span>{t("eyebrow")}</span>
           </p>
         ) : null}
-        <h2 id="contact-title" className="text-mega col-span-full">
+        <DisplaceText id="contact-title" className="text-mega col-span-full">
           <span className="block" data-split>
             {copy.contact.titleA}
           </span>
           <span className="accent block text-accent" data-split>
             {copy.contact.titleB}
           </span>
-        </h2>
+        </DisplaceText>
         <div className="col-span-full flex flex-col gap-6 md:col-span-5" data-reveal>
           <p className="text-lead opacity-80">{copy.contact.lead}</p>
           {site.openTo.length ? (
