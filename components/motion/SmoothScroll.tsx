@@ -1,59 +1,20 @@
 "use client";
 
-import { ReactLenis, useLenis } from "lenis/react";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { gsap, prefersReducedMotion, ScrollTrigger } from "@/lib/gsap";
+import type Lenis from "lenis";
+import { useState, type ReactNode } from "react";
+import { LenisContext, LenisSetterContext } from "@/lib/lenis";
 
 /**
- * Drives Lenis from GSAP's ticker so ScrollTrigger and Lenis share one clock.
- * Must live *inside* <ReactLenis>: ReactLenis creates its instance in an effect and exposes it via
- * context on the next render, so `useLenis()` is the only reliable way to know when it exists.
- */
-function LenisTicker() {
-  const lenis = useLenis();
-
-  useEffect(() => {
-    if (!lenis) return;
-    const update = (time: number) => lenis.raf(time * 1000);
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
-    ScrollTrigger.refresh();
-    return () => {
-      gsap.ticker.remove(update);
-      lenis.off("scroll", ScrollTrigger.update);
-    };
-  }, [lenis]);
-
-  return null;
-}
-
-/**
- * Lenis smooth scrolling. Reduced-motion users keep native wheel scrolling (smoothWheel off) —
- * the provider stays mounted either way so the page tree never remounts.
+ * Holds the smooth-scroll instance for the whole page tree. The instance itself is created by
+ * <LenisRuntime/>, which loads after the first paint; until then (and with JavaScript problems)
+ * the page simply scrolls natively. This provider is tiny and always mounted, so the page tree
+ * never remounts when smooth scrolling arrives.
  */
 export function SmoothScroll({ children }: { children: ReactNode }) {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduced(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
-  const options = useMemo(
-    () => ({ autoRaf: false, smoothWheel: !reduced, lerp: 0.11, wheelMultiplier: 0.9, anchors: true }),
-    [reduced],
-  );
-
+  const [lenis, setLenis] = useState<Lenis | undefined>(undefined);
   return (
-    <ReactLenis root options={options}>
-      <LenisTicker />
-      {children}
-    </ReactLenis>
+    <LenisSetterContext.Provider value={setLenis}>
+      <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
+    </LenisSetterContext.Provider>
   );
 }
-
-export { prefersReducedMotion };

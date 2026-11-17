@@ -42,7 +42,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
       <section id="story" aria-label={t("story")} className="relative z-1 py-(--space-section)">
         <div className="grid-12 gap-y-12">
           {about.portrait ? (
-            <figure className="col-span-2 md:col-span-4" data-reveal>
+            <figure className="col-span-2 md:col-span-4">
               <div className="relative aspect-[4/5] overflow-hidden bg-paper-2 md:sticky md:top-[calc(var(--header-h)+2rem)]">
                 <Image
                   src={about.portrait.src}

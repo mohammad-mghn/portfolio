@@ -1,7 +1,7 @@
 import { imgProps } from "@/lib/img";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Marquee } from "@/components/ui/Marquee";
+import { Marquee } from "@/components/deferred";
 import { MoreLink } from "@/components/ui/MoreLink";
 import { SectionHead } from "@/components/ui/SectionHead";
 import type { Locale } from "@/i18n/routing";

@@ -1,7 +1,7 @@
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ProgressRail } from "@/components/chrome/ProgressRail";
+import { ProgressRail } from "@/components/deferred";
 import { About } from "@/components/home/About";
 import { Beliefs } from "@/components/home/Beliefs";
 import { Contact } from "@/components/home/Contact";

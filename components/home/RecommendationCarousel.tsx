@@ -1,6 +1,6 @@
 "use client";
 
-import { useLenis } from "lenis/react";
+import { useLenis } from "@/lib/lenis";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Link } from "@/i18n/navigation";

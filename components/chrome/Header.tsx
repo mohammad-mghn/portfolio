@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { Menu, type MenuData } from "./Menu";
+import { Menu } from "@/components/deferred";
+import type { MenuData } from "./Menu";
 
 type Props = MenuData & {
   shortName: string;

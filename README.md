@@ -84,7 +84,7 @@ The panel ships with the site at `https://YOUR-DOMAIN/studio`. Never add `SANITY
 docker compose up --build      # http://localhost:3001
 ```
 
-`docker-compose.yml` reads the same variables from your shell or a `.env` file next to it. The `NEXT_PUBLIC_*` values are compiled into the site, so changing them means building again. The build needs network access (dependencies, Google Fonts, and Sanity when a project is set). The container is self-contained: one Node process on port 3000, no database. Content still lives in Sanity's cloud, or in the seed when no project is set.
+`docker-compose.yml` reads the same variables from your shell or a `.env` file next to it. The `NEXT_PUBLIC_*` values are compiled into the site, so changing them means building again. The build needs network access (dependencies, and Sanity when a project is set); fonts are hosted in `public/fonts`. The container is self-contained: one Node process on port 3000, no database. Content still lives in Sanity's cloud, or in the seed when no project is set.
 
 ## Map
 

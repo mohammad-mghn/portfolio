@@ -1,6 +1,6 @@
 "use client";
 
-import { useLenis } from "lenis/react";
+import { useLenis } from "@/lib/lenis";
 import { useState } from "react";
 import { ScrollTrigger, useGSAP } from "@/lib/gsap";
 

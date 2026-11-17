@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
     qualities: [75, 90],
   },
+  // Files in /public are served without long-term caching by default; fonts and icons are safe to keep.
+  async headers() {
+    return [
+      { source: "/fonts/:file*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      { source: "/icons/:file*", headers: [{ key: "Cache-Control", value: "public, max-age=604800" }] },
+    ];
+  },
   // Nobar and RCOINX are jobs, not projects: their old /work pages point at the role on /engineering.
   async redirects() {
     return ["nobar", "rcoinx"].flatMap((slug) => [

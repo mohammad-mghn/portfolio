@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import { getPageCopy, type PageKey, type SiteSettings } from "@/lib/content";
 import { formatIndex, localizeDigits } from "@/lib/format";
 import { CopyEmail } from "./CopyEmail";
-import { DarkSection } from "./DarkSection";
+import { DarkSection } from "@/components/deferred";
 
 export async function Contact({
   locale,

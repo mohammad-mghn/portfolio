@@ -3,7 +3,11 @@ import { MoreLink } from "@/components/ui/MoreLink";
 import { dirFor, type Locale } from "@/i18n/routing";
 import { getJourney } from "@/lib/content";
 import { formatIndex, formatMonth, localizeDigits } from "@/lib/format";
-import { Journey3D, type StopView } from "./Journey3D";
+import { Journey3D } from "@/components/deferred";
+import type { StopView } from "./Journey3D";
+// The scene's code loads after the first paint, but its styles must be there from the start
+// (the server already renders the cards). Importing the stylesheet here puts it in the page's CSS.
+import "./Journey.module.css";
 
 /**
  * The journey on the home page: work experience, oldest first. Jobs and ventures are the big

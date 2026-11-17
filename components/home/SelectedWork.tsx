@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { WorkList } from "@/components/work/WorkList";
+import { WorkList } from "@/components/deferred";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import type { ProjectSummary } from "@/lib/content";

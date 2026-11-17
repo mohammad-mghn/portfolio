@@ -32,8 +32,11 @@ export async function CaseStudy({
   titleId: string;
 }) {
   const t = await getTranslations({ locale, namespace: "case" });
+  // Below the first screen: revealed on scroll. (`reveal` is false in the overlay, which scrolls its own container.)
   const r = reveal ? { "data-reveal": "" } : {};
-  const sp = reveal ? { "data-split": "" } : {};
+  // First screen of the full page: in the first paint, settling or fading in with CSS only.
+  const settle = reveal && "intro-settle";
+  const fade = reveal && "intro-fade";
 
   // Co-founded products name the partner, job projects name the company, freelance work says so.
   const origin: [string, string] = project.partner
@@ -69,7 +72,7 @@ export async function CaseStudy({
   return (
     <article className="relative" style={{ "--c": project.color } as React.CSSProperties}>
       <header className={clsx("grid-12 gap-y-8", inOverlay ? "pt-24" : "pt-(--space-page)")}>
-        <p className="text-label col-span-full flex flex-wrap gap-3 text-muted" {...r}>
+        <p className={clsx("text-label col-span-full flex flex-wrap gap-3 text-muted", fade)}>
           <span>
             {formatIndex(position, locale)} / {formatIndex(total, locale)}
           </span>
@@ -78,13 +81,16 @@ export async function CaseStudy({
           <span aria-hidden>·</span>
           <span>{project.kind}</span>
         </p>
-        <h1 id={titleId} className="text-mega col-span-full" {...sp}>
+        <h1 id={titleId} className={clsx("text-mega col-span-full", settle)}>
           {project.title}
         </h1>
-        <p className="text-statement col-span-full md:col-span-8" {...r}>
+        <p className={clsx("text-statement col-span-full md:col-span-8", settle)} style={{ "--d": "0.08s" } as React.CSSProperties}>
           {project.summary}
         </p>
-        <dl className="col-span-full grid grid-cols-2 gap-x-(--gutter) gap-y-6 border-t border-hair pt-6 md:grid-cols-6" {...r}>
+        <dl
+          className={clsx("col-span-full grid grid-cols-2 gap-x-(--gutter) gap-y-6 border-t border-hair pt-6 md:grid-cols-6", fade)}
+          style={{ "--d": "0.3s" } as React.CSSProperties}
+        >
           {meta.map(([k, v]) => (
             <div key={k}>
               <dt className="text-label text-muted">{k}</dt>
@@ -92,7 +98,7 @@ export async function CaseStudy({
             </div>
           ))}
         </dl>
-        <div className="col-span-full flex flex-wrap items-center justify-between gap-4" {...r}>
+        <div className={clsx("col-span-full flex flex-wrap items-center justify-between gap-4", fade)} style={{ "--d": "0.4s" } as React.CSSProperties}>
           <ul className="flex flex-wrap gap-1.5">
             {project.stack.map((s) => (
               <li key={s} className="text-label rounded-full border border-hair px-3 py-1.5">
@@ -124,7 +130,7 @@ export async function CaseStudy({
       </header>
 
       {project.cover ? (
-        <figure className="mt-(--space-section-sm) px-gutter" {...r}>
+        <figure className="mt-(--space-section-sm) px-gutter">
           <Shot href={live} label={`${t("visit")}: ${project.title}`} hint={t("visit")} className="rounded-[3px] p-[clamp(12px,3vw,48px)]" style={{ background: project.color }}>
             <Image
               src={project.cover.src}

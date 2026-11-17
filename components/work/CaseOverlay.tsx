@@ -1,6 +1,6 @@
 "use client";
 
-import { useLenis } from "lenis/react";
+import { useLenis } from "@/lib/lenis";
 import { useEffect, useRef, type ReactNode } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";

@@ -1,14 +1,11 @@
 import { defineRouting } from "next-intl/routing";
+import { defaultLocale, locales } from "./locales";
 
-export const locales = ["en", "fa"] as const;
-export type Locale = (typeof locales)[number];
+export { dirFor, locales, rtlLocales, type Locale } from "./locales";
 
 export const routing = defineRouting({
   locales,
-  defaultLocale: "en",
+  defaultLocale,
   // English lives at "/", Persian at "/fa".
   localePrefix: "as-needed",
 });
-
-export const rtlLocales: readonly Locale[] = ["fa"];
-export const dirFor = (locale: Locale) => (rtlLocales.includes(locale) ? "rtl" : "ltr");

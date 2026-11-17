@@ -1,7 +1,7 @@
 "use client";
 
 import { imgProps } from "@/lib/img";
-import { useLenis } from "lenis/react";
+import { useLenis } from "@/lib/lenis";
 import Image from "next/image";
 import { useEffect, useRef, type ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
@@ -503,7 +503,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                         width={s.items[0].cover.width}
                         height={s.items[0].cover.height}
                         sizes="280px"
-                        loading="eager"
+                        loading="lazy"
                         className="h-full w-full object-cover object-top"
                       />
                     </div>

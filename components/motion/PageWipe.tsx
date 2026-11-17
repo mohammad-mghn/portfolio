@@ -3,13 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
-
-type WipeDetail = { color: string; title: string; label: string; done: () => void };
-
-/** Fire a full-screen colour wipe, then run `done` (usually a router navigation) once covered. */
-export function startWipe(detail: WipeDetail) {
-  window.dispatchEvent(new CustomEvent<WipeDetail>("wipe:start", { detail }));
-}
+import type { WipeDetail } from "@/lib/wipe";
 
 /**
  * Global next-project transition: the next project's colour rises over everything (including the
@@ -62,6 +56,7 @@ export function PageWipe() {
     <div
       ref={ref}
       aria-hidden
+      data-page-wipe
       className="pointer-events-none invisible fixed inset-0 z-[90] flex flex-col justify-end px-(--page-pad) py-(--gutter) text-[#f4f2ec]"
       style={{ background: content?.color ?? "var(--ink)" }}
     >

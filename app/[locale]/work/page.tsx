@@ -61,13 +61,11 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
     <main id="main" className="relative z-1">
       <section className="pt-(--space-page) pb-(--space-section)">
         <div className="grid-12 gap-y-6">
-          <p className="text-label col-span-full flex gap-3" data-reveal>
+          <p className="intro-fade text-label col-span-full flex gap-3">
             <span>[ {t("eyebrow")} ]</span>
           </p>
-          <h1 className="text-mega col-span-full" data-split data-split-now>
-            {t("title")}
-          </h1>
-          <p className="text-label col-span-full text-muted" data-reveal>
+          <h1 className="intro-settle text-mega col-span-full">{t("title")}</h1>
+          <p className="intro-fade text-label col-span-full text-muted" style={{ "--d": "0.3s" } as React.CSSProperties}>
             {t("index")}: {formatIndex(projects.length, locale).padStart(3, locale === "fa" ? "۰" : "0")} {"//"} {t("timeline")}: {span}{" "}
             {"//"} {t("status")}: {t("logged")}
           </p>

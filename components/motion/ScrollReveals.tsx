@@ -1,8 +1,9 @@
 "use client";
 
 import { useSelectedLayoutSegments } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
+import { whenBoundariesReady } from "@/lib/hydration";
 
 /**
  * Page-level reveal system. Server components opt in with attributes:
@@ -17,8 +18,22 @@ export function ScrollReveals() {
   // The page slot's own segments: they stay the same while the overlay slot opens and closes.
   const page = useSelectedLayoutSegments().join("/");
 
+  // Reveals touch elements all over the page, so they start only once every deferred section on
+  // this page is interactive (see lib/hydration). `armed` is the page they are set up for.
+  const [armed, setArmed] = useState<string | null>(null);
+  useEffect(() => {
+    let current = true;
+    void whenBoundariesReady().then(() => {
+      if (current) setArmed(page);
+    });
+    return () => {
+      current = false;
+    };
+  }, [page]);
+
   useGSAP(
     () => {
+      if (armed !== page) return;
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.utils.toArray<HTMLElement>("[data-split]").forEach((el) => {
@@ -52,8 +67,14 @@ export function ScrollReveals() {
       });
       return () => mm.revert();
     },
-    { dependencies: [page], revertOnUpdate: true },
+    { dependencies: [page, armed], revertOnUpdate: true },
   );
+
+  // Tell the safety net in the layout that reveals are running, and undo it if it already fired.
+  useEffect(() => {
+    (window as Window & { __reveals?: boolean }).__reveals = true;
+    document.documentElement.classList.remove("reveal-all");
+  }, []);
 
   // Content height changes (3D journey switching modes, images, fonts) → recompute trigger positions.
   useEffect(() => {

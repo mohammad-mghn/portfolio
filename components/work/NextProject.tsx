@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, useRouter } from "@/i18n/navigation";
-import { startWipe } from "@/components/motion/PageWipe";
+import { startWipe } from "@/lib/wipe";
 
 /** Bottom panel in the next project's colour; click → colour wipe → navigate (replace inside the overlay). */
 export function NextProject({

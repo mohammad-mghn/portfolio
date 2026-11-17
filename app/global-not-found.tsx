@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="en" className={fontVariables} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className="grain">
         <main className="grid-12 min-h-svh content-center gap-y-8">
           <p className="text-label col-span-full text-muted">Error 404 — Off the map</p>

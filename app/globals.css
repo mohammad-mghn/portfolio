@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
+@import "./fonts.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -324,6 +325,16 @@
   [data-split] {
     visibility: hidden;
   }
+}
+/*
+ * Safety net, switched on by the timer in the layout: the motion code that reveals content did not
+ * arrive in time, so show everything. ScrollReveals removes the class again when it does start.
+ */
+.reveal-all [data-reveal],
+.reveal-all [data-split] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
 }
 
 /* ───────────────────────── Chrome tone ───────────────────────── */

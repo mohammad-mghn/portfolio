@@ -4,7 +4,9 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import type { Locale } from "@/i18n/routing";
 import type { Recommendation } from "@/lib/content";
 import { formatIndex } from "@/lib/format";
-import { RecommendationCarousel } from "./RecommendationCarousel";
+import { RecommendationCarousel } from "@/components/deferred";
+// Same reason as the journey: the row's code is deferred, its styles are not.
+import "./Recommendations.module.css";
 
 export async function Recommendations({
   locale,

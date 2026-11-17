@@ -1,6 +1,6 @@
 "use client";
 
-import { useLenis } from "lenis/react";
+import { useLenis } from "@/lib/lenis";
 import { useEffect, useRef } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { gsap, useGSAP } from "@/lib/gsap";

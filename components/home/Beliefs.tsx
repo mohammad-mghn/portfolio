@@ -4,7 +4,7 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import type { Locale } from "@/i18n/routing";
 import type { Belief, Quote } from "@/lib/content";
 import { formatIndex } from "@/lib/format";
-import { DarkSection } from "./DarkSection";
+import { DarkSection } from "@/components/deferred";
 
 /** Mohammad's three rules (his own words) and the founder and engineering quotes he stands behind, each sourced. */
 export async function Beliefs({

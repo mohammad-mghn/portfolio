@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/resume">
 function Block({ label, children }: { label: string; children: ReactNode }) {
   return (
     <section className="grid-12 gap-y-4 border-t border-hair py-10" aria-label={label}>
-      <h2 className="text-label col-span-full text-accent md:col-span-3" data-reveal>
+      <h2 className="text-label col-span-full text-accent-ink md:col-span-3" data-reveal>
         {label}
       </h2>
       <div className="col-span-full flex flex-col gap-8 md:col-span-9">{children}</div>
@@ -58,16 +58,15 @@ export default async function ResumePage({ params }: PageProps<"/[locale]/resume
     <main id="main" className="relative z-1">
       <section className="relative z-1 pt-(--space-page) pb-(--space-section)">
         <div className="grid-12 gap-y-8">
-          <p className="text-label col-span-full" data-reveal>
-            [ {t("eyebrow")} ]
-          </p>
-          <h1 className="text-huge col-span-full" data-split data-split-now>
-            {site.name}
-          </h1>
-          <p className="text-statement col-span-full md:col-span-8" data-reveal>
+          <p className="intro-fade text-label col-span-full">[ {t("eyebrow")} ]</p>
+          <h1 className="intro-settle text-huge col-span-full">{site.name}</h1>
+          <p className="intro-settle text-statement col-span-full md:col-span-8" style={{ "--d": "0.08s" } as React.CSSProperties}>
             {site.headline}
           </p>
-          <div className="col-span-full flex flex-wrap items-center justify-between gap-6 border-t border-hair pt-5" data-reveal>
+          <div
+            className="intro-fade col-span-full flex flex-wrap items-center justify-between gap-6 border-t border-hair pt-5"
+            style={{ "--d": "0.3s" } as React.CSSProperties}
+          >
             <ul className="text-label flex flex-wrap gap-x-6 gap-y-2 text-muted">
               <li>
                 <a href={`mailto:${site.email}`} className="hover:text-accent" dir="ltr">
@@ -97,7 +96,7 @@ export default async function ResumePage({ params }: PageProps<"/[locale]/resume
 
       <div className="relative z-1 py-(--space-section)">
         <Block label={t("summary")}>
-          <div className="flex max-w-[44rem] flex-col gap-4" data-reveal>
+          <div className="flex max-w-[44rem] flex-col gap-4">
             <p className="text-lead">{site.positioning}</p>
             {about.bio[0] ? <p className="leading-relaxed text-ink-soft">{about.bio[0]}</p> : null}
           </div>
