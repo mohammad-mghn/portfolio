@@ -6,14 +6,17 @@ import { Contact } from "@/components/home/Contact";
 import { ChannelCards, ProfileList } from "@/components/home/Social";
 import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
-import { getSiteSettings } from "@/lib/content";
+import { getPageCopy, getSiteSettings } from "@/lib/content";
 import { alternatesFor } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/content">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: "content" });
-  return { title: t("title"), description: t("statement"), alternates: alternatesFor(locale, "/content") };
+  const [t, copy] = await Promise.all([
+    getTranslations({ locale, namespace: "content" }),
+    getPageCopy(locale, "content"),
+  ]);
+  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/content") };
 }
 
 /** The channels Mohammad makes content on, then everywhere else he can be found. */
@@ -21,6 +24,7 @@ export default async function ContentPage({ params }: PageProps<"/[locale]/conte
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const copy = await getPageCopy(locale, "content");
 
   const [site, t, ts] = await Promise.all([
     getSiteSettings(locale),
@@ -34,7 +38,7 @@ export default async function ContentPage({ params }: PageProps<"/[locale]/conte
       <PageHero
         eyebrow={t("eyebrow")}
         title={t("title")}
-        statement={t("statement")}
+        statement={copy.statement}
         meta={[t("metaLanguage"), t("metaTopics"), channels.map((c) => c.label).join(" · ")]}
       />
       <section aria-label={t("channels")} className="relative z-1 py-(--space-section)">
@@ -47,7 +51,7 @@ export default async function ContentPage({ params }: PageProps<"/[locale]/conte
       <section aria-label={ts("elsewhere")} className="relative z-1 py-(--space-section)">
         <ProfileList profiles={site.socials.filter((s) => s.group === "professional")} label={ts("elsewhere")} />
       </section>
-      <Contact locale={locale} site={site} />
+      <Contact locale={locale} site={site} page="content" />
     </main>
   );
 }

@@ -48,9 +48,26 @@ export type SiteSettings = {
   /** What Mohammad is open to: jobs, co-founding and partnerships, client work. */
   openTo: string[];
   resumeUrl?: string;
+  /** A scheduling page (Google Calendar booking). The "Book a call" button shows only when this is set. */
+  bookingUrl?: string;
   seoTitle: string;
   seoDescription: string;
 };
+
+/** Pages that have their own statement and closing contact text. */
+export type PageKey =
+  | "home"
+  | "engineering"
+  | "founding"
+  | "work"
+  | "content"
+  | "about"
+  | "recommendations"
+  | "resume"
+  | "contact";
+
+/** The words that change per page: the statement under the title, and the closing contact block. */
+export type PageCopy = { statement?: string; contact: { titleA: string; titleB: string; lead: string } };
 
 export type Stat = { value: string; label: string };
 
@@ -236,6 +253,7 @@ export interface ContentSource {
   getAbout(locale: Locale): Promise<About>;
   getJourney(locale: Locale): Promise<JourneyStop[]>;
   getVentures(locale: Locale): Promise<Venture[]>;
+  getPageCopy(locale: Locale, page: PageKey): Promise<PageCopy>;
   getExperience(locale: Locale): Promise<Experience[]>;
   getProjects(locale: Locale): Promise<ProjectSummary[]>;
   getProject(locale: Locale, slug: string): Promise<Project | null>;

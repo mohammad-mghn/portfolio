@@ -29,6 +29,8 @@ export const siteSettings = {
   ],
   location: { en: "Remote, worldwide", fa: "دورکاری، از هر جای دنیا" },
   email: "vito.mohagheghian@gmail.com",
+  /** Google Calendar booking page. Leave empty to hide the "Book a call" button. */
+  bookingUrl: "" as string,
   socials: [
     {
       label: "YouTube",

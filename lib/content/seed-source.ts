@@ -1,12 +1,13 @@
 import "server-only";
 import { ventures } from "@/content/seed/founding";
 import { experience, journey } from "@/content/seed/journey";
+import { pages } from "@/content/seed/pages";
 import { projects } from "@/content/seed/projects";
 import { about, recommendations, recommendationsUrl, siteSettings } from "@/content/seed/site";
 import { formatDate } from "@/lib/format";
 import { buildJourney, type RawJourneyStop } from "./journey";
 import { companyKey, pick, pickStr, toBlocks, toImg } from "./localize";
-import type { BuiltAt, ContentSource, ExperienceType, Locale, PillarKey, Project, ProjectSummary } from "./types";
+import type { BuiltAt, ContentSource, ExperienceType, L, Locale, PageCopy, PillarKey, Project, ProjectSummary } from "./types";
 
 const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
 
@@ -36,6 +37,22 @@ const summary = (p: (typeof projects)[number], locale: Locale): ProjectSummary =
   featured: p.featured,
   links: p.links,
 });
+
+/** A page's own words, with the default contact block filling whatever the page leaves out. */
+export function pageCopy(
+  p: { statement?: L; contactTitleA?: L; contactTitleB?: L; contactLead?: L } | undefined,
+  fallback: { titleA: L; titleB: L; lead: L },
+  locale: Locale,
+): PageCopy {
+  return {
+    statement: pickStr(p?.statement, locale) || undefined,
+    contact: {
+      titleA: pickStr(p?.contactTitleA, locale) || pickStr(fallback.titleA, locale),
+      titleB: pickStr(p?.contactTitleB, locale) || pickStr(fallback.titleB, locale),
+      lead: pickStr(p?.contactLead, locale) || pickStr(fallback.lead, locale),
+    },
+  };
+}
 
 /** A journey stop that points at an id that does not exist is a seed bug, so fail the build loudly. */
 function byId<T extends { _id: string }>(list: readonly T[], id: string, what: string): T {
@@ -68,6 +85,7 @@ export const seedSource: ContentSource = {
         blurb: "blurb" in x ? pickStr(x.blurb, locale) : undefined,
       })),
       openTo: [...pick<readonly string[]>(s.openTo, locale, [])],
+      bookingUrl: s.bookingUrl || undefined,
       seoTitle: pickStr(s.seoTitle, locale),
       seoDescription: pickStr(s.seoDescription, locale),
     };
@@ -150,6 +168,10 @@ export const seedSource: ContentSource = {
       };
     });
     return buildJourney(raw);
+  },
+
+  async getPageCopy(locale, page) {
+    return pageCopy(pages[page], pages.contactDefault, locale);
   },
 
   async getVentures(locale) {

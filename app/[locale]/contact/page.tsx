@@ -5,15 +5,18 @@ import { notFound } from "next/navigation";
 import { Contact } from "@/components/home/Contact";
 import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
-import { getSiteSettings } from "@/lib/content";
+import { getPageCopy, getSiteSettings } from "@/lib/content";
 import { formatIndex } from "@/lib/format";
 import { alternatesFor } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/contact">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: "contactPage" });
-  return { title: t("title"), description: t("statement"), alternates: alternatesFor(locale, "/contact") };
+  const [t, copy] = await Promise.all([
+    getTranslations({ locale, namespace: "contactPage" }),
+    getPageCopy(locale, "contact"),
+  ]);
+  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/contact") };
 }
 
 const paths = ["engineering", "partnership", "client"] as const;
@@ -23,12 +26,13 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const copy = await getPageCopy(locale, "contact");
 
   const [site, t] = await Promise.all([getSiteSettings(locale), getTranslations({ locale, namespace: "contactPage" })]);
 
   return (
     <main id="main" className="relative z-1">
-      <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={t("statement")} meta={[site.email, site.location]} />
+      <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={copy.statement} meta={[site.email, site.location]} />
 
       <section aria-label={t("pathsEyebrow")} className="relative z-1 py-(--space-section)">
         <div className="grid-12 gap-y-6">
@@ -57,7 +61,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
           ))}
         </div>
       </section>
-      <Contact locale={locale} site={site} onContactPage />
+      <Contact locale={locale} site={site} page="contact" />
     </main>
   );
 }

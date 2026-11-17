@@ -171,7 +171,7 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
           </section>
         );
       })}
-      <Contact locale={locale} site={site} />
+      <Contact locale={locale} site={site} page="work" />
     </main>
   );
 }

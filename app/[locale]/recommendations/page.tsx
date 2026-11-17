@@ -6,15 +6,18 @@ import { Contact } from "@/components/home/Contact";
 import { Avatar } from "@/components/ui/Avatar";
 import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
-import { getRecommendations, getSiteSettings } from "@/lib/content";
+import { getPageCopy, getRecommendations, getSiteSettings } from "@/lib/content";
 import { formatIndex } from "@/lib/format";
 import { alternatesFor } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/recommendations">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: "recommendationsPage" });
-  return { title: t("title"), description: t("statement"), alternates: alternatesFor(locale, "/recommendations") };
+  const [t, copy] = await Promise.all([
+    getTranslations({ locale, namespace: "recommendationsPage" }),
+    getPageCopy(locale, "recommendations"),
+  ]);
+  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/recommendations") };
 }
 
 /** Every recommendation in full, verbatim and in English on both locales, with who wrote it first. */
@@ -22,6 +25,7 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const copy = await getPageCopy(locale, "recommendations");
 
   const [site, recommendations, t, tr] = await Promise.all([
     getSiteSettings(locale),
@@ -33,7 +37,7 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
 
   return (
     <main id="main" className="relative z-1">
-      <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={t("statement")} meta={meta}>
+      <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={copy.statement} meta={meta}>
         {locale === "en" ? null : (
           <p className="text-label col-span-full text-muted" data-reveal>
             {tr("original")}
@@ -88,7 +92,7 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
           ))}
         </ol>
       </section>
-      <Contact locale={locale} site={site} />
+      <Contact locale={locale} site={site} page="recommendations" />
     </main>
   );
 }

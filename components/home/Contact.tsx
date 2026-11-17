@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import type { SiteSettings } from "@/lib/content";
+import { getPageCopy, type PageKey, type SiteSettings } from "@/lib/content";
 import { formatIndex, localizeDigits } from "@/lib/format";
 import { CopyEmail } from "./CopyEmail";
 import { DarkSection } from "./DarkSection";
@@ -9,16 +9,18 @@ import { DarkSection } from "./DarkSection";
 export async function Contact({
   locale,
   site,
+  page,
   index,
-  onContactPage = false,
 }: {
   locale: Locale;
   site: SiteSettings;
+  /** Which page this closes: each page has its own title and lead (see content/seed/pages.ts). */
+  page: PageKey;
   index?: number;
-  /** On /contact itself the "contact page" link would point at the page you are on. */
-  onContactPage?: boolean;
 }) {
-  const t = await getTranslations({ locale, namespace: "contact" });
+  const [t, copy] = await Promise.all([getTranslations({ locale, namespace: "contact" }), getPageCopy(locale, page)]);
+  // On /contact itself the "contact page" link would point at the page you are on.
+  const onContactPage = page === "contact";
   const year = localizeDigits(String(new Date().getFullYear()), locale);
   const linkedin = site.socials.find((s) => s.label === "LinkedIn");
 
@@ -34,14 +36,14 @@ export async function Contact({
         ) : null}
         <h2 id="contact-title" className="text-mega col-span-full">
           <span className="block" data-split>
-            {t("titleA")}
+            {copy.contact.titleA}
           </span>
           <span className="accent block text-accent" data-split>
-            {t("titleB")}
+            {copy.contact.titleB}
           </span>
         </h2>
         <div className="col-span-full flex flex-col gap-6 md:col-span-5" data-reveal>
-          <p className="text-lead opacity-80">{t("lead")}</p>
+          <p className="text-lead opacity-80">{copy.contact.lead}</p>
           {site.openTo.length ? (
             <div>
               <p className="text-label mb-3 opacity-60">{t("openTo")}</p>
@@ -60,6 +62,16 @@ export async function Contact({
             {site.email}
           </a>
           <div className="flex flex-wrap gap-3">
+            {site.bookingUrl ? (
+              <a
+                href={site.bookingUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-label rounded-full bg-accent px-4 py-2.5 text-night transition-colors duration-500 ease-house hover:bg-[#ece8df]"
+              >
+                {t("book")} ↗
+              </a>
+            ) : null}
             <CopyEmail email={site.email} label={t("copy")} copiedLabel={t("copied")} />
             {linkedin ? (
               <a

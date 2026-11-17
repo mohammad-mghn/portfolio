@@ -166,7 +166,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
           { href: "/recommendations", label: tn("recommendations") },
         ]}
       />
-      <Contact locale={locale} site={site} />
+      <Contact locale={locale} site={site} page="about" />
     </main>
   );
 }

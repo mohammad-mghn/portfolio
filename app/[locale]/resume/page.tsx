@@ -189,7 +189,7 @@ export default async function ResumePage({ params }: PageProps<"/[locale]/resume
           </ul>
         </Block>
       </div>
-      <Contact locale={locale} site={site} />
+      <Contact locale={locale} site={site} page="resume" />
     </main>
   );
 }

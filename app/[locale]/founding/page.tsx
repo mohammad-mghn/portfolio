@@ -9,15 +9,18 @@ import { PageHero } from "@/components/ui/PageHero";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { getAbout, getProjectSlugs, getSiteSettings, getVentures } from "@/lib/content";
+import { getAbout, getPageCopy, getProjectSlugs, getSiteSettings, getVentures } from "@/lib/content";
 import { formatIndex, formatMonth } from "@/lib/format";
 import { alternatesFor } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/founding">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: "founding" });
-  return { title: t("title"), description: t("statement"), alternates: alternatesFor(locale, "/founding") };
+  const [t, copy] = await Promise.all([
+    getTranslations({ locale, namespace: "founding" }),
+    getPageCopy(locale, "founding"),
+  ]);
+  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/founding") };
 }
 
 const pill =
@@ -27,6 +30,7 @@ export default async function FoundingPage({ params }: PageProps<"/[locale]/foun
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const copy = await getPageCopy(locale, "founding");
 
   const [site, about, ventures, slugs, t] = await Promise.all([
     getSiteSettings(locale),
@@ -39,7 +43,7 @@ export default async function FoundingPage({ params }: PageProps<"/[locale]/foun
 
   return (
     <main id="main" className="relative z-1">
-      <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={t("statement")} meta={meta} />
+      <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={copy.statement} meta={meta} />
 
       <section id="companies" aria-labelledby="companies-title" className="relative z-1 py-(--space-section)">
         <SectionHead index={formatIndex(1, locale)} eyebrow={t("companiesEyebrow")} title={t("companiesTitle")} titleId="companies-title" />
@@ -133,7 +137,7 @@ export default async function FoundingPage({ params }: PageProps<"/[locale]/foun
       </section>
 
       <Beliefs locale={locale} beliefs={about.beliefs} quotes={about.quotes} kinds={["founder"]} more={false} index={3} />
-      <Contact locale={locale} site={site} />
+      <Contact locale={locale} site={site} page="founding" />
     </main>
   );
 }

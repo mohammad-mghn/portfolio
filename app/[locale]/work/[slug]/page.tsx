@@ -48,7 +48,7 @@ export default async function WorkPage({ params }: PageProps<"/[locale]/work/[sl
         inOverlay={false}
         titleId="case-title"
       />
-      <Contact locale={locale} site={site} />
+      <Contact locale={locale} site={site} page="work" />
     </main>
   );
 }

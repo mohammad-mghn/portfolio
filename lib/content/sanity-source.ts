@@ -4,6 +4,8 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { formatDate } from "@/lib/format";
 import { buildJourney, type RawJourneyStop } from "./journey";
 import { companyKey, pick, pickStr } from "./localize";
+import { pageCopy } from "./seed-source";
+import { pages as seedPages } from "@/content/seed/pages";
 import type {
   BuiltAt,
   ContentSource,
@@ -33,6 +35,7 @@ const ABOUT = defineQuery(`*[_type == "about"][0]{ ..., "portrait": portrait${IM
 const JOURNEY = defineQuery(
   `*[_type == "journey"][0].stops[]{ _key, _type, weight, sceneBreak, highlights, href, "media": media${IMG}, "roles": roles[]._ref, "venture": venture->slug.current, "projects": projects[]->slug.current }`,
 );
+const PAGES = defineQuery(`*[_type == "pages"][0]`);
 const VENTURES = defineQuery(`*[_type == "venture"] | order(order asc){ ..., "slug": slug.current, "cover": cover${IMG} }`);
 const BUILT_AT = `"builtAt": builtAt->{ _id, company, type }`;
 const EXPERIENCE = defineQuery(
@@ -108,6 +111,7 @@ export const sanitySource: ContentSource = {
       })),
       openTo: pick<string[]>(s.openTo, locale, []),
       resumeUrl: s.resumeUrl,
+      bookingUrl: s.bookingUrl || undefined,
       seoTitle: pickStr(s.seoTitle, locale),
       seoDescription: pickStr(s.seoDescription, locale),
     };
@@ -189,6 +193,17 @@ export const sanitySource: ContentSource = {
       raw.push({ type: "role", key: s._key, roles: found(refs.map((id) => roles.find((r) => r.id === id))), ...overrides });
     }
     return buildJourney(raw);
+  },
+
+  async getPageCopy(locale, page) {
+    // An empty or missing field falls back to the seed, so a half-filled panel never leaves a page blank.
+    const doc = (await fetchDoc<Doc | null>(PAGES)) ?? {};
+    const seed = pageCopy(seedPages[page], seedPages.contactDefault, locale);
+    const cms = pageCopy(doc[page], doc.contactDefault ?? seedPages.contactDefault, locale);
+    return {
+      statement: cms.statement ?? seed.statement,
+      contact: doc[page]?.contactTitleA || doc.contactDefault ? cms.contact : seed.contact,
+    };
   },
 
   async getVentures(locale) {

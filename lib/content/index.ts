@@ -2,7 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { isSanityConfigured } from "@/sanity/env";
 import { seedSource } from "./seed-source";
-import type { ContentSource, Locale } from "./types";
+import type { ContentSource, Locale, PageKey } from "./types";
 
 export type * from "./types";
 
@@ -21,6 +21,7 @@ export const getSiteSettings = cache(async (locale: Locale) => (await getSource(
 export const getAbout = cache(async (locale: Locale) => (await getSource()).getAbout(locale));
 export const getJourney = cache(async (locale: Locale) => (await getSource()).getJourney(locale));
 export const getVentures = cache(async (locale: Locale) => (await getSource()).getVentures(locale));
+export const getPageCopy = cache(async (locale: Locale, page: PageKey) => (await getSource()).getPageCopy(locale, page));
 export const getExperience = cache(async (locale: Locale) => (await getSource()).getExperience(locale));
 export const getProjects = cache(async (locale: Locale) => (await getSource()).getProjects(locale));
 export const getProject = cache(async (locale: Locale, slug: string) => (await getSource()).getProject(locale, slug));

@@ -120,9 +120,6 @@
   },
   "contact": {
     "eyebrow": "Contact",
-    "titleA": "Let's build",
-    "titleB": "something.",
-    "lead": "Hiring an engineer, looking for a co-founder or a partner, or have a product to build? My inbox is open.",
     "openTo": "Open to",
     "copy": "Copy email",
     "copied": "Copied",
@@ -131,12 +128,12 @@
     "contactPage": "Contact page",
     "backTop": "Back to top",
     "rights": "All rights reserved.",
-    "made": "Designed and built by me."
+    "made": "Designed and built by me.",
+    "book": "Book a call"
   },
   "engineering": {
     "eyebrow": "Engineering",
     "title": "Engineering",
-    "statement": "Since 2021 I've built interfaces and design systems. Now I build the backend and cloud behind them too.",
     "metaSince": "Since 2021",
     "metaRoles": "{count, plural, one {# role} other {# roles}}",
     "metaNow": "Now: {role} at {org}",
@@ -156,7 +153,6 @@
   "founding": {
     "eyebrow": "Founding",
     "title": "Founding",
-    "statement": "Two products I co-founded with partners I trust. Real people use both of them every day.",
     "companiesEyebrow": "The companies",
     "companiesTitle": "What we built.",
     "role": "Role",
@@ -182,7 +178,6 @@
   "recommendationsPage": {
     "eyebrow": "Recommendations",
     "title": "Recommendations",
-    "statement": "People I've worked with, in their own words. Nothing is edited.",
     "metaCount": "{count, plural, one {# recommendation} other {# recommendations}}",
     "metaSource": "From LinkedIn and my earlier site",
     "metaUnedited": "Unedited",
@@ -193,7 +188,6 @@
   "content": {
     "eyebrow": "Content",
     "title": "Content",
-    "statement": "I make Persian videos and posts about tech and building products.",
     "metaLanguage": "In Persian",
     "metaTopics": "Tech and building",
     "channels": "Channels"
@@ -201,7 +195,6 @@
   "contactPage": {
     "eyebrow": "Contact",
     "title": "Contact",
-    "statement": "Email is the best way to reach me. Tell me which of these fits.",
     "pathsEyebrow": "How I can help",
     "paths": {
       "engineering": {

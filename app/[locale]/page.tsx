@@ -44,7 +44,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <JourneySection locale={locale} index={n("journey")} />
       <Social locale={locale} socials={site.socials} index={n("social")} />
       <Beliefs locale={locale} beliefs={about.beliefs} quotes={about.quotes} index={n("beliefs")} />
-      <Contact locale={locale} site={site} index={n("contact")} />
+      <Contact locale={locale} site={site} page="home" index={n("contact")} />
       <ProgressRail items={rail} />
     </main>
   );
