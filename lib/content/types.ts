@@ -1,0 +1,184 @@
+import type { PortableTextBlock } from "next-sanity";
+import type { Locale } from "@/i18n/routing";
+
+export type { Locale };
+
+/** A localised value as stored in Sanity / the seed (`{en, fa}`). */
+export type L<T = string> = { en: T; fa?: T };
+
+/** Image DTO shared by both content sources. */
+export type Img = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  lqip?: string;
+};
+
+export type RichText = PortableTextBlock[];
+
+/** "content" = channels Mohammad publishes on; "professional" = profiles and code. */
+export type SocialGroup = "content" | "professional";
+
+export type Social = {
+  label: string;
+  href: string;
+  handle?: string;
+  group: SocialGroup;
+  /** One line on what's there, e.g. "Persian videos on engineering and building". */
+  blurb?: string;
+};
+
+/** A current role, shown in the hero: "Software Engineer @ Nobar". */
+export type Role = { title: string; org: string; href?: string };
+
+export type SiteSettings = {
+  name: string;
+  shortName: string;
+  /** "Engineering · Founding · Product building". */
+  tagline: string;
+  /** "Software engineer, founder and product builder." */
+  headline: string;
+  positioning: string;
+  roles: Role[];
+  /** Shown instead of a city: "Remote, worldwide". */
+  location: string;
+  email: string;
+  socials: Social[];
+  /** What Mohammad is open to: jobs, co-founding and partnerships, client work. */
+  openTo: string[];
+  resumeUrl?: string;
+  seoTitle: string;
+  seoDescription: string;
+};
+
+export type Stat = { value: string; label: string };
+
+export type PillarKey = "engineering" | "founding" | "product";
+
+/** One of the three pillars, in order: Engineering, Founding, Product building. */
+export type Pillar = { key: PillarKey; title: string; proof: string; points: string[]; href: string };
+
+/** Something Mohammad believes, in his own words (no outside source). */
+export type Belief = { text: string };
+
+/** A quote from someone else, always with its real source. */
+export type Quote = { text: string; author: string; source?: string; kind: "founder" | "engineering" };
+
+export type About = {
+  statement: string;
+  bio: string[];
+  /** "Outside my main job" bullets from the LinkedIn About. */
+  outside: string[];
+  closing: string;
+  portrait?: Img;
+  numbers: Stat[];
+  pillars: Pillar[];
+  beliefs: Belief[];
+  quotes: Quote[];
+  tools: string[];
+  education: Education[];
+  volunteering: Volunteering[];
+  languages: { name: string; level: string }[];
+};
+
+export type Education = { school: string; degree: string; start: string; end: string; note?: string };
+export type Volunteering = { role: string; org: string; date: string; summary: string; bullets: string[] };
+
+/** Who wrote a LinkedIn recommendation, and the recommendation itself (kept verbatim, in English). */
+export type Recommendation = {
+  id: string;
+  name: string;
+  headline: string;
+  /** e.g. "Worked with Mohammad on the same team". */
+  relationship: string;
+  /** e.g. "Aug 2026". */
+  date: string;
+  /** One sentence lifted verbatim from the text, shown big. */
+  highlight: string;
+  /** Full text, verbatim, split into paragraphs. */
+  paragraphs: string[];
+  href?: string;
+};
+
+export type MilestoneKind = "roots" | "career" | "venture" | "now";
+
+export type Milestone = {
+  id: string;
+  year: string;
+  title: string;
+  outcome: string;
+  kind: MilestoneKind;
+  /** "major" stops (the last two years) are drawn bigger than "minor" early ones. */
+  weight: "major" | "minor";
+  tags: string[];
+  media?: Img;
+  sceneBreak: boolean;
+  placement: "auto" | "start" | "end";
+};
+
+export type ExperienceType = "founder" | "employee" | "freelance" | "community";
+
+/** One role, word for word from LinkedIn. Roles at the same company share `company`. */
+export type Experience = {
+  id: string;
+  company: string;
+  companyNote?: string;
+  url?: string;
+  role: string;
+  type: ExperienceType;
+  start: string;
+  end?: string;
+  workplace?: string;
+  location?: string;
+  summary: string;
+  bullets: string[];
+  tech: string[];
+  /** Small spec block: what was built first, then the outcome. */
+  spec: { built: string; outcome?: string };
+};
+
+export type ProjectStatus = "live" | "nda" | "offline" | "archived";
+
+/** How a project relates to Mohammad: his own product, Nobar work, client work or a side project. */
+export type ProjectGroup = "own" | "nobar" | "client" | "side";
+
+export type ProjectSummary = {
+  slug: string;
+  title: string;
+  year: string;
+  sector: string;
+  kind: string;
+  scope: string[];
+  status: ProjectStatus;
+  group: ProjectGroup;
+  /** Full case study page (true) or a short card (false). */
+  caseStudy: boolean;
+  color: string;
+  summary: string;
+  cover?: Img;
+  featured: boolean;
+};
+
+export type Project = ProjectSummary & {
+  client?: string;
+  location?: string;
+  role: string;
+  problem: RichText;
+  decision: RichText;
+  result: RichText;
+  gallery: Img[];
+  stack: string[];
+  links: { live?: string; repo?: string; figma?: string };
+};
+
+export interface ContentSource {
+  getSiteSettings(locale: Locale): Promise<SiteSettings>;
+  getAbout(locale: Locale): Promise<About>;
+  getMilestones(locale: Locale): Promise<Milestone[]>;
+  getExperience(locale: Locale): Promise<Experience[]>;
+  getProjects(locale: Locale): Promise<ProjectSummary[]>;
+  getProject(locale: Locale, slug: string): Promise<Project | null>;
+  getProjectSlugs(): Promise<string[]>;
+  getRecommendations(locale: Locale): Promise<Recommendation[]>;
+}

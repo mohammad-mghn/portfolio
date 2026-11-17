@@ -1,12 +1,24 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Cache Components stays off for v1: content freshness comes from
+  // next-sanity's <SanityLive/> plus an on-demand revalidation webhook.
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
+    qualities: [75, 90],
+  },
+  experimental: {
+    // Two root layouts (app/[locale] and app/studio) → one global 404.
+    globalNotFound: true,
+  },
   turbopack: {
     rules: {
+      // Tailwind only for our global stylesheets; CSS Modules keep native scoping.
       "*.css": {
+        condition: { all: [{ not: "foreign" }, { not: { path: "*.module.css" } }] },
         loaders: ["@tailwindcss/turbopack"],
         as: "*.css",
       },
@@ -14,4 +26,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

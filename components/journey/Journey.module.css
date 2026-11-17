@@ -1,0 +1,304 @@
+/* ───────── Shared ───────── */
+.section {
+  --j-bg: var(--paper);
+  --j-ink: var(--ink);
+  --j-card: color-mix(in oklab, var(--paper) 70%, white);
+  --j-hair: var(--hair);
+  position: relative;
+  z-index: 1;
+  color: var(--j-ink);
+  background: var(--j-bg);
+}
+
+.stage {
+  position: relative;
+}
+
+.card {
+  position: relative;
+  width: clamp(280px, 34vw, 520px);
+  padding: 1.4rem 1.4rem 1.6rem;
+  background: var(--j-card);
+  color: var(--j-ink);
+  border: 1px solid var(--j-hair);
+  border-radius: 3px;
+}
+
+.year {
+  margin-top: 0.9rem;
+  font-family: var(--font-head);
+  font-size: clamp(2.6rem, 5.4vw, 5.6rem);
+  font-weight: 700;
+  font-stretch: 70%;
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.media {
+  margin-top: 1rem;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--j-hair);
+}
+
+.cardTitle {
+  margin-top: 1rem;
+  font-family: var(--font-head);
+  font-size: clamp(1.45rem, 2.1vw, 2.15rem);
+  font-weight: 600;
+  font-stretch: 88%;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.outcome {
+  margin-top: 0.7rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  opacity: 0.78;
+  max-width: 44ch;
+}
+
+.tag {
+  font-family: var(--font-label);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--j-hair);
+  border-radius: 99px;
+}
+
+/* The last two years ("major") are drawn bigger and louder than the early stops. */
+.card[data-weight="major"] {
+  width: clamp(320px, 40vw, 620px);
+  padding: 1.7rem 1.7rem 1.9rem;
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--j-hair));
+}
+.card[data-weight="major"] .year {
+  font-size: clamp(3.2rem, 7.4vw, 7.8rem);
+  color: var(--accent);
+}
+.card[data-weight="major"] .cardTitle {
+  font-size: clamp(1.7rem, 2.7vw, 2.8rem);
+}
+.card[data-weight="major"] .outcome {
+  font-size: 1.06rem;
+  opacity: 0.88;
+  max-width: 52ch;
+}
+.card[data-weight="minor"] {
+  width: clamp(250px, 26vw, 400px);
+  padding: 1.1rem 1.1rem 1.25rem;
+}
+.card[data-weight="minor"] .year {
+  font-size: clamp(2rem, 3.6vw, 3.6rem);
+}
+.card[data-weight="minor"] .cardTitle {
+  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+}
+.card[data-weight="minor"] .outcome {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+.card[data-weight="major"] .media {
+  aspect-ratio: 16 / 9;
+}
+.card[data-weight="minor"] .media {
+  aspect-ratio: 16 / 8;
+}
+
+:global(:root[lang="fa"]) .year,
+:global(:root[lang="fa"]) .cardTitle,
+:global(:root[lang="fa"]) .tag {
+  letter-spacing: 0;
+  text-transform: none;
+  font-stretch: 100%;
+}
+:global(:root[lang="fa"]) .year {
+  line-height: 1.1;
+}
+
+.hud {
+  padding: 0 var(--gutter) 2.5rem;
+}
+
+.hudTitle {
+  margin-top: 0.6rem;
+  font-family: var(--font-head);
+  font-size: clamp(2.2rem, 6vw, 6.5rem);
+  font-weight: 650;
+  font-stretch: 78%;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+:global(:root[lang="fa"]) .hudTitle {
+  letter-spacing: 0;
+  text-transform: none;
+  font-stretch: 100%;
+  line-height: 1.15;
+}
+
+/* ───────── Flat mode (SSR default, no-JS, reduced motion) ───────── */
+.section[data-mode="flat"] {
+  padding-block: 8rem 6rem;
+}
+.section[data-mode="flat"] .stars,
+.section[data-mode="flat"] .thread,
+.section[data-mode="flat"] .ghost,
+.section[data-mode="flat"] .hudBottom {
+  display: none;
+}
+.section[data-mode="flat"] .stage {
+  display: flex;
+  flex-direction: column;
+}
+.section[data-mode="flat"] .hud {
+  order: -1;
+}
+.section[data-mode="flat"] .list {
+  display: grid;
+  gap: var(--gutter);
+  padding-inline: var(--gutter);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+}
+.section[data-mode="flat"] .card {
+  width: auto;
+}
+@media (min-width: 768px) {
+  .section[data-mode="flat"] .card[data-weight="major"] {
+    grid-column: span 2;
+  }
+}
+
+/* ───────── 3D mode ───────── */
+.section[data-mode="3d"] {
+  height: calc(var(--stops) * 118svh + 100svh);
+}
+.section[data-mode="3d"] .stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--j-bg);
+  perspective-origin: 50% 50%;
+}
+.section[data-mode="3d"] .stars,
+.section[data-mode="3d"] .thread {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.section[data-mode="3d"] .world {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.section[data-mode="3d"] .list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.section[data-mode="3d"] .card,
+.section[data-mode="3d"] .ghost {
+  position: absolute;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
+}
+.section[data-mode="3d"] .card {
+  box-shadow: 0 30px 80px -40px rgb(0 0 0 / 0.35);
+}
+.ghost {
+  font-family: var(--font-head);
+  font-size: clamp(9rem, 30vw, 34rem);
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--j-ink);
+  pointer-events: none;
+  user-select: none;
+}
+.ghost[data-weight="major"] {
+  -webkit-text-stroke: 2px var(--j-ink);
+}
+.ghost[data-dup] {
+  display: none;
+}
+:global(:root[lang="fa"]) .ghost {
+  letter-spacing: 0;
+  font-stretch: 100%;
+  font-size: clamp(6rem, 20vw, 22rem);
+}
+
+.section[data-mode="3d"] .hud {
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--header-h) + 1.2rem);
+  inset-inline-start: 0;
+  max-width: min(46rem, 70vw);
+  pointer-events: none;
+}
+.section[data-mode="3d"] .hudTitle {
+  font-size: clamp(1.8rem, 3.6vw, 3.6rem);
+}
+
+.hudBottom {
+  position: absolute;
+  z-index: 2;
+  bottom: 1.4rem;
+  inset-inline: var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  pointer-events: none;
+}
+.bar {
+  flex: 1;
+  height: 1px;
+  background: var(--j-hair);
+  overflow: hidden;
+}
+.barFill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+:global([dir="rtl"]) .barFill {
+  transform-origin: right center;
+}
+.counter {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 767px) {
+  .card {
+    width: min(82vw, 400px);
+    padding: 1.1rem 1.1rem 1.3rem;
+  }
+  .card[data-weight="major"] {
+    width: min(88vw, 440px);
+    padding: 1.2rem 1.2rem 1.4rem;
+  }
+  .card[data-weight="minor"] {
+    width: min(74vw, 340px);
+  }
+  .section[data-mode="3d"] .hud {
+    max-width: calc(100vw - 2 * var(--gutter));
+  }
+}

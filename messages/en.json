@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "skip": "Skip to content"
+  },
+  "nav": {
+    "index": "Index",
+    "home": "Home",
+    "pillars": "What I do",
+    "recommendations": "Recommendations",
+    "numbers": "In numbers",
+    "journey": "Journey",
+    "work": "Work",
+    "beliefs": "Beliefs",
+    "about": "About",
+    "social": "Content & social",
+    "contact": "Contact",
+    "allWork": "All projects",
+    "engineering": "Engineering",
+    "founding": "Founding",
+    "content": "Content",
+    "resume": "Resume",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "فا",
+    "languageLabel": "Read in Persian"
+  },
+  "hero": {
+    "role": "{title} @ {org}",
+    "talk": "Start a conversation",
+    "work": "View work"
+  },
+  "pillars": {
+    "eyebrow": "What I do",
+    "title": "Engineer first. Founder second. Always building.",
+    "kinds": {
+      "engineering": "First",
+      "founding": "Second",
+      "product": "Always"
+    },
+    "more": {
+      "engineering": "Engineering & experience",
+      "founding": "The founding story",
+      "product": "All work"
+    }
+  },
+  "recommendations": {
+    "eyebrow": "Recommendations",
+    "title": "In their words.",
+    "prev": "Previous recommendation",
+    "next": "Next recommendation",
+    "of": "/",
+    "onLinkedIn": "On LinkedIn",
+    "original": "",
+    "all": "All recommendations"
+  },
+  "numbers": {
+    "eyebrow": "In numbers"
+  },
+  "journey": {
+    "eyebrow": "The journey",
+    "title": "2021 to now.",
+    "hint": "Scroll to travel",
+    "kinds": {
+      "roots": "Start",
+      "career": "Engineering",
+      "venture": "Founding",
+      "now": "Now"
+    },
+    "more": "Full experience"
+  },
+  "building": {
+    "eyebrow": "Experience",
+    "title": "Where the work happened.",
+    "present": "Present",
+    "types": {
+      "founder": "Founder",
+      "employee": "Team",
+      "freelance": "Freelance",
+      "community": "Community"
+    }
+  },
+  "work": {
+    "eyebrow": "Selected work",
+    "title": "Recent things I've built.",
+    "open": "Open the case",
+    "all": "All projects"
+  },
+  "beliefs": {
+    "eyebrow": "What I believe",
+    "title": "How I work.",
+    "mine": "My rule",
+    "founders": "Founders I agree with",
+    "engineers": "Engineers I agree with",
+    "more": "The founding story"
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "The person behind the work.",
+    "outside": "Outside my main job",
+    "tools": "Tools I use",
+    "toolsHint": "Hover to pause",
+    "more": "More about me"
+  },
+  "social": {
+    "eyebrow": "Content & social",
+    "title": "Where I share what I build.",
+    "persian": "In Persian",
+    "watch": "Watch",
+    "follow": "Follow",
+    "elsewhere": "Elsewhere",
+    "more": "All channels"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "titleA": "Let's build",
+    "titleB": "something.",
+    "lead": "Hiring an engineer, looking for a co-founder or a partner, or have a product to build? My inbox is open.",
+    "openTo": "Open to",
+    "copy": "Copy email",
+    "copied": "Copied",
+    "elsewhere": "Elsewhere",
+    "resume": "Resume",
+    "contactPage": "Contact page",
+    "backTop": "Back to top",
+    "rights": "All rights reserved.",
+    "made": "Designed and built by me."
+  },
+  "engineering": {
+    "eyebrow": "Engineering",
+    "title": "Engineering",
+    "statement": "Since 2021 I've built interfaces and design systems. Now I build the backend and cloud behind them too.",
+    "metaSince": "Since 2021",
+    "metaRoles": "{count, plural, one {# role} other {# roles}}",
+    "metaNow": "Now: {role} at {org}",
+    "timelineEyebrow": "Experience",
+    "timelineTitle": "Every role, word for word from LinkedIn.",
+    "spec": "Spec",
+    "built": "Built",
+    "outcome": "Outcome",
+    "stack": "Stack",
+    "present": "Present",
+    "earlier": "Earlier",
+    "quotesTitle": "Words I keep close.",
+    "work": "See the work",
+    "resume": "Read the resume"
+  },
+  "founding": {
+    "eyebrow": "Founding",
+    "title": "Founding",
+    "statement": "Two products I co-built with partners I trust. Real people use both of them every day.",
+    "companiesEyebrow": "The companies",
+    "companiesTitle": "What we built.",
+    "role": "Role",
+    "since": "Since",
+    "partner": "Partner",
+    "traction": "Used by",
+    "visit": "Visit",
+    "caseStudy": "Case study",
+    "storyEyebrow": "The story",
+    "storyTitle": "How it started."
+  },
+  "aboutPage": {
+    "eyebrow": "About",
+    "title": "About",
+    "story": "My story",
+    "backgroundEyebrow": "Background",
+    "backgroundTitle": "Study, community and languages.",
+    "education": "Education",
+    "volunteering": "Volunteering",
+    "languages": "Languages",
+    "tools": "Tools I use"
+  },
+  "recommendationsPage": {
+    "eyebrow": "Recommendations",
+    "title": "Recommendations",
+    "statement": "Five people I've worked with, in their own words, exactly as they wrote them on LinkedIn.",
+    "metaCount": "{count, plural, one {# recommendation} other {# recommendations}}",
+    "metaSource": "From LinkedIn",
+    "metaUnedited": "Unedited",
+    "read": "Read on LinkedIn"
+  },
+  "content": {
+    "eyebrow": "Content",
+    "title": "Content",
+    "statement": "I make Persian videos and posts about tech and building products.",
+    "metaLanguage": "In Persian",
+    "metaTopics": "Tech and building",
+    "channels": "Channels"
+  },
+  "contactPage": {
+    "eyebrow": "Contact",
+    "title": "Contact",
+    "statement": "Email is the best way to reach me. Tell me which of these fits.",
+    "pathsEyebrow": "How I can help",
+    "paths": {
+      "engineering": {
+        "title": "Engineering roles",
+        "body": "Hiring for frontend, backend or full-stack work? Send me the role and a little about the team.",
+        "subject": "Engineering role",
+        "cta": "Email about a role"
+      },
+      "partnership": {
+        "title": "Co-founding and partnerships",
+        "body": "Building something and looking for a technical co-founder or partner? Tell me what you're building and why.",
+        "subject": "Partnership",
+        "cta": "Email about a partnership"
+      },
+      "client": {
+        "title": "Client projects",
+        "body": "Have a product that needs building, from the interface to the backend? Send a short brief and your timeline.",
+        "subject": "Client project",
+        "cta": "Email a brief"
+      }
+    }
+  },
+  "resume": {
+    "eyebrow": "Resume",
+    "title": "Resume",
+    "pdf": "Download PDF",
+    "summary": "Summary",
+    "experience": "Experience",
+    "projects": "Selected projects",
+    "education": "Education",
+    "volunteering": "Volunteering",
+    "skills": "Skills and tools",
+    "languages": "Languages",
+    "present": "Present"
+  },
+  "case": {
+    "back": "Back to work",
+    "caseStudy": "Case study",
+    "sector": "Sector",
+    "scope": "Scope",
+    "year": "Year",
+    "role": "Role",
+    "stack": "Stack",
+    "client": "Client",
+    "location": "Location",
+    "problem": "Problem",
+    "decision": "Decision",
+    "result": "Result",
+    "visit": "Visit site",
+    "repo": "Source",
+    "figma": "Design file",
+    "next": "Next project",
+    "close": "Close",
+    "gallery": "Gallery"
+  },
+  "archive": {
+    "eyebrow": "Archive",
+    "title": "Everything, logged.",
+    "index": "Index",
+    "timeline": "Timeline",
+    "status": "Status",
+    "logged": "Logged",
+    "year": "Year",
+    "name": "Project",
+    "type": "Type",
+    "statuses": {
+      "live": "Live",
+      "nda": "NDA",
+      "offline": "Offline",
+      "archived": "Archived"
+    },
+    "groups": {
+      "own": "My products",
+      "nobar": "Nobar",
+      "client": "Client work",
+      "side": "Side projects and open source"
+    },
+    "groupNotes": {
+      "own": "Products I co-founded and run.",
+      "nobar": "Cloud products at Nobar. Public screens only.",
+      "client": "Sites and apps I built for clients.",
+      "side": "Built to learn and to share."
+    },
+    "caseStudy": "Case study",
+    "short": "Short read",
+    "count": "{count, plural, one {# project} other {# projects}}"
+  },
+  "notFound": {
+    "eyebrow": "Error 404 — Off the map",
+    "titleA": "Lost",
+    "titleB": "the thread.",
+    "back": "Back to the start"
+  }
+}

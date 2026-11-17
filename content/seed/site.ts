@@ -1,0 +1,345 @@
+/**
+ * Seed content: site settings, about (pillars, numbers, beliefs, quotes) and recommendations.
+ * Source of truth: Mohammad's LinkedIn profile, read 17 Nov 2026
+ * (~/Documents/Personal Brand /LinkedIn/account/profile-snapshot.md + profile-refresh-2026-11-17.md).
+ * Recommendations are verbatim and stay in English on both locales.
+ */
+import type { L } from "@/lib/content/types";
+
+export type SeedImage = { src: string; width: number; height: number; alt: L };
+
+export const siteSettings = {
+  _id: "siteSettings",
+  _type: "siteSettings",
+  needsReview: true,
+  name: { en: "Mohammad Mohagheghian", fa: "محمد محققیان" },
+  shortName: "MGHN",
+  tagline: { en: "Engineering · Founding · Product building", fa: "مهندسی · بنیان‌گذاری · ساختن محصول" },
+  headline: {
+    en: "Software engineer, founder and product builder.",
+    fa: "مهندس نرم‌افزار، بنیان‌گذار و سازندهٔ محصول.",
+  },
+  positioning: {
+    en: "I build products end to end, from the interface to the backend and cloud behind it.",
+    fa: "محصول را از اول تا آخر می‌سازم؛ از رابط کاربری تا بک‌اند و زیرساخت ابری پشتش.",
+  },
+  roles: [
+    { title: { en: "Software Engineer", fa: "مهندس نرم‌افزار" }, org: { en: "Nobar", fa: "نوبر" } },
+    { title: { en: "Co-founder", fa: "هم‌بنیان‌گذار" }, org: { en: "Rooza", fa: "روزا" }, href: "https://rooza.space" },
+  ],
+  location: { en: "Remote, worldwide", fa: "دورکاری، از هر جای دنیا" },
+  email: "vito.mohagheghian@gmail.com",
+  socials: [
+    {
+      label: "YouTube",
+      href: "https://www.youtube.com/@mohammadmghn",
+      handle: "@mohammadmghn",
+      group: "content",
+      blurb: {
+        en: "Videos in Persian about engineering and building products.",
+        fa: "ویدیوهای فارسی دربارهٔ مهندسی نرم‌افزار و ساختن محصول.",
+      },
+    },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/mohammad.mohaghghian/",
+      handle: "@mohammad.mohaghghian",
+      group: "content",
+      blurb: {
+        en: "Short videos in Persian about tech and building in public.",
+        fa: "ویدیوهای کوتاه فارسی دربارهٔ تکنولوژی و ساختن در معرض دید.",
+      },
+    },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/mohammad-mohagheghian/", handle: "mohammad-mohagheghian", group: "professional" },
+    { label: "GitHub", href: "https://github.com/mohammad-mghn", handle: "mohammad-mghn", group: "professional" },
+    { label: "X", href: "https://x.com/mohammadmghn", handle: "@mohammadmghn", group: "professional" },
+    { label: "Telegram", href: "https://t.me/mohammadmghn", handle: "@mohammadmghn", group: "professional" },
+  ],
+  openTo: {
+    en: ["Engineering roles", "Co-founding and partnerships", "Client projects"],
+    fa: ["موقعیت‌های مهندسی", "هم‌بنیان‌گذاری و شراکت", "پروژه‌های مشتری"],
+  },
+  seoTitle: {
+    en: "Mohammad Mohagheghian · Software engineer, founder and product builder",
+    fa: "محمد محققیان · مهندس نرم‌افزار، بنیان‌گذار و سازندهٔ محصول",
+  },
+  seoDescription: {
+    en: "Software engineer at Nobar and co-founder of Rooza. I build products end to end, from the interface to the backend and cloud behind it.",
+    fa: "مهندس نرم‌افزار در نوبر و هم‌بنیان‌گذار روزا. محصول را از رابط کاربری تا بک‌اند و زیرساخت ابری‌اش می‌سازم.",
+  },
+} as const;
+
+export const about = {
+  _id: "about",
+  _type: "about",
+  needsReview: true,
+  statement: {
+    en: "I care about why something should work a certain way, not only how to build it.",
+    fa: "برایم فقط این مهم نیست که چیزی را چطور بسازم؛ مهم‌تر این است که چرا باید این‌طور کار کند.",
+  },
+  bio: [
+    {
+      en: "I taught myself to code as a teenager and have been shipping for clients since 2021, including work for teams in the UAE and Germany.",
+      fa: "برنامه‌نویسی را در نوجوانی خودم یاد گرفتم و از ۲۰۲۱ برای مشتری‌ها محصول تحویل می‌دهم؛ از جمله برای تیم‌هایی در امارات و آلمان.",
+    },
+    {
+      en: "At Nobar, a cloud company, I built the design system and frontend monorepo, then moved to backend to work closer to the infrastructure.",
+      fa: "در نوبر، که یک شرکت ابری است، دیزاین سیستم و مونوریپوی فرانت‌اند را ساختم و بعد به بک‌اند رفتم تا به زیرساخت نزدیک‌تر باشم.",
+    },
+  ],
+  outside: [
+    {
+      en: "Co-founder of Rooza, a bilingual new-tab browser extension with 3,000+ users",
+      fa: "هم‌بنیان‌گذار روزا، افزونهٔ دوزبانهٔ تب جدید مرورگر با بیش از ۳٬۰۰۰ کاربر",
+    },
+    {
+      en: "Built Agent Assist with Hassan Faraji, a tool used by 100+ support agents that brings approved replies into helpdesks, CRMs and email",
+      fa: "ساخت Agent Assist با حسن فرجی؛ ابزاری که بیش از ۱۰۰ کارشناس پشتیبانی با آن پاسخ‌های تأییدشده را در هلپ‌دسک، CRM و ایمیل وارد می‌کنند",
+    },
+    {
+      en: "Technical Lead at my university's computer science association, leading 7 developers",
+      fa: "مسئول فنی انجمن علمی علوم کامپیوتر دانشگاه اصفهان و راهبر ۷ توسعه‌دهنده",
+    },
+  ],
+  closing: {
+    en: "Message me to talk about products, backend or cloud.",
+    fa: "اگر دربارهٔ محصول، بک‌اند یا زیرساخت ابری حرفی دارید، پیام بدهید.",
+  },
+  numbers: [
+    { value: { en: "3,000+", fa: "۳٬۰۰۰+" }, label: { en: "Rooza users", fa: "کاربر روزا" } },
+    { value: { en: "100+", fa: "۱۰۰+" }, label: { en: "Support agents on Agent Assist", fa: "کارشناس پشتیبانی روی Agent Assist" } },
+    { value: { en: "140+", fa: "۱۴۰+" }, label: { en: "GitHub stars on Windows 11 On Web", fa: "ستارهٔ گیت‌هاب برای Windows 11 On Web" } },
+    { value: { en: "100K+", fa: "۱۰۰ هزار+" }, label: { en: "Monthly visits on Lusyman", fa: "بازدید ماهانهٔ لوسیمن" } },
+    { value: { en: "2021", fa: "۲۰۲۱" }, label: { en: "Building since", fa: "سال شروع ساختن" } },
+  ],
+  pillars: [
+    {
+      key: "engineering",
+      title: { en: "Engineering", fa: "مهندسی" },
+      proof: {
+        en: "Backend microservices with FastAPI, OpenStack and OpenShift at Nobar, after building its 100+ component design system and frontend monorepo.",
+        fa: "میکروسرویس‌های بک‌اند با FastAPI، OpenStack و OpenShift در نوبر؛ بعد از ساختن دیزاین سیستم بیش از ۱۰۰ کامپوننتی و مونوریپوی فرانت‌اند.",
+      },
+      points: {
+        en: ["FastAPI · OpenStack · OpenShift", "100+ component design system", "Captcha product, 4 npm packages"],
+        fa: ["FastAPI · OpenStack · OpenShift", "دیزاین سیستم با بیش از ۱۰۰ کامپوننت", "محصول کپچا در ۴ پکیج npm"],
+      },
+      href: "/engineering",
+    },
+    {
+      key: "founding",
+      title: { en: "Founding", fa: "بنیان‌گذاری" },
+      proof: {
+        en: "Co-founder of Rooza, a new-tab extension with 3,000+ users. Built Agent Assist, used by 100+ support agents at Digikala and Mobinnet.",
+        fa: "هم‌بنیان‌گذار روزا، افزونهٔ تب جدید با بیش از ۳٬۰۰۰ کاربر. سازندهٔ Agent Assist که بیش از ۱۰۰ کارشناس پشتیبانی در دیجی‌کالا و مبین‌نت با آن کار می‌کنند.",
+      },
+      points: {
+        en: ["Rooza · co-founder", "Agent Assist · with Hassan Faraji", "Chose equity over cash"],
+        fa: ["روزا · هم‌بنیان‌گذار", "Agent Assist · با حسن فرجی", "سهم را به پول نقد ترجیح دادم"],
+      },
+      href: "/founding",
+    },
+    {
+      key: "product",
+      title: { en: "Product building", fa: "ساختن محصول" },
+      proof: {
+        en: "From 0 to 1: idea, interface, backend and launch, for my own products and for clients in the UAE, Germany and Iran.",
+        fa: "از صفر تا یک: ایده، رابط کاربری، بک‌اند و انتشار؛ هم برای محصولات خودم و هم برای مشتری‌هایی در امارات، آلمان و ایران.",
+      },
+      points: {
+        en: ["SaleCar · UAE marketplace", "Windows 11 On Web · 140+ stars", "Lusyman · 100K+ monthly visits"],
+        fa: ["SaleCar · بازارگاه خودرو در امارات", "Windows 11 On Web · بیش از ۱۴۰ ستاره", "لوسیمن · بیش از ۱۰۰ هزار بازدید ماهانه"],
+      },
+      href: "/work",
+    },
+  ],
+  beliefs: [
+    {
+      text: {
+        en: "I don't wait for opportunities. I go and take them.",
+        fa: "منتظر فرصت نمی‌مانم؛ دنبالش می‌روم و به دستش می‌آورم.",
+      },
+    },
+    {
+      text: {
+        en: "Luck isn't found. It's built, one shipped thing at a time.",
+        fa: "شانس پیدا نمی‌شود؛ ساخته می‌شود، با هر چیزی که منتشر می‌کنی.",
+      },
+    },
+    {
+      text: {
+        en: "Obsession is the edge. Everything else can be learned.",
+        fa: "وسواس، مزیت واقعی است؛ بقیه‌اش را می‌شود یاد گرفت.",
+      },
+    },
+  ],
+  quotes: [
+    {
+      kind: "founder",
+      text: { en: "Make something people want.", fa: "چیزی بساز که مردم می‌خواهند." },
+      author: { en: "Paul Graham", fa: "پل گراهام" },
+      source: { en: "Y Combinator's motto", fa: "شعار وای‌کامبینیتور" },
+    },
+    {
+      kind: "founder",
+      text: {
+        en: "If you are not embarrassed by the first version of your product, you've launched too late.",
+        fa: "اگر از نسخهٔ اول محصولت خجالت نمی‌کشی، یعنی خیلی دیر منتشرش کرده‌ای.",
+      },
+      author: { en: "Reid Hoffman", fa: "رید هافمن" },
+      source: { en: "Co-founder of LinkedIn", fa: "هم‌بنیان‌گذار لینکدین" },
+    },
+    {
+      kind: "founder",
+      text: { en: "Real artists ship.", fa: "هنرمند واقعی منتشر می‌کند." },
+      author: { en: "Steve Jobs", fa: "استیو جابز" },
+      source: { en: "To the Macintosh team, 1983", fa: "خطاب به تیم مکینتاش، ۱۹۸۳" },
+    },
+    {
+      kind: "engineering",
+      text: { en: "Make it work, make it right, make it fast.", fa: "اول کار کند، بعد درست باشد، بعد سریع شود." },
+      author: { en: "Kent Beck", fa: "کنت بک" },
+    },
+    {
+      kind: "engineering",
+      text: { en: "Simplicity is prerequisite for reliability.", fa: "سادگی پیش‌نیاز قابل‌اعتماد بودن است." },
+      author: { en: "Edsger W. Dijkstra", fa: "ادسخر دایکسترا" },
+      source: { en: "EWD 498, 1975", fa: "EWD 498، ۱۹۷۵" },
+    },
+    {
+      kind: "engineering",
+      text: {
+        en: "The best way to predict the future is to invent it.",
+        fa: "بهترین راه پیش‌بینی آینده، ساختن آن است.",
+      },
+      author: { en: "Alan Kay", fa: "آلن کی" },
+      source: { en: "1971", fa: "۱۹۷۱" },
+    },
+  ],
+  tools: ["TypeScript", "Python", "FastAPI", "Node.js", "React", "Next.js", "OpenStack", "OpenShift", "Docker", "Tailwind CSS"],
+  education: [
+    {
+      school: { en: "University of Isfahan", fa: "دانشگاه اصفهان" },
+      degree: { en: "Bachelor of Computer Science", fa: "کارشناسی علوم کامپیوتر" },
+      start: "2024-09",
+      end: "2028-06",
+      note: {
+        en: "Member of AMCSUI, the university's computer science student association.",
+        fa: "عضو انجمن علمی دانشجویی علوم کامپیوتر دانشگاه.",
+      },
+    },
+  ],
+  volunteering: [
+    {
+      role: { en: "Event Host, Technical Team Lead", fa: "مجری رویداد و راهبر تیم فنی" },
+      org: { en: "AMCSUI · VAST", fa: "انجمن علمی علوم کامپیوتر · رویداد VAST" },
+      date: "2025-05",
+      summary: {
+        en: "Helped build a production-level authentication test system for the VAST coding competition at the University of Isfahan.",
+        fa: "در ساخت یک سیستم آزمون احراز هویت در سطح محصول برای مسابقهٔ برنامه‌نویسی VAST در دانشگاه اصفهان مشارکت کردم.",
+      },
+      bullets: {
+        en: ["Wrote test cases and judged submissions", "Helped shape the competition's structure", "Wrote the documentation"],
+        fa: ["نوشتن تست‌ها و داوری ارسال‌ها", "مشارکت در شکل دادن ساختار مسابقه", "نوشتن مستندات"],
+      },
+    },
+  ],
+  languages: [
+    { name: { en: "Persian", fa: "فارسی" }, level: { en: "Native", fa: "زبان مادری" } },
+    { name: { en: "English", fa: "انگلیسی" }, level: { en: "Professional working proficiency", fa: "سطح کاری حرفه‌ای" } },
+  ],
+};
+
+/**
+ * LinkedIn recommendations, verbatim (English on both locales). Mahdi Khodadadi first.
+ * `highlight` is a sentence lifted word for word from the text.
+ */
+export const recommendations = [
+  {
+    _id: "recommendation.mahdi-khodadadi",
+    _type: "recommendation",
+    order: 1,
+    name: { en: "Mahdi Khodadadi" },
+    headline: "Product Designer | Founder at Rooza | Ex at Bettermode, Snappfood, SnappShop, and Basalam",
+    relationship: { en: "Worked with Mohammad on the same team", fa: "در یک تیم با محمد کار کرده" },
+    date: "2026-08-07",
+    highlight: "He is a true product partner, and someone I genuinely enjoy working with.",
+    paragraphs: [
+      "Having a developer who genuinely cares about product excellence and understands why spacing, pixels, and all the little details matter, is a real blessing for any designer.",
+      "Mohammad is one of those developers. He has a strong sense of craftsmanship and a genuine desire to make every product he works on as good as it can possibly be. What sets him apart, though, is that he doesn't just focus on how to build something; he thinks deeply about why it should work a certain way and how the product should ultimately come together.",
+      "That product vision, attention to detail, and sense of ownership make Mohammad much more than just a great developer. He is a true product partner, and someone I genuinely enjoy working with.",
+    ],
+  },
+  {
+    _id: "recommendation.sina-shah-oveisi",
+    _type: "recommendation",
+    order: 2,
+    name: { en: "Sina Shah Oveisi" },
+    headline: "Software Engineer",
+    relationship: { en: "Worked with Mohammad on the same team at NobarCloud", fa: "در نوبرکلاد در یک تیم با محمد کار کرده" },
+    date: "2026-06-05",
+    highlight:
+      "Beyond his strong front-end skills, he has an entrepreneurial mindset and is always full of innovative ideas for products, startups, and practical solutions.",
+    paragraphs: [
+      "I had the pleasure of working with Mohammad at NobarCloud, where he consistently demonstrated exceptional professionalism, technical expertise, and dedication as a Front-End Developer.",
+      "Mohammad is highly motivated and genuinely passionate about technology. He constantly strives to improve code quality, software architecture, and overall project structure. Beyond his strong front-end skills, he has an entrepreneurial mindset and is always full of innovative ideas for products, startups, and practical solutions. This broader perspective has enabled him to gain valuable experience across the entire software development lifecycle—from product ideation and design to implementation, deployment, and continuous improvement.",
+      "One of Mohammad's greatest strengths is his proactive attitude. Whenever he identifies an issue or opportunity for improvement, he takes ownership, raises it constructively, and actively engages the team in finding effective solutions. He is also known for asking insightful questions, both from technical and product perspectives, which reflects not only his deep understanding of the work but also his sense of responsibility and commitment to delivering high-quality results.",
+      "I confidently recommend Mohammad as a highly skilled Front-End Developer with strong technical abilities, excellent problem-solving skills, and a genuine passion for building great products.",
+    ],
+  },
+  {
+    _id: "recommendation.mohammad-shahi",
+    _type: "recommendation",
+    order: 3,
+    name: { en: "Mohammad Shahi" },
+    headline: "Full-Stack Developer | Next.js, NestJS, React | Building Scalable Web Apps & APIs | CRM Solutions",
+    relationship: {
+      en: "Worked with Mohammad on the same team, on salecar.ae",
+      fa: "روی salecar.ae در یک تیم با محمد کار کرده",
+    },
+    date: "2026-08-06",
+    highlight:
+      "Mohammad is an exceptionally skilled Next.js developer with a rare combination of strong technical ability and genuine product sense.",
+    paragraphs: [
+      "I had the pleasure of working with Mohammad Mohagheghian at Pishgaman Tose’e Tejarat Farda, where I was a backend developer and he was the frontend developer on our largest project, salecar.ae — a platform built for the UAE market.",
+      "Mohammad is an exceptionally skilled Next.js developer with a rare combination of strong technical ability and genuine product sense. He doesn’t just implement designs — he deeply understands performance, user experience, and the real pain points of end users. His contributions to the UI/UX of salecar.ae went far beyond coding; many of the meaningful improvements were his own suggestions, and he executed them with high quality despite significant challenges and changing requirements.",
+      "Beyond his technical skills, Mohammad is highly responsible, reliable with deadlines, and excellent in a team setting. He operates at a level where he can comfortably lead a small frontend team of 2–3 people. His creativity in solving UX problems and his ability to think from the user’s perspective make him a valuable asset on any product team.",
+      "I would highly recommend Mohammad to any company looking for a strong, thoughtful frontend engineer who brings both craft and ownership to his work.",
+    ],
+  },
+  {
+    _id: "recommendation.amirhossein-jafari",
+    _type: "recommendation",
+    order: 4,
+    name: { en: "Amirhossein Jafari" },
+    headline: "Devops & Cloud Infrastructure Engineer | K8S | OpenStack | OpenShift | Ceph | Linux | CICD",
+    relationship: { en: "Worked with Mohammad on a different team", fa: "در تیمی دیگر با محمد کار کرده" },
+    date: "2026-08-07",
+    highlight:
+      "He combines strong technical knowledge with a practical approach to problem solving and consistently takes ownership of his work.",
+    paragraphs: [
+      "I had the pleasure of working with Mohammad and found him to be a skilled and reliable Frontend Engineer.",
+      "He combines strong technical knowledge with a practical approach to problem solving and consistently takes ownership of his work. What I particularly appreciated was his ability to collaborate effectively with other team members, communicate clearly, and stay focused on delivering high-quality results.",
+      "Mohammad is responsible, easy to work with, and someone you can rely on when challenges come up. I’d gladly recommend him to any team looking for a capable Frontend Engineer and a strong team player.",
+    ],
+  },
+  {
+    _id: "recommendation.amir-alborz",
+    _type: "recommendation",
+    order: 5,
+    name: { en: "Amir Alborz" },
+    headline: "Product Designer | Design System | Systems Thinking | AI-Assisted Development",
+    relationship: { en: "Worked with Mohammad on the same team", fa: "در یک تیم با محمد کار کرده" },
+    date: "2026-07-03",
+    highlight:
+      "He is a skilled front-end developer who works in a very structured and systematic way, which makes collaboration with him smooth and effective.",
+    paragraphs: [
+      "I had the opportunity to work with Mohammad, and it was a great experience. He is a skilled front-end developer who works in a very structured and systematic way, which makes collaboration with him smooth and effective.",
+      "What I appreciate most about Mohammad is his curiosity and growth mindset. He has a strong interest in AI and is always eager to learn, explore new ideas, and improve himself.",
+      "He also brings positive energy to the team and is someone you can rely on. And yes, Mohammad is tall, but what stands out even more is his professionalism and mindset.",
+    ],
+  },
+];
+
+/** Where all recommendations live on LinkedIn. */
+export const recommendationsUrl = "https://www.linkedin.com/in/mohammad-mohagheghian/details/recommendations/";
