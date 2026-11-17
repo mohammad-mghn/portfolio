@@ -71,7 +71,7 @@ Import the repo in Vercel (framework: Next.js, package manager: pnpm) and set:
 
 | Variable | Notes |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | optional; a production build uses `https://www.mghn.info` without it. Canonical URLs, sitemap, share images |
+| `NEXT_PUBLIC_SITE_URL` | optional; a production build uses `https://mghn.info` without it (set it if the main address is the `www` one). Canonical URLs, sitemap, share images |
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | leave empty to ship on the seed |
 | `NEXT_PUBLIC_SANITY_DATASET` | `production` |
 | `NEXT_PUBLIC_SANITY_API_VERSION` | `2026-11-01` |
