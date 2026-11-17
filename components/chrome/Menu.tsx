@@ -90,7 +90,7 @@ export function Menu({
         <Link
           href="/"
           onClick={onClose}
-          className="text-label -mx-3 flex min-h-11 items-center gap-2 px-3 font-semibold tracking-[0.18em] hover:text-accent"
+          className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em] hover:text-accent"
           aria-label={top.homeLabel}
         >
           <span className="inline-block size-2 rotate-45 bg-accent" aria-hidden />
@@ -100,12 +100,12 @@ export function Menu({
           <a
             href={top.switchHref}
             hrefLang={top.hrefLang}
-            className="text-label flex min-h-11 min-w-11 items-center justify-center px-3 hover:text-accent"
+            className="text-label flex min-h-[44px] min-w-[44px] items-center justify-center px-3 hover:text-accent"
             aria-label={top.languageLabel}
           >
             {top.language}
           </a>
-          <button type="button" onClick={onClose} data-menu-close className="text-label flex min-h-11 items-center gap-2 px-4 hover:text-accent">
+          <button type="button" onClick={onClose} data-menu-close className="text-label flex min-h-[44px] items-center gap-2 px-4 hover:text-accent">
             {menuLabels.close}
             <span aria-hidden className="relative block size-3.5">
               <span className="absolute inset-x-0 top-1/2 h-px rotate-45 bg-current" />

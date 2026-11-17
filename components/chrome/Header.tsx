@@ -39,7 +39,7 @@ export function Header(props: Props) {
         data-hidden={hidden && !open ? "" : undefined}
         className="site-header fixed inset-x-0 top-0 z-50 flex h-(--header-h) items-center justify-between gap-6 px-gutter transition-[translate,opacity,color] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
       >
-        <Link href="/" className="text-label -mx-3 flex min-h-11 items-center gap-2 px-3 font-semibold tracking-[0.18em]" aria-label={labels.home}>
+        <Link href="/" className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em]" aria-label={labels.home}>
           <span className="inline-block size-2 rotate-45 bg-accent" aria-hidden />
           {shortName}
         </Link>
@@ -48,7 +48,7 @@ export function Header(props: Props) {
           <a
             href={switchHref}
             hrefLang={locale === "fa" ? "en" : "fa"}
-            className="text-label flex min-h-11 min-w-11 items-center justify-center px-3 hover:text-accent"
+            className="text-label flex min-h-[44px] min-w-[44px] items-center justify-center px-3 hover:text-accent"
             aria-label={labels.languageLabel}
           >
             {labels.language}
@@ -58,7 +58,7 @@ export function Header(props: Props) {
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="site-menu"
-            className="text-label group flex min-h-11 items-center gap-2 px-4 hover:text-accent"
+            className="text-label group flex min-h-[44px] items-center gap-2 px-4 hover:text-accent"
           >
             {labels.menu}
             <span className="flex flex-col gap-[3px]" aria-hidden>
