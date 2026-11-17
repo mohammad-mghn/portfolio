@@ -25,7 +25,7 @@ export async function JourneySection({ locale, index }: { locale: Locale; index:
           kinds: { roots: t("kinds.roots"), career: t("kinds.career"), venture: t("kinds.venture"), now: t("kinds.now") },
         }}
       />
-      <div className="grid-12 relative z-1 py-10">
+      <div className="grid-12 relative z-1 py-(--space-section)">
         <MoreLink href="/engineering" label={t("more")} className="col-span-full justify-self-start" />
       </div>
     </>

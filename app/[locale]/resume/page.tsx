@@ -56,7 +56,7 @@ export default async function ResumePage({ params }: PageProps<"/[locale]/resume
 
   return (
     <main id="main" className="relative z-1">
-      <section className="relative z-1 pt-(--space-page) pb-(--space-section-sm)">
+      <section className="relative z-1 pt-(--space-page) pb-(--space-section)">
         <div className="grid-12 gap-y-8">
           <p className="text-label col-span-full" data-reveal>
             [ {t("eyebrow")} ]
@@ -95,7 +95,7 @@ export default async function ResumePage({ params }: PageProps<"/[locale]/resume
         </div>
       </section>
 
-      <div className="relative z-1 pb-(--space-section)">
+      <div className="relative z-1 py-(--space-section)">
         <Block label={t("summary")}>
           <div className="flex max-w-[44rem] flex-col gap-4" data-reveal>
             <p className="text-lead">{site.positioning}</p>

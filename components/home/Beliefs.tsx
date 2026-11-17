@@ -35,7 +35,7 @@ export async function Beliefs({
   ].filter((g) => kinds.includes(g.key));
 
   return (
-    <DarkSection id="beliefs" labelledBy="beliefs-title" className="py-(--space-section)">
+    <DarkSection id="beliefs" labelledBy="beliefs-title" className="py-(--space-band)">
       <SectionHead
         index={formatIndex(index, locale)}
         eyebrow={heading?.eyebrow ?? t("eyebrow")}

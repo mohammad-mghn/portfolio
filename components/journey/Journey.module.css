@@ -144,7 +144,7 @@
 
 /* ───────── Flat mode (SSR default, no-JS, reduced motion) ───────── */
 .section[data-mode="flat"] {
-  padding-block: 8rem 6rem;
+  padding-block: var(--space-section);
 }
 .section[data-mode="flat"] .stars,
 .section[data-mode="flat"] .thread,

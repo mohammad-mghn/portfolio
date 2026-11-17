@@ -40,7 +40,7 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
         )}
       </PageHero>
 
-      <section aria-label={t("title")} className="relative z-1 pb-(--space-section)">
+      <section aria-label={t("title")} className="relative z-1 py-(--space-section)">
         <ol>
           {recommendations.map((r, i) => (
             <li key={r.id} id={r.id} className="grid-12 gap-y-8 border-t border-hair py-14 last:border-b">

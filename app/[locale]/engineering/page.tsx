@@ -51,7 +51,7 @@ export default async function EngineeringPage({ params }: PageProps<"/[locale]/e
         index={2}
         heading={{ eyebrow: tb("engineers"), title: t("quotesTitle") }}
       />
-      <div className="pt-(--space-section)">
+      <div>
         <PageLinks
           links={[
             { href: "/work", label: t("work") },

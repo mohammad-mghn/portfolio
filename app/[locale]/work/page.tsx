@@ -53,7 +53,7 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
 
   return (
     <main id="main" className="relative z-1">
-      <section className="pt-(--space-page) pb-(--space-section-sm)">
+      <section className="pt-(--space-page) pb-(--space-section)">
         <div className="grid-12 gap-y-6">
           <p className="text-label col-span-full flex gap-3" data-reveal>
             <span>[ {t("eyebrow")} ]</span>
@@ -72,7 +72,7 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
         const rows = g.items.filter((p) => p.caseStudy);
         const cards = g.items.filter((p) => !p.caseStudy);
         return (
-          <section key={g.key} id={g.key} aria-labelledby={`group-${g.key}`} className="relative z-1 pb-(--space-section)">
+          <section key={g.key} id={g.key} aria-labelledby={`group-${g.key}`} className="relative z-1 py-(--space-section)">
             <div className="grid-12 gap-y-3 border-t border-ink pt-5">
               <p className="text-label col-span-full flex gap-3 md:col-span-3" data-reveal>
                 <span>{formatIndex(gi + 1, locale)}</span>

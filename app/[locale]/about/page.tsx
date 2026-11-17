@@ -38,7 +38,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
     <main id="main" className="relative z-1">
       <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={about.statement} meta={[site.headline, site.location]} />
 
-      <section id="story" aria-label={t("story")} className="relative z-1 pb-(--space-section)">
+      <section id="story" aria-label={t("story")} className="relative z-1 py-(--space-section)">
         <div className="grid-12 gap-y-12">
           {about.portrait ? (
             <figure className="col-span-2 md:col-span-4" data-reveal>

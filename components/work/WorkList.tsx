@@ -18,6 +18,7 @@ export function WorkList({ rows, openLabel }: { rows: Row[]; openLabel: string }
   const [active, setActive] = useState<number | null>(null);
 
   const move = useRef<{ x: gsap.QuickToFunc; y: gsap.QuickToFunc } | null>(null);
+  const shown = useRef(false);
 
   useGSAP(
     () => {
@@ -35,12 +36,20 @@ export function WorkList({ rows, openLabel }: { rows: Row[]; openLabel: string }
     { scope: root },
   );
 
-  function onEnter(i: number) {
+  function onEnter(i: number, e: React.PointerEvent) {
     if (!window.matchMedia("(pointer: fine)").matches) return;
     setActive(i);
+    // A row can slide under a still cursor while scrolling: no pointermove fires, so place the
+    // preview at the pointer before it fades in instead of leaving it at its last (or 0,0) spot.
+    if (!shown.current) {
+      move.current?.x(e.clientX, e.clientX);
+      move.current?.y(e.clientY, e.clientY);
+    }
+    shown.current = true;
     gsap.to(preview.current, { autoAlpha: 1, scale: 1, duration: 0.6, ease: "house", overwrite: "auto" });
   }
   function onLeave() {
+    shown.current = false;
     gsap.to(preview.current, { autoAlpha: 0, scale: 0.6, duration: 0.5, ease: "house", overwrite: "auto" });
   }
   function onMove(e: React.PointerEvent) {
@@ -56,7 +65,7 @@ export function WorkList({ rows, openLabel }: { rows: Row[]; openLabel: string }
             <Link
               href={`/work/${p.slug}`}
               scroll={false}
-              onPointerEnter={() => onEnter(i)}
+              onPointerEnter={(e) => onEnter(i, e)}
               onFocus={() => setActive(i)}
               className="work-row grid-12 relative items-baseline gap-y-2 border-t border-hair py-6 last:border-b md:py-8"
               style={{ "--c": p.color } as React.CSSProperties}
@@ -79,7 +88,8 @@ export function WorkList({ rows, openLabel }: { rows: Row[]; openLabel: string }
       <div
         ref={preview}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-30 hidden aspect-[16/10] w-[min(30vw,460px)] overflow-hidden rounded-[3px] shadow-2xl [@media(pointer:fine)]:block"
+        // Hidden in CSS from the first paint; GSAP's autoAlpha takes over once the page is interactive.
+        className="pointer-events-none invisible fixed left-0 top-0 z-30 hidden aspect-[16/10] w-[min(30vw,460px)] overflow-hidden rounded-[3px] opacity-0 shadow-2xl [@media(pointer:fine)]:block"
       >
         {rows.map((p, i) =>
           p.cover ? (

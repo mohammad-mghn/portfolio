@@ -21,7 +21,7 @@ export function PageHero({
   className?: string;
 }) {
   return (
-    <section className={clsx("relative z-1 pt-(--space-page) pb-(--space-section-sm)", className)}>
+    <section className={clsx("relative z-1 pt-(--space-page) pb-(--space-section)", className)}>
       <div className="grid-12 gap-y-8">
         <p className="text-label col-span-full flex gap-3" data-reveal>
           <span>[ {eyebrow} ]</span>

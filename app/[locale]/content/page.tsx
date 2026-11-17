@@ -37,14 +37,14 @@ export default async function ContentPage({ params }: PageProps<"/[locale]/conte
         statement={t("statement")}
         meta={[t("metaLanguage"), t("metaTopics"), channels.map((c) => c.label).join(" · ")]}
       />
-      <section aria-label={t("channels")} className="relative z-1 pb-(--space-section-sm)">
+      <section aria-label={t("channels")} className="relative z-1 py-(--space-section)">
         <ChannelCards
           channels={channels}
           locale={locale}
           labels={{ persian: ts("persian"), watch: ts("watch"), follow: ts("follow") }}
         />
       </section>
-      <section aria-label={ts("elsewhere")} className="relative z-1 pb-(--space-section)">
+      <section aria-label={ts("elsewhere")} className="relative z-1 py-(--space-section)">
         <ProfileList profiles={site.socials.filter((s) => s.group === "professional")} label={ts("elsewhere")} />
       </section>
       <Contact locale={locale} site={site} />

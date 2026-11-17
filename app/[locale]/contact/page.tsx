@@ -30,7 +30,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
     <main id="main" className="relative z-1">
       <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={t("statement")} meta={[site.email, site.location]} />
 
-      <section aria-label={t("pathsEyebrow")} className="relative z-1 pb-(--space-section)">
+      <section aria-label={t("pathsEyebrow")} className="relative z-1 py-(--space-section)">
         <div className="grid-12 gap-y-6">
           <p className="text-label col-span-full text-muted" data-reveal>
             {t("pathsEyebrow")}

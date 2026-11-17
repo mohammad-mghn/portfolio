@@ -42,7 +42,7 @@ export default async function FoundingPage({ params }: PageProps<"/[locale]/foun
     <main id="main" className="relative z-1">
       <PageHero eyebrow={t("eyebrow")} title={t("title")} statement={t("statement")} meta={meta} />
 
-      <section id="companies" aria-labelledby="companies-title" className="relative z-1 pb-(--space-section)">
+      <section id="companies" aria-labelledby="companies-title" className="relative z-1 py-(--space-section)">
         <SectionHead index={formatIndex(1, locale)} eyebrow={t("companiesEyebrow")} title={t("companiesTitle")} titleId="companies-title" />
         <div className="mt-(--space-section-sm) flex flex-col gap-(--space-section)">
           {ventures.map((v, i) => (
@@ -108,7 +108,7 @@ export default async function FoundingPage({ params }: PageProps<"/[locale]/foun
         </div>
       </section>
 
-      <section id="story" aria-labelledby="story-title" className="relative z-1 pb-(--space-section)">
+      <section id="story" aria-labelledby="story-title" className="relative z-1 py-(--space-section)">
         <SectionHead index={formatIndex(2, locale)} eyebrow={t("storyEyebrow")} title={t("storyTitle")} titleId="story-title" />
         <div className="mt-(--space-section-sm)">
           {ventures.map((v) =>

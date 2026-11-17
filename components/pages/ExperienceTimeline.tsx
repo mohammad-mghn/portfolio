@@ -37,7 +37,7 @@ export async function ExperienceTimeline({
   const month = (m?: string) => (m ? formatMonth(m, locale) : t("present"));
 
   return (
-    <section id="experience" aria-labelledby="experience-title" className="relative z-1 pb-(--space-section)">
+    <section id="experience" aria-labelledby="experience-title" className="relative z-1 py-(--space-section)">
       <SectionHead
         index={formatIndex(index, locale)}
         eyebrow={t("timelineEyebrow")}

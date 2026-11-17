@@ -15,7 +15,7 @@ import { JourneySection } from "@/components/journey/JourneySection";
 import { routing } from "@/i18n/routing";
 import { getAbout, getProjects, getRecommendations, getSiteSettings } from "@/lib/content";
 import { formatIndex } from "@/lib/format";
-import { homeSections } from "@/lib/sections";
+import { homeSectionIndex as n, homeSections } from "@/lib/sections";
 
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -35,15 +35,16 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   return (
     <main id="main">
       <Hero locale={locale} site={site} />
-      <Pillars locale={locale} pillars={about.pillars} index={1} />
-      <Recommendations locale={locale} recommendations={recommendations} index={2} />
-      <Numbers locale={locale} numbers={about.numbers} index={3} />
-      <JourneySection locale={locale} index={4} />
-      <SelectedWork locale={locale} projects={projects} index={5} />
-      <Beliefs locale={locale} beliefs={about.beliefs} quotes={about.quotes} index={6} />
-      <About locale={locale} about={about} index={7} />
-      <Social locale={locale} socials={site.socials} index={8} />
-      <Contact locale={locale} site={site} index={9} />
+      {/* Order and numbers follow lib/sections.ts. */}
+      <Pillars locale={locale} pillars={about.pillars} index={n("pillars")} />
+      <About locale={locale} about={about} index={n("about")} />
+      <Numbers locale={locale} numbers={about.numbers} />
+      <Recommendations locale={locale} recommendations={recommendations} index={n("recommendations")} />
+      <SelectedWork locale={locale} projects={projects} index={n("work")} />
+      <JourneySection locale={locale} index={n("journey")} />
+      <Social locale={locale} socials={site.socials} index={n("social")} />
+      <Beliefs locale={locale} beliefs={about.beliefs} quotes={about.quotes} index={n("beliefs")} />
+      <Contact locale={locale} site={site} index={n("contact")} />
       <ProgressRail items={rail} />
     </main>
   );

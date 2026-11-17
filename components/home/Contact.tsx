@@ -23,7 +23,7 @@ export async function Contact({
   const linkedin = site.socials.find((s) => s.label === "LinkedIn");
 
   return (
-    <DarkSection id="contact" labelledBy="contact-title" className="flex flex-col justify-between pt-(--space-section) pb-6">
+    <DarkSection id="contact" labelledBy="contact-title" className="flex flex-col justify-between border-t border-[#2c2d29] pt-(--space-band) pb-6">
       <div className="grid-12 gap-y-10">
         {index ? (
           <p className="text-label col-span-full flex gap-3 opacity-70" data-reveal>

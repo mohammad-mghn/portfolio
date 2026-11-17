@@ -161,7 +161,7 @@ export async function CaseStudy({
         </section>
       ) : null}
 
-      <div className="mt-(--space-section)">
+      <div className="mt-(--space-band)">
         {next ? (
           <NextProject
             slug={next.slug}

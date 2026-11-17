@@ -23,8 +23,13 @@
 
   --gutter: clamp(16px, 2vw, 32px);
   --header-h: 64px;
-  /* Vertical rhythm: one section gap, a smaller one, and the top of inner pages (below the header). */
-  --space-section: clamp(4rem, 10svh, 7.5rem);
+  /*
+   * Vertical rhythm. Every section pads itself top and bottom with --space-section, so the gap
+   * between any two sections is twice that. Dark bands pad with --space-band (the full gap),
+   * because their colour edge is the boundary. --space-section-sm sits between a heading and its body.
+   */
+  --space-section: clamp(3.5rem, 8svh, 6rem);
+  --space-band: calc(var(--space-section) * 2);
   --space-section-sm: clamp(2.5rem, 6svh, 4.5rem);
   --space-page: calc(var(--header-h) + clamp(2.5rem, 8svh, 6rem));
   --size-font: clamp(14px, calc(100vw / 110), 18px);
