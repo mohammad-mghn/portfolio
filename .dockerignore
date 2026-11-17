@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitignore
+.env*
+!.env.example
+.claude
+.vercel
+*.tsbuildinfo
+.DS_Store
+Dockerfile
+docker-compose.yml
+README.md
+PLAN.md

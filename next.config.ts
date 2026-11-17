@@ -4,6 +4,8 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  // Docker builds set BUILD_STANDALONE=1 to get a self-contained server; Vercel builds stay as they are.
+  output: process.env.BUILD_STANDALONE ? "standalone" : undefined,
   // Cache Components stays off for v1: content freshness comes from
   // next-sanity's <SanityLive/> plus an on-demand revalidation webhook.
   images: {

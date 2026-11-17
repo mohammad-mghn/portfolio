@@ -125,8 +125,13 @@ export default async function LocaleLayout({ children, modal, params }: LayoutPr
           </SmoothScroll>
         </NextIntlClientProvider>
         <Live />
-        <Analytics />
-        <SpeedInsights />
+        {/* Vercel's analytics only exist on Vercel; a Docker deploy would just log failed requests. */}
+        {process.env.VERCEL ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
       </body>
     </html>
   );
