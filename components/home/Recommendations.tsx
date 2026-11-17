@@ -18,30 +18,33 @@ export async function Recommendations({
   if (recommendations.length === 0) return null;
   const t = await getTranslations({ locale, namespace: "recommendations" });
 
+  // The client component renders the section itself: on desktop it pins and scrolls sideways.
   return (
-    <section id="recommendations" aria-labelledby="recommendations-title" className="relative z-1 py-(--space-section)">
-      <SectionHead
-        index={formatIndex(index, locale)}
-        eyebrow={t("eyebrow")}
-        title={t("title")}
-        titleId="recommendations-title"
-      />
-      <RecommendationCarousel
-        items={recommendations}
-        indexes={recommendations.map((_, i) => formatIndex(i + 1, locale))}
-        labels={{
-          region: t("region"),
-          prev: t("prev"),
-          next: t("next"),
-          of: t("of"),
-          readFull: t("readFull"),
-          oldSite: t("oldSite"),
-          original: locale === "en" ? undefined : t("original"),
-        }}
-      />
-      <div className="grid-12 mt-10">
-        <MoreLink href="/recommendations" label={t("all")} className="col-span-full justify-self-start" />
-      </div>
-    </section>
+    <RecommendationCarousel
+      items={recommendations}
+      indexes={recommendations.map((_, i) => formatIndex(i + 1, locale))}
+      labels={{
+        region: t("region"),
+        prev: t("prev"),
+        next: t("next"),
+        of: t("of"),
+        readFull: t("readFull"),
+        oldSite: t("oldSite"),
+        original: locale === "en" ? undefined : t("original"),
+      }}
+      header={
+        <SectionHead
+          index={formatIndex(index, locale)}
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          titleId="recommendations-title"
+        />
+      }
+      footer={
+        <div className="grid-12">
+          <MoreLink href="/recommendations" label={t("all")} className="col-span-full justify-self-start" />
+        </div>
+      }
+    />
   );
 }

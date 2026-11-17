@@ -1,0 +1,77 @@
+/* Default: a normal section with a swipeable row (phones, reduced motion, before the page is interactive). */
+.section {
+  position: relative;
+  z-index: 1;
+  padding-block: var(--space-section);
+}
+.footer {
+  margin-top: 2.5rem;
+}
+.cursor {
+  display: none;
+}
+
+/*
+ * Pinned (set from JS on desktop): the runway is one screen plus the row's overflow tall, and the
+ * stage sticks to the screen for that whole distance while the page scroll moves the row sideways.
+ */
+.section[data-pinned] {
+  padding-block: 0;
+}
+.section[data-pinned] .runway {
+  height: calc(100svh + var(--rec-distance, 0px));
+}
+.section[data-pinned] .stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* The page scroll owns the row now: no native sideways scrolling or snapping to fight with it. */
+.section[data-pinned] .track {
+  overflow-x: hidden;
+  scroll-snap-type: none;
+}
+.section[data-pinned] .footer {
+  margin-top: 0;
+  padding-bottom: var(--space-section);
+}
+/* Short screens: drop the excerpt so heading, row and controls still fit in one screen. */
+@media (max-height: 800px) {
+  .section[data-pinned] .excerpt {
+    display: none;
+  }
+}
+
+/* The circle cursor replaces the arrow over the row (links keep the hand). */
+@media (pointer: fine) {
+  .section[data-pinned] .track {
+    cursor: none;
+    user-select: none;
+  }
+  .section[data-pinned] .track a {
+    cursor: pointer;
+  }
+  .section[data-pinned] .cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    /* Left chevron on the left, right chevron on the right, in Persian too. */
+    direction: ltr;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+}

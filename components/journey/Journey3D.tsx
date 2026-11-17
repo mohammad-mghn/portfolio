@@ -55,6 +55,9 @@ type Props = {
 const LIGHT = { bg: "#edeae3", ink: "#151412", card: "#f4f2ec", hair: "#d3cec3", thread: "#ff5a1f" };
 const DARK = { bg: "#121311", ink: "#ece8df", card: "#1c1d1a", hair: "#2f302b", thread: "#ff7a3d" };
 
+/** Cards are drawn this much larger than their CSS size in the 3D scene (less on a screen too narrow for it). */
+const CARD_SCALE = 1.1;
+
 /** A card can be clicked once it is this opaque, i.e. it is the one in front of the camera. */
 const LIVE_OPACITY = 0.6;
 
@@ -162,13 +165,17 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
             tctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-            layout = layoutJourney({ dir, vw: W, vh: H, compact, weights, heights: cards.map((el) => el.offsetHeight) });
+            // Scale every card up, but never wider than the screen minus a small margin.
+            const widest = Math.max(...cards.map((el) => el.offsetWidth));
+            const scale = Math.min(CARD_SCALE, (W - 16) / widest);
+            layout = layoutJourney({ dir, vw: W, vh: H, compact, weights, heights: cards.map((el) => el.offsetHeight * scale) });
             stage.style.perspective = `${layout.perspective}px`;
-            stage.style.setProperty("--stem", `${layout.stem}px`);
+            // The stem is drawn inside the scaled card, so shrink it by the same factor to keep its real length.
+            stage.style.setProperty("--stem", `${layout.stem / scale}px`);
 
             cards.forEach((el, i) => {
               const p = layout.points[i];
-              el.style.transform = `translate3d(${p.x}px, ${p.y}px, ${p.z}px) translate(-50%, -50%)`;
+              el.style.transform = `translate3d(${p.x}px, ${p.y}px, ${p.z}px) translate(-50%, -50%) scale(${scale})`;
             });
             ghosts.forEach((el, n) => {
               const g = layout.ghosts[ghostStop[n]];

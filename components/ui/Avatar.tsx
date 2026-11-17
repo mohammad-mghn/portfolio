@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { Img } from "@/lib/content/types";
 import { imgProps } from "@/lib/img";
 
-/** A person's portrait in a circle, or their initials when there is no photo. */
+/** A person's portrait as a square, black-and-white tile, or their initials when there is no photo. */
 export function Avatar({ name, portrait, className }: { name: string; portrait?: Img; className?: string }) {
   const initials = name
     .split(" ")
@@ -14,12 +14,12 @@ export function Avatar({ name, portrait, className }: { name: string; portrait?:
     <span
       aria-hidden
       className={clsx(
-        "text-label relative flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-ink text-paper",
+        "text-label relative flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-[2px] bg-ink text-paper",
         className,
       )}
     >
       {portrait ? (
-        <Image src={portrait.src} alt="" fill sizes="96px" className="object-cover" {...imgProps(portrait)} />
+        <Image src={portrait.src} alt="" fill sizes="96px" className="object-cover grayscale contrast-110" {...imgProps(portrait)} />
       ) : (
         initials
       )}
