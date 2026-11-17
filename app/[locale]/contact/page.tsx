@@ -7,7 +7,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
 import { getPageCopy, getSiteSettings } from "@/lib/content";
 import { formatIndex } from "@/lib/format";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/contact">): Promise<Metadata> {
   const { locale } = await params;
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/contact"
     getTranslations({ locale, namespace: "contactPage" }),
     getPageCopy(locale, "contact"),
   ]);
-  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/contact") };
+  return pageMetadata(locale, "/contact", t("title"), copy.statement);
 }
 
 const paths = ["engineering", "partnership", "client"] as const;

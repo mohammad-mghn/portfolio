@@ -1,6 +1,7 @@
 import { imgProps } from "@/lib/img";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { Marquee } from "@/components/ui/Marquee";
 import { MoreLink } from "@/components/ui/MoreLink";
 import { SectionHead } from "@/components/ui/SectionHead";
 import type { Locale } from "@/i18n/routing";
@@ -61,24 +62,12 @@ export async function About({ locale, about, index }: { locale: Locale; about: A
 
       {about.tools.length ? (
         <div className="grid-12 mt-(--space-section-sm)">
-          <div className="marquee-host rule col-span-full flex flex-col gap-6 overflow-hidden pt-4" data-reveal>
+          <div className="rule col-span-full flex flex-col gap-6 pt-4" data-reveal>
             <p className="text-label flex justify-between text-muted">
               <span>{t("tools")}</span>
               <span className="hidden md:inline">{t("toolsHint")}</span>
             </p>
-            <div className="overflow-hidden" dir="ltr">
-              <ul className="marquee gap-3">
-                {[...about.tools, ...about.tools].map((tool, i) => (
-                  <li
-                    key={`${tool}-${i}`}
-                    aria-hidden={i >= about.tools.length}
-                    className="text-lead whitespace-nowrap rounded-full border border-hair px-4 py-2"
-                  >
-                    {tool}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <Marquee items={about.tools} />
           </div>
         </div>
       ) : null}

@@ -25,6 +25,7 @@ export function ScrollReveals() {
           SplitText.create(el, {
             type: "lines",
             mask: "lines",
+            aria: "none",
             linesClass: "split-line",
             autoSplit: true,
             onSplit(self) {

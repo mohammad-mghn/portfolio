@@ -44,7 +44,7 @@ export function Header(props: Props) {
         data-hidden={hidden && !open ? "" : undefined}
         className="site-header fixed inset-x-0 top-0 z-50 flex h-(--header-h) items-center justify-between gap-6 px-gutter transition-[translate,opacity,color] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
       >
-        <Link href="/" className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em]" aria-label={labels.home}>
+        <Link href="/" className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em]" aria-label={`${shortName} — ${labels.home}`}>
           {/* Room for the diamond, which lives in the layer below this header. */}
           <span className="inline-block size-2" aria-hidden />
           {shortName}
@@ -77,7 +77,7 @@ export function Header(props: Props) {
       <span
         aria-hidden
         data-hidden={hidden && !open ? "" : undefined}
-        className="pointer-events-none fixed start-0 top-0 z-50 flex h-(--header-h) items-center ps-(--gutter) transition-[translate,opacity] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
+        className="pointer-events-none fixed start-0 top-0 z-50 flex h-(--header-h) items-center ps-(--page-pad) transition-[translate,opacity] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
       >
         <span className="inline-block size-2 rotate-45 bg-accent" />
       </span>

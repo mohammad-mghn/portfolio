@@ -10,13 +10,13 @@ import { routing } from "@/i18n/routing";
 import { getProjects, getSiteSettings } from "@/lib/content";
 import type { ProjectGroup, ProjectSummary } from "@/lib/content";
 import { formatIndex, localizeDigits } from "@/lib/format";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/work">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const t = await getTranslations({ locale, namespace: "archive" });
-  return { title: t("title"), alternates: alternatesFor(locale, "/work") };
+  return pageMetadata(locale, "/work", t("title"));
 }
 
 const statusTone: Record<string, string> = {
@@ -96,35 +96,34 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
             </div>
 
             {rows.length ? (
-              <div className="mt-10" role="table" aria-label={t(`groups.${g.key}`)}>
-                <div role="row" className="grid-12 text-label border-b border-hair pb-3 text-muted">
-                  <span role="columnheader" className="col-span-1">{t("year")}</span>
-                  <span role="columnheader" className="col-span-3 md:col-span-6">{t("name")}</span>
-                  <span role="columnheader" className="hidden md:col-span-3 md:block">{t("type")}</span>
-                  <span role="columnheader" className="hidden md:col-span-2 md:block">{t("status")}</span>
+              <div className="mt-10">
+                <div aria-hidden className="grid-12 text-label border-b border-hair pb-3 text-muted">
+                  <span className="col-span-1">{t("year")}</span>
+                  <span className="col-span-3 md:col-span-6">{t("name")}</span>
+                  <span className="hidden md:col-span-3 md:block">{t("type")}</span>
+                  <span className="hidden md:col-span-2 md:block">{t("status")}</span>
                 </div>
                 {rows.map((p) => (
                   <Link
                     key={p.slug}
                     href={`/work/${p.slug}`}
                     scroll={false}
-                    role="row"
                     className="work-row grid-12 relative items-baseline border-b border-hair py-5"
                     style={{ "--c": p.color } as React.CSSProperties}
                     data-reveal
                   >
-                    <span role="cell" className="text-label relative col-span-1">
+                    <span className="text-label relative col-span-1">
                       {localizeDigits(p.year, locale)}
                     </span>
-                    <span role="cell" className="relative col-span-3 md:col-span-6">
+                    <span className="relative col-span-3 md:col-span-6">
                       <span className="block text-2xl font-semibold tracking-tight">{p.title}</span>
                       {origin(p) ? <span className="text-label mt-1.5 block text-muted">{origin(p)}</span> : null}
                       <span className="mt-1 block max-w-xl text-ink-soft md:hidden">{p.kind}</span>
                     </span>
-                    <span role="cell" className="relative hidden text-ink-soft md:col-span-3 md:block">
+                    <span className="relative hidden text-ink-soft md:col-span-3 md:block">
                       {p.kind}
                     </span>
-                    <span role="cell" className="relative hidden md:col-span-2 md:flex">
+                    <span className="relative hidden md:col-span-2 md:flex">
                       {status(p)}
                     </span>
                   </Link>

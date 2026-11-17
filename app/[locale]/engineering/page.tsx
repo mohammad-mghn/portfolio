@@ -9,7 +9,7 @@ import { PageLinks } from "@/components/pages/PageLinks";
 import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
 import { getAbout, getExperience, getPageCopy, getSiteSettings } from "@/lib/content";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/engineering">): Promise<Metadata> {
   const { locale } = await params;
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/engineer
     getTranslations({ locale, namespace: "engineering" }),
     getPageCopy(locale, "engineering"),
   ]);
-  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/engineering") };
+  return pageMetadata(locale, "/engineering", t("title"), copy.statement);
 }
 
 export default async function EngineeringPage({ params }: PageProps<"/[locale]/engineering">) {

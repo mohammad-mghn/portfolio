@@ -22,6 +22,13 @@
   --scene-ink: var(--ink);
 
   --gutter: clamp(16px, 2vw, 32px);
+  /*
+   * Very wide screens: content stops growing at --page-max and sits centred. --page-pad is the side
+   * padding every full-width row uses: the gutter, or whatever is left over beside the content.
+   * Backgrounds stay full-bleed; only the padding grows.
+   */
+  --page-max: 1920px;
+  --page-pad: max(var(--gutter), calc((100% - var(--page-max)) / 2));
   --header-h: 64px;
   /*
    * Vertical rhythm. Every section pads itself top and bottom with --space-section, so the gap
@@ -38,9 +45,23 @@
   --font-head: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
   --font-accent: var(--font-instrument), ui-serif, Georgia, serif;
   --font-label: var(--font-geist-mono), ui-monospace, monospace;
+  /*
+   * The condensed display sizes. While Archivo is still loading, a narrow system face stands in
+   * (see "Archivo Narrow Fallback" below) instead of regular-width Arial, so headlines break into
+   * the same lines before and after the font arrives and nothing on the first screen jumps.
+   * ("Archivo" is the family name next/font gives the real font.)
+   */
+  --font-head-narrow: "Archivo", "Archivo Narrow Fallback", var(--font-head);
+}
+@font-face {
+  font-family: "Archivo Narrow Fallback";
+  src: local("Arial Narrow"), local("ArialNarrow"), local("Roboto Condensed"), local("RobotoCondensed-Regular");
+  font-weight: 100 900;
+  size-adjust: 102%;
 }
 
 :root[lang="fa"] {
+  --font-head-narrow: var(--font-head);
   --font-body: var(--font-vazirmatn), Tahoma, sans-serif;
   --font-head: var(--font-vazirmatn), Tahoma, sans-serif;
   /* No Persian serif italic — accents switch to colour/weight. */
@@ -125,8 +146,9 @@
 
 /* ───────────────────────── Type scale ───────────────────────── */
 @utility text-mega {
-  font-family: var(--font-head);
-  font-size: clamp(3.4rem, 15.5vw, 17rem);
+  font-family: var(--font-head-narrow);
+  /* The last value keeps it from outgrowing the content column on screens wider than --page-max. */
+  font-size: clamp(3.4rem, 15.5vw, min(17rem, calc(var(--page-max) * 0.155)));
   line-height: 0.84;
   letter-spacing: -0.045em;
   font-weight: 700;
@@ -134,7 +156,7 @@
   text-transform: uppercase;
 }
 @utility text-huge {
-  font-family: var(--font-head);
+  font-family: var(--font-head-narrow);
   font-size: clamp(2.6rem, 9vw, 9.5rem);
   line-height: 0.88;
   letter-spacing: -0.04em;
@@ -143,7 +165,7 @@
   text-transform: uppercase;
 }
 @utility text-big {
-  font-family: var(--font-head);
+  font-family: var(--font-head-narrow);
   font-size: clamp(2rem, 5vw, 5rem);
   line-height: 0.95;
   letter-spacing: -0.035em;
@@ -165,7 +187,7 @@
 /* Menu items: as big as 9 rows allow in the viewport, never wider than the longest label. */
 @utility text-menu {
   --menu-fs: min(9.6vw, 4.6svh);
-  font-family: var(--font-head);
+  font-family: var(--font-head-narrow);
   font-size: max(1.6rem, var(--menu-fs));
   line-height: 0.9;
   letter-spacing: -0.035em;
@@ -192,6 +214,11 @@
   line-height: 1.3;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  /* Phones: the root size is 14px there, which made labels 10px. 12px is the smallest legible size. */
+  @media (width < 48rem) {
+    font-size: 0.8572rem;
+    letter-spacing: 0.06em;
+  }
 }
 @utility accent {
   font-family: var(--font-accent);
@@ -223,13 +250,14 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: var(--gutter);
-  padding-inline: var(--gutter);
+  padding-inline: var(--page-pad);
   @media (width >= 48rem) {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 }
+/* Side padding of a full-width row: the gutter, growing on very wide screens (see --page-pad). */
 @utility px-gutter {
-  padding-inline: var(--gutter);
+  padding-inline: var(--page-pad);
 }
 
 /* Visible 12-column hairlines behind the content (editorial grid) */
@@ -238,7 +266,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  padding-inline: var(--gutter);
+  padding-inline: var(--page-pad);
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: var(--gutter);
@@ -303,9 +331,13 @@
  * Header text is white and blended as "difference": every pixel inverts against what is behind
  * it, so it reads dark on paper, light on night, and a word that straddles the two is split
  * exactly at the edge. Nothing coloured may sit inside it (the logo's diamond has its own layer).
+ * The colour is written as ink and flipped to white by the filter (filters run before blending),
+ * so the painted result is the same, and tools that cannot evaluate blend modes still read the
+ * header as dark text on the light page, which is what is on screen at the top of every page.
  */
 .site-header {
-  color: #fff;
+  color: var(--ink);
+  filter: invert(1);
   mix-blend-mode: difference;
 }
 /* The side rail still switches as a whole when a dark section is under it. */
@@ -316,33 +348,20 @@
   color: #ece8df;
 }
 
-/* Marquee */
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@keyframes marquee-rtl {
-  to {
-    transform: translateX(50%);
-  }
+/* Marquee frame: both edges fade into the background. The motion itself is in components/ui/Marquee.tsx. */
+.marquee-mask {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
 }
 .marquee {
   display: flex;
   width: max-content;
-  animation: marquee 28s linear infinite;
-}
-[dir="rtl"] .marquee {
-  animation-name: marquee-rtl;
-}
-.marquee-host:hover .marquee {
-  animation-play-state: paused;
 }
 
-/* Hero name — sized so "MOHAGHEGHIAN" spans the measure */
+/* Hero name — sized so "MOHAGHEGHIAN" spans the measure (and no wider than the content column) */
 .hero-name {
-  font-family: var(--font-head);
-  font-size: clamp(3.2rem, 14.2vw, 17rem);
+  font-family: var(--font-head-narrow);
+  font-size: clamp(3.2rem, 14.2vw, min(17rem, calc(var(--page-max) * 0.142)));
   font-weight: 700;
   font-stretch: 70%;
   line-height: 0.82;
@@ -406,16 +425,26 @@
 }
 
 /* ───────────────────────── Intro (CSS-only, paints before hydration → good LCP) ───────────────────────── */
+/*
+ * The name and the headline are the largest things on the first screen, and the browser measures
+ * "largest contentful paint" when the largest thing first becomes visible. So those two are fully
+ * visible in the very first paint and only settle into place (.intro-line-inner, .intro-settle);
+ * hiding them behind a mask or a fade made the page count as slow. Smaller pieces still fade in.
+ */
 .intro-line {
-  overflow: clip;
   padding-bottom: 0.04em;
 }
 .intro-line-inner {
   display: inline-block;
 }
-@keyframes intro-rise {
+@keyframes intro-settle {
   from {
-    transform: translateY(105%);
+    transform: translateY(0.2em);
+  }
+}
+@keyframes intro-settle-sm {
+  from {
+    transform: translateY(18px);
   }
 }
 @keyframes intro-fade {
@@ -426,7 +455,10 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .intro-line-inner {
-    animation: intro-rise 1.15s var(--ease-house) var(--d, 0s) both;
+    animation: intro-settle 1.15s var(--ease-house) var(--d, 0s) both;
+  }
+  .intro-settle {
+    animation: intro-settle-sm 0.9s var(--ease-house) var(--d, 0s) both;
   }
   .intro-fade {
     animation: intro-fade 0.9s var(--ease-house) var(--d, 0s) both;

@@ -36,7 +36,7 @@ export function NextProject({
           done: () => (replace ? router.replace(href, { scroll: false }) : router.push(href)),
         });
       }}
-      className="group relative z-1 flex min-h-[60svh] flex-col justify-between overflow-hidden p-(--gutter) text-[#f4f2ec]"
+      className="group relative z-1 flex min-h-[60svh] flex-col justify-between overflow-hidden px-(--page-pad) py-(--gutter) text-[#f4f2ec]"
       style={{ background: color }}
     >
       <span className="text-label flex justify-between opacity-80">

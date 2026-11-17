@@ -53,14 +53,21 @@ type Props = {
   total: string;
 };
 
-const LIGHT = { bg: "#edeae3", ink: "#151412", card: "#f4f2ec", hair: "#d3cec3", thread: "#ff5a1f" };
-const DARK = { bg: "#121311", ink: "#ece8df", card: "#1c1d1a", hair: "#2f302b", thread: "#ff7a3d" };
+// `label` is the orange used for small text: a darker orange on the light cards (the bright one is
+// too faint to read at 12px on paper), the bright one once the scene turns to night.
+const LIGHT = { bg: "#edeae3", ink: "#151412", card: "#f4f2ec", hair: "#d3cec3", thread: "#ff5a1f", label: "#b8380a" };
+const DARK = { bg: "#121311", ink: "#ece8df", card: "#1c1d1a", hair: "#2f302b", thread: "#ff7a3d", label: "#ff8a52" };
 
 /** Cards are drawn this much larger than their CSS size in the 3D scene (less on a screen too narrow for it). */
 const CARD_SCALE = 1.1;
 
-/** A card can be clicked once it is this opaque, i.e. it is the one in front of the camera. */
+/**
+ * A card is "live" (its links exist and can be clicked) when it is this opaque and no further
+ * ahead than LIVE_DEPTH × the base depth. Cards further away are only a preview: at that distance
+ * their links would be a few pixels tall, too small to hit.
+ */
 const LIVE_OPACITY = 0.6;
+const LIVE_DEPTH = 0.9;
 
 const smoothstep = (a: number, b: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
@@ -222,11 +229,14 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
             world.style.transform = `translate3d(${-cam.x}px, ${-cam.y}px, ${cam.z}px)`;
 
             cards.forEach((el, i) => {
-              const o = fade(layout.points[i].z + cam.z);
-              el.style.opacity = o.toFixed(3);
+              const Z = layout.points[i].z + cam.z;
+              const o = fade(Z);
+              // Depth fade as a filter, not `opacity`: it looks the same, and accessibility tools then
+              // judge the text by its real colours instead of by how far away the card happens to be.
+              el.style.filter = o >= 0.999 ? "" : `opacity(${o.toFixed(3)})`;
               el.style.visibility = o < 0.01 ? "hidden" : "visible";
-              // Only the card in front of the camera takes clicks; the faded ones behind it do not.
-              const isLive = o >= LIVE_OPACITY;
+              // Only cards near the camera take clicks; faded ones and distant previews do not.
+              const isLive = o >= LIVE_OPACITY && Z > -LIVE_DEPTH * layout.depth;
               if (isLive !== live[i]) {
                 live[i] = isLive;
                 el.toggleAttribute("data-live", isLive);
@@ -247,6 +257,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
               section.style.setProperty("--j-ink", mix("ink"));
               section.style.setProperty("--j-card", mix("card"));
               section.style.setProperty("--j-hair", mix("hair"));
+              section.style.setProperty("--j-label", mix("label"));
               setTone("journey", stuck && tone > 0.5);
             }
 
@@ -387,6 +398,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
             [...cards, ...ghosts].forEach((el) => {
               el.style.transform = "";
               el.style.opacity = "";
+              el.style.filter = "";
               el.style.visibility = "";
               el.removeAttribute("data-live");
             });
@@ -448,15 +460,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                       />
                     </div>
                   ) : null}
-                  <h3 className={styles.cardTitle}>
-                    {s.link ? (
-                      <StopLink link={s.link} className={styles.cover}>
-                        {s.title}
-                      </StopLink>
-                    ) : (
-                      s.title
-                    )}
-                  </h3>
+                  <h3 className={styles.cardTitle}>{s.title}</h3>
                   {s.roles.length ? (
                     <ul className={styles.roles}>
                       {s.roles.map((r) => (
@@ -475,9 +479,17 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                     </ul>
                   ) : null}
                   {s.link ? (
-                    <p className={styles.cta} aria-hidden>
-                      {s.cta} <Arrow external={s.link.kind === "external"} />
-                    </p>
+                    <>
+                      <p className={styles.cta} aria-hidden>
+                        {s.cta} <Arrow external={s.link.kind === "external"} />
+                      </p>
+                      {/* The link is a layer over the whole card, so the click target is the card itself. */}
+                      <StopLink link={s.link} className={styles.cover}>
+                        <span className="sr-only">
+                          {s.title}: {s.cta}
+                        </span>
+                      </StopLink>
+                    </>
                   ) : null}
                 </li>
               ) : s.items.length === 1 ? (
@@ -497,28 +509,32 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                     </div>
                   ) : null}
                   <p className={styles.attach}>{s.attach}</p>
-                  <h4 className={styles.projectTitle}>
-                    <StopLink link={s.items[0].link} className={styles.cover}>
-                      {s.items[0].title}
-                    </StopLink>
-                  </h4>
+                  <h4 className={styles.projectTitle}>{s.items[0].title}</h4>
                   <p className={styles.meta}>{s.items[0].meta}</p>
                   <p className={styles.cta} aria-hidden>
                     {s.items[0].cta} <Arrow external={s.items[0].link.kind === "external"} />
                   </p>
+                  <StopLink link={s.items[0].link} className={styles.cover}>
+                    <span className="sr-only">
+                      {s.items[0].title}: {s.items[0].cta}
+                    </span>
+                  </StopLink>
                 </li>
               ) : (
                 <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-stack="">
                   <p className={styles.attach}>{s.attach}</p>
                   <ul className={styles.stack}>
                     {s.items.map((item) => (
-                      <li key={item.slug}>
-                        <StopLink link={item.link} className={styles.stackLink}>
-                          <span>
-                            <span className={styles.projectTitle}>{item.title}</span>
-                            <span className={styles.meta}>{item.meta}</span>
+                      <li key={item.slug} className={styles.stackRow}>
+                        <span>
+                          <span className={styles.projectTitle}>{item.title}</span>
+                          <span className={styles.meta}>{item.meta}</span>
+                        </span>
+                        <Arrow external={item.link.kind === "external"} />
+                        <StopLink link={item.link} className={styles.cover}>
+                          <span className="sr-only">
+                            {item.title}: {item.cta}
                           </span>
-                          <Arrow external={item.link.kind === "external"} />
                         </StopLink>
                       </li>
                     ))}

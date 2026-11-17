@@ -12,7 +12,7 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { getAbout, getPageCopy, getProjectSlugs, getSiteSettings, getVentures } from "@/lib/content";
 import { formatIndex, formatMonth } from "@/lib/format";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/founding">): Promise<Metadata> {
   const { locale } = await params;
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/founding
     getTranslations({ locale, namespace: "founding" }),
     getPageCopy(locale, "founding"),
   ]);
-  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/founding") };
+  return pageMetadata(locale, "/founding", t("title"), copy.statement);
 }
 
 const pill =

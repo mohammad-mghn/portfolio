@@ -67,8 +67,8 @@
     height: 3.667rem;
     border-radius: 999px;
     /* Frosted white, like the side rail's label: what is under the circle shows through, blurred. */
-    background: color-mix(in oklab, white 62%, transparent);
-    backdrop-filter: blur(10px);
+    background: color-mix(in oklab, white 46%, transparent);
+    backdrop-filter: blur(28px) saturate(1.3);
     border: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
     color: var(--ink);
     /* Left chevron on the left, right chevron on the right, in Persian too. */

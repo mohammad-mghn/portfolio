@@ -91,7 +91,7 @@ export function Menu({
           href="/"
           onClick={onClose}
           className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em] hover:text-accent"
-          aria-label={top.homeLabel}
+          aria-label={`${top.shortName} — ${top.homeLabel}`}
         >
           <span className="inline-block size-2 rotate-45 bg-accent" aria-hidden />
           {top.shortName}

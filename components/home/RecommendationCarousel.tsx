@@ -283,7 +283,7 @@ export function RecommendationCarousel({
             <ul
               ref={track}
               tabIndex={0}
-              className={`${styles.track} mt-6 flex snap-x snap-mandatory scroll-px-(--gutter) gap-(--gutter) overflow-x-auto overscroll-x-contain px-gutter pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
+              className={`${styles.track} mt-6 flex snap-x snap-mandatory scroll-px-(--page-pad) gap-(--gutter) overflow-x-auto overscroll-x-contain px-gutter pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden`}
               data-reveal
               onPointerEnter={(e) => usesCursor() && showCursor(e, !overLink(e))}
               onPointerOver={(e) => usesCursor() && !drag.current && showCursor(e, !overLink(e))}

@@ -62,7 +62,7 @@ export function PageWipe() {
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none invisible fixed inset-0 z-[90] flex flex-col justify-end p-(--gutter) text-[#f4f2ec]"
+      className="pointer-events-none invisible fixed inset-0 z-[90] flex flex-col justify-end px-(--page-pad) py-(--gutter) text-[#f4f2ec]"
       style={{ background: content?.color ?? "var(--ink)" }}
     >
       <p className="text-label opacity-70">{content?.label}</p>

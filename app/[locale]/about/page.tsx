@@ -12,13 +12,13 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { routing } from "@/i18n/routing";
 import { getAbout, getSiteSettings } from "@/lib/content";
 import { formatIndex, formatMonth, localizeDigits } from "@/lib/format";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const [t, about] = await Promise.all([getTranslations({ locale, namespace: "aboutPage" }), getAbout(locale)]);
-  return { title: t("title"), description: about.statement, alternates: alternatesFor(locale, "/about") };
+  return pageMetadata(locale, "/about", t("title"), about.statement);
 }
 
 export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {

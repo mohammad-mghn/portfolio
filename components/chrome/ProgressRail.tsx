@@ -42,7 +42,8 @@ export function ProgressRail({ items }: { items: Item[] }) {
       aria-label="Sections"
       data-idle={active === 0 ? "" : undefined}
       className="site-rail fixed top-1/2 z-40 hidden -translate-y-1/2 flex-col items-end gap-2.5 transition-opacity duration-700 ease-house data-idle:pointer-events-none data-idle:opacity-0 xl:flex"
-      style={{ insetInlineEnd: "calc(var(--gutter) * 0.6)" }}
+      // Just inside the content edge, on any screen width.
+      style={{ insetInlineEnd: "calc(var(--page-pad) - var(--gutter) * 0.4)" }}
     >
       {items.map((item, i) => {
         const on = i === active;

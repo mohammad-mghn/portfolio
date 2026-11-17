@@ -21,8 +21,9 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
   }
   return ogImage({
     locale,
-    eyebrow: site.headline,
+    eyebrow: site.roles.map((r) => `${r.title} · ${r.org}`)[0] ?? site.tagline,
     title: site.name,
+    accent: site.headline,
     footer: site.tagline,
   });
 }

@@ -36,7 +36,7 @@ export async function Hero({ locale, site }: { locale: Locale; site: SiteSetting
 
       <div className="grid-12 rule mt-[3vh] gap-y-8 pt-6">
         <div className="col-span-full flex flex-col gap-6 md:col-span-6">
-          <p className="intro-fade text-big" style={{ "--d": "0.7s" } as React.CSSProperties}>
+          <p className="intro-settle text-big" style={{ "--d": "0.1s" } as React.CSSProperties}>
             {site.headline}
           </p>
           <ul className="intro-fade flex flex-wrap gap-2" style={{ "--d": "0.75s" } as React.CSSProperties}>

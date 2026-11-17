@@ -7,7 +7,7 @@ import { CaseStudy } from "@/components/work/CaseStudy";
 import { routing } from "@/i18n/routing";
 import { getProject, getProjects, getProjectSlugs, getSiteSettings } from "@/lib/content";
 import { projectNeighbours } from "@/lib/content/navigation";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const slugs = await getProjectSlugs();
@@ -19,12 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/work/[sl
   if (!hasLocale(routing.locales, locale)) return {};
   const project = await getProject(locale, slug);
   if (!project) return {};
-  return {
-    title: project.title,
-    description: project.summary,
-    alternates: alternatesFor(locale, `/work/${slug}`),
-    openGraph: { type: "article", title: project.title, description: project.summary },
-  };
+  return pageMetadata(locale, `/work/${slug}`, project.title, project.summary);
 }
 
 export default async function WorkPage({ params }: PageProps<"/[locale]/work/[slug]">) {

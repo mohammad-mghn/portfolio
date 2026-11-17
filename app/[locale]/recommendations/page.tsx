@@ -8,7 +8,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
 import { getPageCopy, getRecommendations, getSiteSettings } from "@/lib/content";
 import { formatIndex } from "@/lib/format";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/recommendations">): Promise<Metadata> {
   const { locale } = await params;
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/recommen
     getTranslations({ locale, namespace: "recommendationsPage" }),
     getPageCopy(locale, "recommendations"),
   ]);
-  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/recommendations") };
+  return pageMetadata(locale, "/recommendations", t("title"), copy.statement);
 }
 
 /** Every recommendation in full, verbatim and in English on both locales, with who wrote it first. */

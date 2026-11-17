@@ -8,13 +8,13 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { formatMonth, localizeDigits } from "@/lib/format";
 import { getResume } from "@/lib/resume";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/resume">): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const [t, { site }] = await Promise.all([getTranslations({ locale, namespace: "resume" }), getResume(locale)]);
-  return { title: t("title"), description: site.headline, alternates: alternatesFor(locale, "/resume") };
+  return pageMetadata(locale, "/resume", t("title"), site.headline);
 }
 
 function Block({ label, children }: { label: string; children: ReactNode }) {

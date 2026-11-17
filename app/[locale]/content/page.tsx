@@ -7,7 +7,7 @@ import { ChannelCards, ProfileList } from "@/components/home/Social";
 import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
 import { getPageCopy, getSiteSettings } from "@/lib/content";
-import { alternatesFor } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/content">): Promise<Metadata> {
   const { locale } = await params;
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/content"
     getTranslations({ locale, namespace: "content" }),
     getPageCopy(locale, "content"),
   ]);
-  return { title: t("title"), description: copy.statement, alternates: alternatesFor(locale, "/content") };
+  return pageMetadata(locale, "/content", t("title"), copy.statement);
 }
 
 /** The channels Mohammad makes content on, then everywhere else he can be found. */
