@@ -1,3 +1,4 @@
+import { imgProps } from "@/lib/img";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { hasLocale } from "next-intl";
@@ -144,6 +145,7 @@ export default async function WorkIndex({ params }: PageProps<"/[locale]/work">)
                         <div className="relative aspect-[16/10] overflow-hidden bg-paper-2">
                           <Image
                             src={p.cover.src}
+                            {...imgProps(p.cover)}
                             alt={p.cover.alt}
                             fill
                             sizes="(max-width: 767px) 100vw, 30vw"

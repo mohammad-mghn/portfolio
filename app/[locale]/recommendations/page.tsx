@@ -74,7 +74,7 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
                   ) : null}
                 </div>
               </div>
-              <div className="col-span-full md:col-span-8" lang="en" dir="ltr">
+              <div className="col-span-full md:col-span-8" lang={r.lang} dir={r.lang === "fa" ? "rtl" : "ltr"}>
                 <blockquote className="text-statement" data-reveal>
                   <span aria-hidden className="accent text-accent">“</span>
                   {r.highlight}

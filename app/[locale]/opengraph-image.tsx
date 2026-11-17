@@ -15,6 +15,10 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
   const { locale: raw } = await params;
   const locale = hasLocale(routing.locales, raw) ? raw : routing.defaultLocale;
   const site = await getSiteSettings(locale);
+  if (site.shareImageUrl) {
+    const res = await fetch(site.shareImageUrl);
+    if (res.ok) return new Response(await res.arrayBuffer(), { headers: { "content-type": contentType } });
+  }
   return ogImage({
     locale,
     eyebrow: site.headline,

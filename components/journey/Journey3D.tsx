@@ -1,5 +1,6 @@
 "use client";
 
+import { imgProps } from "@/lib/img";
 import { useLenis } from "lenis/react";
 import Image from "next/image";
 import { useEffect, useRef, type ReactNode } from "react";
@@ -430,6 +431,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                     <div className={styles.media}>
                       <Image
                         src={s.media.src}
+                        {...imgProps(s.media)}
                         alt={s.media.alt}
                         width={s.media.width}
                         height={s.media.height}
@@ -468,6 +470,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                     <div className={styles.thumb}>
                       <Image
                         src={s.items[0].cover.src}
+                        {...imgProps(s.items[0].cover)}
                         alt=""
                         width={s.items[0].cover.width}
                         height={s.items[0].cover.height}

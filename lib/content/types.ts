@@ -12,7 +12,10 @@ export type Img = {
   width: number;
   height: number;
   alt: string;
+  /** Tiny blurred preview (CMS images only). */
   lqip?: string;
+  /** Focal point picked in the CMS, 0–1 from the top-left corner. */
+  focus?: { x: number; y: number };
 };
 
 export type RichText = PortableTextBlock[];
@@ -50,6 +53,8 @@ export type SiteSettings = {
   resumeUrl?: string;
   /** A scheduling page (Google Calendar booking). The "Book a call" button shows only when this is set. */
   bookingUrl?: string;
+  /** A 1200×630 share image set in the CMS; when present it replaces the generated one on the home page. */
+  shareImageUrl?: string;
   seoTitle: string;
   seoDescription: string;
 };
@@ -109,6 +114,8 @@ export type Recommendation = {
   headline: string;
   /** A LinkedIn recommendation, or one written for the earlier site mghn.info. */
   source: "linkedin" | "mghn.info";
+  /** Language of `highlight` and `paragraphs`: the original English, or a Persian translation from the CMS. */
+  lang: "en" | "fa";
   portrait?: Img;
   /** e.g. "Worked with Mohammad on the same team". LinkedIn entries only. */
   relationship?: string;

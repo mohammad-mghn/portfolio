@@ -1,5 +1,6 @@
 "use client";
 
+import { imgProps } from "@/lib/img";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
@@ -96,6 +97,7 @@ export function WorkList({ rows, openLabel }: { rows: Row[]; openLabel: string }
             <Image
               key={p.slug}
               src={p.cover.src}
+              {...imgProps(p.cover)}
               alt=""
               fill
               sizes="460px"

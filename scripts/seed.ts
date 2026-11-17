@@ -1,18 +1,18 @@
 /**
- * Seed a Sanity dataset from the typed local content in content/seed.
+ * Fill a Sanity dataset from the typed local content in content/seed.
  *
- *   pnpm seed            # upserts every document (fixed _ids, safe to re-run)
+ *   pnpm seed            # adds whatever is missing; never overwrites what you edited in the panel
+ *   pnpm seed --force    # replaces every document with the seed version (your panel edits are lost)
  *
- * Needs NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET and SANITY_API_WRITE_TOKEN
- * (an Editor token from sanity.io/manage → API → Tokens; keep it local, never on Vercel).
+ * Needs NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET and SANITY_API_WRITE_TOKEN in
+ * .env.local (an Editor token from sanity.io/manage → API → Tokens; keep it local, never on Vercel).
+ * Safe to re-run: ids are fixed, and Sanity stores an identical image only once.
  */
 import { createReadStream, existsSync } from "node:fs";
 import { basename, join } from "node:path";
 import { createClient } from "@sanity/client";
 import { config } from "dotenv";
-import { experience } from "../content/seed/journey";
-import { projects } from "../content/seed/projects";
-import { about, recommendations, siteSettings } from "../content/seed/site";
+import { buildSeedDocs, retired } from "./seed-docs";
 
 config({ path: ".env.local" });
 
@@ -23,21 +23,15 @@ if (!projectId || !token) {
   console.error("Missing NEXT_PUBLIC_SANITY_PROJECT_ID or SANITY_API_WRITE_TOKEN in .env.local");
   process.exit(1);
 }
+const force = process.argv.includes("--force");
 
 const client = createClient({ projectId, dataset, token, apiVersion: "2026-11-01", useCdn: false });
 
-let n = 0;
-const key = () => `k${(n++).toString(36)}${Math.random().toString(36).slice(2, 8)}`;
-
-type Loc = { en: string; fa?: string };
-type SeedImage = { src: string; alt: Loc };
-
 const uploads = new Map<string, string>();
-async function image(img: SeedImage | undefined) {
-  if (!img) return undefined;
-  const file = join(process.cwd(), "public", img.src);
+async function upload(src: string) {
+  const file = join(process.cwd(), "public", src);
   if (!existsSync(file)) {
-    console.warn(`  ! missing image ${img.src}`);
+    console.warn(`  ! missing image ${src}`);
     return undefined;
   }
   let id = uploads.get(file);
@@ -45,66 +39,31 @@ async function image(img: SeedImage | undefined) {
     const asset = await client.assets.upload("image", createReadStream(file), { filename: basename(file) });
     id = asset._id;
     uploads.set(file, id);
-    console.log(`  ↑ ${img.src}`);
+    console.log(`  ↑ ${src}`);
   }
-  return { _type: "altImage", asset: { _type: "reference", _ref: id }, alt: img.alt };
+  return { _type: "reference" as const, _ref: id };
 }
 
-const blocks = (paragraphs: string[] = []) =>
-  paragraphs.map((text) => ({
-    _type: "block",
-    _key: key(),
-    style: "normal",
-    markDefs: [],
-    children: [{ _type: "span", _key: key(), text, marks: [] }],
-  }));
-const localeBlock = (v: { en: string[]; fa?: string[] }) => ({ en: blocks(v.en), fa: blocks(v.fa) });
-const items = <T extends object>(type: string, list: T[]) => list.map((x) => ({ _type: type, _key: key(), ...x }));
-
 async function main() {
-  console.log(`Seeding ${projectId}/${dataset} …`);
-  const docs: Record<string, unknown>[] = [];
-
-  docs.push({
-    ...siteSettings,
-    roles: items("role", [...siteSettings.roles]),
-    socials: items("social", [...siteSettings.socials]),
-  });
-
-  docs.push({
-    ...about,
-    bio: items("localeText", about.bio),
-    outside: items("localeText", about.outside),
-    numbers: items("stat", about.numbers),
-    pillars: items("pillar", about.pillars),
-    beliefs: items("belief", about.beliefs),
-    quotes: items("quote", about.quotes),
-    education: items("educationItem", about.education),
-    volunteering: items("volunteeringItem", about.volunteering),
-    languages: items("languageItem", about.languages),
-    portrait: await image({ src: "/brand/portrait.png", alt: siteSettings.name }),
-  });
-
-  for (const e of experience) docs.push({ ...e });
-
-  for (const p of projects) {
-    const { slug, problem, decision, result, cover, gallery, ...rest } = p;
-    docs.push({
-      ...rest,
-      slug: { _type: "slug", current: slug },
-      problem: localeBlock(problem),
-      decision: localeBlock(decision),
-      result: localeBlock(result),
-      cover: await image(cover),
-      gallery: (await Promise.all(gallery.map((g) => image(g)))).filter(Boolean).map((g) => ({ ...g, _key: key() })),
-    });
-  }
-
-  for (const r of recommendations) docs.push({ ...r });
+  console.log(`Seeding ${projectId}/${dataset} ${force ? "(replacing everything)" : "(adding what is missing)"} …`);
+  const docs = await buildSeedDocs(upload);
 
   const tx = client.transaction();
-  for (const d of docs) tx.createOrReplace(d as { _id: string; _type: string });
+  for (const d of docs) {
+    const doc = d as { _id: string; _type: string };
+    if (force) tx.createOrReplace(doc);
+    else tx.createIfNotExists(doc);
+  }
   await tx.commit();
+
+  const old = await client.fetch<string[]>(`*[_type == "milestone" || _id in $ids]._id`, { ids: retired });
+  if (old.length) {
+    const cleanup = client.transaction();
+    for (const id of old) cleanup.delete(id);
+    await cleanup.commit();
+    console.log(`  − removed ${old.length} retired documents`);
+  }
+
   console.log(`✓ ${docs.length} documents, ${uploads.size} images`);
 }
 

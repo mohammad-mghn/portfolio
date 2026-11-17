@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "seed": "tsx scripts/seed.ts",
-    "sanity": "sanity"
+    "sanity": "sanity",
+    "seed:check": "tsx scripts/check-seed.ts",
+    "cms:check": "node --conditions=react-server --import tsx scripts/check-cms.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -39,6 +41,7 @@
     "dotenv": "^18.0.10",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "groq-js": "2.0.1",
     "tailwindcss": "4.3.3",
     "tsx": "^4.23.15",
     "typescript": "^5"

@@ -1,3 +1,4 @@
+import { imgProps } from "@/lib/img";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { MoreLink } from "@/components/ui/MoreLink";
@@ -20,6 +21,7 @@ export async function About({ locale, about, index }: { locale: Locale; about: A
             <div className="relative aspect-[4/5] overflow-hidden bg-paper-2">
               <Image
                 src={about.portrait.src}
+                {...imgProps(about.portrait)}
                 alt={about.portrait.alt}
                 fill
                 sizes="(max-width: 767px) 45vw, 22vw"

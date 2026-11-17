@@ -72,6 +72,13 @@ export const siteSettings = defineType({
     }),
     defineField({ name: "openTo", title: "Open to", type: "localeTags", group: "contact" }),
     defineField({ name: "resumeUrl", title: "Résumé URL", type: "url", group: "contact" }),
+    defineField({
+      name: "bookingUrl",
+      title: "Booking page",
+      description: "Your Google Calendar booking link. The “Book a call” button shows only when this is filled in.",
+      type: "url",
+      group: "contact",
+    }),
     defineField({ name: "seoTitle", type: "localeString", group: "seo" }),
     defineField({ name: "seoDescription", type: "localeText", group: "seo" }),
     defineField({ name: "ogImage", title: "Social share image", type: "altImage", group: "seo" }),
@@ -114,7 +121,7 @@ export const about = defineType({
             defineField({ name: "key", type: "string", options: { list: ["engineering", "founding", "product"] } }),
             defineField({ name: "title", type: "localeString" }),
             defineField({ name: "proof", type: "localeText" }),
-            defineField({ name: "points", type: "localeTags" }),
+            defineField({ name: "points", description: "Three short lines in plain words.", type: "localeList" }),
             defineField({ name: "href", type: "string" }),
           ],
           preview: { select: { title: "title.en" } },
@@ -183,7 +190,7 @@ export const about = defineType({
             defineField({ name: "org", type: "localeString" }),
             defineField({ name: "date", description: "YYYY-MM", type: "string" }),
             defineField({ name: "summary", type: "localeText" }),
-            defineField({ name: "bullets", type: "localeTags" }),
+            defineField({ name: "bullets", type: "localeList" }),
           ],
           preview: { select: { title: "role.en", subtitle: "org.en" } },
         }),
@@ -205,45 +212,178 @@ export const about = defineType({
   preview: { prepare: () => ({ title: "About" }) },
 });
 
-export const milestone = defineType({
-  name: "milestone",
-  title: "Journey stop",
+/** Fields a role or venture stop can set on top of what its references already say. */
+const stopOverrides = [
+  defineField({
+    name: "weight",
+    description: "Major stops (2025 on) are drawn bigger and hold longer.",
+    type: "string",
+    options: { list: ["major", "minor"], layout: "radio", direction: "horizontal" },
+    initialValue: "minor",
+  }),
+  defineField({ name: "sceneBreak", title: "Scene switches to night here", type: "boolean", initialValue: false }),
+  defineField({
+    name: "highlights",
+    description: "Up to 3 short lines on what was built. Leave empty to use each role's “Built” line.",
+    type: "localeList",
+  }),
+  defineField({ name: "media", type: "altImage" }),
+  defineField({
+    name: "href",
+    title: "Custom link",
+    description: "Leave empty: a job links to its company on /engineering, a venture to /founding.",
+    type: "string",
+  }),
+];
+
+/**
+ * The home-page journey: work experience, oldest first. Stops only point at roles, ventures and
+ * projects, so names, dates and covers are never typed twice. Drag to reorder.
+ */
+export const journey = defineType({
+  name: "journey",
+  title: "Journey",
   type: "document",
   fields: [
-    order,
-    defineField({ name: "year", description: "Shown huge, e.g. 2021 or Now.", type: "localeString" }),
     defineField({
-      name: "kind",
-      type: "string",
-      options: { list: ["roots", "career", "venture", "now"], layout: "radio" },
-      initialValue: "career",
-    }),
-    defineField({
-      name: "weight",
-      description: "Major stops (the last two years) are drawn bigger.",
-      type: "string",
-      options: { list: ["major", "minor"], layout: "radio", direction: "horizontal" },
-      initialValue: "minor",
-    }),
-    defineField({ name: "title", type: "localeString" }),
-    defineField({ name: "outcome", title: "Outcome line", type: "localeText" }),
-    defineField({ name: "tags", type: "array", of: [{ type: "string" }], options: { layout: "tags" } }),
-    defineField({ name: "media", type: "altImage" }),
-    defineField({
-      name: "sceneBreak",
-      title: "Scene switches to night here",
-      type: "boolean",
-      initialValue: false,
-    }),
-    defineField({
-      name: "placement",
-      type: "string",
-      options: { list: ["auto", "start", "end"], layout: "radio", direction: "horizontal" },
-      initialValue: "auto",
+      name: "stops",
+      description: "Oldest first. A job or venture is a big stop; put the project cards built there right after it.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "journeyRole",
+          title: "Job (roles at one company)",
+          fields: [
+            defineField({
+              name: "roles",
+              description: "Every role held at this company.",
+              type: "array",
+              of: [defineArrayMember({ type: "reference", to: [{ type: "experience" }] })],
+              validation: (r) => r.required().min(1),
+            }),
+            ...stopOverrides,
+          ],
+          preview: {
+            select: { company: "roles.0.company.en", role: "roles.0.role.en", weight: "weight" },
+            prepare: ({ company, role, weight }) => ({ title: company ?? "Job", subtitle: `Job · ${weight ?? "minor"} · ${role ?? ""}` }),
+          },
+        }),
+        defineArrayMember({
+          type: "object",
+          name: "journeyVenture",
+          title: "Co-founded venture",
+          fields: [
+            defineField({ name: "venture", type: "reference", to: [{ type: "venture" }], validation: (r) => r.required() }),
+            ...stopOverrides,
+          ],
+          preview: {
+            select: { name: "venture.name.en", weight: "weight" },
+            prepare: ({ name, weight }) => ({ title: name ?? "Venture", subtitle: `Venture · ${weight ?? "minor"}` }),
+          },
+        }),
+        defineArrayMember({
+          type: "object",
+          name: "journeyProject",
+          title: "Project card",
+          fields: [
+            defineField({
+              name: "projects",
+              description: "One project fills the card; two or three share it as rows.",
+              type: "array",
+              of: [defineArrayMember({ type: "reference", to: [{ type: "project" }] })],
+              validation: (r) => r.required().min(1).max(3),
+            }),
+          ],
+          preview: {
+            select: { a: "projects.0.title.en", b: "projects.1.title.en", c: "projects.2.title.en" },
+            prepare: ({ a, b, c }) => ({ title: [a, b, c].filter(Boolean).join(" + ") || "Project card", subtitle: "Project card" }),
+          },
+        }),
+      ],
     }),
   ],
+  preview: { prepare: () => ({ title: "Journey" }) },
+});
+
+/** A product Mohammad co-founded: the Founding page, and the venture stops of the journey. */
+export const venture = defineType({
+  name: "venture",
+  title: "Venture",
+  type: "document",
+  fields: [
+    needsReview,
+    order,
+    defineField({ name: "name", type: "localeString" }),
+    defineField({ name: "slug", type: "slug", options: { source: "name.en" }, validation: (r) => r.required() }),
+    defineField({ name: "role", description: "e.g. Co-founder & software engineer", type: "localeString" }),
+    defineField({ name: "since", description: "YYYY-MM", type: "string" }),
+    defineField({ name: "partner", description: "e.g. With Mahdi Khodadadi, product designer", type: "localeString" }),
+    defineField({ name: "traction", description: "e.g. 3,000+ users", type: "localeString" }),
+    defineField({ name: "summary", type: "localeText" }),
+    defineField({ name: "facts", description: "Short facts shown as a list.", type: "localeList" }),
+    defineField({ name: "note", title: "Story", description: "The founding story, one paragraph per item.", type: "localeList" }),
+    defineField({
+      name: "links",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "ventureLink",
+          fields: [defineField({ name: "label", type: "string" }), defineField({ name: "href", type: "url" })],
+          preview: { select: { title: "label", subtitle: "href" } },
+        }),
+      ],
+    }),
+    defineField({ name: "cover", type: "altImage" }),
+  ],
   orderings: [{ title: "Order", name: "order", by: [{ field: "order", direction: "asc" }] }],
-  preview: { select: { title: "title.en", subtitle: "year.en", media: "media" } },
+  preview: { select: { title: "name.en", subtitle: "role.en", media: "cover" } },
+});
+
+/** One page's own words. Empty contact fields fall back to the default contact block. */
+const pageCopy = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    options: { collapsible: true, collapsed: true },
+    fields: [
+      defineField({ name: "statement", description: "The line under the page title (also the search description).", type: "localeText" }),
+      defineField({ name: "contactTitleA", title: "Contact title, first line", type: "localeString" }),
+      defineField({ name: "contactTitleB", title: "Contact title, second line (orange)", type: "localeString" }),
+      defineField({ name: "contactLead", title: "Contact lead", type: "localeText" }),
+    ],
+  });
+
+/** The words that change from page to page: each page's statement and closing contact block. */
+export const pages = defineType({
+  name: "pages",
+  title: "Page texts",
+  type: "document",
+  fields: [
+    defineField({
+      name: "contactDefault",
+      title: "Default contact block",
+      description: "Shown on the home page and wherever a page leaves its own contact text empty.",
+      type: "object",
+      fields: [
+        defineField({ name: "titleA", title: "Title, first line", type: "localeString" }),
+        defineField({ name: "titleB", title: "Title, second line (orange)", type: "localeString" }),
+        defineField({ name: "lead", type: "localeText" }),
+      ],
+    }),
+    pageCopy("home", "Home"),
+    pageCopy("engineering", "Engineering"),
+    pageCopy("founding", "Founding"),
+    pageCopy("work", "Work and case studies"),
+    pageCopy("content", "Content"),
+    pageCopy("about", "About"),
+    pageCopy("recommendations", "Recommendations"),
+    pageCopy("resume", "Resume"),
+    pageCopy("contact", "Contact"),
+  ],
+  preview: { prepare: () => ({ title: "Page texts" }) },
 });
 
 export const experience = defineType({
@@ -260,14 +400,23 @@ export const experience = defineType({
     defineField({
       name: "type",
       type: "string",
-      options: { list: ["founder", "employee", "freelance", "community"], layout: "radio", direction: "horizontal" },
+      options: {
+        list: [
+          { title: "Full-time", value: "employee" },
+          { title: "Freelance", value: "freelance" },
+          { title: "Co-founder", value: "founder" },
+          { title: "Community", value: "community" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
     }),
     defineField({ name: "start", description: "YYYY-MM", type: "string" }),
     defineField({ name: "end", description: "YYYY-MM, empty while current", type: "string" }),
     defineField({ name: "workplace", description: "Remote, Hybrid…", type: "localeString" }),
     defineField({ name: "location", type: "localeString" }),
     defineField({ name: "summary", type: "localeText" }),
-    defineField({ name: "bullets", type: "localeTags" }),
+    defineField({ name: "bullets", type: "localeList" }),
     defineField({
       name: "spec",
       type: "object",
@@ -302,8 +451,31 @@ export const project = defineType({
     defineField({ name: "featured", title: "Featured on home", type: "boolean", group: "overview" }),
     defineField({
       name: "group",
+      description: "Full-time jobs are not projects: they live in Experience.",
       type: "string",
-      options: { list: ["own", "nobar", "client", "side"], layout: "radio", direction: "horizontal" },
+      options: {
+        list: [
+          { title: "Co-founded product", value: "cofounded" },
+          { title: "Client project", value: "client" },
+          { title: "Open source and personal", value: "personal" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+      group: "overview",
+    }),
+    defineField({
+      name: "builtAt",
+      title: "Built at",
+      description: "For client projects: the job or the freelance role it was built in. Shows as “Built at …”.",
+      type: "reference",
+      to: [{ type: "experience" }],
+      group: "overview",
+    }),
+    defineField({
+      name: "partner",
+      description: "For co-founded products, e.g. Co-founded with Mahdi Khodadadi.",
+      type: "localeString",
       group: "overview",
     }),
     defineField({ name: "caseStudy", title: "Full case study page", type: "boolean", group: "overview" }),
@@ -356,13 +528,35 @@ export const recommendation = defineType({
   fields: [
     order,
     defineField({ name: "name", type: "localeString" }),
-    defineField({ name: "headline", description: "Their LinkedIn headline, verbatim.", type: "string" }),
-    defineField({ name: "relationship", type: "localeString" }),
-    defineField({ name: "date", type: "date" }),
-    defineField({ name: "highlight", description: "One sentence lifted verbatim from the text.", type: "text", rows: 2 }),
-    defineField({ name: "paragraphs", description: "The full recommendation, verbatim (English).", type: "array", of: [{ type: "text" }] }),
-    defineField({ name: "href", title: "Link", type: "url" }),
+    defineField({ name: "portrait", description: "Square photo. Without one the site shows initials.", type: "image", options: { hotspot: true } }),
+    defineField({ name: "headline", description: "Their headline or job title, as they wrote it.", type: "string" }),
+    defineField({
+      name: "source",
+      type: "string",
+      options: {
+        list: [
+          { title: "LinkedIn", value: "linkedin" },
+          { title: "Earlier site (mghn.info)", value: "mghn.info" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+      initialValue: "linkedin",
+    }),
+    defineField({ name: "relationship", description: "LinkedIn only, e.g. Worked with Mohammad on the same team.", type: "localeString" }),
+    defineField({ name: "date", description: "LinkedIn only.", type: "date" }),
+    defineField({ name: "href", title: "Link", description: "Their profile, or the recommendation on LinkedIn.", type: "url" }),
+    defineField({ name: "highlight", description: "One sentence lifted word for word from the text.", type: "text", rows: 2 }),
+    defineField({ name: "paragraphs", description: "The full recommendation, word for word.", type: "array", of: [{ type: "text" }] }),
+    defineField({
+      name: "highlightFa",
+      title: "Highlight (Persian translation)",
+      description: "Optional. When both Persian fields are filled, the Persian site shows the translation, marked as translated.",
+      type: "text",
+      rows: 2,
+    }),
+    defineField({ name: "paragraphsFa", title: "Full text (Persian translation)", type: "array", of: [{ type: "text" }] }),
   ],
   orderings: [{ title: "Order", name: "order", by: [{ field: "order", direction: "asc" }] }],
-  preview: { select: { title: "name.en", subtitle: "headline" } },
+  preview: { select: { title: "name.en", subtitle: "headline", media: "portrait" } },
 });

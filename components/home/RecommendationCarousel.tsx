@@ -143,7 +143,7 @@ export function RecommendationCarousel({
             className="flex w-[min(84vw,38rem)] shrink-0 snap-start flex-col rounded-[3px] border border-hair bg-[color-mix(in_oklab,var(--paper)_70%,white)] p-6 md:p-8"
           >
             <figure className="flex h-full flex-col">
-              <blockquote lang="en" dir="ltr" className="text-start">
+              <blockquote lang={r.lang} dir={r.lang === "fa" ? "rtl" : "ltr"} className="text-start">
                 <p className="font-display text-[clamp(1.3rem,1.9vw,1.8rem)] leading-[1.15] font-medium tracking-tight">
                   <span aria-hidden className="accent me-1 text-accent">
                     “

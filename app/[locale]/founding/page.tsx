@@ -1,3 +1,4 @@
+import { imgProps } from "@/lib/img";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { hasLocale } from "next-intl";
@@ -98,6 +99,7 @@ export default async function FoundingPage({ params }: PageProps<"/[locale]/foun
                 <figure className="col-span-full mt-4 overflow-hidden rounded-sm border border-hair bg-paper-2" data-reveal>
                   <Image
                     src={v.cover.src}
+                    {...imgProps(v.cover)}
                     alt={v.cover.alt}
                     width={v.cover.width}
                     height={v.cover.height}

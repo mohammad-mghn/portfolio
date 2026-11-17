@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import type { Img } from "@/lib/content/types";
+import { imgProps } from "@/lib/img";
 
 /** A person's portrait in a circle, or their initials when there is no photo. */
 export function Avatar({ name, portrait, className }: { name: string; portrait?: Img; className?: string }) {
@@ -18,7 +19,7 @@ export function Avatar({ name, portrait, className }: { name: string; portrait?:
       )}
     >
       {portrait ? (
-        <Image src={portrait.src} alt="" fill sizes="96px" className="object-cover" />
+        <Image src={portrait.src} alt="" fill sizes="96px" className="object-cover" {...imgProps(portrait)} />
       ) : (
         initials
       )}

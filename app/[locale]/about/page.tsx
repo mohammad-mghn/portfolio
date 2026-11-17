@@ -1,3 +1,4 @@
+import { imgProps } from "@/lib/img";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { hasLocale } from "next-intl";
@@ -45,6 +46,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
               <div className="relative aspect-[4/5] overflow-hidden bg-paper-2 md:sticky md:top-[calc(var(--header-h)+2rem)]">
                 <Image
                   src={about.portrait.src}
+                  {...imgProps(about.portrait)}
                   alt={about.portrait.alt}
                   fill
                   sizes="(max-width: 767px) 45vw, 30vw"

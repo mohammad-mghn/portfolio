@@ -13,6 +13,9 @@ export async function POST(req: NextRequest) {
   const { isValidSignature, body } = await parseBody<{ _type?: string }>(req, secret, true);
   if (!isValidSignature) return NextResponse.json({ message: "Invalid signature" }, { status: 401 });
 
+  // Every page reads from the CMS, so refresh them all, plus the files built from the same content.
   revalidatePath("/", "layout");
+  revalidatePath("/resume.pdf");
+  revalidatePath("/sitemap.xml");
   return NextResponse.json({ revalidated: true, type: body?._type ?? null, now: Date.now() });
 }

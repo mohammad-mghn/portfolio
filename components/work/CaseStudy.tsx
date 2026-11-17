@@ -1,3 +1,4 @@
+import { imgProps } from "@/lib/img";
 import clsx from "clsx";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
@@ -121,6 +122,7 @@ export async function CaseStudy({
           <div className="overflow-hidden rounded-[3px] p-[clamp(12px,3vw,48px)]" style={{ background: project.color }}>
             <Image
               src={project.cover.src}
+              {...imgProps(project.cover)}
               alt={project.cover.alt}
               width={project.cover.width}
               height={project.cover.height}
@@ -157,6 +159,7 @@ export async function CaseStudy({
             <figure key={g.src} className={clsx("col-span-full", i % 3 === 0 ? "" : "md:col-span-6")} {...r}>
               <Image
                 src={g.src}
+                {...imgProps(g)}
                 alt={g.alt}
                 width={g.width}
                 height={g.height}
