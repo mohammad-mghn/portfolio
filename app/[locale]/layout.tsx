@@ -2,7 +2,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Live } from "@/components/cms/Live";
@@ -88,27 +87,14 @@ export default async function LocaleLayout({ children, modal, params }: LayoutPr
       <head>
         {/*
           Fonts are declared in app/fonts.css; only the ones this language draws on the first screen
-          are preloaded. English: the display/body face and the label face. Persian: its own face
-          (Arabic script, plus its Latin part for names and numbers).
+          are preloaded. English: the display/body face and the label face. Persian: its one face;
+          the Latin fonts for names inside Persian text load when the page asks for them.
         */}
-        {(locale === "fa" ? ["vazirmatn-arabic", "vazirmatn-latin"] : ["archivo-latin", "geist-mono-latin"]).map((font) => (
+        {(locale === "fa" ? ["estedad-arabic"] : ["archivo-latin", "geist-mono-latin"]).map((font) => (
           <link key={font} rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossOrigin="anonymous" />
         ))}
-        <noscript
-          dangerouslySetInnerHTML={{
-            __html:
-              "<style>[data-reveal],[data-split]{opacity:1!important;visibility:visible!important;transform:none!important}</style>",
-          }}
-        />
       </head>
       <body className="grain">
-        {/*
-          Content below the first screen starts hidden and is revealed by the motion code, which loads
-          after the first paint. If that code is slow or fails, this shows everything after 3.5s.
-        */}
-        <Script id="reveal-safety-net" strategy="beforeInteractive">
-          {"setTimeout(function(){if(!window.__reveals)document.documentElement.classList.add('reveal-all')},3500)"}
-        </Script>
         {/* Structured data for search engines. "<" is escaped so content can never close the tag. */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
         {/*

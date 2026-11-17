@@ -6,6 +6,9 @@ export async function Hero({ locale, site }: { locale: Locale; site: SiteSetting
   const t = await getTranslations({ locale, namespace: "hero" });
   const [first, ...rest] = site.name.split(" ");
   const last = rest.join(" ");
+  // English stacks the two long capitalised words. The Persian name is two short words: on one
+  // line it spans the measure; on two it would be taller than the screen (see .hero-name).
+  const oneLine = locale === "fa";
 
   return (
     <section id="top" className="relative z-1 flex min-h-svh flex-col justify-end pt-(--header-h) pb-6">
@@ -21,17 +24,27 @@ export async function Hero({ locale, site }: { locale: Locale; site: SiteSetting
         </p>
       </div>
 
-      <h1 className="px-gutter" aria-label={site.name}>
-        <span className="intro-line hero-name block" aria-hidden>
-          <span className="intro-line-inner" style={{ "--d": "0.05s" } as React.CSSProperties}>
-            {first}
+      <h1 className="px-gutter @container" aria-label={site.name}>
+        {oneLine ? (
+          <span className="intro-line hero-name block" aria-hidden>
+            <span className="intro-line-inner" style={{ "--d": "0.05s" } as React.CSSProperties}>
+              {site.name}
+            </span>
           </span>
-        </span>
-        <span className="intro-line hero-name block text-end" aria-hidden>
-          <span className="intro-line-inner" style={{ "--d": "0.16s" } as React.CSSProperties}>
-            {last}
-          </span>
-        </span>
+        ) : (
+          <>
+            <span className="intro-line hero-name block" aria-hidden>
+              <span className="intro-line-inner" style={{ "--d": "0.05s" } as React.CSSProperties}>
+                {first}
+              </span>
+            </span>
+            <span className="intro-line hero-name block text-end" aria-hidden>
+              <span className="intro-line-inner" style={{ "--d": "0.16s" } as React.CSSProperties}>
+                {last}
+              </span>
+            </span>
+          </>
+        )}
       </h1>
 
       <div className="grid-12 rule mt-[3vh] gap-y-8 pt-6">

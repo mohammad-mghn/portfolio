@@ -76,10 +76,10 @@ export const projects: SeedProject[] = [
     status: "live",
     color: "#7E1418",
     role: { en: "Co-founder & software engineer", fa: "هم‌بنیان‌گذار و مهندس نرم‌افزار" },
-    partner: { en: "Co-founded with Mahdi Khodadadi", fa: "هم‌بنیان‌گذاری با مهدی خدادادی" },
+    partner: { en: "Co-founded with Mahdi Khodadadi", fa: "هم‌بنیان‌گذار: مهدی خدادادی" },
     summary: {
       en: "A bilingual new-tab browser extension with 3,000+ users, three calendars, widgets and its own ad platform. Co-founded with Mahdi Khodadadi.",
-      fa: "افزونهٔ دوزبانهٔ تب جدید با بیش از ۳٬۰۰۰ کاربر، سه تقویم، ویجت‌ها و پلتفرم تبلیغاتی اختصاصی. هم‌بنیان‌گذاری با مهدی خدادادی.",
+      fa: "افزونهٔ دوزبانهٔ تب جدید مرورگر با بیش از ۳٬۰۰۰ کاربر، سه تقویم، ویجت و پلتفرم تبلیغات خودش. با مهدی خدادادی بنیان گذاشتیم.",
     },
     problem: {
       en: [
@@ -87,8 +87,8 @@ export const projects: SeedProject[] = [
         "Rooza set out to turn it into a fast, personal start page in English and Persian, and to make it sustainable with an advertising model.",
       ],
       fa: [
-        "تب جدید پربازدیدترین صفحهٔ مرورگر است، اما معمولاً نه چیز شخصی‌ای نشان می‌دهد و نه تقویم شمسی دارد.",
-        "روزا قرار بود آن را به صفحهٔ شروعی سریع و شخصی به فارسی و انگلیسی تبدیل کند و با یک مدل تبلیغاتی پایدار بماند.",
+        "تب جدید صفحه‌ای است که بیشتر از هر صفحهٔ دیگری باز می‌شود، ولی معمولاً نه چیز شخصی‌ای در آن هست و نه تقویم شمسی.",
+        "می‌خواستیم روزا آن را به صفحهٔ شروعی سریع و شخصی تبدیل کند، به فارسی و انگلیسی، و با یک مدل تبلیغاتی روی پای خودش بایستد.",
       ],
     },
     decision: {
@@ -99,15 +99,15 @@ export const projects: SeedProject[] = [
         "Built as an MV3 extension with WXT, a Node and MongoDB API, and the whole stack in Docker Compose.",
       ],
       fa: [
-        "داشبورد تب جدید قابل شخصی‌سازی با ویجت‌ها، بوکمارک‌ها، سه تقویم (میلادی، شمسی و قمری) و پشتیبانی کامل از فارسی و انگلیسی با چیدمان راست‌به‌چپ و چپ‌به‌راست.",
-        "داشبورد مدیریت تبلیغات: ثبت تبلیغ، بررسی و تأیید، زمان‌بندی، و تایم‌لاینی که همه‌چیز را از نمایش تا کلیک به تبلیغ‌دهنده نشان می‌دهد.",
-        "آنالیتیکس انتخاب پس‌زمینه، تا پس‌زمینه‌های پیشنهادی به‌مرور بهتر شوند.",
-        "ساخته‌شده به‌صورت افزونهٔ MV3 با WXT، یک API با Node و MongoDB، و کل استک در Docker Compose."
+        "یک داشبورد تب جدیدِ قابل‌شخصی‌سازی؛ با ویجت، بوکمارک، سه تقویم (شمسی، میلادی و قمری) و پشتیبانی کامل از فارسی و انگلیسی در چیدمان راست‌به‌چپ و چپ‌به‌راست.",
+        "یک داشبورد مدیریت تبلیغات: ثبت تبلیغ، بررسی و تأیید، زمان‌بندی، و تایم‌لاینی که از نمایش تا کلیک همه‌چیز را به تبلیغ‌دهنده نشان می‌دهد.",
+        "تحلیل انتخاب پس‌زمینه‌ها، تا پس‌زمینه‌های پیشنهادی به‌مرور بهتر شوند.",
+        "افزونه با WXT و بر پایهٔ MV3 ساخته شده، API با Node و MongoDB، و کل استک با Docker Compose بالا می‌آید."
       ],
     },
     result: {
       en: ["Live on the Chrome Web Store and Firefox Add-ons with 3,000+ users, shipping regular updates based on user feedback."],
-      fa: ["در دسترس در کروم وب‌استور و افزونه‌های فایرفاکس با بیش از ۳٬۰۰۰ کاربر، با به‌روزرسانی‌های منظم بر اساس بازخورد کاربران."],
+      fa: ["روی Chrome Web Store و Firefox Add-ons منتشر شده، بیش از ۳٬۰۰۰ کاربر دارد و با بازخورد کاربرها مرتب به‌روز می‌شود."],
     },
     stack: ["WXT", "React", "TypeScript", "Node.js", "Express", "MongoDB", "Docker"],
     links: { live: "https://rooza.space" },
@@ -139,10 +139,10 @@ export const projects: SeedProject[] = [
     status: "live",
     color: "#1F2A44",
     role: { en: "Co-founder & software engineer", fa: "هم‌بنیان‌گذار و مهندس نرم‌افزار" },
-    partner: { en: "Co-founded with Hassan Faraji", fa: "هم‌بنیان‌گذاری با حسن فرجی" },
+    partner: { en: "Co-founded with Hassan Faraji", fa: "هم‌بنیان‌گذار: حسن فرجی" },
     summary: {
       en: "A browser extension used by 100+ support agents at companies including Digikala and Mobinnet: type / or # to insert an approved reply without switching tabs. Co-founded with Hassan Faraji.",
-      fa: "افزونهٔ مرورگری که بیش از ۱۰۰ کارشناس پشتیبانی در شرکت‌هایی مثل دیجی‌کالا و مبین‌نت از آن استفاده می‌کنند: با تایپ / یا # پاسخ تأییدشده را بدون عوض کردن تب وارد می‌کنند. هم‌بنیان‌گذاری با حسن فرجی.",
+      fa: "افزونهٔ مرورگری که بیش از ۱۰۰ کارشناس پشتیبانی در شرکت‌هایی مثل دیجی‌کالا و مبین‌نت از آن استفاده می‌کنند: با تایپ / یا # پاسخ تأییدشده را می‌نویسند، بدون این‌که تب عوض کنند. با حسن فرجی بنیان گذاشتیم.",
     },
     problem: {
       en: [
@@ -150,8 +150,8 @@ export const projects: SeedProject[] = [
         "Copy-pasting from docs is slow, and switching tabs to find the right reply breaks the flow of a conversation.",
       ],
       fa: [
-        "تیم‌های پشتیبانی، فروش و عملیات هر روز همان پیام‌ها را بارها می‌فرستند.",
-        "کپی کردن از مستندات کند است و رفتن به تب دیگر برای پیدا کردن پاسخ درست، رشتهٔ گفت‌وگو را پاره می‌کند.",
+        "تیم‌های پشتیبانی، فروش و عملیات تمام روز همان پیام‌های تکراری را می‌فرستند.",
+        "کپی کردن از فایل‌ها کند است و هر بار رفتن به یک تب دیگر برای پیدا کردن پاسخ درست، رشتهٔ گفت‌وگو را از دست آدم می‌برد.",
       ],
     },
     decision: {
@@ -161,22 +161,22 @@ export const projects: SeedProject[] = [
         "JSON import and export to share libraries between agents, and a built-in test panel to try triggers before a live ticket.",
       ],
       fa: [
-        "دو تریگر برای دو روش کار: \u200e/name برای پاسخ‌های تأییدشدهٔ تیم که در دسته‌ها مرتب شده‌اند، و \u200e#name برای پاسخ‌های سریع و موقت.",
-        "در هر فیلد متنی کار می‌کند؛ پس بدون حتی یک یکپارچه‌سازی، در هلپ‌دسک، CRM، ویجت چت و ایمیل جا می‌افتد.",
-        "ورود و خروج JSON برای به اشتراک گذاشتن کتابخانهٔ پاسخ‌ها بین کارشناس‌ها، و یک پنل تست داخلی برای امتحان تریگرها پیش از تیکت واقعی."
+        "دو میان‌بر برای دو جور کار: \u200e/name برای پاسخ‌های تأییدشدهٔ تیم که دسته‌بندی شده‌اند، و \u200e#name برای پاسخ‌های سریع و موقت.",
+        "در هر فیلد متنی کار می‌کند؛ برای همین بدون اتصال به هیچ سیستمی، در هلپ‌دسک، CRM، ویجت چت و ایمیل جواب می‌دهد.",
+        "ورود و خروجی JSON برای این‌که کارشناس‌ها مجموعهٔ پاسخ‌هایشان را با هم به اشتراک بگذارند، و یک پنل تست برای امتحان کردن میان‌برها قبل از تیکت واقعی."
       ],
     },
     result: {
       en: ["Used by 100+ support agents at companies including Digikala and Mobinnet, and free for anyone to use."],
-      fa: ["مورد استفادهٔ بیش از ۱۰۰ کارشناس پشتیبانی در شرکت‌هایی مثل دیجی‌کالا و مبین‌نت، و رایگان برای همه."],
+      fa: ["بیش از ۱۰۰ کارشناس پشتیبانی در شرکت‌هایی مثل دیجی‌کالا و مبین‌نت از آن استفاده می‌کنند و برای همه رایگان است."],
     },
     stack: ["WXT", "React", "TypeScript", "Tailwind CSS", "Next.js"],
     links: { live: "https://agentboost.ir/en", repo: "https://github.com/mohammad-mghn/agent-assist" },
     cover: { src: "/work/agent-assist/live.jpg", width: 2000, height: 1250, alt: { en: "Agent Assist website", fa: "وب‌سایت Agent Assist" } },
     gallery: [
       shot("agent-assist", 1, 2078, 1239, "Agent Assist dashboard", "داشبورد Agent Assist"),
-      shot("agent-assist", 2, 2078, 1228, "Agent Assist in Persian", "Agent Assist به زبان فارسی"),
-      shot("agent-assist", 3, 2078, 1246, "Inline snippet menu", "منوی درون‌خطی پاسخ‌ها"),
+      shot("agent-assist", 2, 2078, 1228, "Agent Assist in Persian", "Agent Assist به فارسی"),
+      shot("agent-assist", 3, 2078, 1246, "Inline snippet menu", "منوی پاسخ‌ها هنگام تایپ"),
     ],
   },
 
@@ -193,21 +193,21 @@ export const projects: SeedProject[] = [
     builtAt: "experience.pishgaman-frontend",
     title: { en: "SaleCar", fa: "SaleCar" },
     year: "2024",
-    sector: { en: "Automotive marketplace", fa: "بازارگاه خودرو" },
-    kind: { en: "Marketplace", fa: "بازارگاه" },
+    sector: { en: "Automotive marketplace", fa: "مارکت‌پلیس خودرو" },
+    kind: { en: "Marketplace", fa: "مارکت‌پلیس" },
     scope: { en: ["Front-end", "UI/UX", "Dashboards"], fa: ["فرانت‌اند", "UI/UX", "داشبورد"] },
     status: "offline",
     color: "#14302F",
-    location: { en: "United Arab Emirates", fa: "امارات متحده عربی" },
+    location: { en: "United Arab Emirates", fa: "امارات متحدهٔ عربی" },
     role: { en: "Frontend engineer", fa: "مهندس فرانت‌اند" },
     summary: {
       en: "A car marketplace for the UAE: listings, sales tracking, payments, buyer and seller dashboards, an admin panel, and search and filtering.",
-      fa: "بازارگاه خودرو برای امارات: آگهی‌ها، پیگیری فروش، پرداخت، داشبورد خریدار و فروشنده، پنل مدیریت و جست‌وجو و فیلتر.",
+      fa: "مارکت‌پلیس خودرو برای بازار امارات: آگهی، پیگیری فروش، پرداخت، داشبورد خریدار و فروشنده، پنل ادمین و جست‌وجو و فیلتر.",
     },
     problem: {
       en: ["SaleCar, the largest project at Pishgaman Farda, needed a full marketplace for buying and selling cars in the UAE market."],
       fa: [
-        "SaleCar، بزرگ‌ترین پروژهٔ پیشگامان فردا، به یک بازارگاه کامل برای خرید و فروش خودرو در بازار امارات نیاز داشت."
+        "SaleCar بزرگ‌ترین پروژهٔ پیشگامان فردا بود و یک مارکت‌پلیس کامل برای خرید و فروش خودرو در بازار امارات لازم داشت."
       ],
     },
     decision: {
@@ -216,8 +216,8 @@ export const projects: SeedProject[] = [
         "Many of the UI/UX improvements were my own suggestions, shipped through changing requirements.",
       ],
       fa: [
-        "آگهی‌های خودرو، پیگیری فروش، پرداخت، داشبورد خریدار و فروشنده، پنل ادمین و جست‌وجو و فیلتر را ساختم.",
-        "بسیاری از بهبودهای UI/UX پیشنهاد خودم بود و با وجود تغییر مداوم نیازمندی‌ها منتشر شد."
+        "آگهی خودرو، پیگیری فروش، پرداخت، داشبورد خریدار و فروشنده، پنل ادمین و جست‌وجو و فیلتر را ساختم.",
+        "خیلی از بهبودهای UI/UX پیشنهاد خودم بود و با وجود تغییر مدام نیازمندی‌ها، همه را به نتیجه رساندم."
       ],
     },
     result: {
@@ -226,8 +226,8 @@ export const projects: SeedProject[] = [
         "“His contributions to the UI/UX of salecar.ae went far beyond coding.” Mohammad Shahi, backend developer on the project.",
       ],
       fa: [
-        "بخشی از پلتفرم‌هایی که به گفتهٔ مشتری در امارات و آلمان به بیش از ۵٬۰۰۰ کاربر رسیدند.",
-        "«سهم او در UI/UX سایت salecar.ae خیلی فراتر از کدنویسی بود.» از توصیه‌نامهٔ Mohammad Shahi، توسعه‌دهندهٔ بک‌اند پروژه (ترجمه)."
+        "یکی از پلتفرم‌هایی که به گفتهٔ مشتری، در امارات و آلمان روی هم به بیش از ۵٬۰۰۰ کاربر رسیدند.",
+        "«کار او روی UI/UX سایت salecar.ae خیلی فراتر از کدنویسی بود.» Mohammad Shahi، توسعه‌دهندهٔ بک‌اند پروژه، در توصیه‌نامه‌اش (ترجمه)."
       ],
     },
     stack: ["Next.js", "React"],
@@ -249,24 +249,24 @@ export const projects: SeedProject[] = [
     year: "2021",
     sector: { en: "E-commerce", fa: "فروشگاه اینترنتی" },
     kind: { en: "Online shop", fa: "فروشگاه آنلاین" },
-    scope: { en: ["Front-end lead", "Dashboard"], fa: ["راهبری فرانت‌اند", "داشبورد"] },
+    scope: { en: ["Front-end lead", "Dashboard"], fa: ["لید فرانت‌اند", "داشبورد"] },
     status: "live",
     color: "#5A3B2E",
-    role: { en: "Front-end lead (freelance)", fa: "راهبر فرانت‌اند (فریلنس)" },
+    role: { en: "Front-end lead (freelance)", fa: "لید فرانت‌اند (فریلنس)" },
     summary: {
       en: "An online shop whose website and dashboard I built with 2 junior developers. It reached about 1,000 daily users and 100,000+ monthly visits.",
-      fa: "فروشگاه آنلاینی که وب‌سایت و داشبوردش را با دو توسعه‌دهندهٔ جونیور ساختم و به حدود ۱٬۰۰۰ کاربر روزانه و بیش از ۱۰۰ هزار بازدید ماهانه رسید.",
+      fa: "فروشگاه آنلاینی که وب‌سایت و داشبوردش را با ۲ توسعه‌دهندهٔ جونیور ساختم. به حدود ۱٬۰۰۰ کاربر روزانه و بیش از ۱۰۰ هزار بازدید ماهانه رسید.",
     },
     problem: {
       en: ["The shop needed a website and an admin dashboard built from the employer's designs."],
       fa: [
-        "فروشگاه به یک وب‌سایت و داشبورد مدیریت نیاز داشت که بر اساس طراحی‌های کارفرما ساخته شود."
+        "فروشگاه یک وب‌سایت و یک داشبورد مدیریت می‌خواست که از روی طراحی کارفرما ساخته شود."
       ],
     },
     decision: {
       en: ["Led 2 junior developers building the website and dashboard frontend, using Redux and React Query."],
       fa: [
-        "دو توسعه‌دهندهٔ جونیور را در ساخت فرانت‌اند وب‌سایت و داشبورد با Redux و React Query هدایت کردم."
+        "۲ توسعه‌دهندهٔ جونیور را هدایت کردم تا فرانت‌اند وب‌سایت و داشبورد را با Redux و React Query بسازیم."
       ],
     },
     result: {
@@ -294,18 +294,18 @@ export const projects: SeedProject[] = [
     year: "2024",
     sector: { en: "Customer experience", fa: "تجربهٔ مشتری" },
     kind: { en: "CEM platform", fa: "پلتفرم CEM" },
-    scope: { en: ["Front-end lead", "Architecture", "Mentoring"], fa: ["راهبری فرانت‌اند", "معماری", "منتورینگ"] },
+    scope: { en: ["Front-end lead", "Architecture", "Mentoring"], fa: ["لید فرانت‌اند", "معماری", "منتورینگ"] },
     status: "offline",
     color: "#2E4A3F",
     role: { en: "Senior frontend engineer", fa: "مهندس ارشد فرانت‌اند" },
     summary: {
       en: "Led the frontend of the Sinkara CEM platform, building its core structure and components from scratch and mentoring 2 developers.",
-      fa: "راهبری فرانت‌اند پلتفرم Sinkara CEM؛ ساختن ساختار اصلی و کامپوننت‌ها از صفر و منتورینگ دو توسعه‌دهنده.",
+      fa: "فرانت‌اند پلتفرم Sinkara CEM را هدایت کردم: ساختار اصلی و کامپوننت‌ها را از صفر ساختم و منتور ۲ توسعه‌دهنده بودم.",
     },
     problem: {
       en: ["A new platform needed its frontend structure and components built from scratch."],
       fa: [
-        "یک پلتفرم تازه نیاز داشت ساختار و کامپوننت‌های فرانت‌اندش از صفر ساخته شود."
+        "یک پلتفرم تازه بود و باید ساختار و کامپوننت‌های فرانت‌اندش از صفر ساخته می‌شد."
       ],
     },
     decision: {
@@ -315,13 +315,13 @@ export const projects: SeedProject[] = [
       ],
       fa: [
         "ساختار اصلی و کامپوننت‌ها را از صفر با JavaScript ساختم.",
-        "دو توسعه‌دهنده را هدایت کردم و منتورشان بودم، از جمله با کد ریویو، و برای توسعهٔ آینده مستندات فنی نوشتم."
+        "۲ توسعه‌دهنده را هدایت کردم، منتورشان بودم و کدهایشان را ریویو کردم. برای توسعهٔ بعدی هم مستندات فنی نوشتم."
       ],
     },
     result: {
       en: ["Researched and applied improvements to the frontend user experience."],
       fa: [
-        "روی بهبود تجربهٔ کاربری فرانت‌اند تحقیق کردم و بهبودها را پیاده کردم."
+        "برای بهتر شدن تجربهٔ کاربری تحقیق کردم و نتیجه‌اش را در فرانت‌اند پیاده کردم."
       ],
     },
     stack: ["JavaScript"],
@@ -342,7 +342,7 @@ export const projects: SeedProject[] = [
     year: "2024",
     sector: { en: "Technology services", fa: "خدمات فناوری" },
     kind: { en: "Company site", fa: "وب‌سایت شرکتی" },
-    scope: { en: ["Shared UI", "Multilingual"], fa: ["رابط مشترک", "چندزبانه"] },
+    scope: { en: ["Shared UI", "Multilingual"], fa: ["رابط کاربری مشترک", "چندزبانه"] },
     status: "live",
     color: "#1D2A6B",
     client: { en: "Rehansa", fa: "رهانسا" },
@@ -350,7 +350,7 @@ export const projects: SeedProject[] = [
     role: { en: "Frontend engineer", fa: "مهندس فرانت‌اند" },
     summary: {
       en: "A multilingual company site for a German client, part of the shared UI I built for a German startup's clients.",
-      fa: "وب‌سایت شرکتی چندزبانه برای مشتری‌ای در آلمان؛ بخشی از رابط مشترکی که برای مشتری‌های یک استارتاپ آلمانی ساختم.",
+      fa: "وب‌سایت شرکتی چندزبانه برای یک مشتری آلمانی؛ بخشی از رابط کاربری مشترکی که برای مشتری‌های یک استارتاپ آلمانی ساختم.",
     },
     problem: { en: [] },
     decision: { en: [] },
@@ -374,14 +374,14 @@ export const projects: SeedProject[] = [
     year: "2024",
     sector: { en: "Technology services", fa: "خدمات فناوری" },
     kind: { en: "Company site", fa: "وب‌سایت شرکتی" },
-    scope: { en: ["Shared UI", "Multilingual"], fa: ["رابط مشترک", "چندزبانه"] },
+    scope: { en: ["Shared UI", "Multilingual"], fa: ["رابط کاربری مشترک", "چندزبانه"] },
     status: "live",
     color: "#0A5C52",
     location: { en: "Iran", fa: "ایران" },
     role: { en: "Frontend engineer", fa: "مهندس فرانت‌اند" },
     summary: {
       en: "A multilingual company site in Persian and English, part of the same shared UI.",
-      fa: "وب‌سایت شرکتی چندزبانه به فارسی و انگلیسی؛ بخشی از همان رابط مشترک.",
+      fa: "وب‌سایت شرکتی به فارسی و انگلیسی؛ بخشی از همان رابط کاربری مشترک.",
     },
     problem: { en: [] },
     decision: { en: [] },
@@ -403,7 +403,7 @@ export const projects: SeedProject[] = [
     builtAt: "experience.pishgaman-frontend",
     title: { en: "Venus", fa: "ونوس" },
     year: "2024",
-    sector: { en: "IT consultancy", fa: "مشاورهٔ فناوری اطلاعات" },
+    sector: { en: "IT consultancy", fa: "مشاورهٔ IT" },
     kind: { en: "B2B website", fa: "وب‌سایت B2B" },
     scope: { en: ["Front-end"], fa: ["فرانت‌اند"] },
     status: "live",
@@ -411,7 +411,7 @@ export const projects: SeedProject[] = [
     role: { en: "Frontend engineer", fa: "مهندس فرانت‌اند" },
     summary: {
       en: "A B2B technology website, built at Pishgaman Farda.",
-      fa: "یک وب‌سایت فناوری B2B، ساخته‌شده در پیشگامان فردا.",
+      fa: "یک وب‌سایت B2B در حوزهٔ فناوری که در پیشگامان فردا ساختم.",
     },
     problem: { en: [] },
     decision: { en: [] },
@@ -435,18 +435,18 @@ export const projects: SeedProject[] = [
     title: { en: "Windows 11 On Web", fa: "Windows 11 On Web" },
     year: "2022",
     sector: { en: "Open source", fa: "متن‌باز" },
-    kind: { en: "Web OS", fa: "سیستم‌عامل تحت وب" },
+    kind: { en: "Web OS", fa: "سیستم‌عامل در مرورگر" },
     scope: { en: ["Open source", "React", "Redux"], fa: ["متن‌باز", "React", "Redux"] },
     status: "live",
     color: "#0B4F8A",
-    role: { en: "Solo builder", fa: "سازندهٔ مستقل" },
+    role: { en: "Solo builder", fa: "سازنده، تک‌نفره" },
     summary: {
       en: "A Windows 11 simulation that runs in the browser, built with React and Redux. 140+ GitHub stars.",
-      fa: "شبیه‌سازی ویندوز ۱۱ که در مرورگر اجرا می‌شود، ساخته‌شده با React و Redux. بیش از ۱۴۰ ستاره در گیت‌هاب.",
+      fa: "شبیه‌ساز ویندوز ۱۱ که در مرورگر اجرا می‌شود؛ با React و Redux. بیش از ۱۴۰ ستاره در گیت‌هاب.",
     },
     problem: { en: [] },
     decision: { en: [] },
-    result: { en: ["Open source with 140+ GitHub stars, live at wins11.ir."], fa: ["متن‌باز با بیش از ۱۴۰ ستاره در گیت‌هاب، در دسترس در wins11.ir."] },
+    result: { en: ["Open source with 140+ GitHub stars, live at wins11.ir."], fa: ["متن‌باز، با بیش از ۱۴۰ ستاره در گیت‌هاب. روی wins11.ir در دسترس است."] },
     stack: ["React", "Redux", "TypeScript", "SCSS"],
     links: { live: "https://wins11.ir/", repo: "https://github.com/mohammad-mghn/wins-11" },
     cover: shot("windows-11", 1, 2079, 1309, "Windows 11 desktop in the browser", "دسکتاپ ویندوز ۱۱ در مرورگر"),
@@ -468,7 +468,7 @@ export const projects: SeedProject[] = [
     caseStudy: false,
     title: { en: "Devs Event", fa: "Devs Event" },
     year: "2022",
-    sector: { en: "Community", fa: "جامعهٔ توسعه‌دهندگان" },
+    sector: { en: "Community", fa: "جامعهٔ برنامه‌نویس‌ها" },
     kind: { en: "Events website", fa: "وب‌سایت رویدادها" },
     scope: { en: ["Front-end", "Remote team"], fa: ["فرانت‌اند", "تیم دورکار"] },
     status: "offline",
@@ -476,7 +476,7 @@ export const projects: SeedProject[] = [
     role: { en: "Front-end developer, with Mahdi Nazari", fa: "توسعه‌دهندهٔ فرانت‌اند، با مهدی نظری" },
     summary: {
       en: "A community website for people who want to join programming events. My first project on a remote team.",
-      fa: "وب‌سایتی برای کسانی که می‌خواهند در رویدادهای برنامه‌نویسی شرکت کنند. اولین پروژه‌ام در یک تیم دورکار.",
+      fa: "وب‌سایتی برای کسانی که می‌خواهند در رویدادهای برنامه‌نویسی شرکت کنند. اولین پروژه‌ام در یک تیم دورکار بود.",
     },
     problem: { en: [] },
     decision: { en: [] },
@@ -497,15 +497,15 @@ export const projects: SeedProject[] = [
     caseStudy: false,
     title: { en: "Dev Tab", fa: "Dev Tab" },
     year: "2022",
-    sector: { en: "Developer tools", fa: "ابزار توسعه‌دهندگان" },
-    kind: { en: "News dashboard", fa: "داشبورد اخبار" },
-    scope: { en: ["Full-stack", "Scraping"], fa: ["فول‌استک", "استخراج داده"] },
+    sector: { en: "Developer tools", fa: "ابزار برنامه‌نویس‌ها" },
+    kind: { en: "News dashboard", fa: "داشبورد خبر" },
+    scope: { en: ["Full-stack", "Scraping"], fa: ["فول‌استک", "وب‌اسکرپینگ"] },
     status: "live",
     color: "#2B2B2B",
     role: { en: "Full-stack developer", fa: "توسعه‌دهندهٔ فول‌استک" },
     summary: {
       en: "A dashboard for developer news, tools, jobs and events, with web scraping to collect content and customizable fields.",
-      fa: "داشبوردی برای اخبار، ابزارها، فرصت‌های شغلی و رویدادهای برنامه‌نویسی، با جمع‌آوری محتوا از وب و فیلدهای قابل‌تنظیم.",
+      fa: "داشبوردی برای اخبار، ابزارها، فرصت‌های شغلی و رویدادهای برنامه‌نویسی؛ محتوا را با وب‌اسکرپینگ جمع می‌کند و بخش‌هایش قابل‌تنظیم است.",
     },
     problem: { en: [] },
     decision: { en: [] },
@@ -529,13 +529,13 @@ export const projects: SeedProject[] = [
     year: "2023",
     sector: { en: "Education", fa: "آموزش" },
     kind: { en: "Learning platform", fa: "پلتفرم آموزشی" },
-    scope: { en: ["Front-end", "Admin panel"], fa: ["فرانت‌اند", "پنل مدیریت"] },
+    scope: { en: ["Front-end", "Admin panel"], fa: ["فرانت‌اند", "پنل ادمین"] },
     status: "offline",
     color: "#5B2A86",
     role: { en: "Front-end developer", fa: "توسعه‌دهندهٔ فرانت‌اند" },
     summary: {
       en: "Frontend for a learning platform for students and educators (client project, not launched): admin panel with roles, discussions, Excel export and JWT auth.",
-      fa: "فرانت‌اند یک پلتفرم آموزشی برای دانشجویان و مدرسان (پروژهٔ مشتری، منتشر نشد): پنل مدیریت با نقش‌ها، گفت‌وگو، خروجی اکسل و احراز هویت JWT.",
+      fa: "فرانت‌اند یک پلتفرم آموزشی برای دانشجوها و مدرس‌ها (پروژهٔ مشتری که منتشر نشد): پنل ادمین با سطح دسترسی، بخش گفت‌وگو، خروجی اکسل و احراز هویت JWT.",
     },
     problem: { en: [] },
     decision: { en: [] },

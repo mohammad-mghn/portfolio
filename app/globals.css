@@ -62,12 +62,28 @@
 }
 
 :root[lang="fa"] {
+  /*
+   * Persian text is Estedad, and the first paint needs nothing else: Latin letters inside it use a
+   * system face sized to match, and accent words are Estedad too.
+   */
+  --font-fa: var(--font-estedad), Tahoma, sans-serif;
+  --font-body: "Archivo Letters Fallback", var(--font-fa);
+  --font-head: "Archivo Letters Fallback", var(--font-fa);
   --font-head-narrow: var(--font-head);
-  --font-body: var(--font-vazirmatn), Tahoma, sans-serif;
-  --font-head: var(--font-vazirmatn), Tahoma, sans-serif;
-  /* No Persian serif italic — accents switch to colour/weight. */
-  --font-accent: var(--font-vazirmatn), Tahoma, sans-serif;
-  --font-label: var(--font-vazirmatn), var(--font-geist-mono), monospace;
+  --font-accent: var(--font-fa);
+  --font-label: "Geist Mono Letters Fallback", var(--font-fa);
+}
+/*
+ * Right after the first paint (components/deferred.tsx adds the class) the rest arrive: Latin
+ * letters and digits switch to the same faces as the English site, which is why those aliases sit
+ * first (they only cover letters), and accent words switch to a Naskh face, the way English
+ * switches to a serif italic. Loading them up-front cost the Persian pages a second on a phone.
+ */
+:root[lang="fa"].fonts-late {
+  --font-body: var(--font-archivo-letters), var(--font-fa);
+  --font-head: var(--font-archivo-letters), var(--font-fa);
+  --font-accent: var(--font-markazi), var(--font-fa);
+  --font-label: var(--font-geist-mono-letters), var(--font-fa);
 }
 
 :root[data-theme="dark"] {
@@ -201,14 +217,6 @@
     --menu-fa: 0.8;
   }
 }
-:root[lang="fa"] .text-menu {
-  font-size: max(1.4rem, calc(var(--menu-fs) * var(--menu-fa)));
-  line-height: 1.22;
-  letter-spacing: 0;
-  text-transform: none;
-  font-stretch: 100%;
-  font-weight: 800;
-}
 @utility text-label {
   font-family: var(--font-label);
   font-size: 0.72rem;
@@ -229,21 +237,78 @@
   letter-spacing: -0.01em;
   font-stretch: 100%;
 }
-:root[lang="fa"] .accent {
-  font-style: normal;
-  font-weight: 800;
-  color: var(--accent);
+
+/* ───────────────────────── Persian type ───────────────────────── */
+/*
+ * Persian is not English in other letters. It has no capitals and no condensed cut, its letters
+ * join (so no tracking), and its lines need more height for the dots above and below. Each
+ * English size gets a Persian counterpart here: heavier weight in place of capitals, a smaller
+ * size and a taller line, so a heading takes about the same room and has the same weight on the
+ * page in both languages. font-stretch is left alone on purpose: Estedad has one width, so it
+ * only reaches the Latin names inside a Persian heading, which stay condensed as in English.
+ */
+:root[lang="fa"] body {
+  line-height: 1.8;
 }
-/* Persian: no uppercase, no negative tracking on joined scripts */
-:root[lang="fa"] :is(.text-mega, .text-huge, .text-big, .text-statement, .text-label) {
+:root[lang="fa"] :is(.text-mega, .text-huge, .text-big, .text-statement, .text-lead, .text-label, .text-menu, .hero-name, .accent),
+:root[lang="fa"] :is(.tracking-tight, .tracking-\[0\.18em\], .tracking-\[0\.08em\]) {
   letter-spacing: 0;
   text-transform: none;
-  font-stretch: 100%;
 }
-:root[lang="fa"] .text-mega,
+:root[lang="fa"] .text-mega {
+  font-size: clamp(3rem, 12vw, min(13.5rem, calc(var(--page-max) * 0.12)));
+  line-height: 1.14;
+  font-weight: 900;
+}
 :root[lang="fa"] .text-huge {
-  line-height: 1.12;
+  font-size: clamp(2.4rem, 7.2vw, 7.6rem);
+  line-height: 1.18;
+  font-weight: 900;
+}
+:root[lang="fa"] .text-big {
+  font-size: clamp(1.8rem, 4vw, 4rem);
+  line-height: 1.3;
   font-weight: 800;
+}
+:root[lang="fa"] .text-statement {
+  font-size: clamp(1.4rem, 2.6vw, 2.6rem);
+  line-height: 1.5;
+  font-weight: 600;
+}
+:root[lang="fa"] .text-lead {
+  line-height: 1.8;
+}
+/* Short Persian words break headings unevenly; balanced lines keep a heading from ending on one stray word. */
+:root[lang="fa"] :is(.text-huge, .text-big, .text-statement) {
+  text-wrap: balance;
+}
+:root[lang="fa"] .text-label {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+@media (width < 48rem) {
+  :root[lang="fa"] .text-label {
+    font-size: 0.9286rem;
+  }
+}
+:root[lang="fa"] .text-menu {
+  font-size: max(1.4rem, calc(var(--menu-fs) * var(--menu-fa)));
+  line-height: 1.26;
+  font-weight: 900;
+}
+:root[lang="fa"] .accent {
+  font-style: normal;
+  font-weight: 700;
+  /* Markazi Text is drawn small on its body; this brings it level with the sans around it. */
+  font-size: 1.2em;
+  line-height: 1;
+}
+:root[lang="fa"] :is(.leading-relaxed) {
+  line-height: 1.95;
+}
+:root[lang="fa"] :is(.leading-snug, .leading-\[1\.15\]) {
+  line-height: 1.6;
 }
 
 /* ───────────────────────── Layout ───────────────────────── */
@@ -316,26 +381,12 @@
 }
 
 /* ───────────────────────── Reveal system (see ScrollReveals) ───────────────────────── */
-@media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(28px);
-  }
-  [data-split] {
-    visibility: hidden;
-  }
-}
 /*
- * Safety net, switched on by the timer in the layout: the motion code that reveals content did not
- * arrive in time, so show everything. ScrollReveals removes the class again when it does start.
+ * Nothing is hidden here on purpose. Content marked data-reveal / data-split is visible as soon as
+ * the page paints; the motion code, when it arrives, hides only what is still below the screen and
+ * animates that in. So a slow connection, a fast scroll or no JavaScript at all never shows an
+ * empty section.
  */
-.reveal-all [data-reveal],
-.reveal-all [data-split] {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: none !important;
-}
 
 /* ───────────────────────── Chrome tone ───────────────────────── */
 /*
@@ -359,6 +410,30 @@
   color: #ece8df;
 }
 
+/*
+ * Menu: the social links. On desktop each one is a full-width row with a larger label, so the
+ * whole line is the click target instead of a 10px word.
+ */
+@media (width >= 48rem) {
+  .menu-social a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.75rem;
+    border-top: 1px solid #2c2d29;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+  }
+  .menu-social li:last-child a {
+    border-bottom: 1px solid #2c2d29;
+  }
+  :root[lang="fa"] .menu-social a {
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+  }
+}
+
 /* Marquee frame: both edges fade into the background. The motion itself is in components/ui/Marquee.tsx. */
 .marquee-mask {
   overflow: hidden;
@@ -379,12 +454,17 @@
   letter-spacing: -0.05em;
   text-transform: uppercase;
 }
+/*
+ * Persian: the whole name on one line. Two short words set as large as the English lines would be
+ * taller than the screen; one line that spans the measure has the same presence and fits.
+ */
 :root[lang="fa"] .hero-name {
-  font-size: clamp(3.6rem, 17vw, 18rem);
+  /* The name is 6.31em wide in Estedad Black, so 15.7% of the measure makes it span the measure (the h1 is the container). */
+  font-size: clamp(2.6rem, 14.6vw, 17rem);
+  font-size: 15.7cqi;
   font-weight: 900;
-  font-stretch: 100%;
-  letter-spacing: 0;
-  line-height: 1.05;
+  line-height: 1.24;
+  white-space: nowrap;
 }
 
 /* Work rows: colour fill rises from the baseline on hover */
@@ -475,4 +555,3 @@
     animation: intro-fade 0.9s var(--ease-house) var(--d, 0s) both;
   }
 }
-

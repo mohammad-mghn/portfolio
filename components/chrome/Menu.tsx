@@ -144,11 +144,12 @@ export function Menu({
           </div>
           <div data-menu-meta>
             <p className="text-label mb-2 opacity-60">{menuLabels.elsewhere}</p>
-            <ul className="flex flex-wrap gap-x-4 gap-y-2 md:flex-col md:gap-y-1.5">
+            {/* Phones: small labels in a wrapping row. Desktop: a column of larger, full-width rows (see .menu-social). */}
+            <ul className="menu-social flex flex-wrap gap-x-4 gap-y-2 md:flex-col md:gap-y-0">
               {socials.map((s) => (
                 <li key={s.href}>
                   <a href={s.href} target="_blank" rel="noreferrer" className="text-label hover:text-accent">
-                    {s.label} ↗
+                    <span>{s.label}</span> <span aria-hidden className="inline-block rtl:-scale-x-100">↗</span>
                   </a>
                 </li>
               ))}

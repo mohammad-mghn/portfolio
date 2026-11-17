@@ -60,7 +60,8 @@ export function RecommendationCarousel({
   const trigger = useRef<ScrollTrigger | null>(null);
   const move = useRef<{ x: gsap.QuickToFunc; y: gsap.QuickToFunc } | null>(null);
   const cursorShown = useRef(false);
-  const drag = useRef<{ x: number; scroll: number } | null>(null);
+  /** A drag in progress: where it started, where the page should be now, and how fast the pointer is going (px/ms). */
+  const drag = useRef<{ x: number; scroll: number; target: number; lastX: number; lastT: number; speed: number } | null>(null);
   const [active, setActive] = useState(0);
 
   const lenis = useLenis();
@@ -73,6 +74,17 @@ export function RecommendationCarousel({
   const scrollPage = (y: number, immediate = false) => {
     if (lenisRef.current) lenisRef.current.scrollTo(y, { immediate });
     else window.scrollTo({ top: y, behavior: immediate ? "auto" : "smooth" });
+  };
+  /**
+   * Move the page towards `y` and keep easing (`lerp` is the share of the remaining distance covered
+   * each frame). Called again and again with a moving target, as while dragging or on a trackpad,
+   * the row follows without steps. Before the smooth-scroll code has loaded it simply jumps.
+   */
+  const glidePage = (y: number, lerp: number) => {
+    // programmatic: false makes the scroller remember `y` as its target at once (as it does for its
+    // own wheel handling), so the next small step is added to the target, not to where it has got to.
+    if (lenisRef.current) lenisRef.current.scrollTo(y, { lerp, programmatic: false });
+    else window.scrollTo({ top: y, behavior: "auto" });
   };
 
   useGSAP(
@@ -107,6 +119,24 @@ export function RecommendationCarousel({
         const ro = new ResizeObserver(setDistance);
         ro.observe(el);
 
+        // Sideways scrolling (two fingers on a trackpad, a tilt wheel, or Shift + wheel) moves the row
+        // as well: it is turned into the page scroll that drives the row. Mostly-vertical scrolling is
+        // left alone. Handled here, and not passed on, so the smooth scroller does not add its own move.
+        const onWheel = (e: WheelEvent) => {
+          const sideways = e.shiftKey && !e.deltaX ? e.deltaY : e.deltaX;
+          const vertical = e.shiftKey && !e.deltaX ? 0 : e.deltaY;
+          if (!sideways || Math.abs(sideways) <= Math.abs(vertical)) return;
+          const y = window.scrollY;
+          if (y < st.start - 2 || y > st.end + 2) return; // the row is not pinned to the screen right now
+          e.preventDefault(); // also keeps the browser from treating the swipe as "go back"
+          e.stopPropagation();
+          const unit = e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? window.innerWidth : 1;
+          const from = lenisRef.current ? lenisRef.current.targetScroll : y;
+          const to = from + (rtl ? -1 : 1) * sideways * unit;
+          glidePage(Math.min(st.end, Math.max(st.start, to)), 0.28);
+        };
+        root.addEventListener("wheel", onWheel, { passive: false });
+
         gsap.set(dot, { xPercent: -50, yPercent: -50, scale: 0.4, autoAlpha: 0 });
         move.current = {
           x: gsap.quickTo(dot, "x", { duration: 0.35, ease: "power3" }),
@@ -116,6 +146,7 @@ export function RecommendationCarousel({
         return () => {
           st.kill();
           ro.disconnect();
+          root.removeEventListener("wheel", onWheel);
           trigger.current = null;
           move.current = null;
           cursorShown.current = false;
@@ -225,13 +256,21 @@ export function RecommendationCarousel({
     const d = drag.current;
     const st = trigger.current;
     if (!d || !st) return;
-    // Dragging the row left moves forward, exactly as far as the pointer moved (mirrored in RTL).
-    const forward = (document.documentElement.dir === "rtl" ? 1 : -1) * (e.clientX - d.x);
-    scrollPage(Math.min(st.end, Math.max(st.start, d.scroll + forward)), true);
+    // Dragging the row left moves forward, as far as the pointer moved (mirrored in RTL). The page
+    // eases towards that point instead of jumping to it on every pointer event, so the row glides.
+    const sign = document.documentElement.dir === "rtl" ? 1 : -1;
+    d.target = Math.min(st.end, Math.max(st.start, d.scroll + sign * (e.clientX - d.x)));
+    const dt = e.timeStamp - d.lastT;
+    if (dt > 0) {
+      d.speed = d.speed * 0.6 + ((sign * (e.clientX - d.lastX)) / dt) * 0.4;
+      d.lastX = e.clientX;
+      d.lastT = e.timeStamp;
+    }
+    glidePage(d.target, 0.3);
   }
   function onPointerDown(e: React.PointerEvent<HTMLUListElement>) {
     if (!usesCursor() || e.button !== 0 || overLink(e)) return;
-    drag.current = { x: e.clientX, scroll: window.scrollY };
+    drag.current = { x: e.clientX, scroll: window.scrollY, target: window.scrollY, lastX: e.clientX, lastT: e.timeStamp, speed: 0 };
     // Keep receiving the drag when the pointer leaves the row. A pointer that is already gone cannot be captured.
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
@@ -240,9 +279,15 @@ export function RecommendationCarousel({
     gsap.to(cursor.current, { scale: 0.8, duration: 0.25, ease: "power3", overwrite: "auto" });
   }
   function onPointerUp(e: React.PointerEvent<HTMLUListElement>) {
-    if (!drag.current) return;
+    const d = drag.current;
+    if (!d) return;
     drag.current = null;
     if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
+    // Let go while moving: the row carries on in that direction and slows to a stop. A pointer that
+    // had already stopped (no movement for a moment) leaves the row where it is.
+    const st = trigger.current;
+    const moving = e.timeStamp - d.lastT < 90 && Math.abs(d.speed) > 0.15;
+    if (st && moving) glidePage(Math.min(st.end, Math.max(st.start, d.target + d.speed * 380)), 0.085);
     if (cursorShown.current) gsap.to(cursor.current, { scale: 1, duration: 0.3, ease: "power3", overwrite: "auto" });
   }
 

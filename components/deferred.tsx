@@ -59,8 +59,10 @@ export const WorkList = deferred(() => import("@/components/work/WorkList").then
 export const Marquee = deferred(() => import("@/components/ui/Marquee").then((m) => m.Marquee));
 
 // Once the page is painted, fetch all of them, so a later page that needs one does not have to wait.
+// The same moment switches on the fonts the first paint can do without (see ".fonts-late" in globals.css).
 if (typeof window !== "undefined") {
   afterFirstPaint().then(() => {
+    document.documentElement.classList.add("fonts-late");
     const idle = window.requestIdleCallback ?? ((run: () => void) => setTimeout(run, 200));
     idle(() => loaders.forEach((load) => void load().catch(() => {})));
   });

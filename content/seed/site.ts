@@ -14,20 +14,20 @@ export const siteSettings = {
   needsReview: true,
   name: { en: "Mohammad Mohagheghian", fa: "محمد محققیان" },
   shortName: "MGHN",
-  tagline: { en: "Engineering · Founding · Product building", fa: "مهندسی · بنیان‌گذاری · ساختن محصول" },
+  tagline: { en: "Engineering · Founding · Product building", fa: "مهندسی · بنیان‌گذاری · محصول‌سازی" },
   headline: {
     en: "Software engineer, founder and product builder.",
-    fa: "مهندس نرم‌افزار، بنیان‌گذار و سازندهٔ محصول.",
+    fa: "مهندس نرم‌افزار، بنیان‌گذار و محصول‌ساز.",
   },
   positioning: {
     en: "I build products end to end, from the interface to the backend and cloud behind it.",
-    fa: "محصول را از اول تا آخر می‌سازم؛ از رابط کاربری تا بک‌اند و زیرساخت ابری پشتش.",
+    fa: "محصول را از صفر تا صد می‌سازم؛ از رابط کاربری تا بک‌اند و زیرساخت ابری.",
   },
   roles: [
     { title: { en: "Software Engineer", fa: "مهندس نرم‌افزار" }, org: { en: "Nobar", fa: "نوبر" } },
     { title: { en: "Co-founder", fa: "هم‌بنیان‌گذار" }, org: { en: "Rooza", fa: "روزا" }, href: "https://rooza.space" },
   ],
-  location: { en: "Remote, worldwide", fa: "دورکاری، از هر جای دنیا" },
+  location: { en: "Remote, worldwide", fa: "دورکار، از هر کجای دنیا" },
   email: "vito.mohagheghian@gmail.com",
   /** Google Calendar booking page. Leave empty to hide the "Book a call" button. */
   bookingUrl: "" as string,
@@ -39,7 +39,7 @@ export const siteSettings = {
       group: "content",
       blurb: {
         en: "Videos in Persian about engineering and building products.",
-        fa: "ویدیوهای فارسی دربارهٔ مهندسی نرم‌افزار و ساختن محصول.",
+        fa: "ویدیوهای فارسی دربارهٔ مهندسی نرم‌افزار و محصول‌سازی.",
       },
     },
     {
@@ -49,7 +49,7 @@ export const siteSettings = {
       group: "content",
       blurb: {
         en: "Short videos in Persian about tech and building in public.",
-        fa: "ویدیوهای کوتاه فارسی دربارهٔ تکنولوژی و ساختن در معرض دید.",
+        fa: "ویدیوهای کوتاه فارسی دربارهٔ تکنولوژی و پشت‌صحنهٔ ساختن محصول‌هایم.",
       },
     },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/mohammad-mohagheghian/", handle: "mohammad-mohagheghian", group: "professional" },
@@ -59,15 +59,15 @@ export const siteSettings = {
   ],
   openTo: {
     en: ["Engineering roles", "Co-founding and partnerships", "Client projects"],
-    fa: ["موقعیت‌های مهندسی", "هم‌بنیان‌گذاری و شراکت", "پروژه‌های مشتری"],
+    fa: ["موقعیت‌های مهندسی", "هم‌بنیان‌گذاری و شراکت", "پروژه‌های سفارشی"],
   },
   seoTitle: {
     en: "Mohammad Mohagheghian · Software engineer, founder and product builder",
-    fa: "محمد محققیان · مهندس نرم‌افزار، بنیان‌گذار و سازندهٔ محصول",
+    fa: "محمد محققیان · مهندس نرم‌افزار، بنیان‌گذار و محصول‌ساز",
   },
   seoDescription: {
     en: "Software engineer at Nobar and co-founder of Rooza. I build products end to end, from the interface to the backend and cloud behind it.",
-    fa: "مهندس نرم‌افزار در نوبر و هم‌بنیان‌گذار روزا. محصول را از رابط کاربری تا بک‌اند و زیرساخت ابری‌اش می‌سازم.",
+    fa: "مهندس نرم‌افزار در نوبر و هم‌بنیان‌گذار روزا. محصول را از صفر تا صد می‌سازم؛ از رابط کاربری تا بک‌اند و زیرساخت ابری.",
   },
 } as const;
 
@@ -77,42 +77,42 @@ export const about = {
   needsReview: true,
   statement: {
     en: "I care about why something should work a certain way, not only how to build it.",
-    fa: "برایم فقط این مهم نیست که چیزی را چطور بسازم؛ مهم‌تر این است که چرا باید این‌طور کار کند.",
+    fa: "فقط به این فکر نمی‌کنم که چیزی را چطور بسازم؛ اول می‌پرسم چرا باید این‌طور کار کند.",
   },
   bio: [
     {
       en: "I taught myself to code as a teenager and have been shipping for clients since 2021, including work for teams in the UAE and Germany.",
-      fa: "برنامه‌نویسی را در نوجوانی خودم یاد گرفتم و از ۲۰۲۱ برای مشتری‌ها محصول تحویل می‌دهم؛ از جمله برای تیم‌هایی در امارات و آلمان.",
+      fa: "برنامه‌نویسی را در نوجوانی و خودآموز یاد گرفتم. از ۲۰۲۱ برای مشتری‌ها محصول ساخته‌ام؛ از جمله برای تیم‌هایی در امارات و آلمان.",
     },
     {
       en: "At Nobar, a cloud company, I built the design system and frontend monorepo, then moved to backend to work closer to the infrastructure.",
-      fa: "در نوبر، که یک شرکت ابری است، دیزاین سیستم و مونوریپوی فرانت‌اند را ساختم و بعد به بک‌اند رفتم تا به زیرساخت نزدیک‌تر باشم.",
+      fa: "در نوبر، که یک شرکت خدمات ابری است، دیزاین سیستم و مونوریپوی فرانت‌اند را ساختم. بعد به بک‌اند رفتم تا به زیرساخت نزدیک‌تر شوم.",
     },
   ],
   outside: [
     {
       en: "Co-founder of Rooza, a bilingual new-tab browser extension with 3,000+ users",
-      fa: "هم‌بنیان‌گذار روزا، افزونهٔ دوزبانهٔ تب جدید مرورگر با بیش از ۳٬۰۰۰ کاربر",
+      fa: "هم‌بنیان‌گذار روزا؛ افزونهٔ دوزبانهٔ تب جدید مرورگر با بیش از ۳٬۰۰۰ کاربر",
     },
     {
       en: "Co-founder of Agent Assist with Hassan Faraji, a tool used by 100+ support agents that brings approved replies into helpdesks, CRMs and email",
-      fa: "هم‌بنیان‌گذار Agent Assist در کنار حسن فرجی؛ ابزاری که بیش از ۱۰۰ کارشناس پشتیبانی با آن پاسخ‌های تأییدشده را در هلپ‌دسک، CRM و ایمیل وارد می‌کنند",
+      fa: "هم‌بنیان‌گذار Agent Assist در کنار حسن فرجی؛ ابزاری که بیش از ۱۰۰ کارشناس پشتیبانی با آن پاسخ‌های آماده و تأییدشده را مستقیم در هلپ‌دسک، CRM و ایمیل می‌نویسند",
     },
     {
       en: "Technical Lead at my university's computer science association, leading 7 developers",
-      fa: "مسئول فنی انجمن علمی علوم کامپیوتر دانشگاه اصفهان و راهبر ۷ توسعه‌دهنده",
+      fa: "لید فنی انجمن علمی علوم کامپیوتر دانشگاه اصفهان، با تیمی از ۷ توسعه‌دهنده",
     },
   ],
   closing: {
     en: "Message me to talk about products, backend or cloud.",
-    fa: "اگر دربارهٔ محصول، بک‌اند یا زیرساخت ابری حرفی دارید، پیام بدهید.",
+    fa: "دربارهٔ محصول، بک‌اند یا زیرساخت ابری حرفی دارید؟ پیام بدهید.",
   },
   numbers: [
     { value: { en: "3,000+", fa: "۳٬۰۰۰+" }, label: { en: "Rooza users", fa: "کاربر روزا" } },
-    { value: { en: "100+", fa: "۱۰۰+" }, label: { en: "Support agents on Agent Assist", fa: "کارشناس پشتیبانی روی Agent Assist" } },
-    { value: { en: "140+", fa: "۱۴۰+" }, label: { en: "GitHub stars on Windows 11 On Web", fa: "ستارهٔ گیت‌هاب برای Windows 11 On Web" } },
+    { value: { en: "100+", fa: "۱۰۰+" }, label: { en: "Support agents on Agent Assist", fa: "کارشناس پشتیبانی با Agent Assist" } },
+    { value: { en: "140+", fa: "۱۴۰+" }, label: { en: "GitHub stars on Windows 11 On Web", fa: "ستارهٔ گیت‌هاب Windows 11 On Web" } },
     { value: { en: "100K+", fa: "۱۰۰ هزار+" }, label: { en: "Monthly visits on Lusyman", fa: "بازدید ماهانهٔ لوسیمن" } },
-    { value: { en: "2021", fa: "۲۰۲۱" }, label: { en: "Building since", fa: "سال شروع ساختن" } },
+    { value: { en: "2021", fa: "۲۰۲۱" }, label: { en: "Building since", fa: "از این سال می‌سازم" } },
   ],
   pillars: [
     {
@@ -120,12 +120,12 @@ export const about = {
       title: { en: "Engineering", fa: "مهندسی" },
       proof: {
         en: "I build the server side of a cloud platform at Nobar. Before that I built its interface: 100+ reusable components used across its products.",
-        fa: "در نوبر سمت سرور یک پلتفرم ابری را می‌سازم. پیش از آن رابط کاربری‌اش را ساختم: بیش از ۱۰۰ کامپوننت قابل استفادهٔ مجدد که در همهٔ محصولاتش به کار می‌رود.",
+        fa: "در نوبر بک‌اند یک پلتفرم ابری را می‌سازم. قبل از آن فرانت‌اندش را ساخته بودم: بیش از ۱۰۰ کامپوننت که در همهٔ محصولات نوبر استفاده می‌شود.",
       },
       points: {
         // Plain words on the home page; the technology names live on /engineering.
         en: ["Backend services for a cloud platform", "A design system of 100+ components", "A captcha product built from scratch"],
-        fa: ["سرویس‌های بک‌اند یک پلتفرم ابری", "دیزاین سیستمی با بیش از ۱۰۰ کامپوننت", "محصول کپچا، ساخته‌شده از صفر"],
+        fa: ["سرویس‌های بک‌اند یک پلتفرم ابری", "دیزاین سیستمی با بیش از ۱۰۰ کامپوننت", "یک سرویس کپچا، ساخته‌شده از صفر"],
       },
       href: "/engineering",
     },
@@ -138,20 +138,20 @@ export const about = {
       },
       points: {
         en: ["Rooza · co-founder", "Agent Assist · co-founder", "Chose equity over cash"],
-        fa: ["روزا · هم‌بنیان‌گذار", "Agent Assist · هم‌بنیان‌گذار", "سهم را به پول نقد ترجیح دادم"],
+        fa: ["روزا · هم‌بنیان‌گذار", "Agent Assist · هم‌بنیان‌گذار", "سهام را به دستمزد ترجیح دادم"],
       },
       href: "/founding",
     },
     {
       key: "product",
-      title: { en: "Product building", fa: "ساختن محصول" },
+      title: { en: "Product building", fa: "محصول‌سازی" },
       proof: {
         en: "From idea to launch: design, interface, backend and release, for my own products and for clients in the UAE, Germany and Iran.",
-        fa: "از ایده تا انتشار: طراحی، رابط کاربری، بک‌اند و عرضه؛ هم برای محصولات خودم و هم برای مشتری‌هایی در امارات، آلمان و ایران.",
+        fa: "از ایده تا انتشار: طراحی، رابط کاربری، بک‌اند و عرضه؛ هم برای محصولات خودم، هم برای مشتری‌هایی در امارات، آلمان و ایران.",
       },
       points: {
         en: ["SaleCar · car marketplace in the UAE", "Windows 11 On Web · 140+ GitHub stars", "Lusyman · 100K+ monthly visits"],
-        fa: ["SaleCar · بازارگاه خودرو در امارات", "Windows 11 On Web · بیش از ۱۴۰ ستاره در گیت‌هاب", "لوسیمن · بیش از ۱۰۰ هزار بازدید ماهانه"],
+        fa: ["SaleCar · مارکت‌پلیس خودرو در امارات", "Windows 11 On Web · بیش از ۱۴۰ ستاره در گیت‌هاب", "لوسیمن · بیش از ۱۰۰ هزار بازدید ماهانه"],
       },
       href: "/work",
     },
@@ -160,19 +160,19 @@ export const about = {
     {
       text: {
         en: "I don't wait for opportunities. I go and take them.",
-        fa: "منتظر فرصت نمی‌مانم؛ دنبالش می‌روم و به دستش می‌آورم.",
+        fa: "منتظر فرصت نمی‌مانم؛ خودم می‌روم و شکارش می‌کنم.",
       },
     },
     {
       text: {
         en: "Luck isn't found. It's built, one shipped thing at a time.",
-        fa: "شانس پیدا نمی‌شود؛ ساخته می‌شود، با هر چیزی که منتشر می‌کنی.",
+        fa: "شانس پیداکردنی نیست، ساختنی است؛ با هر چیزی که می‌سازی و منتشر می‌کنی.",
       },
     },
     {
       text: {
         en: "Obsession is the edge. Everything else can be learned.",
-        fa: "وسواس، مزیت واقعی است؛ بقیه‌اش را می‌شود یاد گرفت.",
+        fa: "برگ برنده، عشق دیوانه‌وار به کار است؛ بقیه‌اش یادگرفتنی است.",
       },
     },
   ],
@@ -181,31 +181,31 @@ export const about = {
       kind: "founder",
       text: { en: "Make something people want.", fa: "چیزی بساز که مردم می‌خواهند." },
       author: { en: "Paul Graham", fa: "پل گراهام" },
-      source: { en: "Y Combinator's motto", fa: "شعار وای‌کامبینیتور" },
+      source: { en: "Y Combinator's motto", fa: "شعار Y Combinator" },
     },
     {
       kind: "founder",
       text: {
         en: "If you are not embarrassed by the first version of your product, you've launched too late.",
-        fa: "اگر از نسخهٔ اول محصولت خجالت نمی‌کشی، یعنی خیلی دیر منتشرش کرده‌ای.",
+        fa: "اگر از نسخهٔ اول محصولت خجالت نمی‌کشی، یعنی دیر منتشرش کرده‌ای.",
       },
       author: { en: "Reid Hoffman", fa: "رید هافمن" },
       source: { en: "Co-founder of LinkedIn", fa: "هم‌بنیان‌گذار لینکدین" },
     },
     {
       kind: "founder",
-      text: { en: "Real artists ship.", fa: "هنرمند واقعی منتشر می‌کند." },
+      text: { en: "Real artists ship.", fa: "هنرمند واقعی کارش را منتشر می‌کند." },
       author: { en: "Steve Jobs", fa: "استیو جابز" },
       source: { en: "To the Macintosh team, 1983", fa: "خطاب به تیم مکینتاش، ۱۹۸۳" },
     },
     {
       kind: "engineering",
-      text: { en: "Make it work, make it right, make it fast.", fa: "اول کار کند، بعد درست باشد، بعد سریع شود." },
+      text: { en: "Make it work, make it right, make it fast.", fa: "اول کاری کن که کار کند، بعد درستش کن، بعد سریعش کن." },
       author: { en: "Kent Beck", fa: "کنت بک" },
     },
     {
       kind: "engineering",
-      text: { en: "Simplicity is prerequisite for reliability.", fa: "سادگی پیش‌نیاز قابل‌اعتماد بودن است." },
+      text: { en: "Simplicity is prerequisite for reliability.", fa: "سادگی پیش‌شرط قابل‌اعتماد بودن است." },
       author: { en: "Edsger W. Dijkstra", fa: "ادسخر دایکسترا" },
       source: { en: "EWD 498, 1975", fa: "EWD 498، ۱۹۷۵" },
     },
@@ -234,22 +234,22 @@ export const about = {
   ],
   volunteering: [
     {
-      role: { en: "Event Host, Technical Team Lead", fa: "مجری رویداد و راهبر تیم فنی" },
+      role: { en: "Event Host, Technical Team Lead", fa: "مجری رویداد و لید تیم فنی" },
       org: { en: "AMCSUI · VAST", fa: "انجمن علمی علوم کامپیوتر · رویداد VAST" },
       date: "2025-05",
       summary: {
         en: "Helped build a production-level authentication test system for the VAST coding competition at the University of Isfahan.",
-        fa: "در ساخت یک سیستم آزمون احراز هویت در سطح محصول برای مسابقهٔ برنامه‌نویسی VAST در دانشگاه اصفهان مشارکت کردم.",
+        fa: "در ساخت یک سیستم تست احراز هویت برای مسابقهٔ برنامه‌نویسی VAST در دانشگاه اصفهان همکاری کردم؛ سیستمی در سطح یک محصول واقعی.",
       },
       bullets: {
         en: ["Wrote test cases and judged submissions", "Helped shape the competition's structure", "Wrote the documentation"],
-        fa: ["نوشتن تست‌ها و داوری ارسال‌ها", "مشارکت در شکل دادن ساختار مسابقه", "نوشتن مستندات"],
+        fa: ["نوشتن تست‌کیس‌ها و داوری پاسخ‌ها", "کمک به طراحی ساختار مسابقه", "نوشتن مستندات"],
       },
     },
   ],
   languages: [
     { name: { en: "Persian", fa: "فارسی" }, level: { en: "Native", fa: "زبان مادری" } },
-    { name: { en: "English", fa: "انگلیسی" }, level: { en: "Professional working proficiency", fa: "سطح کاری حرفه‌ای" } },
+    { name: { en: "English", fa: "انگلیسی" }, level: { en: "Professional working proficiency", fa: "تسلط در سطح کاری" } },
   ],
 };
 
