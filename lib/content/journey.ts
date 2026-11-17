@@ -22,6 +22,7 @@ type Overrides = {
  * sources (seed and Sanity) produce this shape and hand it to `buildJourney`.
  */
 export type RawJourneyStop =
+  | { type: "note"; key: string; label: string; title: string; lines: string[]; weight: "major" | "minor"; href?: string }
   | ({ type: "role"; key: string; roles: Experience[] } & Overrides)
   | ({ type: "venture"; key: string; venture: Venture } & Overrides)
   | { type: "project"; key: string; projects: ProjectSummary[] };
@@ -49,6 +50,19 @@ function attachOf(projects: ProjectSummary[]): JourneyProjectStop["attach"] {
 export function buildJourney(raw: RawJourneyStop[]): JourneyStop[] {
   const out: JourneyStop[] = [];
   for (const stop of raw) {
+    if (stop.type === "note") {
+      if (!stop.title) continue;
+      out.push({
+        kind: "note",
+        id: stop.key,
+        weight: stop.weight,
+        label: stop.label,
+        title: stop.title,
+        lines: stop.lines.filter(Boolean).slice(0, 3),
+        link: stop.href ? custom(stop.href) : undefined,
+      });
+      continue;
+    }
     if (stop.type === "project") {
       if (stop.projects.length === 0) continue;
       out.push({

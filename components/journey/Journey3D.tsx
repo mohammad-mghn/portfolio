@@ -27,7 +27,8 @@ export type StopView =
       roles: { title: string; period: string }[];
       highlights: string[];
       media?: Img;
-      link: JourneyLink;
+      /** A note without a link is a plain card. */
+      link?: JourneyLink;
       cta: string;
       sceneBreak: boolean;
     }
@@ -448,18 +449,24 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                     </div>
                   ) : null}
                   <h3 className={styles.cardTitle}>
-                    <StopLink link={s.link} className={styles.cover}>
-                      {s.title}
-                    </StopLink>
+                    {s.link ? (
+                      <StopLink link={s.link} className={styles.cover}>
+                        {s.title}
+                      </StopLink>
+                    ) : (
+                      s.title
+                    )}
                   </h3>
-                  <ul className={styles.roles}>
-                    {s.roles.map((r) => (
-                      <li key={`${r.title}-${r.period}`}>
-                        <span className={styles.roleTitle}>{r.title}</span>
-                        <span className={styles.period}>{r.period}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {s.roles.length ? (
+                    <ul className={styles.roles}>
+                      {s.roles.map((r) => (
+                        <li key={`${r.title}-${r.period}`}>
+                          <span className={styles.roleTitle}>{r.title}</span>
+                          <span className={styles.period}>{r.period}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                   {s.highlights.length ? (
                     <ul className={styles.highlights}>
                       {s.highlights.map((h) => (
@@ -467,9 +474,11 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                       ))}
                     </ul>
                   ) : null}
-                  <p className={styles.cta} aria-hidden>
-                    {s.cta} <Arrow external={s.link.kind === "external"} />
-                  </p>
+                  {s.link ? (
+                    <p className={styles.cta} aria-hidden>
+                      {s.cta} <Arrow external={s.link.kind === "external"} />
+                    </p>
+                  ) : null}
                 </li>
               ) : s.items.length === 1 ? (
                 <li key={s.id} className={styles.card} data-kind="project" data-weight="project">

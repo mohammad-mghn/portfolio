@@ -9,7 +9,12 @@ type Props = MenuData & {
   labels: { menu: string; close: string; language: string; languageLabel: string; home: string };
 };
 
-/** Fixed editorial header: logo · language · menu. Hides on scroll down. */
+/**
+ * Fixed editorial header: logo · language · menu. Hides on scroll down.
+ * Its text is white with `mix-blend-mode: difference` (see .site-header), so it always contrasts
+ * with whatever is behind it, even when a word sits half on a light and half on a dark area.
+ * The orange diamond is drawn in its own layer above, otherwise the blend would recolour it.
+ */
 export function Header(props: Props) {
   const { shortName, locale, labels } = props;
   const pathname = usePathname();
@@ -40,7 +45,8 @@ export function Header(props: Props) {
         className="site-header fixed inset-x-0 top-0 z-50 flex h-(--header-h) items-center justify-between gap-6 px-gutter transition-[translate,opacity,color] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
       >
         <Link href="/" className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em]" aria-label={labels.home}>
-          <span className="inline-block size-2 rotate-45 bg-accent" aria-hidden />
+          {/* Room for the diamond, which lives in the layer below this header. */}
+          <span className="inline-block size-2" aria-hidden />
           {shortName}
         </Link>
 
@@ -48,7 +54,7 @@ export function Header(props: Props) {
           <a
             href={switchHref}
             hrefLang={locale === "fa" ? "en" : "fa"}
-            className="text-label flex min-h-[44px] min-w-[44px] items-center justify-center px-3 hover:text-accent"
+            className="text-label flex min-h-[44px] min-w-[44px] items-center justify-center px-3 transition-opacity duration-300 hover:opacity-60"
             aria-label={labels.languageLabel}
           >
             {labels.language}
@@ -58,7 +64,7 @@ export function Header(props: Props) {
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="site-menu"
-            className="text-label group flex min-h-[44px] items-center gap-2 px-4 hover:text-accent"
+            className="text-label group flex min-h-[44px] items-center gap-2 px-4 transition-opacity duration-300 hover:opacity-60"
           >
             {labels.menu}
             <span className="flex flex-col gap-[3px]" aria-hidden>
@@ -68,6 +74,13 @@ export function Header(props: Props) {
           </button>
         </div>
       </header>
+      <span
+        aria-hidden
+        data-hidden={hidden && !open ? "" : undefined}
+        className="pointer-events-none fixed start-0 top-0 z-50 flex h-(--header-h) items-center ps-(--gutter) transition-[translate,opacity] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
+      >
+        <span className="inline-block size-2 rotate-45 bg-accent" />
+      </span>
       <Menu
         {...props}
         open={open}

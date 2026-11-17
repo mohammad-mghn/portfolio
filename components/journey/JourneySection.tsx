@@ -19,13 +19,34 @@ export async function JourneySection({ locale, index }: { locale: Locale; index:
   if (stops.length === 0) return null;
 
   const month = (m?: string) => (m ? formatMonth(m, locale) : t("present"));
-  const roleCount = stops.filter((s) => s.kind === "role").length;
+  // Roles and notes are the numbered stops; project cards share the number of the role before them.
+  const roleCount = stops.filter((s) => s.kind !== "project").length;
 
   // Project cards carry the number and chapter line of the role before them.
   let roleNo = 0;
   let chapter = "";
   const views: StopView[] = [];
   for (const s of stops) {
+    if (s.kind === "note") {
+      roleNo += 1;
+      chapter = s.title;
+      views.push({
+        kind: "role",
+        id: s.id,
+        weight: s.weight,
+        number: formatIndex(roleNo, locale),
+        chapter,
+        year: s.label,
+        title: s.title,
+        type: "",
+        roles: [],
+        highlights: s.lines,
+        link: s.link,
+        cta: s.link ? t("contact") : "",
+        sceneBreak: false,
+      });
+      continue;
+    }
     if (s.kind === "role") {
       roleNo += 1;
       const type = tb(`types.${s.employment}`);

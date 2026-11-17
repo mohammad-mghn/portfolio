@@ -105,6 +105,10 @@ export async function buildSeedDocs(upload: (src: string) => Promise<Ref | undef
   // Journey stops only hold references, so every document they point at is created above, in the same transaction.
   const stops = [];
   for (const stop of journey.stops) {
+    if (stop._type === "journeyNote") {
+      stops.push({ ...stop });
+      continue;
+    }
     if (stop._type === "journeyProject") {
       stops.push({ _key: stop._key, _type: stop._type, projects: refs(stop.projects) });
       continue;

@@ -123,6 +123,17 @@ export const seedSource: ContentSource = {
       this.getProjects(locale),
     ]);
     const raw: RawJourneyStop[] = journey.stops.map((stop) => {
+      if (stop._type === "journeyNote") {
+        return {
+          type: "note",
+          key: stop._key,
+          label: pickStr(stop.label, locale),
+          title: pickStr(stop.title, locale),
+          lines: pick(stop.lines, locale, []),
+          weight: stop.weight,
+          href: stop.href,
+        };
+      }
       if (stop._type === "journeyProject") {
         return {
           type: "project",

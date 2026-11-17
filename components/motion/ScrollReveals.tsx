@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useSelectedLayoutSegments } from "next/navigation";
 import { useEffect } from "react";
 import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
 
@@ -8,10 +8,14 @@ import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
  * Page-level reveal system. Server components opt in with attributes:
  *  - data-split   → heading lines rise out of a mask (lines only — safe for Persian joining)
  *  - data-reveal  → element fades up when it enters the viewport (batched)
- * Re-runs on every route change. Reduced-motion users get static content (see globals.css).
+ * Re-runs when the page changes. Opening or closing a case study over a page changes the URL but
+ * not the page underneath (the overlay is a separate route slot), so that must not restart the
+ * reveals: it would hide the whole page again and replay every animation.
+ * Reduced-motion users get static content (see globals.css).
  */
 export function ScrollReveals() {
-  const pathname = usePathname();
+  // The page slot's own segments: they stay the same while the overlay slot opens and closes.
+  const page = useSelectedLayoutSegments().join("/");
 
   useGSAP(
     () => {
@@ -47,7 +51,7 @@ export function ScrollReveals() {
       });
       return () => mm.revert();
     },
-    { dependencies: [pathname], revertOnUpdate: true },
+    { dependencies: [page], revertOnUpdate: true },
   );
 
   // Content height changes (3D journey switching modes, images, fonts) → recompute trigger positions.

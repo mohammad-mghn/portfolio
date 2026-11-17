@@ -24,7 +24,7 @@ const SITE = defineQuery(`*[_type == "siteSettings"][0]{ ..., "ogImage": ogImage
 const ABOUT = defineQuery(`*[_type == "about"][0]{ ..., "portrait": portrait${IMG} }`);
 // Journey stops hold references only; they are resolved against the lists below by id or slug.
 const JOURNEY = defineQuery(
-  `*[_type == "journey"][0].stops[]{ _key, _type, weight, sceneBreak, highlights, href, "media": media${IMG}, "roles": roles[]._ref, "venture": venture->slug.current, "projects": projects[]->slug.current }`,
+  `*[_type == "journey"][0].stops[]{ _key, _type, weight, sceneBreak, highlights, href, label, title, lines, "media": media${IMG}, "roles": roles[]._ref, "venture": venture->slug.current, "projects": projects[]->slug.current }`,
 );
 const PAGES = defineQuery(`*[_type == "pages"][0]`);
 const VENTURES = defineQuery(`*[_type == "venture"] | order(order asc){ ..., "slug": slug.current, "cover": cover${IMG} }`);
@@ -172,6 +172,18 @@ export function createSanitySource(run: SanityFetch): ContentSource {
       const found = <T,>(list: (T | undefined)[]) => list.filter((x): x is T => Boolean(x));
       const raw: RawJourneyStop[] = [];
       for (const s of stops ?? []) {
+        if (s._type === "journeyNote") {
+          raw.push({
+            type: "note",
+            key: s._key,
+            label: pickStr(s.label, locale),
+            title: pickStr(s.title, locale),
+            lines: pick<string[]>(s.lines, locale, []),
+            weight: s.weight === "minor" ? "minor" : "major",
+            href: s.href as string | undefined,
+          });
+          continue;
+        }
         if (s._type === "journeyProject") {
           const refs = (s.projects ?? []) as string[];
           raw.push({ type: "project", key: s._key, projects: found(refs.map((slug) => projectList.find((p) => p.slug === slug))) });

@@ -5,6 +5,7 @@
  * The journey follows work experience, oldest first. A stop only points at things that already
  * exist: experience roles, a venture, or 1–3 projects. Names, dates and covers are read from those,
  * so nothing is typed twice. Roles are the big stops; the projects built there follow as small cards.
+ * The one exception is a "note": a free-text stop, used for the closing "Now" card.
  */
 import type { L } from "@/lib/content/types";
 import type { SeedImage } from "./site";
@@ -22,6 +23,17 @@ type StopOverrides = {
 };
 
 export type SeedJourneyStop =
+  | {
+      _key: string;
+      _type: "journeyNote";
+      /** Shown big where a role shows its year, e.g. "Now". */
+      label: L;
+      title: L;
+      /** Up to 3 short lines in his own words. */
+      lines: L<string[]>;
+      weight: "major" | "minor";
+      href?: string;
+    }
   | ({ _key: string; _type: "journeyRole"; /** experience `_id`s at one company */ roles: string[] } & StopOverrides)
   | ({ _key: string; _type: "journeyVenture"; /** venture `_id` */ venture: string } & StopOverrides)
   | { _key: string; _type: "journeyProject"; /** 1–3 project `_id`s shown on one small card */ projects: string[] };
@@ -80,6 +92,20 @@ export const journey: { _id: "journey"; _type: "journey"; stops: SeedJourneyStop
     // 2026 — Agent Assist (co-founder)
     { _key: "agent-assist", _type: "journeyVenture", venture: "venture.agent-assist", weight: "major" },
     { _key: "p-agent-assist", _type: "journeyProject", projects: ["project.agent-assist"] },
+
+    // Now — where the journey is heading, in his own words
+    {
+      _key: "now",
+      _type: "journeyNote",
+      weight: "major",
+      label: { en: "Now", fa: "اکنون" },
+      title: { en: "What I'm doing now", fa: "این روزها" },
+      lines: {
+        en: ["Hunting for the next opportunities", "Taking learning very seriously", "Building my personal brand"],
+        fa: ["دارم فرصت‌ها را شکار می‌کنم", "یادگیری را خیلی جدی پیش می‌برم", "روی پرسنال برندم کار می‌کنم"],
+      },
+      href: "/contact",
+    },
   ],
 };
 

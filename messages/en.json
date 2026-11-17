@@ -74,7 +74,8 @@
     "viewRole": "See the role",
     "viewStory": "Read the story",
     "viewProject": "Open project",
-    "visit": "Visit site"
+    "visit": "Visit site",
+    "contact": "Get in touch"
   },
   "building": {
     "eyebrow": "Experience",
@@ -129,7 +130,8 @@
     "backTop": "Back to top",
     "rights": "All rights reserved.",
     "made": "Designed and built by me.",
-    "book": "Book a call"
+    "book": "Book a call",
+    "pages": "Pages"
   },
   "engineering": {
     "eyebrow": "Engineering",

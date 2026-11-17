@@ -57,8 +57,11 @@ export async function CaseStudy({
     { key: "result", label: t("result"), value: project.result },
   ].filter((c) => c.value.length > 0);
 
+  // Only a site that is still online is worth sending people to from the pictures.
+  const live = project.status === "live" ? project.links.live : undefined;
+
   const links = [
-    project.links.live && { href: project.links.live, label: t("visit") },
+    live && { href: live, label: t("visit") },
     project.links.repo && { href: project.links.repo, label: t("repo") },
     project.links.figma && { href: project.links.figma, label: t("figma") },
   ].filter(Boolean) as { href: string; label: string }[];
@@ -105,8 +108,11 @@ export async function CaseStudy({
                   target="_blank"
                   rel="noreferrer"
                   className={clsx(
-                    "text-label inline-flex items-center gap-2 rounded-full px-5 py-3 transition-colors duration-500 ease-house",
-                    i === 0 ? "bg-ink text-paper hover:bg-accent" : "border border-ink/25 hover:border-ink",
+                    "inline-flex items-center rounded-full transition-colors duration-500 ease-house",
+                    // The first link is the main action (the live site when there is one): clearly bigger.
+                    i === 0
+                      ? "gap-3 bg-ink px-8 py-4.5 font-mono text-[0.9rem] tracking-[0.08em] text-paper uppercase hover:bg-accent"
+                      : "text-label gap-2 border border-ink/25 px-5 py-3.5 hover:border-ink",
                   )}
                 >
                   {l.label} <span aria-hidden>↗</span>
@@ -119,7 +125,7 @@ export async function CaseStudy({
 
       {project.cover ? (
         <figure className="mt-(--space-section-sm) px-gutter" {...r}>
-          <div className="overflow-hidden rounded-[3px] p-[clamp(12px,3vw,48px)]" style={{ background: project.color }}>
+          <Shot href={live} label={`${t("visit")}: ${project.title}`} hint={t("visit")} className="rounded-[3px] p-[clamp(12px,3vw,48px)]" style={{ background: project.color }}>
             <Image
               src={project.cover.src}
               {...imgProps(project.cover)}
@@ -131,7 +137,7 @@ export async function CaseStudy({
               quality={90}
               className="w-full rounded-[2px] shadow-2xl"
             />
-          </div>
+          </Shot>
         </figure>
       ) : null}
 
@@ -157,15 +163,17 @@ export async function CaseStudy({
         <section className="grid-12 mt-(--space-section-sm) gap-y-(--gutter)" aria-label={t("gallery")}>
           {project.gallery.map((g, i) => (
             <figure key={g.src} className={clsx("col-span-full", i % 3 === 0 ? "" : "md:col-span-6")} {...r}>
-              <Image
-                src={g.src}
-                {...imgProps(g)}
-                alt={g.alt}
-                width={g.width}
-                height={g.height}
-                sizes={i % 3 === 0 ? "100vw" : "(max-width: 767px) 100vw, 50vw"}
-                className="w-full rounded-[3px] border border-hair"
-              />
+              <Shot href={live} label={`${t("visit")}: ${project.title}`} hint={t("visit")} className="rounded-[3px]">
+                <Image
+                  src={g.src}
+                  {...imgProps(g)}
+                  alt={g.alt}
+                  width={g.width}
+                  height={g.height}
+                  sizes={i % 3 === 0 ? "100vw" : "(max-width: 767px) 100vw, 50vw"}
+                  className="w-full rounded-[3px] border border-hair"
+                />
+              </Shot>
             </figure>
           ))}
         </section>
@@ -184,5 +192,51 @@ export async function CaseStudy({
         ) : null}
       </div>
     </article>
+  );
+}
+
+/**
+ * A project picture. When the project's site is online the whole picture is a link to it, with a
+ * small "Visit site" chip on hover; otherwise it is just the frame.
+ */
+function Shot({
+  href,
+  label,
+  hint,
+  className,
+  style,
+  children,
+}: {
+  href?: string;
+  label: string;
+  hint: string;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}) {
+  if (!href) {
+    return (
+      <div className={clsx("overflow-hidden", className)} style={style}>
+        {children}
+      </div>
+    );
+  }
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={label}
+      className={clsx("group/shot relative block overflow-hidden", className)}
+      style={style}
+    >
+      {children}
+      <span
+        aria-hidden
+        className="text-label pointer-events-none absolute end-4 bottom-4 flex items-center gap-2 rounded-full bg-ink px-4 py-2.5 text-paper opacity-0 transition-opacity duration-500 ease-house group-hover/shot:opacity-100 group-focus-visible/shot:opacity-100"
+      >
+        {hint} ↗
+      </span>
+    </a>
   );
 }

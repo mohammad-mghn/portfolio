@@ -299,11 +299,19 @@
 }
 
 /* ───────────────────────── Chrome tone ───────────────────────── */
-.site-header,
+/*
+ * Header text is white and blended as "difference": every pixel inverts against what is behind
+ * it, so it reads dark on paper, light on night, and a word that straddles the two is split
+ * exactly at the edge. Nothing coloured may sit inside it (the logo's diamond has its own layer).
+ */
+.site-header {
+  color: #fff;
+  mix-blend-mode: difference;
+}
+/* The side rail still switches as a whole when a dark section is under it. */
 .site-rail {
   color: var(--ink);
 }
-:root[data-tone="dark"] .site-header,
 :root[data-tone="dark"] .site-rail {
   color: #ece8df;
 }

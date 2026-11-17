@@ -18,7 +18,16 @@ export async function Contact({
   page: PageKey;
   index?: number;
 }) {
-  const [t, copy] = await Promise.all([getTranslations({ locale, namespace: "contact" }), getPageCopy(locale, page)]);
+  const [t, tn, copy] = await Promise.all([
+    getTranslations({ locale, namespace: "contact" }),
+    getTranslations({ locale, namespace: "nav" }),
+    getPageCopy(locale, page),
+  ]);
+  // The same pages as the menu, small, for people who reach the end of a page.
+  const pages = (["engineering", "founding", "work", "content", "about", "recommendations", "resume"] as const).map((key) => ({
+    href: `/${key}`,
+    label: tn(key),
+  }));
   // On /contact itself the "contact page" link would point at the page you are on.
   const onContactPage = page === "contact";
   const year = localizeDigits(String(new Date().getFullYear()), locale);
@@ -94,7 +103,7 @@ export async function Contact({
       </div>
 
       <div className="grid-12 mt-(--space-section-sm) gap-y-8">
-        <div className="col-span-2 md:col-span-8" data-reveal>
+        <div className="col-span-full md:col-span-5" data-reveal>
           <p className="text-label mb-3 opacity-60">{t("elsewhere")}</p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {site.socials.map((s) => (
@@ -106,8 +115,20 @@ export async function Contact({
             ))}
           </ul>
         </div>
+        <nav className="col-span-full md:col-span-5" aria-label={t("pages")} data-reveal>
+          <p className="text-label mb-3 opacity-60">{t("pages")}</p>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            {pages.map((p) => (
+              <li key={p.href}>
+                <Link href={p.href} className="text-label hover:text-accent">
+                  {p.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         {onContactPage ? null : (
-          <div className="col-span-2 flex md:col-span-4 md:justify-end" data-reveal>
+          <div className="col-span-full flex md:col-span-2 md:justify-end" data-reveal>
             <Link href="/contact" className="text-label hover:text-accent">
               {t("contactPage")}{" "}
               <span aria-hidden className="inline-block rtl:-scale-x-100">

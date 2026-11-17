@@ -170,7 +170,19 @@ export type JourneyProjectStop = {
   items: JourneyProjectItem[];
 };
 
-export type JourneyStop = JourneyRoleStop | JourneyProjectStop;
+/** A free-text stop in Mohammad's own words: the closing "Now" card. */
+export type JourneyNoteStop = {
+  kind: "note";
+  id: string;
+  weight: "major" | "minor";
+  /** Shown big where a role shows its year: "Now". */
+  label: string;
+  title: string;
+  lines: string[];
+  link?: JourneyLink;
+};
+
+export type JourneyStop = JourneyRoleStop | JourneyProjectStop | JourneyNoteStop;
 
 /** A product Mohammad co-founded, as told on the Founding page. */
 export type Venture = {

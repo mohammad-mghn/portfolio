@@ -284,6 +284,27 @@ export const journey = defineType({
         }),
         defineArrayMember({
           type: "object",
+          name: "journeyNote",
+          title: "Note (free text, e.g. the closing “Now” card)",
+          fields: [
+            defineField({ name: "label", description: "Shown big where a job shows its year, e.g. Now.", type: "localeString" }),
+            defineField({ name: "title", type: "localeString" }),
+            defineField({ name: "lines", description: "Up to 3 short lines, in your own words.", type: "localeList" }),
+            defineField({
+              name: "weight",
+              type: "string",
+              options: { list: ["major", "minor"], layout: "radio", direction: "horizontal" },
+              initialValue: "major",
+            }),
+            defineField({ name: "href", title: "Link", description: "Where the card goes, e.g. /contact.", type: "string" }),
+          ],
+          preview: {
+            select: { title: "title.en", label: "label.en" },
+            prepare: ({ title, label }) => ({ title: title ?? "Note", subtitle: `Note · ${label ?? ""}` }),
+          },
+        }),
+        defineArrayMember({
+          type: "object",
           name: "journeyProject",
           title: "Project card",
           fields: [
