@@ -284,6 +284,7 @@ export const recommendations: SeedRecommendation[] = [
     _type: "recommendation",
     order: 1,
     source: "linkedin",
+    portrait: "mahdi-khodadadi.jpg",
     name: { en: "Mahdi Khodadadi" },
     headline: "Product Designer | Founder at Rooza | Ex at Bettermode, Snappfood, SnappShop, and Basalam",
     relationship: { en: "Worked with Mohammad on the same team", fa: "در یک تیم با محمد کار کرده" },
@@ -300,6 +301,7 @@ export const recommendations: SeedRecommendation[] = [
     _type: "recommendation",
     order: 2,
     source: "linkedin",
+    portrait: "sina-shah-oveisi.jpg",
     name: { en: "Sina Shah Oveisi" },
     headline: "Software Engineer",
     relationship: { en: "Worked with Mohammad on the same team at NobarCloud", fa: "در نوبرکلاد در یک تیم با محمد کار کرده" },
@@ -318,6 +320,7 @@ export const recommendations: SeedRecommendation[] = [
     _type: "recommendation",
     order: 3,
     source: "linkedin",
+    portrait: "mohammad-shahi.jpg",
     name: { en: "Mohammad Shahi" },
     headline: "Full-Stack Developer | Next.js, NestJS, React | Building Scalable Web Apps & APIs | CRM Solutions",
     relationship: {
@@ -339,6 +342,7 @@ export const recommendations: SeedRecommendation[] = [
     _type: "recommendation",
     order: 4,
     source: "linkedin",
+    portrait: "amirhossein-jafari.jpg",
     name: { en: "Amirhossein Jafari" },
     headline: "Devops & Cloud Infrastructure Engineer | K8S | OpenStack | OpenShift | Ceph | Linux | CICD",
     relationship: { en: "Worked with Mohammad on a different team", fa: "در تیمی دیگر با محمد کار کرده" },
@@ -356,6 +360,7 @@ export const recommendations: SeedRecommendation[] = [
     _type: "recommendation",
     order: 5,
     source: "linkedin",
+    portrait: "amir-alborz.jpg",
     name: { en: "Amir Alborz" },
     headline: "Product Designer | Design System | Systems Thinking | AI-Assisted Development",
     relationship: { en: "Worked with Mohammad on the same team", fa: "در یک تیم با محمد کار کرده" },
@@ -374,7 +379,6 @@ export const recommendations: SeedRecommendation[] = [
     source: "mghn.info",
     name: { en: "Dayana Raadfar" },
     headline: "Designer",
-    href: "https://www.linkedin.com/in/dayanaraadfar",
     highlight:
       "He is a professional and committed frontend developer who has successfully enhanced user experience for both us and our customers through your innovative ideas and designs.",
     paragraphs: [
