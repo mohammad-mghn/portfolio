@@ -1,9 +1,13 @@
 "use client";
 
 import { useSelectedLayoutSegments } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
 import { whenBoundariesReady } from "@/lib/hydration";
+import { markParked, registerRevealer, swarmStore } from "@/lib/swarm/store";
+
+const swarmOn = () => swarmStore.mode() !== "off";
+const swarmOff = () => false;
 
 /** Scrolling faster than this (px per second), an animation would only hide what the reader is flying past. */
 const FLYING = 2400;
@@ -26,6 +30,14 @@ export function ScrollReveals() {
   // The page slot's own segments: they stay the same while the overlay slot opens and closes.
   const page = useSelectedLayoutSegments().join("/");
 
+  // The agent build mode (lib/swarm) rebuilds the page its own way. While it runs, reveals stand down
+  // completely (headings un-split, nothing hidden) and report that they did; they start again after.
+  const building = useSyncExternalStore(swarmStore.subscribe, swarmOn, swarmOff);
+  useEffect(() => registerRevealer(), []);
+  useEffect(() => {
+    if (building) markParked();
+  }, [building]);
+
   // Reveals touch elements all over the page, so they start only once every deferred section on
   // this page is interactive (see lib/hydration). `armed` is the page they are set up for.
   const [armed, setArmed] = useState<string | null>(null);
@@ -41,7 +53,7 @@ export function ScrollReveals() {
 
   useGSAP(
     () => {
-      if (armed !== page) return;
+      if (armed !== page || building) return;
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         // Still below the screen (with a small margin): safe to hide without the reader noticing.
@@ -98,7 +110,7 @@ export function ScrollReveals() {
       });
       return () => mm.revert();
     },
-    { dependencies: [page, armed], revertOnUpdate: true },
+    { dependencies: [page, armed, building], revertOnUpdate: true },
   );
 
   // Content height changes (3D journey switching modes, images, fonts) → recompute trigger positions.

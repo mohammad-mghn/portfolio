@@ -430,7 +430,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
         <canvas className={styles.stars} aria-hidden />
         <canvas className={styles.thread} aria-hidden />
 
-        <div className={styles.world}>
+        <div className={styles.world} data-swarm="skip">
           {ghostYears.map((g) => (
             <span key={`ghost-${g.i}`} className={styles.ghost} data-i={g.i} data-weight={g.weight} aria-hidden>
               {g.year}
@@ -545,7 +545,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
           </ol>
         </div>
 
-        <header className={styles.hud}>
+        <header className={styles.hud} data-swarm="frame">
           <p className="text-label">{labels.eyebrow}</p>
           <h2 id="journey-title" className={styles.hudTitle}>
             {labels.title}

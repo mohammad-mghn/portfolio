@@ -1,7 +1,7 @@
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ProgressRail } from "@/components/deferred";
+import { ProgressRail, SwarmBox } from "@/components/deferred";
 import { About } from "@/components/home/About";
 import { Beliefs } from "@/components/home/Beliefs";
 import { Contact } from "@/components/home/Contact";
@@ -22,12 +22,13 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const [site, about, projects, recommendations, t] = await Promise.all([
+  const [site, about, projects, recommendations, t, ts] = await Promise.all([
     getSiteSettings(locale),
     getAbout(locale),
     getProjects(locale),
     getRecommendations(locale),
     getTranslations({ locale, namespace: "nav" }),
+    getTranslations({ locale, namespace: "swarm" }),
   ]);
 
   const rail = homeSections.map((s, i) => ({ id: s.id, label: t(s.key), index: formatIndex(i, locale) }));
@@ -46,6 +47,17 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <Beliefs locale={locale} beliefs={about.beliefs} quotes={about.quotes} index={n("beliefs")} />
       <Contact locale={locale} site={site} page="home" index={n("contact")} />
       <ProgressRail items={rail} />
+      <SwarmBox
+        locale={locale}
+        labels={{
+          levels: ts.raw("levels"),
+          again: ts.raw("again"),
+          stop: ts("stop"),
+          // Raw: the numbers are filled in on the client while the mode runs.
+          counter: ts.raw("counter"),
+          hint: ts("hint"),
+        }}
+      />
     </main>
   );
 }

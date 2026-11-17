@@ -287,6 +287,33 @@
     "builtAt": "Built at {company}",
     "freelance": "Freelance"
   },
+  "swarm": {
+    "levels": [
+      {
+        "text": "click me",
+        "face": ":)"
+      },
+      {
+        "text": "click me",
+        "face": ":|"
+      },
+      {
+        "text": "click me!!",
+        "face": ">:("
+      },
+      {
+        "text": "CLICK. ME. NOW.",
+        "face": ""
+      }
+    ],
+    "again": {
+      "text": "again?",
+      "face": ":)"
+    },
+    "stop": "stop",
+    "counter": "{agents} agents · {percent}% built",
+    "hint": "Watch 100 agents build this page as you scroll. Press again or Esc to stop."
+  },
   "notFound": {
     "eyebrow": "Error 404 — Off the map",
     "titleA": "Lost",

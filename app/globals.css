@@ -446,6 +446,234 @@
   letter-spacing: 0.18em;
 }
 
+/* ───────────────────────── Agent build mode (components/swarm/SwarmBox.tsx) ───────────────────────── */
+/*
+ * The "click me :)" box: square corners, in the bottom corner where lines end. The longer it is
+ * ignored, the more often and the harder it shakes (data-anger 0 to 3), and the redder it gets.
+ * The shakes use the separate rotate / scale / translate properties, so a tremble and a shake can
+ * run at the same time without overriding each other.
+ */
+.swarm-dock {
+  position: fixed;
+  inset-inline-end: var(--page-pad);
+  bottom: 1rem;
+  z-index: 56;
+  display: flex;
+  /* The counter sits beside the box, not above it, so it covers as little of the page as possible. */
+  align-items: center;
+  gap: 0.5rem;
+  transition: translate 0.6s var(--ease-house);
+}
+.swarm-dock[data-lift] {
+  translate: 0 -3.25rem;
+}
+.swarm-box {
+  --swarm-bg: var(--accent);
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.75rem;
+  padding-block: 0.375rem;
+  padding-inline: 0.375rem 1rem;
+  background: var(--swarm-bg);
+  color: var(--night);
+  text-transform: none;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px -12px rgba(18, 19, 17, 0.55);
+  transform-origin: 50% 100%;
+  transition:
+    background-color 0.4s var(--ease-house),
+    color 0.4s var(--ease-house);
+}
+.swarm-box:hover {
+  --swarm-bg: var(--ink);
+  color: var(--paper);
+}
+.swarm-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  place-items: center;
+  background: var(--night);
+  color: var(--swarm-bg);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+.swarm-box:hover .swarm-icon {
+  background: var(--accent);
+  color: var(--night);
+}
+.swarm-stop {
+  width: 0.7rem;
+  height: 0.7rem;
+  background: currentColor;
+}
+.swarm-box[data-anger="2"] {
+  --swarm-bg: #ff4a1f;
+}
+.swarm-box[data-anger="3"] {
+  --swarm-bg: #ff2d2d;
+}
+.swarm-count {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 0.75rem;
+  background: var(--night);
+  color: #ece8df;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+@keyframes swarm-wiggle {
+  0%,
+  9%,
+  100% {
+    rotate: 0deg;
+  }
+  2% {
+    rotate: -4deg;
+  }
+  4.5% {
+    rotate: 4deg;
+  }
+  7% {
+    rotate: -2deg;
+  }
+}
+@keyframes swarm-shake-1 {
+  0%,
+  14%,
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  3% {
+    rotate: -7deg;
+    scale: 1.06;
+  }
+  6% {
+    rotate: 7deg;
+    scale: 1.06;
+  }
+  9% {
+    rotate: -5deg;
+  }
+  12% {
+    rotate: 3deg;
+  }
+}
+@keyframes swarm-shake-2 {
+  0%,
+  20%,
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  3% {
+    rotate: -10deg;
+    scale: 1.1;
+  }
+  6% {
+    rotate: 10deg;
+    scale: 1.1;
+  }
+  9% {
+    rotate: -9deg;
+  }
+  12% {
+    rotate: 8deg;
+  }
+  15% {
+    rotate: -5deg;
+  }
+  18% {
+    rotate: 2deg;
+  }
+}
+@keyframes swarm-shake-3 {
+  0%,
+  32%,
+  100% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  4% {
+    rotate: -13deg;
+    scale: 1.16;
+  }
+  8% {
+    rotate: 13deg;
+    scale: 1.16;
+  }
+  12% {
+    rotate: -11deg;
+    scale: 1.12;
+  }
+  16% {
+    rotate: 11deg;
+  }
+  20% {
+    rotate: -7deg;
+  }
+  25% {
+    rotate: 4deg;
+  }
+}
+@keyframes swarm-tremble {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 1.5px -1px;
+  }
+  50% {
+    translate: -1.5px 1px;
+  }
+  75% {
+    translate: 1px 1.5px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .swarm-box[data-anger="0"] {
+    animation: swarm-wiggle 8s ease-in-out 2s infinite;
+  }
+  .swarm-box[data-anger="1"] {
+    animation: swarm-shake-1 5s ease-in-out infinite;
+  }
+  .swarm-box[data-anger="2"] {
+    animation: swarm-shake-2 3s ease-in-out infinite;
+  }
+  .swarm-box[data-anger="3"] {
+    animation:
+      swarm-tremble 0.14s linear infinite,
+      swarm-shake-3 2s ease-in-out infinite;
+  }
+}
+/* Visitors who asked for less motion never see the box: the whole mode is motion. */
+@media (prefers-reduced-motion: reduce) {
+  .swarm-dock {
+    display: none;
+  }
+}
+/* The swarm's drawing surface: over the page, under the header's menu and the case-study overlay. */
+.swarm-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: none;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+:root[data-swarm] .swarm-canvas {
+  display: block;
+}
+
 /*
  * The language link names the other language in its own script. On English pages that is "فا":
  * set in the Persian font, a little larger than the Latin labels beside it so it reads the same size.

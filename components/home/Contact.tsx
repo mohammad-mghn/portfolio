@@ -140,7 +140,7 @@ export async function Contact({
         )}
       </div>
 
-      <footer className="grid-12 mt-10 border-t border-[#2c2d29] pt-5">
+      <footer className="grid-12 mt-10 border-t border-[#2c2d29] pt-5" data-swarm="frame">
         <p className="text-label col-span-2 opacity-60 md:col-span-4">
           © {year} {site.name}. {t("rights")}
         </p>

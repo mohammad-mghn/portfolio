@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { useEffect, useRef, type PointerEvent, type ReactNode } from "react";
 import type { Cloth } from "@/lib/effects/cloth";
+import { swarmActive, swarmStore } from "@/lib/swarm/store";
 
 /**
  * A picture frame whose picture ripples like hanging cloth while the pointer is over it.
@@ -30,6 +31,17 @@ export function ClothImage({
   const lastPoke = useRef({ x: 0, y: 0 });
 
   useEffect(() => () => cloth.current?.destroy(), []);
+  // The agent build mode has the picture to itself while it runs.
+  useEffect(
+    () =>
+      swarmStore.subscribe(() => {
+        if (swarmActive()) {
+          hovering.current = false;
+          cloth.current?.leave();
+        }
+      }),
+    [],
+  );
 
   const start = () => {
     const fabric = cloth.current;
@@ -41,7 +53,7 @@ export function ClothImage({
   };
 
   async function onEnter(e: PointerEvent<HTMLDivElement>) {
-    if (e.pointerType === "touch" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (e.pointerType === "touch" || swarmActive() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     hovering.current = true;
     lastPoke.current = { x: e.clientX, y: e.clientY };
     if (state.current === "ready") return start();

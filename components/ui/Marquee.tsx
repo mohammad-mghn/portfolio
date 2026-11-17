@@ -41,6 +41,8 @@ export function Marquee({ items, className }: { items: string[]; className?: str
       ref={root}
       dir="ltr"
       className={`marquee-mask ${className ?? ""}`}
+      // The agent build mode reveals the moving strip as one picture (lib/swarm).
+      data-swarm="media"
       onPointerEnter={() => speed(0)}
       onPointerLeave={() => speed(1)}
       onFocus={() => speed(0)}

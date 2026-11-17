@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { useEffect, useRef, type PointerEvent, type ReactNode } from "react";
 import type { Displacer } from "@/lib/effects/displace-text";
+import { swarmActive, swarmStore } from "@/lib/swarm/store";
 
 /**
  * A heading whose text shears into colour-fringed tiles under a sweeping pointer and springs back
@@ -16,6 +17,14 @@ export function DisplaceText({ id, className, children }: { id?: string; classNa
   const pointer = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => () => effect.current?.destroy(), []);
+  // The agent build mode has the heading to itself while it runs.
+  useEffect(
+    () =>
+      swarmStore.subscribe(() => {
+        if (swarmActive()) effect.current?.destroy();
+      }),
+    [],
+  );
 
   const at = (e: PointerEvent<HTMLHeadingElement>) => {
     const box = e.currentTarget.getBoundingClientRect();
@@ -23,7 +32,7 @@ export function DisplaceText({ id, className, children }: { id?: string; classNa
   };
 
   function onEnter(e: PointerEvent<HTMLHeadingElement>) {
-    if (e.pointerType === "touch" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (e.pointerType === "touch" || swarmActive() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     pointer.current = at(e);
     if (effect.current) return effect.current.enter(pointer.current.x, pointer.current.y);
     if (loading.current) return;
