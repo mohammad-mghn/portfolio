@@ -45,7 +45,7 @@ const PROJECT = defineQuery(
   `*[_type == "project" && slug.current == $slug][0]{ ..., "slug": slug.current, "cover": cover${IMG}, "gallery": gallery[]${IMG}, ${BUILT_AT} }`,
 );
 const SLUGS = defineQuery(`*[_type == "project" && defined(slug.current)].slug.current`);
-const RECOMMENDATIONS = defineQuery(`*[_type == "recommendation"] | order(order asc)`);
+const RECOMMENDATIONS = defineQuery(`*[_type == "recommendation"] | order(order asc){ ..., "portrait": portrait${IMG} }`);
 
 // GROQ results are typed loosely here; the DTO mapping below is the contract the UI relies on.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -262,8 +262,12 @@ export const sanitySource: ContentSource = {
       id: r._id,
       name: pickStr(r.name, locale),
       headline: r.headline ?? "",
-      relationship: pickStr(r.relationship, locale),
-      date: r.date ? formatDate(r.date, locale) : "",
+      source: r.source === "mghn.info" ? "mghn.info" : "linkedin",
+      portrait: r.portrait?.src
+        ? { src: r.portrait.src, width: r.portrait.width ?? 400, height: r.portrait.height ?? 400, alt: pickStr(r.name, locale), lqip: r.portrait.lqip }
+        : undefined,
+      relationship: pickStr(r.relationship, locale) || undefined,
+      date: r.date ? formatDate(r.date, locale) : undefined,
       highlight: r.highlight ?? "",
       paragraphs: r.paragraphs ?? [],
       href: r.href,

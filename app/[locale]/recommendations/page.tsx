@@ -3,6 +3,7 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Contact } from "@/components/home/Contact";
+import { Avatar } from "@/components/ui/Avatar";
 import { PageHero } from "@/components/ui/PageHero";
 import { routing } from "@/i18n/routing";
 import { getRecommendations, getSiteSettings } from "@/lib/content";
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/recommen
   return { title: t("title"), description: t("statement"), alternates: alternatesFor(locale, "/recommendations") };
 }
 
-/** All five LinkedIn recommendations, verbatim and in English on both locales, with who wrote them first. */
+/** Every recommendation in full, verbatim and in English on both locales, with who wrote it first. */
 export default async function RecommendationsPage({ params }: PageProps<"/[locale]/recommendations">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
@@ -43,10 +44,11 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
       <section aria-label={t("title")} className="relative z-1 py-(--space-section)">
         <ol>
           {recommendations.map((r, i) => (
-            <li key={r.id} id={r.id} className="grid-12 gap-y-8 border-t border-hair py-14 last:border-b">
+            <li key={r.id} id={r.id} className="grid-12 scroll-mt-(--header-h) gap-y-8 border-t border-hair py-14 last:border-b">
               <div className="col-span-full md:col-span-4" data-reveal>
                 <div className="md:sticky md:top-[calc(var(--header-h)+2rem)]">
                   <p className="text-label text-muted">({formatIndex(i + 1, locale)})</p>
+                  <Avatar name={r.name} portrait={r.portrait} className="mt-5 size-20" />
                   <p className="text-statement mt-4 rtl:text-right" lang="en" dir="ltr">
                     {r.name}
                   </p>
@@ -54,7 +56,7 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
                     {r.headline}
                   </p>
                   <p className="text-label mt-5 text-muted">
-                    {r.relationship} · {r.date}
+                    {r.source === "linkedin" ? [r.relationship, r.date].filter(Boolean).join(" · ") : t("sourceOld")}
                   </p>
                   {r.href ? (
                     <a
@@ -63,7 +65,7 @@ export default async function RecommendationsPage({ params }: PageProps<"/[local
                       rel="noreferrer"
                       className="text-label mt-5 inline-flex items-center gap-2 hover:text-accent"
                     >
-                      {t("read")} ↗
+                      {r.source === "linkedin" ? t("read") : t("profile")} ↗
                     </a>
                   ) : null}
                 </div>

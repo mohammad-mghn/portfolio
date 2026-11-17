@@ -251,15 +251,37 @@ export const about = {
   ],
 };
 
+export type SeedRecommendation = {
+  _id: string;
+  _type: "recommendation";
+  order: number;
+  name: { en: string; fa?: string };
+  headline: string;
+  /** Where it was written: a LinkedIn recommendation, or one written for the earlier site mghn.info. */
+  source: "linkedin" | "mghn.info";
+  /** LinkedIn's "Worked with Mohammad on the same team" line. Old-site entries have none. */
+  relationship?: L;
+  /** ISO date. Old-site entries are undated. */
+  date?: string;
+  /** The writer's own profile. LinkedIn entries fall back to the recommendations list. */
+  href?: string;
+  /** File under /public/people. Without one the card shows initials. */
+  portrait?: string;
+  highlight: string;
+  paragraphs: string[];
+};
+
 /**
- * LinkedIn recommendations, verbatim (English on both locales). Mahdi Khodadadi first.
- * `highlight` is a sentence lifted word for word from the text.
+ * Recommendations, verbatim (English on both locales): the five from LinkedIn, Mahdi Khodadadi first,
+ * then two that were written for the earlier site mghn.info. `highlight` is a sentence lifted word
+ * for word from the text.
  */
-export const recommendations = [
+export const recommendations: SeedRecommendation[] = [
   {
     _id: "recommendation.mahdi-khodadadi",
     _type: "recommendation",
     order: 1,
+    source: "linkedin",
     name: { en: "Mahdi Khodadadi" },
     headline: "Product Designer | Founder at Rooza | Ex at Bettermode, Snappfood, SnappShop, and Basalam",
     relationship: { en: "Worked with Mohammad on the same team", fa: "در یک تیم با محمد کار کرده" },
@@ -275,6 +297,7 @@ export const recommendations = [
     _id: "recommendation.sina-shah-oveisi",
     _type: "recommendation",
     order: 2,
+    source: "linkedin",
     name: { en: "Sina Shah Oveisi" },
     headline: "Software Engineer",
     relationship: { en: "Worked with Mohammad on the same team at NobarCloud", fa: "در نوبرکلاد در یک تیم با محمد کار کرده" },
@@ -292,6 +315,7 @@ export const recommendations = [
     _id: "recommendation.mohammad-shahi",
     _type: "recommendation",
     order: 3,
+    source: "linkedin",
     name: { en: "Mohammad Shahi" },
     headline: "Full-Stack Developer | Next.js, NestJS, React | Building Scalable Web Apps & APIs | CRM Solutions",
     relationship: {
@@ -312,6 +336,7 @@ export const recommendations = [
     _id: "recommendation.amirhossein-jafari",
     _type: "recommendation",
     order: 4,
+    source: "linkedin",
     name: { en: "Amirhossein Jafari" },
     headline: "Devops & Cloud Infrastructure Engineer | K8S | OpenStack | OpenShift | Ceph | Linux | CICD",
     relationship: { en: "Worked with Mohammad on a different team", fa: "در تیمی دیگر با محمد کار کرده" },
@@ -328,6 +353,7 @@ export const recommendations = [
     _id: "recommendation.amir-alborz",
     _type: "recommendation",
     order: 5,
+    source: "linkedin",
     name: { en: "Amir Alborz" },
     headline: "Product Designer | Design System | Systems Thinking | AI-Assisted Development",
     relationship: { en: "Worked with Mohammad on the same team", fa: "در یک تیم با محمد کار کرده" },
@@ -338,6 +364,32 @@ export const recommendations = [
       "I had the opportunity to work with Mohammad, and it was a great experience. He is a skilled front-end developer who works in a very structured and systematic way, which makes collaboration with him smooth and effective.",
       "What I appreciate most about Mohammad is his curiosity and growth mindset. He has a strong interest in AI and is always eager to learn, explore new ideas, and improve himself.",
       "He also brings positive energy to the team and is someone you can rely on. And yes, Mohammad is tall, but what stands out even more is his professionalism and mindset.",
+    ],
+  },  {
+    _id: "recommendation.dayana-raadfar",
+    _type: "recommendation",
+    order: 6,
+    source: "mghn.info",
+    name: { en: "Dayana Raadfar" },
+    headline: "Designer",
+    href: "https://www.linkedin.com/in/dayanaraadfar",
+    highlight:
+      "He is a professional and committed frontend developer who has successfully enhanced user experience for both us and our customers through your innovative ideas and designs.",
+    paragraphs: [
+      "I thoroughly appreciate our genuine and efficient collaboration. It has been an honor for me, and I have been influenced by your dedication and expertise. He is a professional and committed frontend developer who has successfully enhanced user experience for both us and our customers through your innovative ideas and designs.",
+    ],
+  },
+  {
+    _id: "recommendation.amir-mahdi-shad",
+    _type: "recommendation",
+    order: 7,
+    source: "mghn.info",
+    name: { en: "Amir Mahdi Shad" },
+    headline: "Junior Front-end Developer",
+    highlight:
+      "As a perfectionist, he showcases an emphasis on details in all aspects of the project, guiding the entire team towards continuous improvement.",
+    paragraphs: [
+      "Continuous interactions with Mohammad provided me with a golden opportunity to gain deeper insights into Frontend development techniques. As a perfectionist, he showcases an emphasis on details in all aspects of the project, guiding the entire team towards continuous improvement. I thoroughly enjoyed collaborating with Mohammad and this experience provided me with an excellent chance to enhance my skills in Frontend development and perfectionist thinking.",
     ],
   },
 ];

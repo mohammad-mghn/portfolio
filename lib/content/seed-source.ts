@@ -222,11 +222,15 @@ export const seedSource: ContentSource = {
       id: r._id,
       name: pickStr(r.name, locale),
       headline: r.headline,
-      relationship: pickStr(r.relationship, locale),
-      date: formatDate(r.date, locale),
+      source: r.source,
+      portrait: r.portrait
+        ? { src: `/people/${r.portrait}`, width: 400, height: 400, alt: pickStr(r.name, locale) }
+        : undefined,
+      relationship: pickStr(r.relationship, locale) || undefined,
+      date: r.date ? formatDate(r.date, locale) : undefined,
       highlight: r.highlight,
       paragraphs: r.paragraphs,
-      href: recommendationsUrl,
+      href: r.href ?? (r.source === "linkedin" ? recommendationsUrl : undefined),
     }));
   },
 };

@@ -51,7 +51,10 @@
     "of": "/",
     "onLinkedIn": "On LinkedIn",
     "original": "",
-    "all": "All recommendations"
+    "all": "All recommendations",
+    "region": "Recommendations",
+    "readFull": "Read in full",
+    "oldSite": "From my earlier site"
   },
   "numbers": {
     "eyebrow": "In numbers"
@@ -179,11 +182,13 @@
   "recommendationsPage": {
     "eyebrow": "Recommendations",
     "title": "Recommendations",
-    "statement": "Five people I've worked with, in their own words, exactly as they wrote them on LinkedIn.",
+    "statement": "People I've worked with, in their own words. Nothing is edited.",
     "metaCount": "{count, plural, one {# recommendation} other {# recommendations}}",
-    "metaSource": "From LinkedIn",
+    "metaSource": "From LinkedIn and my earlier site",
     "metaUnedited": "Unedited",
-    "read": "Read on LinkedIn"
+    "read": "Read on LinkedIn",
+    "sourceOld": "Written for my earlier site, mghn.info",
+    "profile": "LinkedIn profile"
   },
   "content": {
     "eyebrow": "Content",

@@ -30,15 +30,17 @@ export async function Recommendations({
         items={recommendations}
         indexes={recommendations.map((_, i) => formatIndex(i + 1, locale))}
         labels={{
+          region: t("region"),
           prev: t("prev"),
           next: t("next"),
           of: t("of"),
-          onLinkedIn: t("onLinkedIn"),
+          readFull: t("readFull"),
+          oldSite: t("oldSite"),
           original: locale === "en" ? undefined : t("original"),
         }}
       />
       <div className="grid-12 mt-10">
-        <MoreLink href="/recommendations" label={t("all")} className="col-span-full justify-self-start md:col-start-4" />
+        <MoreLink href="/recommendations" label={t("all")} className="col-span-full justify-self-start" />
       </div>
     </section>
   );

@@ -425,13 +425,3 @@
   }
 }
 
-/* Recommendation carousel: each slide eases in when it changes. */
-@keyframes rec-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.6rem);
-  }
-}
-.rec-enter {
-  animation: rec-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}

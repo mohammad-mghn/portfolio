@@ -85,15 +85,18 @@ export type About = {
 export type Education = { school: string; degree: string; start: string; end: string; note?: string };
 export type Volunteering = { role: string; org: string; date: string; summary: string; bullets: string[] };
 
-/** Who wrote a LinkedIn recommendation, and the recommendation itself (kept verbatim, in English). */
+/** Who wrote a recommendation, and the recommendation itself (kept verbatim, in English). */
 export type Recommendation = {
   id: string;
   name: string;
   headline: string;
-  /** e.g. "Worked with Mohammad on the same team". */
-  relationship: string;
-  /** e.g. "Aug 2026". */
-  date: string;
+  /** A LinkedIn recommendation, or one written for the earlier site mghn.info. */
+  source: "linkedin" | "mghn.info";
+  portrait?: Img;
+  /** e.g. "Worked with Mohammad on the same team". LinkedIn entries only. */
+  relationship?: string;
+  /** e.g. "Aug 2026". LinkedIn entries only. */
+  date?: string;
   /** One sentence lifted verbatim from the text, shown big. */
   highlight: string;
   /** Full text, verbatim, split into paragraphs. */
