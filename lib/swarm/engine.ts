@@ -60,6 +60,8 @@ type Task = Job & {
   top: number;
   /** Part of the first screen, which is wiped and rebuilt on purpose when the mode starts. */
   first: boolean;
+  /** While held: since when it has been on screen (0 while it is not). */
+  seenSince: number;
   notBefore: number;
   eligibleAt: number;
   eligibleTop: number;
@@ -93,6 +95,12 @@ const COPY_DEADLINE = 12000;
  */
 const COPY_WAIT = 900;
 const GRACE = 1200;
+/**
+ * Safety: a held piece on screen gets an agent after this long even if the page never stops moving
+ * (a trackpad's momentum, a slow tour) or it never crossed the reading line; and if something else
+ * keeps it invisible for twice as long, it is let go, so nothing waits hidden on screen for ever.
+ */
+const HELD_ON_SCREEN = 2200;
 const IDLE = 400;
 /** The first screen is rebuilt within this long after the click. */
 const FIRST_SCREEN = 7000;
@@ -243,6 +251,7 @@ export async function startSwarm({
       upper: false,
       top: 0,
       first: parent?.first ?? false,
+      seenSince: 0,
       notBefore: 0,
       eligibleAt: 0,
       eligibleTop: 0,
@@ -638,11 +647,19 @@ export async function startSwarm({
             else {
               task.hold?.cancel();
               task.hold = null;
+              task.seenSince = 0;
               task.phase = "fresh";
             }
             break;
           }
-          if (task.inView && !flying && now >= task.notBefore && (task.pastLine || idle || task.first) && !faint(task.el)) {
+          task.seenSince = task.inView ? task.seenSince || now : 0;
+          const overdue = task.seenSince > 0 && now - task.seenSince > HELD_ON_SCREEN;
+          if (overdue && now - task.seenSince > HELD_ON_SCREEN * 2 && faint(task.el)) {
+            finish(task, now);
+            break;
+          }
+          const ready = !flying && now >= task.notBefore && (task.pastLine || idle || task.first);
+          if (task.inView && (ready || overdue) && !faint(task.el)) {
             task.phase = "eligible";
             task.eligibleAt = now;
             task.eligibleTop = task.el.getBoundingClientRect().top;

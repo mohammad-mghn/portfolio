@@ -59,10 +59,15 @@ export function ScrollReveals() {
         // Still below the screen (with a small margin): safe to hide without the reader noticing.
         const edge = window.innerHeight * 1.05;
         const waiting = (el: HTMLElement) => el.getBoundingClientRect().top > edge;
+        // Only the outermost marked blocks: something inside a revealed block (a card's "more →" link)
+        // comes in with it. Hiding it as well would leave it to a second trigger of its own, and if that
+        // one ever missed its moment the link stayed invisible inside a card that had already appeared.
+        const outermost = (el: HTMLElement) => !el.parentElement?.closest("[data-reveal],[data-split]");
 
         gsap.utils
           .toArray<HTMLElement>("[data-split]")
           .filter(waiting)
+          .filter(outermost)
           .forEach((el) => {
             SplitText.create(el, {
               type: "lines",
@@ -89,7 +94,7 @@ export function ScrollReveals() {
             });
           });
 
-        const targets = gsap.utils.toArray<HTMLElement>("[data-reveal]").filter(waiting);
+        const targets = gsap.utils.toArray<HTMLElement>("[data-reveal]").filter(waiting).filter(outermost);
         gsap.set(targets, { autoAlpha: 0, y: 24 });
         ScrollTrigger.batch(targets, {
           start: "top 97%",
