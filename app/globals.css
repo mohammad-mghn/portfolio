@@ -1179,3 +1179,13 @@
     animation: intro-fade 0.9s var(--ease-house) var(--d, 0s) both;
   }
 }
+
+/* The hint under the home portrait: shown only where its cloth hover effect can run. */
+.portrait-hint {
+  display: none;
+}
+@media (width >= 48rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .portrait-hint {
+    display: block;
+  }
+}

@@ -30,6 +30,8 @@ export async function About({ locale, about, index }: { locale: Locale; about: A
                 className="object-cover grayscale contrast-110"
               />
             </ClothImage>
+            {/* Only where the cloth effect can run: a mouse or trackpad, wide screen, motion allowed. */}
+            <figcaption className="portrait-hint text-label mt-3 text-muted">{t("portraitHint")}</figcaption>
           </figure>
         ) : null}
 

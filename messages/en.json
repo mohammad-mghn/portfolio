@@ -105,6 +105,7 @@
   "about": {
     "eyebrow": "About",
     "title": "The person behind the work.",
+    "portraitHint": "Hover over the photo",
     "outside": "Outside my main job",
     "tools": "Tools I use",
     "toolsHint": "Hover to pause",

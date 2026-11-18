@@ -3,19 +3,20 @@
 import clsx from "clsx";
 import { useEffect, useRef, type HTMLAttributes, type PointerEvent, type ReactNode } from "react";
 import type { Liquid } from "@/lib/effects/liquid-text";
-import { swarmActive, swarmStore } from "@/lib/swarm/store";
+import { onSwarmStart, swarmHolds } from "@/lib/swarm/store";
 
 /**
  * The home page's <h1>: hovering it drags the letters through a liquid that swirls under the
  * pointer (lib/effects/liquid-text.ts, fetched on the first hover). The effect draws on a canvas
  * laid over the heading and hides the real letters only while it runs. Without a mouse, with
- * reduced motion, during the agent build mode, or without JavaScript, it is an ordinary heading.
+ * reduced motion, or without JavaScript, it is an ordinary heading. In the agent build mode it
+ * works too, once the agents have built the name (not while they are typing it).
  */
 export function LiquidHeading({ className, children, ...rest }: HTMLAttributes<HTMLHeadingElement> & { children: ReactNode }) {
   const heading = useRef<HTMLHeadingElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const effect = useRef<Liquid | null>(null);
-  const state = useRef<"idle" | "loading" | "ready" | "off">("idle");
+  const state = useRef<"idle" | "loading" | "waiting" | "ready" | "off">("idle");
   const pointer = useRef<{ x: number; y: number } | null>(null);
 
   const show = () => {
@@ -28,11 +29,10 @@ export function LiquidHeading({ className, children, ...rest }: HTMLAttributes<H
   };
 
   useEffect(() => () => effect.current?.destroy(), []);
-  // The agent build mode has the heading to itself while it runs.
+  // The build mode starts by wiping and rebuilding the first screen: let go of the name at once.
   useEffect(
     () =>
-      swarmStore.subscribe(() => {
-        if (!swarmActive()) return;
+      onSwarmStart(() => {
         pointer.current = null;
         effect.current?.leave();
         hide();
@@ -45,10 +45,20 @@ export function LiquidHeading({ className, children, ...rest }: HTMLAttributes<H
     return box ? { x: e.clientX - box.left, y: e.clientY - box.top } : { x: 0, y: 0 };
   };
 
-  async function onEnter(e: PointerEvent<HTMLHeadingElement>) {
-    if (e.pointerType === "touch" || swarmActive() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    pointer.current = at(e);
-    if (state.current === "ready") return effect.current?.enter(pointer.current.x, pointer.current.y);
+  /** Not for touch or reduced motion, nor while the build mode is still building the name. */
+  const allowed = (e: PointerEvent<HTMLHeadingElement>) =>
+    e.pointerType !== "touch" && !swarmHolds(heading.current) && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /**
+   * Load the effect (once) and start it where the pointer is. Runs from enter *and* move: after a
+   * reload with the pointer already resting on the name there is no enter event, only moves, and a
+   * first try made while the intro is still animating has to be repeated once it has finished.
+   */
+  async function start() {
+    if (state.current === "ready") {
+      if (pointer.current) effect.current?.enter(pointer.current.x, pointer.current.y);
+      return;
+    }
     if (state.current !== "idle" || !heading.current || !canvas.current) return;
     state.current = "loading";
     try {
@@ -57,16 +67,39 @@ export function LiquidHeading({ className, children, ...rest }: HTMLAttributes<H
     } catch {
       effect.current = null;
     }
-    // Could not match the page (or no WebGL 2): stay an ordinary heading. Try again on a later
-    // hover only if it was too early (the heading was still animating in).
-    state.current = effect.current ? "ready" : heading.current?.getAnimations({ subtree: true }).length ? "idle" : "off";
-    if (effect.current && pointer.current && !swarmActive()) effect.current.enter(pointer.current.x, pointer.current.y);
+    if (effect.current) {
+      state.current = "ready";
+      if (pointer.current && !swarmHolds(heading.current)) effect.current.enter(pointer.current.x, pointer.current.y);
+      return;
+    }
+    // Could not match the page (or no WebGL 2): stay an ordinary heading, unless it was only too
+    // early (the name was still animating in). Then try again the moment the intro has finished.
+    const running = heading.current?.getAnimations({ subtree: true }) ?? [];
+    if (!running.length) {
+      state.current = "off";
+      return;
+    }
+    state.current = "waiting";
+    await Promise.allSettled(running.map((a) => a.finished));
+    state.current = "idle";
+    if (pointer.current && !swarmHolds(heading.current)) void start();
+  }
+
+  function onEnter(e: PointerEvent<HTMLHeadingElement>) {
+    if (!allowed(e)) return;
+    pointer.current = at(e);
+    void start();
   }
 
   function onMove(e: PointerEvent<HTMLHeadingElement>) {
-    if (!pointer.current) return;
+    if (!allowed(e)) return;
+    const first = !pointer.current;
     pointer.current = at(e);
-    effect.current?.move(pointer.current.x, pointer.current.y);
+    if (state.current === "ready") {
+      // Pointer was already inside when the effect became ready (or it never saw an enter): begin here.
+      if (first) effect.current?.enter(pointer.current.x, pointer.current.y);
+      else effect.current?.move(pointer.current.x, pointer.current.y);
+    } else void start();
   }
 
   function onLeave() {

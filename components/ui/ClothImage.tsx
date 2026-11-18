@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { useEffect, useRef, type PointerEvent, type ReactNode } from "react";
 import type { Cloth } from "@/lib/effects/cloth";
-import { swarmActive, swarmStore } from "@/lib/swarm/store";
+import { onSwarmStart, swarmHolds } from "@/lib/swarm/store";
 
 /**
  * A picture frame whose picture ripples like hanging cloth while the pointer is over it.
@@ -11,7 +11,8 @@ import { swarmActive, swarmStore } from "@/lib/swarm/store";
  * It wraps a normal image (pass the <Image/> as the child), so the picture is server-rendered,
  * lazy-loaded and readable without JavaScript as before. The effect draws on a canvas laid over
  * it, and its code (lib/effects/cloth.ts) is fetched on the first hover, so pages pay nothing for
- * it up front. Touch screens and reduced-motion users keep the still picture.
+ * it up front. Touch screens and reduced-motion users keep the still picture. In the agent build
+ * mode it works too, once the agents have put the picture in place.
  */
 export function ClothImage({
   className,
@@ -31,11 +32,10 @@ export function ClothImage({
   const lastPoke = useRef({ x: 0, y: 0 });
 
   useEffect(() => () => cloth.current?.destroy(), []);
-  // The agent build mode has the picture to itself while it runs: a ripple in progress goes at once.
+  // When the build mode starts, a ripple in progress goes at once, so the agents copy the still picture.
   useEffect(
     () =>
-      swarmStore.subscribe(() => {
-        if (!swarmActive()) return;
+      onSwarmStart(() => {
         hovering.current = false;
         cloth.current?.leave();
         if (canvas.current) canvas.current.style.opacity = "0";
@@ -53,7 +53,7 @@ export function ClothImage({
   };
 
   async function onEnter(e: PointerEvent<HTMLDivElement>) {
-    if (e.pointerType === "touch" || swarmActive() || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (e.pointerType === "touch" || swarmHolds(box.current) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     hovering.current = true;
     lastPoke.current = { x: e.clientX, y: e.clientY };
     if (state.current === "ready") return start();
@@ -79,8 +79,11 @@ export function ClothImage({
   }
 
   function onMove(e: PointerEvent<HTMLDivElement>) {
+    // Pointer already resting here when the picture became available (built by the agents, or the
+    // page reloaded under it): the first move counts as entering.
+    if (!hovering.current) return void onEnter(e);
     const fabric = cloth.current;
-    if (!fabric || !hovering.current || !box.current) return;
+    if (!fabric || !box.current) return;
     // A ripple for every stretch of movement; faster strokes make stronger ripples.
     const moved = Math.hypot(e.clientX - lastPoke.current.x, e.clientY - lastPoke.current.y);
     if (moved < 22) return;

@@ -3,7 +3,7 @@
 import { useLenis } from "@/lib/lenis";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Avatar } from "@/components/ui/Avatar";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import type { Recommendation } from "@/lib/content/types";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import styles from "./Recommendations.module.css";
@@ -18,8 +18,13 @@ type Labels = {
   original?: string;
 };
 
-/** Desktop with motion allowed: the section pins and the page's own scroll moves the row sideways. */
-const PINNED = "(min-width: 768px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)";
+/**
+ * Motion allowed and a screen tall enough to hold the row: the section pins and the page's own
+ * scroll moves the row sideways, on phones as on desktop.
+ */
+const PINNED = "(min-height: 560px) and (prefers-reduced-motion: no-preference)";
+/** A press that moved further than this (px) was a drag or a swipe, not a click on the card. */
+const CLICK_SLOP = 8;
 
 /** Drawn, not a text arrow: the site's fonts have no arrow characters, so phones fell back to mismatched system ones. */
 const Chevron = ({ flip }: { flip?: boolean }) => (
@@ -64,6 +69,9 @@ export function RecommendationCarousel({
   /** A drag in progress: where it started, where the page should be now, and how fast the pointer is going (px/ms). */
   const drag = useRef<{ x: number; scroll: number; target: number; lastX: number; lastT: number; speed: number } | null>(null);
   const [active, setActive] = useState(0);
+  const router = useRouter();
+  /** Where the last press on the row started, to tell a click on a card from a drag or swipe. */
+  const press = useRef<{ x: number; y: number } | null>(null);
 
   const lenis = useLenis();
   const lenisRef = useRef(lenis);
@@ -138,6 +146,47 @@ export function RecommendationCarousel({
         };
         root.addEventListener("wheel", onWheel, { passive: false });
 
+        // Touch screens: a sideways swipe on the row moves it too (the row itself no longer scrolls),
+        // by turning it into page scroll; let go mid-swipe and the row carries on and slows down.
+        // Mostly-vertical swipes are left to the browser, so the page scrolls as usual.
+        let swipe: { x: number; y: number; scroll: number; sideways: boolean | null; lastX: number; lastT: number; speed: number } | null = null;
+        const onTouchStart = (e: TouchEvent) => {
+          const t = e.touches[0];
+          if (e.touches.length !== 1 || !t) return;
+          swipe = { x: t.clientX, y: t.clientY, scroll: window.scrollY, sideways: null, lastX: t.clientX, lastT: e.timeStamp, speed: 0 };
+        };
+        const onTouchMove = (e: TouchEvent) => {
+          const t = e.touches[0];
+          if (!swipe || !t) return;
+          const dx = t.clientX - swipe.x;
+          const dy = t.clientY - swipe.y;
+          if (swipe.sideways === null) {
+            if (Math.hypot(dx, dy) < 6) return;
+            swipe.sideways = Math.abs(dx) > Math.abs(dy);
+          }
+          if (!swipe.sideways) return;
+          e.preventDefault();
+          const sign = rtl ? 1 : -1;
+          const dt = e.timeStamp - swipe.lastT;
+          if (dt > 0) {
+            swipe.speed = swipe.speed * 0.6 + ((sign * (t.clientX - swipe.lastX)) / dt) * 0.4;
+            swipe.lastX = t.clientX;
+            swipe.lastT = e.timeStamp;
+          }
+          window.scrollTo(0, Math.min(st.end, Math.max(st.start, swipe.scroll + sign * dx)));
+        };
+        const onTouchEnd = (e: TouchEvent) => {
+          const s = swipe;
+          swipe = null;
+          if (!s?.sideways || e.timeStamp - s.lastT > 90 || Math.abs(s.speed) < 0.15) return;
+          const to = Math.min(st.end, Math.max(st.start, window.scrollY + s.speed * 320));
+          scrollPage(to);
+        };
+        el.addEventListener("touchstart", onTouchStart, { passive: true });
+        el.addEventListener("touchmove", onTouchMove, { passive: false });
+        el.addEventListener("touchend", onTouchEnd, { passive: true });
+        el.addEventListener("touchcancel", onTouchEnd, { passive: true });
+
         gsap.set(dot, { xPercent: -50, yPercent: -50, scale: 0.4, autoAlpha: 0 });
         move.current = {
           x: gsap.quickTo(dot, "x", { duration: 0.35, ease: "power3" }),
@@ -148,6 +197,10 @@ export function RecommendationCarousel({
           st.kill();
           ro.disconnect();
           root.removeEventListener("wheel", onWheel);
+          el.removeEventListener("touchstart", onTouchStart);
+          el.removeEventListener("touchmove", onTouchMove);
+          el.removeEventListener("touchend", onTouchEnd);
+          el.removeEventListener("touchcancel", onTouchEnd);
           trigger.current = null;
           move.current = null;
           cursorShown.current = false;
@@ -270,6 +323,7 @@ export function RecommendationCarousel({
     glidePage(d.target, 0.3);
   }
   function onPointerDown(e: React.PointerEvent<HTMLUListElement>) {
+    press.current = { x: e.clientX, y: e.clientY };
     if (!usesCursor() || e.button !== 0 || overLink(e)) return;
     drag.current = { x: e.clientX, scroll: window.scrollY, target: window.scrollY, lastX: e.clientX, lastT: e.timeStamp, speed: 0 };
     // Keep receiving the drag when the pointer leaves the row. A pointer that is already gone cannot be captured.
@@ -290,6 +344,18 @@ export function RecommendationCarousel({
     const moving = e.timeStamp - d.lastT < 90 && Math.abs(d.speed) > 0.15;
     if (st && moving) glidePage(Math.min(st.end, Math.max(st.start, d.target + d.speed * 380)), 0.085);
     if (cursorShown.current) gsap.to(cursor.current, { scale: 1, duration: 0.3, ease: "power3", overwrite: "auto" });
+  }
+
+  /** A click anywhere on a card (not a drag, not on its own link) opens it on the recommendations page. */
+  function openCard(e: React.MouseEvent, id: string) {
+    if (e.defaultPrevented || (e.target as HTMLElement).closest("a,button")) return;
+    const from = press.current;
+    if (from && Math.hypot(e.clientX - from.x, e.clientY - from.y) > CLICK_SLOP) return;
+    if (window.getSelection()?.toString()) return; // selecting a quote to copy it
+    // Cmd/Ctrl-click: a new tab, like the card's own "read in full" link (which has the right locale prefix).
+    const link = e.currentTarget.querySelector<HTMLAnchorElement>("a[href]");
+    if ((e.metaKey || e.ctrlKey) && link) return void window.open(link.href, "_blank", "noopener");
+    router.push(`/recommendations#${id}`);
   }
 
   const arrow =
@@ -350,7 +416,8 @@ export function RecommendationCarousel({
                   data-i={i}
                   aria-roledescription="slide"
                   aria-label={`${indexes[i]} ${labels.of} ${indexes[items.length - 1]}`}
-                  className="flex w-[min(84vw,38rem)] shrink-0 snap-start flex-col rounded-[3px] border border-hair bg-[color-mix(in_oklab,var(--paper)_70%,white)] p-6 md:p-8"
+                  onClick={(e) => openCard(e, r.id)}
+                  className={`${styles.card} flex w-[min(84vw,38rem)] shrink-0 snap-start flex-col rounded-[3px] border border-hair bg-[color-mix(in_oklab,var(--paper)_70%,white)] p-6 transition-[border-color] duration-500 ease-house hover:border-ink/40 md:p-8`}
                 >
                   <figure className="flex h-full flex-col">
                     <blockquote lang={r.lang} dir={r.lang === "fa" ? "rtl" : "ltr"} className="text-start">

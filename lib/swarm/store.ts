@@ -33,6 +33,38 @@ export const swarmStore = {
 /** True from the click until the page is back to normal. */
 export const swarmActive = () => mode !== "off";
 
+const holding = (animation: Animation) => animation.id === "swarm-hold" && animation.playState !== "finished";
+
+/**
+ * Whether the build mode is rebuilding this element right now: it, something inside it or a block
+ * around it is held hidden, waiting for (or being built by) an agent. Hover effects stay off on such
+ * an element (they would show it before it is built, or the agents would copy the effect), and work
+ * again the moment it is built. While the mode is loading, the whole page is about to be rebuilt.
+ */
+export function swarmHolds(el: Element | null): boolean {
+  if (!el || mode === "off") return false;
+  if (mode === "loading") return true;
+  if (el.getAnimations({ subtree: true }).some(holding)) return true;
+  for (let up = el.parentElement; up; up = up.parentElement) {
+    if (up.getAnimations().some(holding)) return true;
+  }
+  return false;
+}
+
+/**
+ * Calls `reset` once each time the build mode starts (not on every progress update while it runs),
+ * so hover effects can drop what they show and let the agents copy the plain element.
+ * Returns the unsubscribe function.
+ */
+export function onSwarmStart(reset: () => void) {
+  let was = mode;
+  return swarmStore.subscribe(() => {
+    const starting = was === "off" && mode !== "off";
+    was = mode;
+    if (starting) reset();
+  });
+}
+
 export function setSwarmMode(next: SwarmMode) {
   if (mode === next) return;
   mode = next;

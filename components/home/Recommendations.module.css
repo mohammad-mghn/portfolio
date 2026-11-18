@@ -10,6 +10,10 @@
 .cursor {
   display: none;
 }
+/* The whole card opens it on /recommendations. */
+.card {
+  cursor: pointer;
+}
 
 /*
  * Pinned (set from JS on desktop): the runway is one screen plus the row's overflow tall, and the
@@ -47,7 +51,8 @@
 
 /* The circle cursor replaces the arrow over the row (links keep the hand). */
 @media (pointer: fine) {
-  .section[data-pinned] .track {
+  .section[data-pinned] .track,
+  .section[data-pinned] .card {
     cursor: none;
     user-select: none;
   }

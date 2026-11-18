@@ -329,9 +329,10 @@ export class Painter {
     this.ctx.textAlign = "left";
   }
 
-  cursor(agent: Agent, tagged: boolean, size = 1) {
+  cursor(agent: Agent, tagged: boolean, size = 1, alpha = 1) {
     if (agent.x < -30 || agent.y < -30 || agent.x > this.width + 30 || agent.y > this.height + 30) return;
     const ctx = this.ctx;
+    ctx.globalAlpha = alpha;
     const sprite = this.sprite(agent.tool, agent.colour);
     const arrow = agent.tool === "arrow" || agent.tool === "dup";
     const scale = size * (1 - agent.press * 0.15);
@@ -342,6 +343,7 @@ export class Painter {
       const tag = this.tags[agent.index];
       ctx.drawImage(tag.canvas, agent.x + 12, agent.y + (arrow ? 18 : 12), tag.w, TAG_H);
     }
+    ctx.globalAlpha = 1;
   }
 
   /** A design tool's selection: an outline with corner handles. */

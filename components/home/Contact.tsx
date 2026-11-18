@@ -44,11 +44,13 @@ export async function Contact({
             <span>{t("eyebrow")}</span>
           </p>
         ) : null}
+        {/* No scroll reveal on the closing title: it is always there, whole, the moment it is on screen.
+            (The build mode still types it: data-swarm="type".) */}
         <DisplaceText id="contact-title" className="text-mega col-span-full">
-          <span className="block" data-split>
+          <span className="block" data-swarm="type">
             {copy.contact.titleA}
           </span>
-          <span className="accent block text-accent" data-split>
+          <span className="accent block text-accent" data-swarm="type">
             {copy.contact.titleB}
           </span>
         </DisplaceText>

@@ -37,10 +37,12 @@ const serverTouring = () => false;
 
 /**
  * The "click me :)" box on the home page. It wiggles now and then, and gets angrier the longer it
- * is ignored. Clicking it starts the build mode: as the visitor scrolls, the page is rebuilt by a
+ * is ignored. Clicking it scrolls back to the top, starts the build mode and plays the tour: the
+ * page scrolls slowly down by itself while it is rebuilt by a
  * swarm of agent cursors (lib/swarm/engine.ts, fetched on that first click). While it runs, the
- * box is the Stop button, a counter shows how much of the page is built, and a Tour button beside
- * it plays the page like a film: it scrolls slowly to the end while the agents build it.
+ * box is the Stop button, a counter shows how much of the page is built, and the Tour button beside
+ * it pauses and resumes the tour. Any wheel, swipe or navigation key from the visitor pauses it too
+ * (lib/swarm/engine.ts), and from then on they scroll and the agents build wherever they are.
  */
 export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Locale }) {
   const mode = useSyncExternalStore(swarmStore.subscribe, swarmStore.mode, serverMode);
@@ -124,11 +126,40 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
     else setSwarmMode("off");
   }
 
+  /**
+   * The build starts from the top of the page: scroll there first (smoothly, the visitor's own
+   * scrolling locked out on the way), then the first screen is wiped and rebuilt.
+   */
+  function scrollToTop() {
+    const from = window.scrollY;
+    if (from < 2) return Promise.resolve();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const seconds = reduced ? 0 : Math.min(1.8, 0.7 + from / 9000);
+    return new Promise<void>((resolve) => {
+      let settled = false;
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        resolve();
+      };
+      // Safety: never wait on the scroll for more than a moment past its own length.
+      window.setTimeout(done, seconds * 1000 + 700);
+      const smooth = lenisRef.current;
+      if (smooth) smooth.scrollTo(0, { duration: seconds, immediate: reduced, lock: true, force: true, onComplete: done });
+      else {
+        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+        const check = () => (window.scrollY < 2 ? done() : !settled && requestAnimationFrame(check));
+        requestAnimationFrame(check);
+      }
+    });
+  }
+
   async function start() {
     const surface = canvas.current;
     if (!surface) return;
     setLevel(0);
     setSwarmMode("loading");
+    await scrollToTop();
     try {
       const { startSwarm } = await import("@/lib/swarm/engine");
       engine.current = await startSwarm({
@@ -146,6 +177,8 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
         },
       });
       engine.current.pause(paused);
+      // Play the page from the top; the visitor's first scroll, swipe or key pauses it.
+      if (!paused) engine.current.tour(true);
     } catch {
       engine.current = null;
       setSwarmMode("off");

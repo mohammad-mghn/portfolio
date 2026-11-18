@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Menu } from "@/components/deferred";
 import type { MenuData } from "./Menu";
@@ -11,7 +11,7 @@ type Props = MenuData & {
 };
 
 /**
- * Fixed editorial header: logo · language · menu. Hides on scroll down.
+ * Fixed editorial header: logo · language · menu. Always on screen, so the menu is one click away.
  * Its text is white with `mix-blend-mode: difference` (see .site-header), so it always contrasts
  * with whatever is behind it, even when a word sits half on a light and half on a dark area.
  * The orange diamond is drawn in its own layer above, otherwise the blend would recolour it.
@@ -21,30 +21,11 @@ export function Header(props: Props) {
   const pathname = usePathname();
   // Explicit /en prefix so the locale cookie is updated (as-needed routing would otherwise bounce back).
   const switchHref = `/${locale === "fa" ? "en" : "fa"}${pathname === "/" ? "" : pathname}`;
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const last = useRef(0);
-
-  useEffect(() => {
-    // Lenis scrolls the window, so native scroll events cover both smooth and reduced-motion modes.
-    const onScroll = () => {
-      const y = window.scrollY;
-      const delta = y - last.current;
-      if (Math.abs(delta) > 6) {
-        setHidden(delta > 0 && y > 160);
-        last.current = y;
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <>
-      <header
-        data-hidden={hidden && !open ? "" : undefined}
-        className="site-header fixed inset-x-0 top-0 z-50 flex h-(--header-h) items-center justify-between gap-6 px-gutter transition-[translate,opacity,color] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
-      >
+      <header className="site-header fixed inset-x-0 top-0 z-50 flex h-(--header-h) items-center justify-between gap-6 px-gutter transition-colors duration-700 ease-house">
         <Link href="/" className="text-label -mx-3 flex min-h-[44px] items-center gap-2 px-3 font-semibold tracking-[0.18em]" aria-label={`${shortName} — ${labels.home}`}>
           {/* Room for the diamond, which lives in the layer below this header. */}
           <span className="inline-block size-2" aria-hidden />
@@ -76,11 +57,7 @@ export function Header(props: Props) {
           </button>
         </div>
       </header>
-      <span
-        aria-hidden
-        data-hidden={hidden && !open ? "" : undefined}
-        className="pointer-events-none fixed start-0 top-0 z-50 flex h-(--header-h) items-center ps-(--page-pad) transition-[translate,opacity] duration-700 ease-house data-hidden:-translate-y-full data-hidden:opacity-0"
-      >
+      <span aria-hidden className="pointer-events-none fixed start-0 top-0 z-50 flex h-(--header-h) items-center ps-(--page-pad)">
         <span className="inline-block size-2 rotate-45 bg-accent" />
       </span>
       <Menu

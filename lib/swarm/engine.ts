@@ -15,8 +15,11 @@
  *   - content that is already on screen is never hidden (except the first screen, on purpose, at start)
  *   - the more work is waiting, the faster the agents go
  *   - nothing waits on screen for an agent longer than a few seconds; then it is shown as it is
- *   - scrolling very fast shows everything at once
- *   - anything scrolled into the top half of the screen still waiting is shown as it is
+ *   - what is on screen is built first, nearest to where the visitor is reading: arriving at a
+ *     section (however fast, even by jumping to it) starts building it at once, whatever is still
+ *     being built further up
+ *   - work already started, or waiting above the screen, carries on as agents come free: earlier
+ *     sections keep building in the background instead of being shown half done
  *   - the whole page is built, wherever the mode starts: what is above the screen then is built
  *     when the visitor scrolls back up to it
  *
@@ -82,8 +85,13 @@ type Task = Job & {
 const FLYING = 2.4;
 /** Longest a piece waits on screen for an agent before it is simply shown. */
 const DEADLINE = 2600;
-/** A copy waits for the piece it copies (a whole card is copied only once all of it is built). */
+/** A piece already showing copied content (a duplicated card's texts) may wait this long for its edit. */
 const COPY_DEADLINE = 12000;
+/**
+ * A copy waits this long for the piece it copies to be finished (a whole card is copied only once all
+ * of it is built). After that it is built from scratch: nothing on screen stays blank waiting on a source.
+ */
+const COPY_WAIT = 900;
 const GRACE = 1200;
 const IDLE = 400;
 /** The first screen is rebuilt within this long after the click. */
@@ -91,7 +99,7 @@ const FIRST_SCREEN = 7000;
 /** Safety: no piece takes longer than this to build. */
 const LONGEST_BUILD = 12000;
 /** Everyone works this much faster than the step durations in recipes.ts. */
-const PACE = 1.75;
+const PACE = 2.8;
 /** Tour speeds, in screens per second: nothing to build on screen, a little, a lot. */
 const TOUR_FREE = 1 / 6;
 const TOUR_SOME = 1 / 14;
@@ -135,8 +143,9 @@ export async function startSwarm({
   if (!root) throw new Error("swarm: no #main");
 
   const compact = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
-  const drawn = compact ? Math.min(30, count) : count;
-  const maxBusy = compact ? 10 : 32;
+  const drawn = compact ? Math.min(40, count) : count;
+  // Enough hands that a newly reached section starts at once while earlier ones are still going.
+  const maxBusy = compact ? 18 : 56;
   const startedAt = performance.now();
   const layer = createLayer();
 
@@ -603,18 +612,14 @@ export async function startSwarm({
           break;
         case "fresh":
           if (paused) break;
-          if (task.inView && faint(task.el) && !flying) {
-            // On screen but not showing yet: safe to hide, and built once it comes forward.
-            task.hold = hold(task.el);
-            task.phase = "held";
-          } else if (task.inView) markDone(task, now); // came on screen while flying past: leave it alone
-          else if (task.inBand && !flying) {
+          // About to come on screen, or just arrived (a fast scroll or a jump): hide it, then build it.
+          if (task.inView || task.inBand) {
             task.hold = hold(task.el);
             task.phase = "held";
           }
           break;
         case "held":
-          if (flying || paused) {
+          if (paused) {
             finish(task, now);
             break;
           }
@@ -637,29 +642,23 @@ export async function startSwarm({
             }
             break;
           }
-          if (task.inView && now >= task.notBefore && (task.pastLine || idle || task.first) && !faint(task.el)) {
+          if (task.inView && !flying && now >= task.notBefore && (task.pastLine || idle || task.first) && !faint(task.el)) {
             task.phase = "eligible";
             task.eligibleAt = now;
             task.eligibleTop = task.el.getBoundingClientRect().top;
-            const wait = task.copy || task.preview ? COPY_DEADLINE : DEADLINE;
+            // Blank while waiting (no copied content showing yet): the normal deadline.
+            const wait = task.preview ? COPY_DEADLINE : DEADLINE;
             task.deadline = Math.max(now + wait, task.first ? startedAt + FIRST_SCREEN : 0);
             task.graceUntil = Math.max(now + GRACE, task.first ? startedAt + FIRST_SCREEN : 0);
           }
           break;
         case "eligible":
         case "claimed": {
-          if (flying || paused || now > task.deadline) {
+          // Off screen, nobody is waiting on it: its clock stops, and it is built when an agent is free.
+          if (!task.inView) task.deadline = Math.max(task.deadline, now + DEADLINE);
+          if (paused || now > task.deadline) {
             finish(task, now);
             break;
-          }
-          // Nearly scrolled past while still waiting (most of it above the middle of the screen, and it
-          // moved there): show it as it is. Pieces that sit still in a pinned section may wait.
-          if (task.upper && now > task.graceUntil) {
-            const r = task.el.getBoundingClientRect();
-            if (r.bottom < window.innerHeight * 0.45 && r.top < task.eligibleTop - window.innerHeight * 0.15) {
-              finish(task, now);
-              break;
-            }
           }
           if (task.hold) keepHolding(task.hold);
           if (task.phase === "eligible" && faint(task.el)) {
@@ -674,7 +673,7 @@ export async function startSwarm({
           break;
         }
         case "build":
-          if (flying || paused || now - task.buildStart > LONGEST_BUILD) {
+          if (paused || now - task.buildStart > LONGEST_BUILD) {
             finish(task, now);
             break;
           }
@@ -687,11 +686,20 @@ export async function startSwarm({
 
     // The more is waiting, the faster everyone works, and faster again while the page scrolls quickly.
     const speed = PACE * clamp(1 + backlog / 10, 1, 4) * (Math.abs(velocity) > 1.2 ? 1.3 : 1);
-    for (const task of tasks) {
+    // On screen first, nearest to where the visitor reads (a third of the way down); then the rest
+    // in page order, so sections above keep building in the background.
+    const reading = window.innerHeight * 0.35;
+    const queue = tasks
+      .filter((task) => task.phase === "eligible")
+      .map((task, order) => ({ task, order, rank: task.inView ? Math.abs(task.top - reading) : 1e6 + order }))
+      .sort((a, b) => a.rank - b.rank || a.order - b.order)
+      .map(({ task }) => task);
+    for (const task of queue) {
       if (busy >= maxBusy) break;
-      if (task.phase !== "eligible" || faint(task.el)) continue;
-      // A copy waits for the piece it copies (a whole card is copied only once it is complete).
-      if (task.copy && !task.twin && !sourceFor(task) && now < task.eligibleAt + COPY_DEADLINE - 1500) continue;
+      if (faint(task.el)) continue;
+      // A copy waits a moment for the piece it copies (a whole card is copied only once it is complete),
+      // then is built from scratch rather than leaving a blank on screen.
+      if (task.copy && !task.twin && !sourceFor(task) && now < task.eligibleAt + COPY_WAIT) continue;
       const at = task.el.getBoundingClientRect();
       const agent = nearestAgent(at.left, at.top);
       if (!agent) break;
@@ -754,7 +762,18 @@ export async function startSwarm({
       step.draw?.(context(task, agent, now), task.progress);
       if (step.label) painter.chip(agent.x + 14, agent.y + 38, step.label, BLUE);
     }
-    for (const agent of agents) painter.cursor(agent, agent.state === TRAVEL || agent.state === WORK, agent.state === WAITING ? 0.7 : 1);
+    // Idle cursors fade out as they fly home and are not drawn at all once docked: only working
+    // agents (and ones on their way to or from a job) are ever on screen.
+    for (const agent of agents) {
+      if (agent.state === WAITING) continue;
+      let alpha = 1;
+      if (agent.state === HOME) {
+        const slot = slotOf(agent);
+        alpha = clamp((Math.hypot(slot.x - agent.x, slot.y - agent.y) - 12) / 140, 0, 1);
+        if (alpha <= 0.01) continue;
+      }
+      painter.cursor(agent, agent.state === TRAVEL || agent.state === WORK, 1, alpha);
+    }
   }
 
   function tick(now: number) {
