@@ -21,6 +21,7 @@ type Labels = {
 /** Desktop with motion allowed: the section pins and the page's own scroll moves the row sideways. */
 const PINNED = "(min-width: 768px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)";
 
+/** Drawn, not a text arrow: the site's fonts have no arrow characters, so phones fell back to mismatched system ones. */
 const Chevron = ({ flip }: { flip?: boolean }) => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" className={flip ? "-scale-x-100" : undefined}>
     <path d="M10 3 5 8l5 5" strokeLinecap="round" strokeLinejoin="round" />
@@ -307,8 +308,8 @@ export function RecommendationCarousel({
               </p>
               <div className="flex gap-2">
                 <button type="button" onClick={() => go(-1)} disabled={active === 0} aria-label={labels.prev} className={arrow}>
-                  <span aria-hidden className="rtl:-scale-x-100">
-                    ←
+                  <span aria-hidden className="inline-flex rtl:-scale-x-100">
+                    <Chevron />
                   </span>
                 </button>
                 <button
@@ -318,8 +319,8 @@ export function RecommendationCarousel({
                   aria-label={labels.next}
                   className={arrow}
                 >
-                  <span aria-hidden className="rtl:-scale-x-100">
-                    →
+                  <span aria-hidden className="inline-flex rtl:-scale-x-100">
+                    <Chevron flip />
                   </span>
                 </button>
               </div>
