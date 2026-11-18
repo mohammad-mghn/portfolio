@@ -17,6 +17,8 @@
  *   - nothing waits on screen for an agent longer than a few seconds; then it is shown as it is
  *   - scrolling very fast shows everything at once
  *   - anything scrolled into the top half of the screen still waiting is shown as it is
+ *   - the whole page is built, wherever the mode starts: what is above the screen then is built
+ *     when the visitor scrolls back up to it
  *
  * The tour (the button beside Stop) scrolls the page by itself, like a film: it slows down while
  * pieces on screen are being built and speeds up where there is nothing to build. Through the
@@ -26,7 +28,7 @@
 import { whenBoundariesReady } from "@/lib/hydration";
 import { createLayer, hold, keepHolding } from "./builders";
 import { BLUE, HOME, PALETTE, Painter, ROAM, TRAVEL, WAITING, WORK, type Agent } from "./cursors";
-import { previewFor, recipe, type Api, type Ctx, type Job, type Piece, type Step } from "./recipes";
+import { ownPaint, pictureChanges, picturePreview, previewFor, recipe, type Api, type Ctx, type Job, type Piece, type Step } from "./recipes";
 import { setSwarmMode, setSwarmProgress, setSwarmTour, tourSegments, whenParked } from "./store";
 import { classify, discover, findSeeds, type Kind } from "./targets";
 
@@ -190,7 +192,7 @@ export async function startSwarm({
     const across = r.right > 0 && r.left < vw;
     task.top = r.top;
     task.inView = across && r.bottom > 0 && r.top < vh;
-    task.inBand = r.right > -0.3 * vw && r.left < 1.3 * vw && r.bottom > 0 && r.top < vh * 1.6;
+    task.inBand = r.right > -0.3 * vw && r.left < 1.3 * vw && r.bottom > -0.6 * vh && r.top < vh * 1.6;
     task.pastLine = across && r.bottom > 0 && r.top < vh * 0.88;
     task.upper = across && r.bottom > 0 && r.top < vh * 0.5;
   };
@@ -208,7 +210,7 @@ export async function startSwarm({
       { rootMargin },
     );
   const observers = [
-    observer("inBand", "0px 30% 60% 30%"),
+    observer("inBand", "60% 30% 60% 30%"),
     observer("inView", "0px"),
     observer("pastLine", "0px 0px -12% 0px"),
     observer("upper", "0px 0px -50% 0px"),
@@ -256,6 +258,21 @@ export async function startSwarm({
     return task;
   }
 
+  /**
+   * Worth duplicating: something with a shape (a card, a chip, a row with a rule, a picture) or
+   * several fields (a number and a title, a bullet and a line). A plain paragraph is not: copying
+   * it only to replace every word would be pointless, so it is typed fresh.
+   */
+  function worthCopying(task: Task) {
+    if (task.kind === "frame" || task.kind === "media" || ownPaint(task.el)) return true;
+    let fields = 0;
+    for (const el of task.el.querySelectorAll<HTMLElement>("*")) {
+      if (ownPaint(el)) return true;
+      if ([...el.childNodes].some((n) => n.nodeType === Node.TEXT_NODE && n.nodeValue?.trim())) fields += 1;
+    }
+    return fields >= 2;
+  }
+
   /** Alike siblings in a row become a run: the first is built, the rest are copies of it. */
   function group(batch: Task[]) {
     let run: Task[] = [];
@@ -272,6 +289,7 @@ export async function startSwarm({
       const last = run[run.length - 1];
       const alike =
         last &&
+        worthCopying(task) &&
         last.el.parentElement === task.el.parentElement &&
         last.el.tagName === task.el.tagName &&
         last.el.className === task.el.className &&
@@ -377,9 +395,11 @@ export async function startSwarm({
     clearPieces(task);
     fades.push({ el: task.el, at: now });
     markDone(task, now);
-    // Inside a duplicated card: inner boxes and pictures come along with the copy.
+    // Inside a duplicated card: inner boxes come along with the copy; a picture shows the copied
+    // one until an agent drags the right file onto it (one that is the same simply shows).
     for (const [kid, twin] of cascade) {
       if (kid.kind === "frame") frameDone(kid, discover(twin).map((d) => d.el), now);
+      else if (kid.kind === "media" && pictureChanges(kid.el, twin)) kid.preview = picturePreview(twin, layer);
       else api.reveal(kid);
     }
   }
@@ -570,7 +590,7 @@ export async function startSwarm({
   /** Still close above or below the screen (horizontal position and clipping aside). */
   const nearby = (task: Task) => {
     const r = task.el.getBoundingClientRect();
-    return r.bottom > -0.3 * window.innerHeight && r.top < 1.6 * window.innerHeight;
+    return r.bottom > -0.6 * window.innerHeight && r.top < 1.6 * window.innerHeight;
   };
 
   function update(now: number, flying: boolean, idle: boolean) {
@@ -587,8 +607,7 @@ export async function startSwarm({
             // On screen but not showing yet: safe to hide, and built once it comes forward.
             task.hold = hold(task.el);
             task.phase = "held";
-          } else if (task.inView) markDone(task, now); // already on screen: leave it alone
-          else if (!task.inBand && task.top < 0) markDone(task, now); // scrolled past
+          } else if (task.inView) markDone(task, now); // came on screen while flying past: leave it alone
           else if (task.inBand && !flying) {
             task.hold = hold(task.el);
             task.phase = "held";
@@ -607,9 +626,10 @@ export async function startSwarm({
               break;
             }
           }
-          // Out of the band: let it go, unless it is only out sideways (cards in a row that slides).
+          // Out of the band: let it go until it comes near again, unless it is only out sideways
+          // (cards in a row that slides). A copy already showing its copied content is shown as is.
           if (!task.inBand && !task.first && !nearby(task)) {
-            if (task.top < 0 || task.preview) finish(task, now);
+            if (task.preview) finish(task, now);
             else {
               task.hold?.cancel();
               task.hold = null;
@@ -758,10 +778,7 @@ export async function startSwarm({
     const box = el.getBoundingClientRect();
     const task = create(el, classify(el, box), null, true);
     seeds.push(task);
-    if (box.bottom <= 0) {
-      markDone(task, startedAt); // above the screen: already seen, stays as it is
-      continue;
-    }
+    // Above the screen: it stays as it is for now, and is built when the visitor scrolls back up.
     if (task.inView) {
       task.first = true;
       task.hold = hold(el);

@@ -91,7 +91,7 @@ export function styleSteps(el: HTMLElement, box: boolean, text: boolean): StyleS
     // Persian text: name the face its letters are drawn in, not the Latin-only alias listed first.
     const families = s.fontFamily.split(",").map((f) => f.replace(/["']/g, "").trim());
     const persian = /[\u0600-\u06FF]/.test(el.textContent ?? "");
-    const family = (persian && families.find((f) => !f.endsWith(" Letters"))) || families[0];
+    const family = (persian && families.find((f) => !/ Letters\b| Fallback$/.test(f))) || families[0];
     steps.push({ key: "font", label: `${family}  ${WEIGHTS[s.fontWeight] ?? s.fontWeight}` });
     const size = parseFloat(s.fontSize);
     if (Math.abs(size - rawSize(el)) > 1.5) steps.push({ key: "size", label: `Size  ${Math.round(size)}` });
@@ -171,6 +171,18 @@ const RAW_CLASSES: Record<StyleStep["key"] | "wrap", string> = {
   wrap: "swarm-raw-wrap",
 };
 
+/** The text nodes an agent types into, in order: every one with something visible in it. */
+function textNodes(root: Node): Text[] {
+  const nodes: Text[] = [];
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) if (node.nodeValue?.trim()) nodes.push(node as Text);
+  return nodes;
+}
+const clean = (node: Text) => (node.nodeValue ?? "").replace(/\s+/g, " ");
+
+/** What each field of an element says (the same fields a copy of it has). */
+export const textsOf = (el: HTMLElement) => textNodes(el).map(clean);
+
 /**
  * A copy of something on the page, laid over it. `raw` starts it plain: each style step removes one
  * of the plain-copy classes, and the size step is scrubbed from small to the real size.
@@ -203,12 +215,8 @@ export class Overlay {
     content.style.setProperty("--raw-size", `${rawSize(styleFrom)}px`);
     this.box.appendChild(content);
     layer.appendChild(this.box);
-    const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
-    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-      if (!node.nodeValue?.trim()) continue;
-      this.nodes.push(node as Text);
-      this.finals.push((node.nodeValue ?? "").replace(/\s+/g, " "));
-    }
+    this.nodes = textNodes(content);
+    this.finals = this.nodes.map(clean);
   }
 
   place(x: number, y: number) {
@@ -240,6 +248,17 @@ export class Overlay {
     this.content.style.setProperty("--raw-line", p > 0.5 ? "normal" : "1.35");
   }
 
+  /** What each text node says now. */
+  texts() {
+    return this.nodes.map((node) => node.nodeValue ?? "");
+  }
+
+  /** Set what one text node says. */
+  setText(index: number, value: string) {
+    const node = this.nodes[index];
+    if (node && node.nodeValue !== value) node.nodeValue = value;
+  }
+
   /** Set what each text node says. */
   write(texts: string[]) {
     this.nodes.forEach((node, i) => {
@@ -257,6 +276,41 @@ export class Overlay {
       rects.push(...this.range.getClientRects());
     }
     return rects;
+  }
+
+  /** Boxes of characters [start, end) of node `index`, as it reads now (a text selection). */
+  rangeRects(index: number, start: number, end: number): DOMRect[] {
+    const node = this.nodes[index];
+    const length = node?.nodeValue?.length ?? 0;
+    if (!node || end <= start || !length) return [];
+    this.range.setStart(node, Math.min(start, length));
+    this.range.setEnd(node, Math.min(end, length));
+    return [...this.range.getClientRects()].filter((r) => r.width > 0);
+  }
+
+  /** The caret placed after character `offset` of node `index` (0: before its first character). */
+  caretAt(index: number, offset: number): { x: number; top: number; bottom: number } | null {
+    const node = this.nodes[index];
+    if (!node) return null;
+    const length = node.nodeValue?.length ?? 0;
+    if (length) {
+      const at = Math.min(Math.max(offset, 0), length);
+      const after = at > 0;
+      this.range.setStart(node, after ? at - 1 : 0);
+      this.range.setEnd(node, after ? at : 1);
+      const rects = [...this.range.getClientRects()].filter((r) => r.width > 0 || r.height > 0);
+      const rect = after ? rects[rects.length - 1] : rects[0];
+      if (rect) {
+        const startEdge = this.rtl ? rect.right : rect.left;
+        const endEdge = this.rtl ? rect.left : rect.right;
+        return { x: after ? endEdge : startEdge, top: rect.top, bottom: rect.bottom };
+      }
+    }
+    // Empty: at the start of the element that holds it, one line high.
+    const holder = node.parentElement ?? this.content;
+    const box = holder.getBoundingClientRect();
+    const line = parseFloat(getComputedStyle(holder).fontSize) * 1.3 || 18;
+    return { x: this.rtl ? box.right : box.left, top: box.top, bottom: box.top + line };
   }
 
   /** Where the caret is: just after the last character of node `index`. */
@@ -388,6 +442,29 @@ export function lineOf(styleFrom: HTMLElement, text: string, rect: DOMRect, laye
   div.style.textAlign = "start";
   overlay.place(rect.left, rect.top);
   return overlay;
+}
+
+/* ───────────────────────── Editing ───────────────────────── */
+
+/**
+ * What changes from one text to another, as a designer would select it: the words both share at
+ * the start and at the end stay; the words between are selected and typed over. "Co-founder of
+ * Rooza, …" → "Co-founder of Agent Assist …" keeps "Co-founder of "; "2025" → "2024" retypes the
+ * whole number. `start` and `end` index the old text; `insert` is what replaces that part.
+ */
+export function wordDiff(from: string, to: string): { start: number; end: number; insert: string } {
+  if (from === to) return { start: from.length, end: from.length, insert: "" };
+  const space = (ch: string | undefined) => ch === undefined || /[\s\u200c]/.test(ch);
+  let p = 0;
+  const shortest = Math.min(from.length, to.length);
+  while (p < shortest && from[p] === to[p]) p++;
+  // Back to the start of a word (in both texts the kept part must end at a space).
+  while (p > 0 && !(space(from[p - 1]) && space(to[p - 1]))) p--;
+  let q = 0;
+  while (q < from.length - p && q < to.length - p && from[from.length - 1 - q] === to[to.length - 1 - q]) q++;
+  // Forward to the end of a word: the kept tail must start with a space in both texts.
+  while (q > 0 && !(space(from[from.length - q]) && space(to[to.length - q]))) q--;
+  return { start: p, end: from.length - q, insert: to.slice(p, to.length - q) };
 }
 
 /* ───────────────────────── Typing ───────────────────────── */

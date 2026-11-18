@@ -18,7 +18,9 @@
 export type Kind = "frame" | "type" | "words" | "media" | "pop";
 
 const KINDS = new Set<string>(["frame", "type", "words", "media", "pop"]);
-const MEDIA_TAGS = new Set(["IMG", "PICTURE", "VIDEO", "FIGURE", "IFRAME", "CANVAS", "SVG"]);
+/** Always pictures. A <figure> is one only when it holds a picture and little text (see classify):
+ * a figure with a quote and a name in it (a recommendation) is a card, built field by field. */
+const MEDIA_TAGS = new Set(["IMG", "PICTURE", "VIDEO", "IFRAME", "CANVAS", "SVG"]);
 const NEVER = new Set(["SCRIPT", "STYLE", "TEMPLATE", "NOSCRIPT", "LINK", "META", "BR", "WBR"]);
 /** Descendants that make an element a container rather than a run of text. */
 const BLOCKS =
@@ -29,7 +31,9 @@ export function skipped(el: Element): boolean {
   if (!(el instanceof HTMLElement)) return true;
   if (NEVER.has(el.tagName)) return true;
   if (el.dataset.swarm === "skip" || el.hasAttribute("data-displace-layer")) return true;
-  if (el.getAttribute("aria-hidden") === "true" || el.classList.contains("sr-only")) return true;
+  if (el.classList.contains("sr-only")) return true;
+  // Hidden from screen readers: a decoration (an arrow, a bullet), unless it shows a photo (an avatar).
+  if (el.getAttribute("aria-hidden") === "true" && el.tagName !== "IMG" && !el.querySelector("img")) return true;
   // Hidden-for-now (visibility) is not skipped: it may be shown later, and is built then.
   const style = getComputedStyle(el);
   return style.display === "none" || style.position === "fixed";
@@ -57,7 +61,9 @@ export function classify(el: HTMLElement, box: DOMRect): Kind {
   if (MEDIA_TAGS.has(el.tagName.toUpperCase())) return "media";
 
   const text = visibleText(el);
-  if (text.length < 40 && el.querySelector("img,picture,video,canvas")) return "media";
+  // A picture with words beside it (a photo with a name) is a small card: the photo is swapped
+  // and the words are edited separately. Only a picture with no words is one piece.
+  if (el.querySelector("img,picture,video,canvas")) return text ? "frame" : "media";
   if (/^H[1-4]$/.test(el.tagName) || el.hasAttribute("data-split")) return text ? "type" : "frame";
 
   const leaf = !el.querySelector(BLOCKS);

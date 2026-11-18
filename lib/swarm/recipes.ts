@@ -9,10 +9,15 @@
  *   box       draw a grey rectangle, type its label, then give it fill, radius, stroke
  *   frame     draw the rectangle (with guides); a painted frame then gets its fill and stroke
  *   picture   draw a grey placeholder, then drag the image file in from the bottom of the screen
- *   copy      option-drag a finished sibling into place, then select its text and retype it
- *   edit      (inside a duplicated card) select the copied text and retype it
+ *   copy      option-drag a finished sibling into place, then edit what differs, field by field
+ *   edit      (inside a duplicated card) select the words that differ in a field and type over them
+ *   swap      (inside a duplicated card) drag the right picture onto the copied one
+ *
+ * A copy keeps everything it copied until an agent edits it: a field that already says the right
+ * thing (an arrow, a label) is never touched, and in a field that changes only the words that
+ * differ are selected and typed over, as in a design tool.
  */
-import { copyOf, fileName, fitTo, headingLines, imageOf, keystrokes, lineOf, onDark, rawSize, styleSteps, textsAt, visibleColour, type Overlay } from "./builders";
+import { copyOf, fileName, fitTo, headingLines, imageOf, keystrokes, lineOf, onDark, rawSize, styleSteps, textsAt, textsOf, visibleColour, wordDiff, type Keystroke, type Overlay } from "./builders";
 import { BLUE, RED, type Agent, type Painter, type Tool } from "./cursors";
 import type { Kind } from "./targets";
 
@@ -207,6 +212,82 @@ function selectAll(get: (c: Ctx) => Overlay | undefined): Step {
 
 const reveal = (api: Api): Step => ({ tool: "arrow", ms: 0, start: (c) => api.reveal(c.job), at: (c) => ({ x: c.agent.x, y: c.agent.y }) });
 
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+/** Time to type a replacement, before the engine's pace: quick, but still visibly typed. */
+const editBudget = (text: string) => Math.min(2400, Math.max(260, text.length * 22));
+
+/**
+ * Edit one field (text node) of a copy: drag across the words that change (or click where words
+ * go in), then type the new ones. Everything else in the field, and every other field, stays.
+ */
+function editField(get: (c: Ctx) => Overlay | undefined, node: number, from: string, to: string): Step[] {
+  const d = wordDiff(from, to);
+  const head = from.slice(0, d.start);
+  const tail = from.slice(d.end);
+  const selecting = d.end > d.start;
+  const mid = (k: { top: number; bottom: number }) => (k.top + k.bottom) / 2;
+  let script: Keystroke[] = [];
+  let length = 0;
+  let typed = "";
+  const select: Step = {
+    tool: "ibeam",
+    ms: selecting ? 300 : 150,
+    at(c, p) {
+      const o = get(c);
+      const a = o?.caretAt(node, d.start);
+      const b = selecting ? o?.caretAt(node, d.end) : a;
+      if (!a || !b) return { x: c.rect.left, y: c.rect.top };
+      const e = easeOut(clamp01((p - 0.15) / 0.6));
+      return { x: a.x + (b.x - a.x) * e, y: mid(a) + (mid(b) - mid(a)) * e, press: p > 0.08 && p < 0.85 ? 1 : 0 };
+    },
+    draw(c, p) {
+      const o = get(c);
+      if (!o) return;
+      const r = o.rect();
+      c.painter.selection(r.left - 2, r.top - 1, r.width + 4, Math.max(r.height, 16) + 2, BLUE, false);
+      if (!selecting) return;
+      const upto = d.start + Math.round((d.end - d.start) * easeOut(clamp01((p - 0.15) / 0.6)));
+      c.painter.highlight(o.rangeRects(node, d.start, upto));
+    },
+  };
+  const type: Step = {
+    tool: "ibeam",
+    ms: 120,
+    start() {
+      script = d.insert ? fitTo(keystrokes([d.insert]), editBudget(d.insert)) : [];
+      length = script.at(-1)?.at ?? 0;
+      type.ms = Math.max(90, length);
+    },
+    update(c, p) {
+      // The first key replaces the selection, as in any editor.
+      typed = p >= 1 ? d.insert : textsAt(script, [d.insert], p * length, [""]).texts[0];
+      get(c)?.setText(node, head + typed + tail);
+    },
+    at(c) {
+      const k = get(c)?.caretAt(node, head.length + typed.length);
+      return k ? { x: k.x + 4, y: mid(k) } : { x: c.rect.left, y: c.rect.top };
+    },
+    draw(c) {
+      const o = get(c);
+      if (!o) return;
+      const r = o.rect();
+      c.painter.selection(r.left - 2, r.top - 1, r.width + 4, Math.max(r.height, 16) + 2, BLUE, false);
+      const k = o.caretAt(node, head.length + typed.length);
+      if (k) c.painter.caret(k.x, k.top, k.bottom, c.agent.colour);
+    },
+  };
+  return [select, type];
+}
+
+/** Bring a copy from what it says (`olds`) to what it must say, editing only the fields that differ. */
+function editFields(get: (c: Ctx) => Overlay | undefined, olds: string[], finals: string[], kind: Kind): Step[] {
+  if (olds.length !== finals.length) {
+    // Different structure: select it all and type it anew.
+    return [selectAll(get), typing(get, () => finals, typeBudget(kind), () => [])];
+  }
+  return finals.flatMap((text, i) => (olds[i] === text ? [] : editField(get, i, olds[i], text)));
+}
+
 /* ───────────────────────── Recipes ───────────────────────── */
 
 const typeBudget = (kind: Kind) => (kind === "words" ? 2200 : kind === "pop" ? 900 : 1600);
@@ -334,6 +415,42 @@ export function frame(job: Job, api: Api): Step[] {
   return steps;
 }
 
+/** Drag a picture's file in from where the agents wait and drop it onto the piece. */
+function dragPicture(el: HTMLElement, img: HTMLImageElement, name: string, fill: boolean): Step {
+  let thumb: HTMLImageElement | null = null;
+  let from = { x: 0, y: 0 };
+  const point = (c: Ctx, p: number) => {
+    const e = easeInOut(p);
+    return { x: from.x + (c.rect.left + c.rect.width / 2 - from.x) * e, y: from.y + (c.rect.top + c.rect.height / 2 - from.y) * e };
+  };
+  return {
+    tool: "move",
+    ms: 620,
+    start(c) {
+      from = c.dock();
+      thumb = document.createElement("img");
+      thumb.src = img.currentSrc || img.src;
+      thumb.className = "swarm-thumb";
+      c.layer.appendChild(thumb);
+    },
+    update(c, p) {
+      const at = point(c, p);
+      if (thumb) thumb.style.transform = `translate3d(${at.x - 36}px, ${at.y - 24}px, 0)`;
+    },
+    end() {
+      thumb?.remove();
+    },
+    at(c, p) {
+      return { ...point(c, p), press: 1 };
+    },
+    draw(c, p) {
+      if (fill) c.painter.placeholder(c.rect.left, c.rect.top, c.rect.width, c.rect.height, onDark(el), true);
+      c.painter.selection(c.rect.left, c.rect.top, c.rect.width, c.rect.height, BLUE, p > 0.85);
+      c.painter.chip(c.agent.x + 14, c.agent.y + 26, name, c.agent.colour);
+    },
+  };
+}
+
 /** A picture: a grey placeholder, then the file dragged in from where the agents wait. */
 export function picture(job: Job, api: Api): Step[] {
   const el = job.el;
@@ -341,41 +458,40 @@ export function picture(job: Job, api: Api): Step[] {
   const name = fileName(el);
   const steps: Step[] = [drawRect("picture")];
   // Things without a picture of their own just appear once their placeholder is drawn.
-  if (img && name) {
-    let thumb: HTMLImageElement | null = null;
-    let from = { x: 0, y: 0 };
-    steps.push({
-      tool: "move",
-      ms: 620,
-      start(c) {
-        from = c.dock();
-        thumb = document.createElement("img");
-        thumb.src = img.currentSrc || img.src;
-        thumb.className = "swarm-thumb";
-        c.layer.appendChild(thumb);
-      },
-      update(c, p) {
-        const e = easeInOut(p);
-        const x = from.x + (c.rect.left + c.rect.width / 2 - from.x) * e;
-        const y = from.y + (c.rect.top + c.rect.height / 2 - from.y) * e;
-        if (thumb) thumb.style.transform = `translate3d(${x - 36}px, ${y - 24}px, 0)`;
-      },
-      end() {
-        thumb?.remove();
-      },
-      at(c, p) {
-        const e = easeInOut(p);
-        return { x: from.x + (c.rect.left + c.rect.width / 2 - from.x) * e, y: from.y + (c.rect.top + c.rect.height / 2 - from.y) * e, press: 1 };
-      },
-      draw(c, p) {
-        c.painter.placeholder(c.rect.left, c.rect.top, c.rect.width, c.rect.height, onDark(el), true);
-        c.painter.selection(c.rect.left, c.rect.top, c.rect.width, c.rect.height, BLUE, p > 0.85);
-        c.painter.chip(c.agent.x + 14, c.agent.y + 26, name, c.agent.colour);
-      },
-    });
-  }
+  if (img && name) steps.push(dragPicture(el, img, name, true));
   steps.push(reveal(api));
   return steps;
+}
+
+/** Inside a duplicated card: click the copied picture, then drag the right one onto it. */
+export function swap(job: Job, api: Api): Step[] {
+  const el = job.el;
+  const img = imageOf(el);
+  const name = fileName(el);
+  if (!img || !name) return [reveal(api)];
+  return [
+    {
+      tool: "arrow",
+      ms: 180,
+      at: (c, p) => ({ x: c.rect.left + c.rect.width * 0.5, y: c.rect.top + c.rect.height * 0.4, press: p < 0.4 ? 1 : 0 }),
+      draw: (c) => c.painter.selection(c.rect.left, c.rect.top, c.rect.width, c.rect.height),
+    },
+    dragPicture(el, img, name, false),
+    reveal(api),
+  ];
+}
+
+/** Whether a copied picture shows a different file from the one this piece needs. */
+export function pictureChanges(el: HTMLElement, twin: HTMLElement) {
+  const mine = imageOf(el);
+  const theirs = imageOf(twin);
+  if (!mine || !theirs) return false;
+  return (mine.currentSrc || mine.src) !== (theirs.currentSrc || theirs.src);
+}
+
+/** The copied picture shown in a duplicated card until an agent swaps in the right one. */
+export function picturePreview(twin: HTMLElement, layer: HTMLElement): Piece {
+  return { overlay: copyOf(twin, layer), dx: 0, dy: 0 };
 }
 
 /** A copy of a finished sibling, option-dragged into place; then its text is retyped. */
@@ -384,6 +500,8 @@ export function copy(job: Job, api: Api, source: HTMLElement): Step[] {
   let ghost: Piece | undefined;
   let from = { dx: 0, dy: 0 };
   let target: Overlay | undefined;
+  // What the copy says when it lands (the original's words), and what it must end up saying.
+  const olds = textsOf(source);
   const textLeaf = job.kind === "type" || job.kind === "words" || job.kind === "pop";
   const steps: Step[] = [
     {
@@ -428,10 +546,7 @@ export function copy(job: Job, api: Api, source: HTMLElement): Step[] {
         if (!textLeaf) return;
         // Swap the dragged copy for a copy of this element still saying what the original says.
         target = copyOf(el, c.layer);
-        const sourceTexts = copyOf(source, c.layer);
-        const old = sourceTexts.finals;
-        sourceTexts.remove();
-        target.write(old.length === target.nodes.length ? old : [old.join(" "), ...target.nodes.slice(1).map(() => "")]);
+        target.write(olds.length === target.nodes.length ? olds : [olds.join(" "), ...target.nodes.slice(1).map(() => "")]);
         add(job, target, c.rect);
         ghost.overlay.remove();
         job.pieces = job.pieces.filter((piece) => piece !== ghost);
@@ -439,24 +554,23 @@ export function copy(job: Job, api: Api, source: HTMLElement): Step[] {
     },
   ];
   if (job.kind === "frame") return steps;
-  if (textLeaf) {
-    const get = () => target;
-    steps.push(selectAll(get), typing(get, () => target?.finals ?? [], typeBudget(job.kind), () => []));
+  if (job.kind === "media") {
+    // The copy shows the original's picture until the right one is dragged onto it.
+    const img = imageOf(el);
+    const name = fileName(el);
+    if (img && name && pictureChanges(el, source)) steps.push(dragPicture(el, img, name, false));
+  } else if (textLeaf) {
+    steps.push(...editFields(() => target, olds, textsOf(el), job.kind));
   }
   steps.push(reveal(api));
   return steps;
 }
 
-/** Inside a duplicated card: the copied text is selected and retyped. */
+/** Inside a duplicated card: the fields that differ are edited, the rest stay as copied. */
 export function edit(job: Job, api: Api): Step[] {
-  const get = () => job.preview?.overlay;
-  const same = (() => {
-    const overlay = get();
-    if (!overlay) return true;
-    return overlay.nodes.map((n) => n.nodeValue ?? "").join("") === overlay.finals.join("");
-  })();
-  if (same) return [reveal(api)];
-  return [selectAll(get), typing(get, () => get()?.finals ?? [], typeBudget(job.kind), () => []), reveal(api)];
+  const overlay = job.preview?.overlay;
+  if (!overlay) return [reveal(api)];
+  return [...editFields(() => overlay, overlay.texts(), overlay.finals, job.kind), reveal(api)];
 }
 
 /** The copied-text stand-in for a piece of a duplicated card, shown until an agent edits it. */
@@ -472,7 +586,7 @@ export function previewFor(job: Job, twin: HTMLElement, layer: HTMLElement): Pie
 }
 
 export function recipe(job: Job, api: Api): Step[] {
-  if (job.twin && job.preview) return edit(job, api);
+  if (job.twin && job.preview) return job.kind === "media" ? swap(job, api) : edit(job, api);
   if (job.source) return copy(job, api, job.source.el);
   if (job.kind === "frame") return frame(job, api);
   if (job.kind === "media") return picture(job, api);
