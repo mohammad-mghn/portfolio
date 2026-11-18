@@ -42,6 +42,7 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
   const [lift, setLift] = useState(false);
   const engine = useRef<SwarmEngine | null>(null);
   const button = useRef<HTMLButtonElement>(null);
+  const dockRef = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const hintId = useId();
   const on = mode !== "off";
@@ -123,6 +124,7 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
           const box = button.current?.getBoundingClientRect();
           return box ? { x: box.left + box.width / 2, y: box.top + box.height / 2 } : { x: innerWidth / 2, y: innerHeight };
         },
+        dock: () => dockRef.current?.getBoundingClientRect() ?? null,
       });
       engine.current.pause(paused);
     } catch {
@@ -159,7 +161,7 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
   return (
     <>
       <canvas ref={canvas} className="swarm-canvas" aria-hidden />
-      <div className="swarm-dock" data-lift={lift ? "" : undefined}>
+      <div ref={dockRef} className="swarm-dock" data-lift={lift ? "" : undefined}>
         {on ? (
           <p className="swarm-count text-label" aria-hidden>
             {counter}

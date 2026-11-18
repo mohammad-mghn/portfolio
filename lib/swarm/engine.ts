@@ -1,30 +1,27 @@
 /**
- * The agent build mode: as the visitor scrolls, the home page is rebuilt piece by piece by a swarm
- * of named agent cursors. Loaded only when the "click me :)" box is clicked (components/swarm/SwarmBox).
+ * The agent build mode: as the visitor scrolls, the home page is rebuilt by a team of named agent
+ * cursors working like designers in a design tool (see recipes.ts for how each piece is built).
+ * Loaded only when the "click me :)" box is clicked (components/swarm/SwarmBox).
  *
  * How a piece moves through the mode:
  *   fresh     known, nothing done yet (still far below the screen)
  *   held      hidden, because it is about to come on screen (see builders.ts for how)
  *   eligible  on screen and waiting for an agent
- *   claimed   an agent is on its way (to the piece, or to the item it will copy)
- *   build     the agent is working on it, in steps:
- *               drag     a copy of a finished sibling is dragged into place (lists, chips, cards)
- *               outline  a box is dragged out with its size (containers, pictures)
- *               load     a picture arrives: scanned in, blurred, then sharp, with its file name
- *               press    a small thing is clicked into place
- *               type     its text is typed, character by character, with a caret
- *   done      visible and finished; never hidden again
+ *   claimed   an agent is on its way
+ *   build     the agent is working through the piece's recipe, step by step
+ *   done      the real element is showing; never hidden again
  *
- * Rules that keep the page from ever looking empty:
+ * Rules that keep the page usable:
  *   - content that is already on screen is never hidden (except the first screen, on purpose, at start)
- *   - the more work is waiting, the faster the agents go (up to 6x)
- *   - nothing waits on screen longer than about a second; then it is shown at once
- *   - scrolling very fast shows everything at once, with no animation
- *   - anything scrolled into the top half of the screen unbuilt is shown at once
+ *   - the more work is waiting, the faster the agents go
+ *   - nothing waits on screen for an agent longer than a few seconds; then it is shown as it is
+ *   - scrolling very fast shows everything at once
+ *   - anything scrolled into the top half of the screen still waiting is shown as it is
  */
 import { whenBoundariesReady } from "@/lib/hydration";
-import { createLayer, fadeIn, fileName, Ghost, hold, keepHolding, loadIn, Typist } from "./builders";
-import { HOME, PALETTE, PARKED, Painter, ROAM, TRAVEL, WORK, type Agent } from "./cursors";
+import { createLayer, hold, keepHolding } from "./builders";
+import { BLUE, HOME, PALETTE, Painter, ROAM, TRAVEL, WAITING, WORK, type Agent } from "./cursors";
+import { previewFor, recipe, type Api, type Ctx, type Job, type Piece, type Step } from "./recipes";
 import { setSwarmMode, setSwarmProgress, whenParked } from "./store";
 import { classify, discover, findSeeds, type Kind } from "./targets";
 
@@ -38,17 +35,12 @@ export type SwarmEngine = {
 };
 
 type Phase = "fresh" | "held" | "eligible" | "claimed" | "build" | "done";
-type Step = "" | "drag" | "outline" | "load" | "press" | "type";
 
-type Task = {
-  el: HTMLElement;
-  kind: Kind;
+type Task = Job & {
   parent: Task | null;
   seed: boolean;
   phase: Phase;
   hold: Animation | null;
-  anim: Animation | null;
-  /** Kept up to date by the observers. */
   inBand: boolean;
   inView: boolean;
   pastLine: boolean;
@@ -63,18 +55,15 @@ type Task = {
   graceUntil: number;
   agent: Agent | null;
   speed: number;
-  step: Step;
+  steps: Step[];
+  stepIndex: number;
   stepAt: number;
-  stepFor: number;
-  typeFor: number;
-  typist: Typist | null;
-  ghost: Ghost | null;
+  progress: number;
+  buildStart: number;
   /** Siblings that look alike (list items, chips, cards): all but the first are copies of another. */
   run: Task[] | null;
   copy: boolean;
   source: Task | null;
-  label: string;
-  clicked: boolean;
   /** Frames: pieces inside still unfinished. A piece counts as built once all of its pieces are. */
   kidsLeft: number;
   settled: boolean;
@@ -82,22 +71,22 @@ type Task = {
 
 /** px per ms (2400 px/s), the same "flying past" speed the page's own reveals use. */
 const FLYING = 2.4;
-const DEADLINE = 1100;
-const GRACE = 500;
+/** Longest a piece waits on screen for an agent before it is simply shown. */
+const DEADLINE = 2600;
+/** A copy waits for the piece it copies (a whole card is copied only once all of it is built). */
+const COPY_DEADLINE = 12000;
+const GRACE = 1200;
 const IDLE = 400;
 /** The first screen is rebuilt within this long after the click. */
-const FIRST_SCREEN = 3200;
-/** A copy waits this long for the item it copies to be finished, then is built on its own. */
-const COPY_WAIT = 400;
-/** Longest a piece may stay out of sight once it is on screen, travel and dragging included. */
-const UNSEEN = 1600;
+const FIRST_SCREEN = 7000;
+/** Safety: no piece takes longer than this to build. */
+const LONGEST_BUILD = 12000;
 
 const frame = () => new Promise<number>((resolve) => requestAnimationFrame(resolve));
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
-const easeOut = (t: number) => 1 - (1 - t) ** 3;
-const isRtl = (el: HTMLElement) => getComputedStyle(el).direction === "rtl";
 const onScreen = (r: DOMRect) => r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
+const textKind = (kind: Kind) => kind === "type" || kind === "words" || kind === "pop";
 /**
  * Not really visible yet, though on screen: hidden or faded out by its own section (the journey's
  * cards wait in the distance like this until the camera reaches them).
@@ -112,11 +101,14 @@ export async function startSwarm({
   canvas,
   agents: count,
   origin,
+  dock,
 }: {
   canvas: HTMLCanvasElement;
   agents: number;
-  /** Where the cursors come from and go back to: the box itself. */
+  /** Where the cursors burst out from: the box itself. */
   origin: () => { x: number; y: number };
+  /** The counter and the box: waiting agents stand in a cluster just above it. */
+  dock: () => DOMRect | null;
 }): Promise<SwarmEngine> {
   await whenBoundariesReady();
   await whenParked();
@@ -129,7 +121,7 @@ export async function startSwarm({
 
   const compact = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
   const drawn = compact ? Math.min(30, count) : count;
-  const maxBusy = compact ? 8 : 24;
+  const maxBusy = compact ? 10 : 32;
   const startedAt = performance.now();
   const layer = createLayer();
 
@@ -140,11 +132,12 @@ export async function startSwarm({
     colour: PALETTE[index % PALETTE.length],
     x: from.x,
     y: from.y,
-    // They burst out of the box and scatter before settling at the edges.
+    // They burst out of the box and scatter before gathering by it.
     state: ROAM,
+    tool: "arrow",
     aimX: Math.random() * window.innerWidth,
-    aimY: window.innerHeight * (0.15 + Math.random() * 0.8),
-    until: startedAt + 700 + Math.random() * 1100,
+    aimY: window.innerHeight * (0.15 + Math.random() * 0.7),
+    until: startedAt + 600 + Math.random() * 900,
     fromX: from.x,
     fromY: from.y,
     leftAt: 0,
@@ -154,13 +147,26 @@ export async function startSwarm({
   const jobs = new Map<Agent, Task>();
   const painter = new Painter(canvas, agents, compact);
 
-  /** Where an idle agent waits: just outside the left, right or bottom edge. */
-  const homeOf = (agent: Agent) => {
-    const f = (agent.index * 0.618034) % 1;
-    const side = agent.index % 3;
-    if (side === 0) return { x: -40, y: window.innerHeight * f };
-    if (side === 1) return { x: window.innerWidth + 40, y: window.innerHeight * f };
-    return { x: window.innerWidth * f, y: window.innerHeight + 40 };
+  /**
+   * Where an agent waits: a tight cluster in the bottom corner, beside the counter and the box (on
+   * their start side), low enough to stay off the page's content.
+   */
+  const slotOf = (agent: Agent) => {
+    const box = dock();
+    const rtl = document.documentElement.dir === "rtl";
+    const left = box ? box.left : window.innerWidth - 300;
+    const right = box ? box.right : window.innerWidth - 20;
+    const bottom = box ? box.bottom : window.innerHeight - 16;
+    const room = rtl ? window.innerWidth - right - 16 : left - 16;
+    const perRow = clamp(Math.floor(room / 9), 6, 20);
+    const col = agent.index % perRow;
+    const row = Math.floor(agent.index / perRow);
+    const x = rtl ? right + 14 + col * 9 + (row % 2) * 4 : left - 14 - col * 9 - (row % 2) * 4;
+    return { x, y: bottom - 14 - row * 9 };
+  };
+  const dockPoint = () => {
+    const box = dock();
+    return box ? { x: box.left + box.width / 2, y: box.top - 30 } : { x: window.innerWidth / 2, y: window.innerHeight - 40 };
   };
 
   /* ── Tasks ── */
@@ -204,11 +210,14 @@ export async function startSwarm({
     const task: Task = {
       el,
       kind,
+      pieces: [],
+      preview: null,
+      twin: null,
+      source: null,
       parent,
       seed,
       phase: "fresh",
       hold: null,
-      anim: null,
       inBand: false,
       inView: false,
       pastLine: false,
@@ -222,17 +231,13 @@ export async function startSwarm({
       graceUntil: 0,
       agent: null,
       speed: 1,
-      step: "",
+      steps: [],
+      stepIndex: 0,
       stepAt: 0,
-      stepFor: 1,
-      typeFor: 1,
-      typist: null,
-      ghost: null,
+      progress: 0,
+      buildStart: 0,
       run: null,
       copy: false,
-      source: null,
-      label: "",
-      clicked: false,
       kidsLeft: 0,
       settled: false,
     };
@@ -290,44 +295,99 @@ export async function startSwarm({
     if (!agent) return;
     jobs.delete(agent);
     agent.press = 0;
+    agent.tool = "arrow";
     agent.state = ROAM;
-    agent.aimX = agent.x + (Math.random() - 0.5) * 140;
-    agent.aimY = agent.y + (Math.random() - 0.5) * 100;
-    agent.until = now + 450 + Math.random() * 500;
+    agent.aimX = agent.x + (Math.random() - 0.5) * 60;
+    agent.aimY = agent.y + (Math.random() - 0.5) * 40;
+    agent.until = now + 350 + Math.random() * 400;
+  }
+
+  function clearPieces(task: Task) {
+    for (const piece of task.pieces) piece.overlay.remove();
+    task.pieces = [];
+    task.preview?.overlay.remove();
+    task.preview = null;
   }
 
   function markDone(task: Task, now: number) {
     task.phase = "done";
-    task.step = "";
     freeAgent(task, now);
     unwatch(task);
     if (task.kidsLeft <= 0) settle(task);
   }
 
-  /** Show a piece now, whatever it was doing: nothing of it stays hidden. */
+  /** Show a piece now, as it is: copies go, the real element shows. */
   function finish(task: Task, now: number) {
     if (task.phase === "done") return;
     task.hold?.cancel();
-    task.anim?.cancel();
-    task.typist?.remove();
-    task.ghost?.remove();
     task.hold = null;
-    task.anim = null;
-    task.typist = null;
-    task.ghost = null;
+    clearPieces(task);
     markDone(task, now);
+  }
+
+  const api: Api = {
+    reveal(job) {
+      const task = job as Task;
+      // The copy and the real element now look the same: swap them in the same frame.
+      task.hold?.cancel();
+      task.hold = null;
+      clearPieces(task);
+      markDone(task, performance.now());
+    },
+    frameDone(job, twins) {
+      frameDone(job as Task, twins, performance.now());
+    },
+  };
+
+  /**
+   * A frame is drawn: find the pieces inside it and hide them, then show the frame. A frame dropped
+   * as a copy of a finished one shows the copied contents straight away (pictures, inner boxes),
+   * and its texts as copies still saying what the original says, until an agent edits them.
+   */
+  function frameDone(task: Task, twins: HTMLElement[] | null, now: number) {
+    const twinKids = twins ?? (task.source ? discover(task.source.el).map((d) => d.el) : null);
+    const kids: Task[] = [];
+    const cascade: [Task, HTMLElement][] = [];
+    discover(task.el).forEach(({ el, kind }, i) => {
+      if (byEl.has(el)) return;
+      const kid = create(el, kind, task, false);
+      kid.hold = hold(el);
+      kid.phase = "held";
+      const twin = twinKids?.[i];
+      if (twin && twin.tagName === el.tagName && twin.className === el.className) {
+        kid.twin = twin;
+        if (textKind(kind)) kid.preview = previewFor(kid, twin, layer);
+        else cascade.push([kid, twin]);
+      }
+      watch(kid);
+      kids.push(kid);
+    });
+    group(kids.filter((kid) => !kid.twin));
+    task.kidsLeft = kids.length;
+    task.hold?.cancel();
+    task.hold = null;
+    clearPieces(task);
+    fades.push({ el: task.el, at: now });
+    markDone(task, now);
+    // Inside a duplicated card: inner boxes and pictures come along with the copy.
+    for (const [kid, twin] of cascade) {
+      if (kid.kind === "frame") frameDone(kid, discover(twin).map((d) => d.el), now);
+      else api.reveal(kid);
+    }
   }
 
   /* ── Building ── */
 
-  /** The nearest finished sibling on screen, to copy from. */
+  /** The nearest finished sibling on screen, ready to be copied (a card only once all of it is built). */
   function sourceFor(task: Task): Task | null {
     if (!task.run) return null;
     const at = task.run.indexOf(task);
     let best: Task | null = null;
     let gap = Infinity;
     for (const [i, other] of task.run.entries()) {
-      if (other === task || other.phase !== "done" || !onScreen(other.el.getBoundingClientRect())) continue;
+      if (other === task || other.phase !== "done") continue;
+      if (other.kind === "frame" && !other.settled) continue;
+      if (!onScreen(other.el.getBoundingClientRect())) continue;
       if (Math.abs(i - at) < gap) {
         gap = Math.abs(i - at);
         best = other;
@@ -336,32 +396,31 @@ export async function startSwarm({
     return best;
   }
 
-  /** Where the agent goes first, in screen coordinates. */
-  function startPoint(task: Task) {
-    if (task.source && task.phase === "claimed") {
-      const s = task.source.el.getBoundingClientRect();
-      return { x: s.left + Math.min(s.width, 160) / 2, y: s.top + Math.min(s.height, 60) / 2 };
-    }
-    const r = task.el.getBoundingClientRect();
-    const rtl = isRtl(task.el);
-    if (task.kind === "frame" || task.kind === "media") return { x: rtl ? r.right : r.left, y: r.top };
-    if (task.kind === "pop") return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-    return { x: rtl ? r.right : r.left, y: r.top + Math.min(r.height, 60) / 2 };
+  function context(task: Task, agent: Agent, now: number): Ctx {
+    return { job: task, agent, rect: task.el.getBoundingClientRect(), now, layer, painter, dock: dockPoint };
+  }
+
+  function follow(task: Task, rect: DOMRect) {
+    const place = (piece: Piece) => piece.overlay.place(rect.left + piece.dx, rect.top + piece.dy);
+    task.pieces.forEach(place);
+    if (task.preview) place(task.preview);
   }
 
   function claim(task: Task, agent: Agent, now: number, speed: number) {
-    task.source = task.copy ? sourceFor(task) : null;
+    task.source = task.copy && !task.twin ? sourceFor(task) : null;
     task.speed = speed;
     task.phase = "claimed";
     task.agent = agent;
     jobs.set(agent, task);
-    const to = startPoint(task);
+    task.steps = recipe(task, api);
+    const to = task.steps[0]?.at(context(task, agent, now), 0) ?? { x: agent.x, y: agent.y };
     const distance = Math.hypot(to.x - agent.x, to.y - agent.y);
     agent.state = TRAVEL;
+    agent.tool = "arrow";
     agent.fromX = agent.x;
     agent.fromY = agent.y;
     agent.leftAt = now;
-    agent.arriveAt = now + Math.max(90, clamp(distance / 1.5, 140, 520) / speed);
+    agent.arriveAt = now + Math.max(90, clamp(distance / 1.6, 140, 560) / speed);
   }
 
   function nearestAgent(x: number, y: number) {
@@ -378,186 +437,50 @@ export async function startSwarm({
     return best;
   }
 
-  function setStep(task: Task, step: Step, duration: number, now: number) {
-    task.step = step;
-    task.stepAt = now;
-    task.stepFor = Math.max(1, duration);
-  }
-
-  const outlineTime = (el: HTMLElement, k: number) => {
-    const r = el.getBoundingClientRect();
-    return Math.max(140, clamp(Math.hypot(r.width, Math.min(r.height, window.innerHeight)) / 1.8, 260, 650) / k);
-  };
-
-  /** The agent has arrived: start the first step. */
   function begin(task: Task, now: number) {
     task.phase = "build";
-    if (task.agent) task.agent.state = WORK;
-    if (task.source && task.agent) {
-      task.ghost = new Ghost(task.source.el, layer, task.agent.colour);
-      const s = task.source.el.getBoundingClientRect();
-      const r = task.el.getBoundingClientRect();
-      setStep(task, "drag", Math.max(160, clamp(Math.hypot(r.left - s.left, r.top - s.top) / 1.6, 240, 480) / task.speed), now);
-      return;
-    }
-    startKind(task, now, false);
+    task.buildStart = now;
+    task.stepIndex = 0;
+    task.stepAt = now;
+    const agent = task.agent;
+    if (!agent) return;
+    agent.state = WORK;
+    task.steps[0]?.start?.(context(task, agent, now));
   }
 
-  /** The step that builds the piece itself. `copied`: it was just dropped in as a copy. */
-  function startKind(task: Task, now: number, copied: boolean) {
-    const k = task.speed;
-    const el = task.el;
-    if (task.kind === "frame") {
-      if (copied) frameDone(task, now);
-      else setStep(task, "outline", outlineTime(el, k), now);
-      return;
-    }
-    if (task.kind === "media") {
-      task.label = fileName(el);
-      if (copied) startLoad(task, now);
-      else setStep(task, "outline", outlineTime(el, k) * 0.8, now);
-      return;
-    }
-    // Text: typed into an exact copy of the element, laid over it.
-    const characters = (el.textContent ?? "").length;
-    const typist = new Typist(el, layer, characters > 420 ? "word" : "grapheme");
-    if (!typist.size) {
-      typist.remove();
-      task.hold?.cancel();
-      task.hold = null;
-      task.anim = fadeIn(el, 160);
-      markDone(task, now);
-      return;
-    }
-    task.typist = typist;
-    const per = task.kind === "pop" ? 20 : 34;
-    const longest = task.kind === "pop" ? 700 : task.kind === "type" ? 1500 : 1800;
-    task.typeFor = Math.max(160, clamp(typist.size * per, 240, longest) / k);
-    if (task.kind === "pop" && !copied) setStep(task, "press", Math.max(80, 150 / k), now);
-    else setStep(task, "type", task.typeFor, now);
-  }
-
-  function startLoad(task: Task, now: number) {
-    const duration = Math.max(220, 900 / task.speed);
-    task.hold?.cancel();
-    task.hold = null;
-    task.anim = loadIn(task.el, duration);
-    setStep(task, "load", duration, now);
-  }
-
-  /** The outline is drawn: find the pieces inside, hide them, then let the frame itself appear. */
-  function frameDone(task: Task, now: number) {
-    const kids: Task[] = [];
-    for (const { el, kind } of discover(task.el)) {
-      if (byEl.has(el)) continue;
-      const kid = create(el, kind, task, false);
-      kid.hold = hold(el, false);
-      kid.phase = "held";
-      watch(kid);
-      kids.push(kid);
-    }
-    group(kids);
-    task.kidsLeft = kids.length;
-    task.hold?.cancel();
-    task.hold = null;
-    task.anim = fadeIn(task.el, 140);
-    fades.push({ el: task.el, colour: task.agent?.colour ?? PALETTE[0], at: now });
-    markDone(task, now);
-  }
-
+  /** Run the current step; move on (possibly through several instant steps) when it is done. */
   function work(task: Task, now: number) {
     const agent = task.agent;
-    const p = clamp((now - task.stepAt) / task.stepFor, 0, 1);
-    const r = task.el.getBoundingClientRect();
-    switch (task.step) {
-      case "drag": {
-        const s = (task.source ?? task).el.getBoundingClientRect();
-        const e = easeInOut(p);
-        const x = s.left + (r.left - s.left) * e;
-        const y = s.top + (r.top - s.top) * e;
-        task.ghost?.place(x, y);
-        if (agent) {
-          agent.x = x + Math.min(r.width, 160) / 2;
-          agent.y = y + Math.min(r.height, 60) / 2;
-          agent.press = 1;
-        }
-        if (p >= 1) {
-          task.ghost?.remove();
-          task.ghost = null;
-          startKind(task, now, true);
-        }
+    if (!agent) return;
+    const c = context(task, agent, now);
+    follow(task, c.rect);
+    for (let guard = 0; guard < 20 && task.phase === "build"; guard++) {
+      const step = task.steps[task.stepIndex];
+      if (!step) {
+        api.reveal(task);
         break;
       }
-      case "outline": {
-        const rtl = isRtl(task.el);
-        const e = easeOut(p);
-        const x0 = rtl ? r.right : r.left;
-        const x1 = rtl ? r.left : r.right;
-        if (agent) {
-          agent.x = x0 + (x1 - x0) * e;
-          agent.y = r.top + r.height * e;
-          agent.press = 1;
-        }
-        if (p >= 1) {
-          if (task.kind === "frame") frameDone(task, now);
-          else startLoad(task, now);
-        }
-        break;
-      }
-      case "load": {
-        // The scan reaches the bottom at 60% of the load; the rest is the picture sharpening.
-        const scan = Math.min(1, p / 0.6);
-        if (agent) {
-          agent.x = r.left + r.width * (0.5 + 0.3 * Math.sin(scan * Math.PI * 2));
-          agent.y = r.top + r.height * scan;
-          agent.press = 0;
-        }
-        if (p >= 1) {
-          task.anim = null; // it has ended on its own: no fill, so the picture is simply visible
-          markDone(task, now);
-        }
-        break;
-      }
-      case "press": {
-        task.typist?.place(r.left, r.top);
-        if (agent) {
-          agent.x = r.left + r.width / 2;
-          agent.y = r.top + r.height / 2;
-          agent.press = 1;
-        }
-        if (!task.clicked && agent) {
-          task.clicked = true;
-          rings.push({ el: task.el, colour: agent.colour, at: now });
-        }
-        if (p >= 1) setStep(task, "type", task.typeFor, now);
-        break;
-      }
-      case "type": {
-        const typist = task.typist;
-        if (!typist) break;
-        typist.place(r.left, r.top);
-        typist.show(p >= 1 ? typist.size : Math.floor(p * (typist.size + 1)));
-        if (agent) {
-          agent.x = r.left + typist.caret.x + (typist.rtl ? -3 : 3);
-          agent.y = r.top + (typist.caret.top + typist.caret.bottom) / 2;
-          agent.press = 0;
-        }
-        if (p >= 1) {
-          // The copy and the real element are identical: swap them in the same frame.
-          task.hold?.cancel();
-          task.hold = null;
-          typist.remove();
-          task.typist = null;
-          markDone(task, now);
-        }
-        break;
-      }
+      const ms = step.ms / task.speed;
+      const p = ms <= 0 ? 1 : clamp((now - task.stepAt) / ms, 0, 1);
+      step.update?.(c, p);
+      const at = step.at(c, p);
+      agent.x = at.x;
+      agent.y = at.y;
+      agent.press = at.press ?? 0;
+      agent.tool = step.tool;
+      task.progress = p;
+      if (p < 1) break;
+      step.end?.(c);
+      if (task.phase !== "build") break;
+      task.stepIndex += 1;
+      task.stepAt = now;
+      task.steps[task.stepIndex]?.start?.(c);
+      follow(task, c.rect);
     }
   }
 
-  /* ── Things drawn for a moment after a step ── */
-  const fades: { el: HTMLElement; colour: string; at: number }[] = [];
-  const rings: { el: HTMLElement; colour: string; at: number }[] = [];
+  /* ── Outlines that linger a moment after a frame is drawn ── */
+  const fades: { el: HTMLElement; at: number }[] = [];
 
   /* ── The loop ── */
   let raf = 0;
@@ -578,6 +501,7 @@ export async function startSwarm({
     let backlog = 0;
     let busy = 0;
     for (const task of tasks) {
+      if (task.preview && task.phase !== "done" && task.phase !== "build") follow(task, task.el.getBoundingClientRect());
       switch (task.phase) {
         case "done":
           break;
@@ -585,12 +509,12 @@ export async function startSwarm({
           if (paused) break;
           if (task.inView && faint(task.el) && !flying) {
             // On screen but not showing yet: safe to hide, and built once it comes forward.
-            task.hold = hold(task.el, false);
+            task.hold = hold(task.el);
             task.phase = "held";
           } else if (task.inView) markDone(task, now); // already on screen: leave it alone
           else if (!task.inBand && task.top < 0) markDone(task, now); // scrolled past
           else if (task.inBand && !flying) {
-            task.hold = hold(task.el, false);
+            task.hold = hold(task.el);
             task.phase = "held";
           }
           break;
@@ -603,13 +527,13 @@ export async function startSwarm({
             keepHolding(task.hold);
             if (task.hold.playState === "finished") {
               task.hold = null;
-              markDone(task, now);
+              finish(task, now);
               break;
             }
           }
           // Out of the band: let it go, unless it is only out sideways (cards in a row that slides).
           if (!task.inBand && !task.first && !nearby(task)) {
-            if (task.top < 0) finish(task, now);
+            if (task.top < 0 || task.preview) finish(task, now);
             else {
               task.hold?.cancel();
               task.hold = null;
@@ -621,7 +545,8 @@ export async function startSwarm({
             task.phase = "eligible";
             task.eligibleAt = now;
             task.eligibleTop = task.el.getBoundingClientRect().top;
-            task.deadline = Math.max(now + DEADLINE, task.first ? startedAt + FIRST_SCREEN : 0);
+            const wait = task.copy || task.preview ? COPY_DEADLINE : DEADLINE;
+            task.deadline = Math.max(now + wait, task.first ? startedAt + FIRST_SCREEN : 0);
             task.graceUntil = Math.max(now + GRACE, task.first ? startedAt + FIRST_SCREEN : 0);
           }
           break;
@@ -631,15 +556,17 @@ export async function startSwarm({
             finish(task, now);
             break;
           }
-          // Scrolled into the top half while still waiting: show it now. (Pieces that sit still in a
-          // pinned section, like the cards of the sliding row, are not moving up and may wait.)
-          if (task.upper && now > task.graceUntil && task.el.getBoundingClientRect().top < task.eligibleTop - window.innerHeight * 0.15) {
-            finish(task, now);
-            break;
+          // Nearly scrolled past while still waiting (most of it above the middle of the screen, and it
+          // moved there): show it as it is. Pieces that sit still in a pinned section may wait.
+          if (task.upper && now > task.graceUntil) {
+            const r = task.el.getBoundingClientRect();
+            if (r.bottom < window.innerHeight * 0.45 && r.top < task.eligibleTop - window.innerHeight * 0.15) {
+              finish(task, now);
+              break;
+            }
           }
           if (task.hold) keepHolding(task.hold);
           if (task.phase === "eligible" && faint(task.el)) {
-            // Faded out by its own section again (the journey's cards): wait without a deadline.
             task.deadline = now + DEADLINE;
             break;
           }
@@ -651,8 +578,7 @@ export async function startSwarm({
           break;
         }
         case "build":
-          // Still nothing of it on screen (the copy is on its way, or the outline is being drawn) for too long.
-          if (flying || paused || ((task.step === "drag" || task.step === "outline") && now - task.eligibleAt > UNSEEN && !task.first)) {
+          if (flying || paused || now - task.buildStart > LONGEST_BUILD) {
             finish(task, now);
             break;
           }
@@ -663,15 +589,15 @@ export async function startSwarm({
       }
     }
 
-    // The more is waiting, the faster everyone works, and faster again while the page is scrolling quickly.
-    const speed = clamp(1 + backlog / 8, 1, 5) * (Math.abs(velocity) > 1.2 ? 1.5 : 1);
+    // The more is waiting, the faster everyone works, and faster again while the page scrolls quickly.
+    const speed = clamp(1 + backlog / 10, 1, 4) * (Math.abs(velocity) > 1.2 ? 1.3 : 1);
     for (const task of tasks) {
       if (busy >= maxBusy) break;
       if (task.phase !== "eligible" || faint(task.el)) continue;
-      // A copy waits a moment for the item it copies.
-      if (task.copy && now < task.eligibleAt + COPY_WAIT && !task.run?.some((o) => o !== task && o.phase === "done")) continue;
-      const at = startPoint(task);
-      const agent = nearestAgent(at.x, at.y);
+      // A copy waits for the piece it copies (a whole card is copied only once it is complete).
+      if (task.copy && !task.twin && !sourceFor(task) && now < task.eligibleAt + COPY_DEADLINE - 1500) continue;
+      const at = task.el.getBoundingClientRect();
+      const agent = nearestAgent(at.left, at.top);
       if (!agent) break;
       claim(task, agent, now, speed);
       busy += 1;
@@ -686,73 +612,49 @@ export async function startSwarm({
           agent.state = ROAM;
           continue;
         }
-        const to = startPoint(task);
+        const to = task.steps[0]?.at(context(task, agent, now), 0) ?? { x: agent.x, y: agent.y };
         const p = clamp((now - agent.leftAt) / Math.max(1, agent.arriveAt - agent.leftAt), 0, 1);
         const e = easeInOut(p);
         agent.x = agent.fromX + (to.x - agent.fromX) * e;
         agent.y = agent.fromY + (to.y - agent.fromY) * e;
         agent.press = 0;
-      } else if (agent.state === ROAM || agent.state === HOME) {
-        if (agent.state === ROAM && now > agent.until) {
-          const home = homeOf(agent);
-          agent.state = HOME;
-          agent.aimX = home.x;
-          agent.aimY = home.y;
+        agent.tool = "arrow";
+      } else if (agent.state !== WORK) {
+        if (agent.state === ROAM && now > agent.until) agent.state = HOME;
+        if (agent.state === HOME || agent.state === WAITING) {
+          const slot = slotOf(agent);
+          agent.aimX = slot.x;
+          agent.aimY = slot.y;
         }
-        const f = 1 - Math.exp(-dt / (agent.state === HOME ? 260 : 180));
+        const f = 1 - Math.exp(-dt / (agent.state === WAITING ? 90 : agent.state === HOME ? 230 : 160));
         agent.x += (agent.aimX - agent.x) * f;
         agent.y += (agent.aimY - agent.y) * f;
         agent.press = 0;
-        if (agent.state === HOME && Math.hypot(agent.aimX - agent.x, agent.aimY - agent.y) < 3) agent.state = PARKED;
+        agent.tool = "arrow";
+        if (agent.state === HOME && Math.hypot(agent.aimX - agent.x, agent.aimY - agent.y) < 2) agent.state = WAITING;
       }
     }
   }
 
   function draw(now: number) {
     painter.clear();
-    // Outlines fading out after a frame appears.
     for (let i = fades.length - 1; i >= 0; i--) {
-      const fade = fades[i];
-      const age = now - fade.at;
-      if (age > 380) {
+      const age = now - fades[i].at;
+      if (age > 420) {
         fades.splice(i, 1);
         continue;
       }
-      const r = fade.el.getBoundingClientRect();
-      painter.outline(r.left, r.top, r.right, r.bottom, fade.colour, 1 - age / 380);
-    }
-    for (let i = rings.length - 1; i >= 0; i--) {
-      const ring = rings[i];
-      const age = now - ring.at;
-      if (age > 420) {
-        rings.splice(i, 1);
-        continue;
-      }
-      const r = ring.el.getBoundingClientRect();
-      painter.ring(r.left + r.width / 2, r.top + r.height / 2, 8 + age / 12, ring.colour, 1 - age / 420);
+      const r = fades[i].el.getBoundingClientRect();
+      painter.selection(r.left, r.top, r.width, r.height, BLUE, true, 1 - age / 420);
     }
     for (const [agent, task] of jobs) {
       if (task.phase !== "build") continue;
-      const r = task.el.getBoundingClientRect();
-      const p = clamp((now - task.stepAt) / task.stepFor, 0, 1);
-      if (task.step === "outline") {
-        painter.outline(isRtl(task.el) ? r.right : r.left, r.top, agent.x, agent.y, agent.colour);
-      } else if (task.step === "load") {
-        const scan = Math.min(1, p / 0.6);
-        painter.scan(r.left, r.right, r.top + r.height * scan, agent.colour);
-        painter.chip(agent.x + 12, agent.y + 38, `${task.label} · ${Math.round(scan * 100)}%`, agent.colour);
-      } else if (task.step === "type" && task.typist) {
-        const caret = task.typist.caret;
-        painter.caret(r.left + caret.x, r.top + caret.top, r.top + caret.bottom, agent.colour);
-      } else if (task.step === "drag") {
-        painter.chip(agent.x + 12, agent.y + 38, "copy", agent.colour);
-      }
+      const step = task.steps[task.stepIndex];
+      if (!step) continue;
+      step.draw?.(context(task, agent, now), task.progress);
+      if (step.label) painter.chip(agent.x + 14, agent.y + 38, step.label, BLUE);
     }
-    const bursting = now - startedAt < 1400;
-    for (const agent of agents) {
-      if (agent.state === PARKED) continue;
-      painter.cursor(agent, bursting || agent.state === TRAVEL || agent.state === WORK);
-    }
+    for (const agent of agents) painter.cursor(agent, agent.state === TRAVEL || agent.state === WORK, agent.state === WAITING ? 0.7 : 1);
   }
 
   function tick(now: number) {
@@ -781,9 +683,9 @@ export async function startSwarm({
     }
     if (task.inView) {
       task.first = true;
-      task.hold = hold(el, true);
+      task.hold = hold(el);
       task.phase = "held";
-      task.notBefore = startedAt + 280;
+      task.notBefore = startedAt + 250;
     }
     watch(task);
   }
@@ -816,14 +718,12 @@ export async function startSwarm({
   function showEverything() {
     for (const task of tasks) {
       task.hold?.cancel();
-      task.anim?.cancel();
       task.hold = null;
-      task.anim = null;
-      task.typist = null;
-      task.ghost = null;
+      task.pieces = [];
+      task.preview = null;
     }
     layer.replaceChildren();
-    // Safety net: any swarm animation left anywhere (frames fading in, for example).
+    // Safety net: any swarm animation left anywhere.
     for (const animation of document.getAnimations()) {
       if (animation.id.startsWith("swarm-")) animation.cancel();
     }
@@ -852,8 +752,8 @@ export async function startSwarm({
       // The cursors fly back into the box, then the page is itself again.
       const box = origin();
       for (const agent of agents) {
-        if (agent.state === PARKED) continue;
-        agent.state = HOME;
+        agent.state = ROAM;
+        agent.until = Infinity;
         agent.aimX = box.x;
         agent.aimY = box.y;
       }
