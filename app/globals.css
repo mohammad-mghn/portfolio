@@ -530,130 +530,181 @@
   0%,
   20.00%,
   100% {
-    rotate: 0deg;
     translate: 0 0;
+    rotate: 0deg;
   }
   2.00% {
-    rotate: -1.6deg;
-    translate: -0.4px 0.6px;
+    translate: -1.2px 0.72px;
+    rotate: -0.3deg;
   }
   4.00% {
-    rotate: 1.6deg;
-    translate: 0.4px -0.6px;
+    translate: 1.08px -0.96px;
+    rotate: 0.22deg;
   }
   6.00% {
-    rotate: -1.6deg;
-    translate: -0.4px 0.6px;
+    translate: -0.6px -1.2px;
+    rotate: -0.15deg;
   }
   8.00% {
-    rotate: 1.6deg;
-    translate: 0.4px -0.6px;
+    translate: 1.2px 0.6px;
+    rotate: 0.3deg;
   }
   10.00% {
-    rotate: -1.6deg;
-    translate: -0.4px 0.6px;
+    translate: -1.08px 1.08px;
+    rotate: -0.22deg;
   }
   12.00% {
-    rotate: 1.6deg;
-    translate: 0.4px -0.6px;
+    translate: 0.72px -0.48px;
+    rotate: 0.15deg;
   }
   14.00% {
-    rotate: -1.6deg;
-    translate: -0.4px 0.6px;
+    translate: -0.96px -0.84px;
+    rotate: -0.3deg;
   }
   16.00% {
-    rotate: 1.6deg;
-    translate: 0.4px -0.6px;
+    translate: 0.84px 1.2px;
+    rotate: 0.22deg;
   }
   18.00% {
-    rotate: -1.6deg;
-    translate: -0.4px 0.6px;
+    translate: -1.2px 0.72px;
+    rotate: -0.3deg;
   }
 }
 @keyframes swarm-jiggle-1 {
   0%,
   48.00%,
   100% {
-    rotate: 0deg;
     translate: 0 0;
+    rotate: 0deg;
   }
   3.43% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -1.6px 0.96px;
+    rotate: -0.35deg;
   }
   6.86% {
-    rotate: 2.0deg;
-    translate: 0.5px -0.8px;
+    translate: 1.44px -1.28px;
+    rotate: 0.26deg;
   }
   10.29% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -0.8px -1.6px;
+    rotate: -0.17deg;
   }
   13.71% {
-    rotate: 2.0deg;
-    translate: 0.5px -0.8px;
+    translate: 1.6px 0.8px;
+    rotate: 0.35deg;
   }
   17.14% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -1.44px 1.44px;
+    rotate: -0.26deg;
   }
   20.57% {
-    rotate: 2.0deg;
-    translate: 0.5px -0.8px;
+    translate: 0.96px -0.64px;
+    rotate: 0.17deg;
   }
   24.00% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -1.28px -1.12px;
+    rotate: -0.35deg;
   }
   27.43% {
-    rotate: 2.0deg;
-    translate: 0.5px -0.8px;
+    translate: 1.12px 1.6px;
+    rotate: 0.26deg;
   }
   30.86% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -1.6px 0.96px;
+    rotate: -0.35deg;
   }
   34.29% {
-    rotate: 2.0deg;
-    translate: 0.5px -0.8px;
+    translate: 1.44px -1.28px;
+    rotate: 0.26deg;
   }
   37.71% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -0.8px -1.6px;
+    rotate: -0.17deg;
   }
   41.14% {
-    rotate: 2.0deg;
-    translate: 0.5px -0.8px;
+    translate: 1.6px 0.8px;
+    rotate: 0.35deg;
   }
   44.57% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -1.44px 1.44px;
+    rotate: -0.26deg;
   }
 }
 @keyframes swarm-jiggle-2 {
-  0%,
+  0.00%,
   100% {
-    rotate: -2.0deg;
-    translate: -0.5px 0.8px;
+    translate: -2px 1.2px;
+    rotate: -0.4deg;
   }
-  50% {
-    rotate: 2.0deg;
-    translate: 0.5px -0.8px;
+  12.50% {
+    translate: 1.8px -1.6px;
+    rotate: 0.3deg;
+  }
+  25.00% {
+    translate: -1px -2px;
+    rotate: -0.2deg;
+  }
+  37.50% {
+    translate: 2px 1px;
+    rotate: 0.4deg;
+  }
+  50.00% {
+    translate: -1.8px 1.8px;
+    rotate: -0.3deg;
+  }
+  62.50% {
+    translate: 1.2px -0.8px;
+    rotate: 0.2deg;
+  }
+  75.00% {
+    translate: -1.6px -1.4px;
+    rotate: -0.4deg;
+  }
+  87.50% {
+    translate: 1.4px 2px;
+    rotate: 0.3deg;
   }
 }
 @keyframes swarm-jiggle-3 {
-  0%,
+  0.00%,
   100% {
-    rotate: -3.0deg;
-    translate: -1.0px 1.2px;
+    translate: -3px 1.8px;
+    rotate: -0.5deg;
   }
-  50% {
-    rotate: 3.0deg;
-    translate: 1.0px -1.2px;
+  12.50% {
+    translate: 2.7px -2.4px;
+    rotate: 0.38deg;
+  }
+  25.00% {
+    translate: -1.5px -3px;
+    rotate: -0.25deg;
+  }
+  37.50% {
+    translate: 3px 1.5px;
+    rotate: 0.5deg;
+  }
+  50.00% {
+    translate: -2.7px 2.7px;
+    rotate: -0.38deg;
+  }
+  62.50% {
+    translate: 1.8px -1.2px;
+    rotate: 0.25deg;
+  }
+  75.00% {
+    translate: -2.4px -2.1px;
+    rotate: -0.5deg;
+  }
+  87.50% {
+    translate: 2.1px 3px;
+    rotate: 0.38deg;
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  /* Like app icons on an iPhone's home screen in edit mode: a quick wobble, not a swing. */
+  /*
+   * Like app icons on an iPhone's home screen in edit mode: the whole box jitters a pixel or
+   * two in X and Y, with only a hint of tilt, so it shakes instead of swinging.
+   */
   .swarm-box[data-anger="0"] {
     animation: swarm-jiggle-0 6s linear 2s infinite;
   }
@@ -661,10 +712,10 @@
     animation: swarm-jiggle-1 3.5s linear infinite;
   }
   .swarm-box[data-anger="2"] {
-    animation: swarm-jiggle-2 0.24s ease-in-out infinite;
+    animation: swarm-jiggle-2 0.96s ease-in-out infinite;
   }
   .swarm-box[data-anger="3"] {
-    animation: swarm-jiggle-3 0.16s ease-in-out infinite;
+    animation: swarm-jiggle-3 0.64s ease-in-out infinite;
   }
 }
 /* Visitors who asked for less motion never see the box: the whole mode is motion. */
@@ -768,15 +819,21 @@
 }
 
 /*
- * The language link names the other language in its own script. On English pages that is "فا":
- * set in the Persian font, a little larger than the Latin labels beside it so it reads the same size.
+ * The language link names the other language in its own script. On English pages that is "فا",
+ * set in the Persian font and sized so its alef stands as tall as the capitals of the logo
+ * ("THE MOHAMMAD M."), on the same baseline. Only the dot of the ف rises above them.
  */
 :root:not([lang="fa"]) .lang-switch {
   font-family: "Estedad Switch", var(--font-label);
-  font-size: 1.05rem;
+  font-size: 0.8rem;
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0;
+  @media (width < 48rem) {
+    font-size: 0.96rem;
+    /* At this size it sits a hair below the logo's baseline. */
+    translate: 0 -0.05em;
+  }
 }
 
 /*
