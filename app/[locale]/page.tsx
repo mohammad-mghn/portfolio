@@ -53,6 +53,9 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           levels: ts.raw("levels"),
           again: ts.raw("again"),
           stop: ts("stop"),
+          tour: ts("tour"),
+          pause: ts("pause"),
+          tourHint: ts("tourHint"),
           // Raw: the numbers are filled in on the client while the mode runs.
           counter: ts.raw("counter"),
           hint: ts("hint"),

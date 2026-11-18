@@ -67,6 +67,12 @@ export function onDark(el: HTMLElement) {
 export type StyleStep = { key: "font" | "size" | "case" | "color" | "fill" | "radius" | "stroke" | "shadow"; label: string };
 
 const RAW_SIZE = 14;
+/**
+ * The size a plain copy is typed at: 14px, or the real size when that is smaller. Big headings are
+ * typed small and scaled up; small labels never start bigger than they end, so a button never
+ * grows over its neighbours on the way (they would make room for it on the page).
+ */
+export const rawSize = (el: HTMLElement) => Math.min(RAW_SIZE, parseFloat(getComputedStyle(el).fontSize) || RAW_SIZE);
 const WEIGHTS: Record<string, string> = { "100": "Thin", "200": "ExtraLight", "300": "Light", "400": "Regular", "500": "Medium", "600": "SemiBold", "700": "Bold", "800": "ExtraBold", "900": "Black" };
 
 /** What separates the element from a plain default copy of it, in the order a designer would set it. */
@@ -82,10 +88,13 @@ export function styleSteps(el: HTMLElement, box: boolean, text: boolean): StyleS
     if (s.boxShadow !== "none") steps.push({ key: "shadow", label: "Drop shadow" });
   }
   if (text) {
-    const family = s.fontFamily.split(",")[0].replace(/["']/g, "").trim();
+    // Persian text: name the face its letters are drawn in, not the Latin-only alias listed first.
+    const families = s.fontFamily.split(",").map((f) => f.replace(/["']/g, "").trim());
+    const persian = /[\u0600-\u06FF]/.test(el.textContent ?? "");
+    const family = (persian && families.find((f) => !f.endsWith(" Letters"))) || families[0];
     steps.push({ key: "font", label: `${family}  ${WEIGHTS[s.fontWeight] ?? s.fontWeight}` });
     const size = parseFloat(s.fontSize);
-    if (Math.abs(size - RAW_SIZE) > 1.5) steps.push({ key: "size", label: `Size  ${Math.round(size)}` });
+    if (Math.abs(size - rawSize(el)) > 1.5) steps.push({ key: "size", label: `Size  ${Math.round(size)}` });
     if (s.textTransform === "uppercase") steps.push({ key: "case", label: "Case  AA" });
     else if (s.letterSpacing !== "normal" && Math.abs(parseFloat(s.letterSpacing)) > 0.3) steps.push({ key: "case", label: "Letter spacing" });
     steps.push({ key: "color", label: `Color  ${hex(s.color)}` });
@@ -170,6 +179,8 @@ export class Overlay {
   readonly box: HTMLDivElement;
   readonly content: HTMLElement;
   readonly rtl: boolean;
+  /** Sized by its content, like a button: it grows with the text as it is typed. */
+  hugs = false;
   private raw = new Set<string>();
   /** Text nodes of the copy and what each must end up saying. */
   nodes: Text[] = [];
@@ -182,12 +193,14 @@ export class Overlay {
     this.box = document.createElement("div");
     this.box.className = "swarm-piece";
     this.box.style.width = `${width}px`;
+    // A copy that is narrower than its box sits at the start edge, as it does on the page.
+    this.box.style.direction = style.direction;
     this.box.style.opacity = String(ancestorsOpacity(styleFrom));
     this.content = content;
     for (const property of INHERITED) content.style.setProperty(property, style.getPropertyValue(property));
     content.style.setProperty("--raw-ink", onDark(styleFrom) ? "#F4F4F2" : "#1E1E1E");
     content.style.setProperty("--raw-fill", onDark(styleFrom) ? "#3A3A37" : "#D9D9D9");
-    content.style.setProperty("--raw-size", `${RAW_SIZE}px`);
+    content.style.setProperty("--raw-size", `${rawSize(styleFrom)}px`);
     this.box.appendChild(content);
     layer.appendChild(this.box);
     const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
@@ -270,24 +283,41 @@ export class Overlay {
   }
 }
 
-/** A copy of an element. `shell`: only its own box (fill, border), its contents hidden. */
+/**
+ * A copy of an element. `shell`: only its own box (fill, border), its contents hidden.
+ *
+ * The copy keeps the layout rules of the original. It gets the display the original really has
+ * (a link in a flex row is a block there, though it would be inline in the layer). And it is
+ * sized the way the original is: something that hugs its content (a button, a chip) hugs it in
+ * the copy too, so it grows and shrinks with the text as it is typed and styled; anything else
+ * keeps the original's width and wraps inside it.
+ */
 export function copyOf(source: HTMLElement, layer: HTMLElement, shell = false) {
   const rect = source.getBoundingClientRect();
   const clone = source.cloneNode(true) as HTMLElement;
   scrub(clone);
   const style = getComputedStyle(source);
-  if (style.display === "inline") clone.style.display = "inline-block";
+  clone.style.display = style.display === "inline" ? "inline-block" : style.display;
   clone.style.margin = "0";
   clone.style.width = "100%";
   clone.style.minWidth = "0";
   clone.style.maxWidth = "none";
   clone.style.boxSizing = "border-box";
+  clone.style.flex = "none";
   if (shell) {
     clone.classList.add("swarm-shell");
     clone.style.height = `${rect.height}px`;
   }
   const overlay = new Overlay(clone, source, layer, rect.width);
   overlay.place(rect.left, rect.top);
+  if (!shell) {
+    // Does the original hug its content? Then its content-sized width is its width.
+    clone.style.width = "max-content";
+    if (Math.abs(clone.getBoundingClientRect().width - rect.width) <= 1.5) {
+      overlay.hugs = true;
+      clone.style.minWidth = `${rect.width}px`;
+    } else clone.style.width = "100%";
+  }
   return overlay;
 }
 

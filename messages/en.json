@@ -311,6 +311,9 @@
       "face": ":)"
     },
     "stop": "stop",
+    "tour": "tour",
+    "pause": "pause",
+    "tourHint": "Scroll slowly to the end by itself while the agents build the page",
     "counter": "{agents} agents · {percent}% built",
     "hint": "Watch 100 agents build this page as you scroll. Press again or Esc to stop."
   },

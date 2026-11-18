@@ -526,6 +526,50 @@
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
+/* The tour button: plays the page like a film. Dark like the counter; the icon in the accent. */
+.swarm-tour {
+  display: flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0 0.9rem;
+  background: var(--night);
+  color: #ece8df;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px -12px rgba(18, 19, 17, 0.55);
+  transition:
+    background-color 0.4s var(--ease-house),
+    color 0.4s var(--ease-house);
+  @media (width < 48rem) {
+    padding: 0;
+  }
+}
+.swarm-tour:hover,
+.swarm-tour[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--night);
+}
+/* Play and pause point the same way in both languages, like any media control. */
+.swarm-play {
+  width: 0.6rem;
+  height: 0.7rem;
+  flex: none;
+  background: var(--accent);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.swarm-pause {
+  width: 0.6rem;
+  height: 0.7rem;
+  flex: none;
+  background: linear-gradient(to right, currentColor 0 35%, transparent 35% 65%, currentColor 65%);
+}
+.swarm-tour:hover .swarm-play {
+  background: var(--night);
+}
 @keyframes swarm-jiggle-0 {
   0%,
   20.00%,

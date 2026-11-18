@@ -12,6 +12,7 @@ export type SwarmMode = "off" | "loading" | "on";
 
 let mode: SwarmMode = "off";
 let progress = 0;
+let touring = false;
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach((listener) => listener());
 
@@ -25,6 +26,8 @@ export const swarmStore = {
   mode: () => mode,
   /** Share of the page built so far, 0 to 1, in steps of 1%. */
   progress: () => progress,
+  /** The tour is scrolling the page. */
+  touring: () => touring,
 };
 
 /** True from the click until the page is back to normal. */
@@ -36,8 +39,35 @@ export function setSwarmMode(next: SwarmMode) {
   const root = document.documentElement;
   if (next === "off") delete root.dataset.swarm;
   else root.dataset.swarm = next;
-  if (next === "off") progress = 0;
+  if (next === "off") {
+    progress = 0;
+    touring = false;
+  }
   if (next !== "off" && revealers > 0) parked = false;
+  emit();
+}
+
+/*
+ * Tour pacing. A section that moves by scroll on its own (the journey's camera) can tell the tour
+ * how to play it: scroll ranges, each to be crossed in a given time. The tour follows these
+ * wherever they apply, and its own pace everywhere else.
+ */
+export type TourSegment = { from: number; to: number; ms: number };
+let tourPath: (() => TourSegment[]) | null = null;
+
+/** The returned function unregisters it. */
+export function registerTourPath(path: () => TourSegment[]) {
+  tourPath = path;
+  return () => {
+    if (tourPath === path) tourPath = null;
+  };
+}
+
+export const tourSegments = (): TourSegment[] => tourPath?.() ?? [];
+
+export function setSwarmTour(next: boolean) {
+  if (touring === next) return;
+  touring = next;
   emit();
 }
 

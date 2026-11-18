@@ -17,12 +17,17 @@
  *   - nothing waits on screen for an agent longer than a few seconds; then it is shown as it is
  *   - scrolling very fast shows everything at once
  *   - anything scrolled into the top half of the screen still waiting is shown as it is
+ *
+ * The tour (the button beside Stop) scrolls the page by itself, like a film: it slows down while
+ * pieces on screen are being built and speeds up where there is nothing to build. Through the
+ * journey it follows the journey's own pacing: a quick flight to each card, a pause on it. Any
+ * scroll, swipe or key from the visitor hands the page back to them.
  */
 import { whenBoundariesReady } from "@/lib/hydration";
 import { createLayer, hold, keepHolding } from "./builders";
 import { BLUE, HOME, PALETTE, Painter, ROAM, TRAVEL, WAITING, WORK, type Agent } from "./cursors";
 import { previewFor, recipe, type Api, type Ctx, type Job, type Piece, type Step } from "./recipes";
-import { setSwarmMode, setSwarmProgress, whenParked } from "./store";
+import { setSwarmMode, setSwarmProgress, setSwarmTour, tourSegments, whenParked } from "./store";
 import { classify, discover, findSeeds, type Kind } from "./targets";
 
 export type SwarmEngine = {
@@ -32,6 +37,8 @@ export type SwarmEngine = {
   pause(paused: boolean): void;
   /** Immediate stop, for when the page is going away. */
   destroy(): void;
+  /** Start or stop the tour: the page scrolls slowly to the end by itself while it is built. */
+  tour(on: boolean): void;
 };
 
 type Phase = "fresh" | "held" | "eligible" | "claimed" | "build" | "done";
@@ -81,16 +88,19 @@ const IDLE = 400;
 const FIRST_SCREEN = 7000;
 /** Safety: no piece takes longer than this to build. */
 const LONGEST_BUILD = 12000;
+/** Everyone works this much faster than the step durations in recipes.ts. */
+const PACE = 1.75;
+/** Tour speeds, in screens per second: nothing to build on screen, a little, a lot. */
+const TOUR_FREE = 1 / 6;
+const TOUR_SOME = 1 / 14;
+const TOUR_BUSY = 1 / 30;
 
 const frame = () => new Promise<number>((resolve) => requestAnimationFrame(resolve));
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 const onScreen = (r: DOMRect) => r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
 const textKind = (kind: Kind) => kind === "type" || kind === "words" || kind === "pop";
-/**
- * Not really visible yet, though on screen: hidden or faded out by its own section (the journey's
- * cards wait in the distance like this until the camera reaches them).
- */
+/** Not really visible yet, though on screen: hidden or faded out by its own section. */
 function faint(el: HTMLElement) {
   if (getComputedStyle(el).visibility === "hidden") return true;
   const match = /opacity\(([\d.]+)\)/.exec(el.style.filter);
@@ -102,13 +112,16 @@ export async function startSwarm({
   agents: count,
   origin,
   dock,
+  scrollTo,
 }: {
   canvas: HTMLCanvasElement;
   agents: number;
   /** Where the cursors burst out from: the box itself. */
   origin: () => { x: number; y: number };
-  /** The counter and the box: waiting agents stand in a cluster just above it. */
+  /** The box (Stop): waiting agents hide under it. */
   dock: () => DOMRect | null;
+  /** Scroll the page to `y` at once (through the page's smooth scroll when it has one). */
+  scrollTo: (y: number) => void;
 }): Promise<SwarmEngine> {
   await whenBoundariesReady();
   await whenParked();
@@ -148,21 +161,16 @@ export async function startSwarm({
   const painter = new Painter(canvas, agents, compact);
 
   /**
-   * Where an agent waits: a tight cluster in the bottom corner, beside the counter and the box (on
-   * their start side), low enough to stay off the page's content.
+   * Where an agent waits: hidden under the box, which is drawn over the cursors. A waiting cursor is
+   * drawn at 0.7 size (an 18px square, its tip 2px in), so it fits wholly inside the box.
    */
   const slotOf = (agent: Agent) => {
     const box = dock();
-    const rtl = document.documentElement.dir === "rtl";
-    const left = box ? box.left : window.innerWidth - 300;
-    const right = box ? box.right : window.innerWidth - 20;
-    const bottom = box ? box.bottom : window.innerHeight - 16;
-    const room = rtl ? window.innerWidth - right - 16 : left - 16;
-    const perRow = clamp(Math.floor(room / 9), 6, 20);
-    const col = agent.index % perRow;
-    const row = Math.floor(agent.index / perRow);
-    const x = rtl ? right + 14 + col * 9 + (row % 2) * 4 : left - 14 - col * 9 - (row % 2) * 4;
-    return { x, y: bottom - 14 - row * 9 };
+    if (!box) return { x: window.innerWidth - 60, y: window.innerHeight - 40 };
+    // Low-discrepancy spread: evenly mixed over the box, every agent in its own place.
+    const u = (agent.index * 0.618034 + 0.17) % 1;
+    const v = (agent.index * 0.754878 + 0.41) % 1;
+    return { x: box.left + 4 + u * Math.max(0, box.width - 22), y: box.top + 4 + v * Math.max(0, box.height - 22) };
   };
   const dockPoint = () => {
     const box = dock();
@@ -491,6 +499,74 @@ export async function startSwarm({
   let paused = false;
   let stopping = false;
 
+  /* ── The tour ── */
+  let touring = false;
+  let tourY = 0;
+  let tourSpeed = 0;
+  const maxScroll = () => document.documentElement.scrollHeight - window.innerHeight;
+
+  /** Pieces on screen that are being built or are about to be. */
+  function buildingOnScreen() {
+    let n = 0;
+    for (const task of tasks) {
+      if (task.phase === "eligible" || task.phase === "claimed" || task.phase === "build") n += task.inView ? 1 : 0;
+      else if (task.phase === "held" && task.pastLine) n += 1;
+    }
+    return n;
+  }
+
+  function setTour(on: boolean) {
+    if (on && (stopping || paused)) return;
+    if (touring === on) return;
+    touring = on;
+    if (on) {
+      // From the end, the tour starts again at the top.
+      if (window.scrollY >= maxScroll() - 4) scrollTo(0);
+      tourY = window.scrollY;
+      tourSpeed = 0;
+    }
+    setSwarmTour(on);
+  }
+
+  function tourStep(dt: number) {
+    if (!touring) return;
+    // The visitor moved the page some other way (scrollbar, a link): they are in charge again.
+    if (Math.abs(window.scrollY - tourY) > 48) {
+      setTour(false);
+      return;
+    }
+    // A section with its own pacing (the journey) says how long each stretch takes. The tour brakes
+    // a moment before a slower stretch (a card to rest on), so it is already slow when it gets there.
+    const segments = tourSegments();
+    const speedAt = (y: number) => {
+      const segment = segments.find((s) => y >= s.from && y < s.to);
+      return segment ? (segment.to - segment.from) / segment.ms : null;
+    };
+    const paced = speedAt(tourY);
+    const ahead = speedAt(tourY + tourSpeed * 300);
+    let want: number;
+    if (paced !== null) want = ahead !== null ? Math.min(paced, ahead) : paced;
+    else {
+      const busy = buildingOnScreen();
+      want = ((busy === 0 ? TOUR_FREE : busy < 4 ? TOUR_SOME : TOUR_BUSY) * window.innerHeight) / 1000;
+      if (ahead !== null) want = Math.min(want, ahead);
+    }
+    tourSpeed += (want - tourSpeed) * (1 - Math.exp(-dt / (paced !== null || ahead !== null ? 150 : 500)));
+    const end = maxScroll();
+    tourY = Math.min(end, tourY + tourSpeed * dt);
+    scrollTo(tourY);
+    if (tourY >= end - 0.5) setTour(false);
+  }
+
+  // Any scroll, swipe or navigation key from the visitor ends the tour.
+  const handBack = () => setTour(false);
+  const onKey = (event: KeyboardEvent) => {
+    if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key) && !(event.target instanceof HTMLButtonElement)) handBack();
+  };
+  window.addEventListener("wheel", handBack, { passive: true });
+  window.addEventListener("touchstart", handBack, { passive: true });
+  window.addEventListener("keydown", onKey);
+
   /** Still close above or below the screen (horizontal position and clipping aside). */
   const nearby = (task: Task) => {
     const r = task.el.getBoundingClientRect();
@@ -590,7 +666,7 @@ export async function startSwarm({
     }
 
     // The more is waiting, the faster everyone works, and faster again while the page scrolls quickly.
-    const speed = clamp(1 + backlog / 10, 1, 4) * (Math.abs(velocity) > 1.2 ? 1.3 : 1);
+    const speed = PACE * clamp(1 + backlog / 10, 1, 4) * (Math.abs(velocity) > 1.2 ? 1.3 : 1);
     for (const task of tasks) {
       if (busy >= maxBusy) break;
       if (task.phase !== "eligible" || faint(task.el)) continue;
@@ -625,6 +701,10 @@ export async function startSwarm({
           const slot = slotOf(agent);
           agent.aimX = slot.x;
           agent.aimY = slot.y;
+          if (agent.state === WAITING) {
+            agent.x = slot.x;
+            agent.y = slot.y;
+          }
         }
         const f = 1 - Math.exp(-dt / (agent.state === WAITING ? 90 : agent.state === HOME ? 230 : 160));
         agent.x += (agent.aimX - agent.x) * f;
@@ -666,6 +746,7 @@ export async function startSwarm({
     velocity = velocity * 0.6 + (dt > 0 ? (y - lastY) / dt : 0) * 0.4;
     lastY = y;
     if (!stopping) update(now, Math.abs(velocity) > FLYING, now - lastScrollAt > IDLE);
+    if (!stopping && !paused) tourStep(dt);
     moveAgents(now, dt);
     draw(now);
     if (!stopping) setSwarmProgress(seedsTotal ? seedsSettled / seedsTotal : 1);
@@ -735,6 +816,10 @@ export async function startSwarm({
     window.removeEventListener("resize", onResize);
     document.removeEventListener("visibilitychange", onVisibility);
     document.removeEventListener("focusin", onFocus);
+    window.removeEventListener("wheel", handBack);
+    window.removeEventListener("touchstart", handBack);
+    window.removeEventListener("keydown", onKey);
+    setTour(false);
     painter.clear();
     layer.remove();
     setSwarmMode("off");
@@ -746,6 +831,7 @@ export async function startSwarm({
   return {
     async stop() {
       if (stopping) return;
+      setTour(false);
       stopping = true;
       showEverything();
       jobs.clear();
@@ -764,6 +850,7 @@ export async function startSwarm({
       if (paused === next) return;
       paused = next;
       if (!paused) return;
+      setTour(false);
       const now = performance.now();
       for (const task of tasks) if (task.phase !== "fresh" && task.phase !== "done") finish(task, now);
     },
@@ -771,6 +858,9 @@ export async function startSwarm({
       stopping = true;
       showEverything();
       teardown();
+    },
+    tour(on) {
+      setTour(on);
     },
   };
 }

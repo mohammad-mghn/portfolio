@@ -12,7 +12,7 @@
  *   copy      option-drag a finished sibling into place, then select its text and retype it
  *   edit      (inside a duplicated card) select the copied text and retype it
  */
-import { copyOf, fileName, fitTo, headingLines, imageOf, keystrokes, lineOf, onDark, styleSteps, textsAt, visibleColour, type Overlay } from "./builders";
+import { copyOf, fileName, fitTo, headingLines, imageOf, keystrokes, lineOf, onDark, rawSize, styleSteps, textsAt, visibleColour, type Overlay } from "./builders";
 import { BLUE, RED, type Agent, type Painter, type Tool } from "./cursors";
 import type { Kind } from "./targets";
 
@@ -72,7 +72,8 @@ export function ownPaint(el: HTMLElement) {
 }
 
 function add(job: Job, overlay: Overlay, rect: DOMRect) {
-  const r = overlay.rect();
+  // Kept by its outer box: the copy inside may change width (and, right to left, its left edge).
+  const r = overlay.box.getBoundingClientRect();
   const piece = { overlay, dx: r.left - rect.left, dy: r.top - rect.top };
   job.pieces.push(piece);
   return piece;
@@ -109,8 +110,15 @@ function drawRect(fill: "grey" | "picture" | "none", then?: (c: Ctx) => void): S
 
 /** Where a designer's cursor goes to change a style: just outside the selection's top corner. */
 function panelPoint(c: Ctx, r: DOMRect, i: number) {
-  const rtl = isRtl(c.job.el);
-  return { x: (rtl ? r.left - 26 : r.right + 26) + (i % 3) * (rtl ? -8 : 8), y: Math.max(12, r.top + 10 + (i % 4) * 9) };
+  const vw = window.innerWidth;
+  // The style label is drawn to the right of the cursor: keep both on screen.
+  const rightOk = r.right + 26 + 130 < vw;
+  const leftOk = r.left - 42 > 12;
+  const right = isRtl(c.job.el) ? rightOk && !leftOk : rightOk || !leftOk;
+  const nudge = (i % 3) * 8;
+  let x = right ? r.right + 26 + nudge : r.left - 26 - nudge;
+  if (!rightOk && !leftOk) x = r.right - 150 - nudge; // no room either side: just inside the selection
+  return { x: Math.min(vw - 140, Math.max(12, x)), y: Math.max(12, r.top + 10 + (i % 4) * 9) };
 }
 
 /** Style steps on a copy: each removes one plain-copy class (the size is scrubbed up). */
@@ -125,7 +133,7 @@ function styling(get: (c: Ctx) => Overlay | undefined, el: HTMLElement, box: boo
       if (step.key !== "size") get(c)?.apply(step.key);
     },
     update(c, p) {
-      if (step.key === "size") get(c)?.scrubSize(14, finalSize, easeInOut(p));
+      if (step.key === "size") get(c)?.scrubSize(rawSize(el), finalSize, easeInOut(p));
     },
     end(c) {
       if (step.key === "size") get(c)?.apply("size");
@@ -332,9 +340,8 @@ export function picture(job: Job, api: Api): Step[] {
   const img = imageOf(el);
   const name = fileName(el);
   const steps: Step[] = [drawRect("picture")];
-  // Things in 3D or without a picture of their own just appear once their placeholder is drawn.
-  const flat = !el.closest("#journey");
-  if (img && name && flat) {
+  // Things without a picture of their own just appear once their placeholder is drawn.
+  if (img && name) {
     let thumb: HTMLImageElement | null = null;
     let from = { x: 0, y: 0 };
     steps.push({
@@ -460,7 +467,7 @@ export function previewFor(job: Job, twin: HTMLElement, layer: HTMLElement): Pie
   old.remove();
   overlay.write(texts.length === overlay.nodes.length ? texts : [texts.join(" "), ...overlay.nodes.slice(1).map(() => "")]);
   const r = job.el.getBoundingClientRect();
-  const o = overlay.rect();
+  const o = overlay.box.getBoundingClientRect();
   return { overlay, dx: o.left - r.left, dy: o.top - r.top };
 }
 

@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react"
 import { usePathname } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { localizeDigits } from "@/lib/format";
+import { useLenis } from "@/lib/lenis";
 import type { SwarmEngine } from "@/lib/swarm/engine";
 import { setSwarmMode, swarmStore, type SwarmMode } from "@/lib/swarm/store";
 
@@ -14,6 +15,11 @@ export type SwarmLabels = {
   /** Shown after the visitor stopped the mode, until the box gets impatient again. */
   again: SwarmLine;
   stop: string;
+  /** The tour button: while the mode runs, it scrolls the page slowly to the end by itself. */
+  tour: string;
+  pause: string;
+  /** Tooltip of the tour button. */
+  tourHint: string;
   /** "{agents} agents · {percent}% built" */
   counter: string;
   /** Read by screen readers after the button's own text. */
@@ -27,22 +33,30 @@ const AGENTS = 100;
 
 const serverMode = (): SwarmMode => "off";
 const serverProgress = () => 0;
+const serverTouring = () => false;
 
 /**
  * The "click me :)" box on the home page. It wiggles now and then, and gets angrier the longer it
  * is ignored. Clicking it starts the build mode: as the visitor scrolls, the page is rebuilt by a
  * swarm of agent cursors (lib/swarm/engine.ts, fetched on that first click). While it runs, the
- * box is the Stop button and a counter shows how much of the page is built.
+ * box is the Stop button, a counter shows how much of the page is built, and a Tour button beside
+ * it plays the page like a film: it scrolls slowly to the end while the agents build it.
  */
 export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Locale }) {
   const mode = useSyncExternalStore(swarmStore.subscribe, swarmStore.mode, serverMode);
   const progress = useSyncExternalStore(swarmStore.subscribe, swarmStore.progress, serverProgress);
+  const touring = useSyncExternalStore(swarmStore.subscribe, swarmStore.touring, serverTouring);
+  // The page's smooth scroll, read through a ref so the engine always scrolls with the current one.
+  const lenis = useLenis();
+  const lenisRef = useRef(lenis);
+  useEffect(() => {
+    lenisRef.current = lenis;
+  }, [lenis]);
   const [level, setLevel] = useState(0);
   const [again, setAgain] = useState(false);
   const [lift, setLift] = useState(false);
   const engine = useRef<SwarmEngine | null>(null);
   const button = useRef<HTMLButtonElement>(null);
-  const dockRef = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const hintId = useId();
   const on = mode !== "off";
@@ -124,13 +138,22 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
           const box = button.current?.getBoundingClientRect();
           return box ? { x: box.left + box.width / 2, y: box.top + box.height / 2 } : { x: innerWidth / 2, y: innerHeight };
         },
-        dock: () => dockRef.current?.getBoundingClientRect() ?? null,
+        dock: () => button.current?.getBoundingClientRect() ?? null,
+        scrollTo: (y) => {
+          const smooth = lenisRef.current;
+          if (smooth) smooth.scrollTo(y, { immediate: true, force: true });
+          else window.scrollTo(0, y);
+        },
       });
       engine.current.pause(paused);
     } catch {
       engine.current = null;
       setSwarmMode("off");
     }
+  }
+
+  function toggleTour() {
+    engine.current?.tour(!touring);
   }
 
   function toggle() {
@@ -161,11 +184,18 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
   return (
     <>
       <canvas ref={canvas} className="swarm-canvas" aria-hidden />
-      <div ref={dockRef} className="swarm-dock" data-lift={lift ? "" : undefined}>
+      <div className="swarm-dock" data-lift={lift ? "" : undefined}>
         {on ? (
           <p className="swarm-count text-label" aria-hidden>
             {counter}
           </p>
+        ) : null}
+        {mode === "on" ? (
+          <button type="button" className="swarm-tour text-label" aria-pressed={touring} title={labels.tourHint} onClick={toggleTour}>
+            <span className={touring ? "swarm-pause" : "swarm-play"} aria-hidden />
+            {/* On phones the icon alone; screen readers always hear the word. */}
+            <span className="max-md:sr-only">{touring ? labels.pause : labels.tour}</span>
+          </button>
         ) : null}
         <button
           ref={button}

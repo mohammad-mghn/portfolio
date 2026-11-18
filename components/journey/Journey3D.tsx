@@ -7,6 +7,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 import type { Img, JourneyLink } from "@/lib/content/types";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { registerTourPath, type TourSegment } from "@/lib/swarm/store";
 import { setTone } from "@/lib/tone";
 import { cameraAt, layoutJourney, WEIGHTS, type JourneyLayout, type Vec3 } from "./layout";
 import styles from "./Journey.module.css";
@@ -366,6 +367,27 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
               .to({}, { duration: hold(i) });
           }
 
+          // The build mode's tour plays the journey like a film: a quick flight to each card, then a
+          // pause on it long enough to read it. Times per stop weight, in ms.
+          const tourMs = { major: { gap: 1300, hold: 1700 }, minor: { gap: 1000, hold: 1200 }, project: { gap: 700, hold: 700 } };
+          let tourCache: { key: string; segments: TourSegment[] } = { key: "", segments: [] };
+          const unregisterTour = registerTourPath(() => {
+            const st = tl.scrollTrigger;
+            if (!st) return [];
+            const key = `${st.start}|${st.end}`;
+            if (tourCache.key === key) return tourCache.segments;
+            const total = tl.duration();
+            const toScroll = (t: number) => st.start + (t / total) * (st.end - st.start);
+            const segments: TourSegment[] = [];
+            for (let i = 0; i < count; i++) {
+              const at = tl.labels[`m${i}`];
+              if (i > 0) segments.push({ from: toScroll(at - WEIGHTS[weights[i]].gap), to: toScroll(at), ms: tourMs[weights[i]].gap });
+              segments.push({ from: toScroll(at), to: toScroll(at + hold(i)), ms: tourMs[i === count - 1 ? "major" : weights[i]].hold });
+            }
+            tourCache = { key, segments };
+            return segments;
+          });
+
           // Keyboard: tabbing to a card that is still far away flies the camera to it.
           const onFocusIn = (e: FocusEvent) => {
             const target = e.target as HTMLElement | null;
@@ -390,6 +412,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
           document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
           return () => {
+            unregisterTour();
             gsap.ticker.remove(render);
             ro.disconnect();
             section.removeEventListener("focusin", onFocusIn);
@@ -421,6 +444,8 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
     <section
       ref={root}
       id="journey"
+      // The build mode leaves the journey alone: the scene already builds itself as it scrolls.
+      data-swarm="skip"
       data-mode="flat"
       className={styles.section}
       style={{ "--stops": scrollStops } as React.CSSProperties}
@@ -439,7 +464,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
           <ol className={styles.list}>
             {stops.map((s) =>
               s.kind === "role" ? (
-                <li key={s.id} className={styles.card} data-kind="role" data-weight={s.weight} data-swarm="media">
+                <li key={s.id} className={styles.card} data-kind="role" data-weight={s.weight}>
                   <div className="text-label flex items-center justify-between gap-4 opacity-70">
                     <span>
                       {s.number} / {total}
@@ -493,7 +518,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                   ) : null}
                 </li>
               ) : s.items.length === 1 ? (
-                <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-swarm="media">
+                <li key={s.id} className={styles.card} data-kind="project" data-weight="project">
                   {s.items[0].cover ? (
                     <div className={styles.thumb}>
                       <Image
@@ -521,7 +546,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                   </StopLink>
                 </li>
               ) : (
-                <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-stack="" data-swarm="media">
+                <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-stack="">
                   <p className={styles.attach}>{s.attach}</p>
                   <ul className={styles.stack}>
                     {s.items.map((item) => (
@@ -545,7 +570,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
           </ol>
         </div>
 
-        <header className={styles.hud} data-swarm="frame">
+        <header className={styles.hud}>
           <p className="text-label">{labels.eyebrow}</p>
           <h2 id="journey-title" className={styles.hudTitle}>
             {labels.title}

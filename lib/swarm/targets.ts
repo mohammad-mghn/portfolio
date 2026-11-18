@@ -2,9 +2,10 @@
  * Which parts of the page the agents build, and how.
  *
  * The starting points ("seeds") are the blocks the site already marks for its reveal animations
- * (data-reveal, data-split), plus anything marked data-swarm (the first screen, the footer, the
- * journey's title). Nothing else is ever hidden. A seed that is a container ("frame") is built
- * first as an outline; the pieces inside it are found only when it is built, with the same rules.
+ * (data-reveal, data-split), plus anything marked data-swarm (the first screen, the footer).
+ * Nothing else is ever hidden, and the journey section (data-swarm="skip") is left alone. A seed
+ * that is a container ("frame") is built first as an outline; the pieces inside it are found only
+ * when it is built, with the same rules.
  *
  * Kinds:
  *  - frame  an outline is dragged around it, then it appears and its pieces are built one by one
@@ -29,7 +30,7 @@ export function skipped(el: Element): boolean {
   if (NEVER.has(el.tagName)) return true;
   if (el.dataset.swarm === "skip" || el.hasAttribute("data-displace-layer")) return true;
   if (el.getAttribute("aria-hidden") === "true" || el.classList.contains("sr-only")) return true;
-  // Hidden-for-now (visibility) is not skipped: the journey hides far cards and shows them later.
+  // Hidden-for-now (visibility) is not skipped: it may be shown later, and is built then.
   const style = getComputedStyle(el);
   return style.display === "none" || style.position === "fixed";
 }
