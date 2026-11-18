@@ -29,8 +29,9 @@ export function skipped(el: Element): boolean {
   if (NEVER.has(el.tagName)) return true;
   if (el.dataset.swarm === "skip" || el.hasAttribute("data-displace-layer")) return true;
   if (el.getAttribute("aria-hidden") === "true" || el.classList.contains("sr-only")) return true;
+  // Hidden-for-now (visibility) is not skipped: the journey hides far cards and shows them later.
   const style = getComputedStyle(el);
-  return style.display === "none" || style.visibility === "hidden" || style.position === "fixed";
+  return style.display === "none" || style.position === "fixed";
 }
 
 /** The outermost marked blocks inside `root`, in page order. */

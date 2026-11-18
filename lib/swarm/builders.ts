@@ -1,12 +1,14 @@
 /**
- * How the swarm hides a piece and builds it back, using only browser animations (Element.animate).
+ * How the swarm hides a piece and builds it back.
  *
- * Nothing on the page is changed: no attribute, class, inline style or text node. That keeps React
- * and GSAP out of it (an animation's value wins over inline styles while it runs, and disappears
- * when it is cancelled), and it means Persian text is never cut into letters, so it stays joined.
+ * The page itself is never changed: no attribute, class, inline style or text node of it. A piece
+ * is hidden with a browser animation (Element.animate) and shown again by cancelling it. That keeps
+ * React and GSAP out of it, and a hold the engine stops renewing runs out after 2.5 s, so a stalled
+ * engine can never leave content hidden.
  *
- * A hidden piece is held by a 2.5 s animation that the engine keeps rewinding. If the engine ever
- * stops (an error, a frozen tab), the hold simply runs out and the content shows again.
+ * Typing and dragging happen on copies: an exact copy of the element is laid over it in a layer of
+ * our own (outside the page's markup), its text is typed there, and when it is done the copy goes
+ * and the real element is shown in the same frame.
  */
 const HOLD = 2500;
 
@@ -33,158 +35,245 @@ export function keepHolding(animation: Animation) {
 export const fadeIn = (el: HTMLElement, duration: number) =>
   el.animate([{ opacity: 0 }, { opacity: 1 }], { duration, easing: "ease-out", id: "swarm-build" });
 
-/** Small things: opened from their centre as if clicked into place (after `delay`, the press). */
-export const popIn = (el: HTMLElement, duration: number, delay: number) =>
-  el.animate(
-    [
-      { opacity: 0, clipPath: "inset(42% 42% 42% 42%)" },
-      { opacity: 1, clipPath: "inset(-8% -8% -8% -8%)", offset: 0.7 },
-      { opacity: 1, clipPath: "inset(-8% -8% -8% -8%)" },
-    ],
-    { duration, delay, fill: "backwards", easing: "cubic-bezier(.2,.8,.2,1)", id: "swarm-build" },
-  );
+/**
+ * Pictures load like a file arriving: scanned in from the top, blurred and grey at first, then sharp.
+ * Elements whose filter is already driven by other code (the journey's cards) only get the scan.
+ */
+export function loadIn(el: HTMLElement, duration: number): Animation {
+  const blur = !el.style.filter;
+  const frames = blur
+    ? [
+        { clipPath: "inset(0 0 100% 0)", filter: "blur(16px) saturate(0)" },
+        { clipPath: "inset(0 0 0% 0)", filter: "blur(8px) saturate(0.35)", offset: 0.6 },
+        { clipPath: "inset(0 0 0% 0)", filter: "blur(0px) saturate(1)" },
+      ]
+    : [{ clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", offset: 0.6 }, { clipPath: "inset(0 0 0% 0)" }];
+  return el.animate(frames, { duration, easing: "cubic-bezier(.45,0,.2,1)", id: "swarm-build" });
+}
 
-/** Pictures: scanned in from the top. */
-export const scanIn = (el: HTMLElement, duration: number) =>
-  el.animate([{ clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)" }], {
-    duration,
-    easing: "cubic-bezier(.45,0,.2,1)",
-    id: "swarm-build",
-  });
+/** A short name for what a picture is, like a file: "rooza/1.jpg". */
+export function fileName(el: HTMLElement) {
+  const img = el instanceof HTMLImageElement ? el : el.querySelector("img");
+  const src = img?.currentSrc || img?.src || "";
+  if (!src) return el.querySelector("svg") ? "vector.svg" : "layer.png";
+  let path = src;
+  try {
+    const url = new URL(src, location.href);
+    path = url.searchParams.get("url") ?? url.pathname; // next/image wraps the real path
+  } catch {}
+  const parts = path.split("?")[0].split("/").filter(Boolean);
+  return parts.slice(-2).join("/");
+}
 
-/* ───────────────────────── Text ───────────────────────── */
+/* ───────────────────────── The copy layer ───────────────────────── */
 
-type Line = { top: number; bottom: number; start: number; cutTop: number; cutBottom: number };
-export type TextPlan = {
-  rtl: boolean;
-  lines: Line[];
-  /** Each step of the reveal: a line, and how far along it the text is shown (x, from the box's left). */
-  stops: { line: number; x: number }[];
-  /** Horizontal limits of the revealed area, padded so glyphs that overhang are not cut. */
-  left: number;
-  right: number;
-};
+export function createLayer() {
+  const layer = document.createElement("div");
+  layer.className = "swarm-layer";
+  layer.setAttribute("aria-hidden", "true");
+  document.body.appendChild(layer);
+  return layer;
+}
 
-type Piece = { l: number; r: number; t: number; b: number };
+/** Inherited styles a copy would otherwise take from the layer instead of from the page. */
+const INHERITED = [
+  "color",
+  "font-family",
+  "font-size",
+  "font-weight",
+  "font-style",
+  "font-stretch",
+  "font-variant",
+  "font-feature-settings",
+  "font-variation-settings",
+  "font-kerning",
+  "line-height",
+  "letter-spacing",
+  "word-spacing",
+  "text-transform",
+  "text-align",
+  "text-indent",
+  "direction",
+  "white-space",
+  "word-break",
+  "overflow-wrap",
+  "hyphens",
+  "text-wrap",
+  "text-shadow",
+  "-webkit-font-smoothing",
+  "text-rendering",
+];
+
+/** How transparent the element's ancestors make it (ignoring the swarm's own animations). */
+function ancestorsOpacity(el: HTMLElement) {
+  let opacity = 1;
+  for (let up = el.parentElement; up && up !== document.body; up = up.parentElement) {
+    if (up.getAnimations().some((a) => a.id.startsWith("swarm-"))) continue;
+    opacity *= parseFloat(getComputedStyle(up).opacity) || 1;
+  }
+  return opacity;
+}
+
+function copyOf(source: HTMLElement) {
+  const clone = source.cloneNode(true) as HTMLElement;
+  for (const node of [clone, ...clone.querySelectorAll("*")]) {
+    node.removeAttribute("id");
+    for (const attr of [...node.attributes]) {
+      if (attr.name.startsWith("data-") || attr.name.startsWith("aria-") || attr.name === "tabindex") node.removeAttribute(attr.name);
+    }
+  }
+  const style = getComputedStyle(source);
+  for (const property of INHERITED) clone.style.setProperty(property, style.getPropertyValue(property));
+  if (style.display === "inline") clone.style.display = "inline-block";
+  clone.style.margin = "0";
+  clone.style.width = "100%";
+  clone.style.height = "100%";
+  clone.style.minWidth = "0";
+  clone.style.maxWidth = "none";
+  clone.style.boxSizing = "border-box";
+  return clone;
+}
+
+/** An exact copy of an element, laid over the page at the element's place. */
+export class Piece {
+  readonly box: HTMLDivElement;
+  readonly clone: HTMLElement;
+  width: number;
+  height: number;
+
+  constructor(source: HTMLElement, layer: HTMLElement) {
+    const rect = source.getBoundingClientRect();
+    this.width = rect.width;
+    this.height = rect.height;
+    this.box = document.createElement("div");
+    this.box.className = "swarm-piece";
+    this.box.style.width = `${rect.width}px`;
+    this.box.style.height = `${rect.height}px`;
+    this.box.style.opacity = String(ancestorsOpacity(source));
+    this.clone = copyOf(source);
+    this.box.appendChild(this.clone);
+    layer.appendChild(this.box);
+    this.place(rect.left, rect.top);
+  }
+
+  place(x: number, y: number) {
+    this.box.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+  }
+
+  remove() {
+    this.box.remove();
+  }
+}
+
+/** A copy being dragged from one item to the next (see "copy" in the engine). */
+export class Ghost extends Piece {
+  constructor(source: HTMLElement, layer: HTMLElement, colour: string) {
+    super(source, layer);
+    this.box.classList.add("swarm-ghost");
+    this.box.style.setProperty("--ghost", colour);
+  }
+}
+
+/* ───────────────────────── Typing ───────────────────────── */
 
 const segmenters = new Map<string, Intl.Segmenter | null>();
-function segments(value: string, granularity: "grapheme" | "word"): { index: number; text: string }[] {
+function segments(value: string, granularity: "grapheme" | "word") {
   if (!segmenters.has(granularity)) {
     segmenters.set(granularity, typeof Intl.Segmenter === "function" ? new Intl.Segmenter(undefined, { granularity }) : null);
   }
   const segmenter = segmenters.get(granularity);
-  if (segmenter) return [...segmenter.segment(value)].map((s) => ({ index: s.index, text: s.segment }));
-  // Older browsers: code points, or runs of non-spaces.
-  const out: { index: number; text: string }[] = [];
-  const pattern = granularity === "word" ? /\S+/gu : /[\s\S]/gu;
-  for (const match of value.matchAll(pattern)) out.push({ index: match.index ?? 0, text: match[0] });
+  if (segmenter) {
+    return [...segmenter.segment(value)].map((s) => ({
+      end: s.index + s.segment.length,
+      real: granularity === "word" ? Boolean(s.isWordLike) : Boolean(s.segment.trim()),
+    }));
+  }
+  // Older browsers: code points, or words and the spaces between them.
+  const out: { end: number; real: boolean }[] = [];
+  const pattern = granularity === "word" ? /\S+|\s+/gu : /[\s\S]/gu;
+  for (const match of value.matchAll(pattern)) out.push({ end: (match.index ?? 0) + match[0].length, real: Boolean(match[0].trim()) });
   return out;
 }
 
 /**
- * Measures where the text of `el` sits, line by line, without touching it: a Range over each
- * character (or word) gives its boxes. Done when the build starts, so it matches the current layout.
+ * Types an element's text into its copy, one character (or word) at a time.
+ *
+ * Every character is in the copy from the start; the ones not typed yet are in a transparent run
+ * right after the typed ones. So the copy wraps its lines exactly like the real element, Persian
+ * letters keep their joined shapes, and nothing is ever drawn half way.
  */
-export function measureText(el: HTMLElement, granularity: "grapheme" | "word" | "line"): TextPlan | null {
-  const box = el.getBoundingClientRect();
-  const style = getComputedStyle(el);
-  const rtl = style.direction === "rtl";
-  const pad = (parseFloat(style.fontSize) || 16) * 0.3;
-  const range = document.createRange();
-  const pieces: Piece[] = [];
+export class Typist extends Piece {
+  private parts: { node: Text; tail: HTMLSpanElement; text: string; cuts: number[] }[] = [];
+  readonly size: number;
+  readonly rtl: boolean;
+  private shown = -1;
+  private range = document.createRange();
+  /** Where the caret is, relative to the copy's top left corner. */
+  caret = { x: 0, top: 0, bottom: 0 };
 
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-    const value = node.nodeValue ?? "";
-    if (!value.trim() || node.parentElement?.closest(".sr-only")) continue;
-    for (const segment of segments(value, granularity === "grapheme" ? "grapheme" : "word")) {
-      if (!segment.text.trim()) continue;
-      range.setStart(node, segment.index);
-      range.setEnd(node, segment.index + segment.text.length);
-      for (const rect of range.getClientRects()) {
-        if (rect.width === 0 && rect.height === 0) continue;
-        pieces.push({ l: rect.left - box.left, r: rect.right - box.left, t: rect.top - box.top, b: rect.bottom - box.top });
+  constructor(source: HTMLElement, layer: HTMLElement, granularity: "grapheme" | "word") {
+    super(source, layer);
+    this.rtl = getComputedStyle(source).direction === "rtl";
+    const walker = document.createTreeWalker(this.clone, NodeFilter.SHOW_TEXT);
+    const nodes: Text[] = [];
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (node.nodeValue?.trim()) nodes.push(node as Text);
+    }
+    let size = 0;
+    for (const node of nodes) {
+      const text = node.nodeValue ?? "";
+      const cuts: number[] = [];
+      for (const segment of segments(text, granularity)) {
+        // Spaces and punctuation go with the word before them.
+        if (!segment.real && cuts.length) cuts[cuts.length - 1] = segment.end;
+        else if (segment.real) cuts.push(segment.end);
+      }
+      if (!cuts.length) continue;
+      const tail = document.createElement("span");
+      tail.className = "swarm-tail";
+      node.after(tail);
+      this.parts.push({ node, tail, text, cuts });
+      size += cuts.length;
+    }
+    this.size = size;
+    this.show(0);
+  }
+
+  /** Show the first `count` characters (or words). */
+  show(count: number) {
+    if (count === this.shown) return;
+    this.shown = count;
+    let left = count;
+    let last: { node: Text; from: number; to: number } | null = null;
+    for (const part of this.parts) {
+      const typed = Math.min(left, part.cuts.length);
+      left -= typed;
+      const at = typed ? part.cuts[typed - 1] : 0;
+      part.node.nodeValue = part.text.slice(0, at);
+      part.tail.textContent = part.text.slice(at);
+      if (typed) last = { node: part.node, from: typed > 1 ? part.cuts[typed - 2] : 0, to: at };
+    }
+    this.measure(last);
+  }
+
+  private measure(last: { node: Text; from: number; to: number } | null) {
+    const origin = this.box.getBoundingClientRect();
+    let rect: DOMRect | undefined;
+    if (last) {
+      this.range.setStart(last.node, last.from);
+      this.range.setEnd(last.node, last.to);
+      const rects = this.range.getClientRects();
+      rect = rects[rects.length - 1];
+    } else {
+      const first = this.parts[0]?.tail.firstChild;
+      if (first) {
+        this.range.setStart(first, 0);
+        this.range.setEnd(first, Math.min(1, first.textContent?.length ?? 0));
+        rect = this.range.getClientRects()[0];
       }
     }
+    if (!rect) return;
+    const edge = last ? (this.rtl ? rect.left : rect.right) : this.rtl ? rect.right : rect.left;
+    this.caret = { x: edge - origin.left, top: rect.top - origin.top, bottom: rect.bottom - origin.top };
   }
-  if (!pieces.length) return null;
-
-  // Group into lines (a piece whose middle is outside the current line starts a new one), and
-  // keep the caret moving one way only, so a Latin word inside a Persian line appears in one step.
-  const lines: Line[] = [];
-  const stops: { line: number; x: number }[] = [];
-  let line: Line | null = null;
-  let caret = 0;
-  for (const piece of pieces) {
-    const middle = (piece.t + piece.b) / 2;
-    if (!line || middle > line.bottom || middle < line.top) {
-      line = { top: piece.t, bottom: piece.b, start: rtl ? piece.r : piece.l, cutTop: 0, cutBottom: 0 };
-      lines.push(line);
-      caret = rtl ? piece.l : piece.r;
-    } else {
-      line.top = Math.min(line.top, piece.t);
-      line.bottom = Math.max(line.bottom, piece.b);
-      line.start = rtl ? Math.max(line.start, piece.r) : Math.min(line.start, piece.l);
-      caret = rtl ? Math.min(caret, piece.l) : Math.max(caret, piece.r);
-    }
-    stops.push({ line: lines.length - 1, x: caret });
-  }
-
-  // Tight display line heights make lines overlap, so cut between them at the middle.
-  lines.forEach((current, i) => {
-    current.cutTop = i === 0 ? current.top - pad : (lines[i - 1].bottom + current.top) / 2;
-    if (i > 0) lines[i - 1].cutBottom = current.cutTop;
-  });
-  lines[lines.length - 1].cutBottom = lines[lines.length - 1].bottom + pad;
-
-  // Whole lines at a time for long passages; otherwise one step per character or word.
-  let steps = stops;
-  if (granularity === "line") {
-    steps = lines.map((_, i) => stops.filter((stop) => stop.line === i).at(-1)!);
-  }
-  const deduped = steps.filter((stop, i) => i === 0 || stop.line !== steps[i - 1].line || Math.abs(stop.x - steps[i - 1].x) > 0.5);
-
-  const minLeft = Math.min(...pieces.map((p) => p.l));
-  const maxRight = Math.max(...pieces.map((p) => p.r));
-  return {
-    rtl,
-    lines,
-    stops: deduped,
-    left: Math.min(-pad, minLeft - pad),
-    right: Math.max(box.width + pad, maxRight + pad),
-  };
-}
-
-const px = (n: number) => `${n.toFixed(1)}px`;
-
-/** The visible area at one step: every line above in full, the current line up to the caret. */
-function shape(plan: TextPlan, line: number, x: number) {
-  const { left: L, right: R } = plan;
-  const top = plan.lines[0].cutTop;
-  const a = plan.lines[line].cutTop;
-  const b = plan.lines[line].cutBottom;
-  const points = plan.rtl
-    ? [[L, top], [R, top], [R, b], [x, b], [x, a], [L, a]]
-    : [[L, top], [R, top], [R, a], [x, a], [x, b], [L, b]];
-  return `polygon(${points.map(([px1, py1]) => `${px(px1)} ${px(py1)}`).join(", ")})`;
-}
-
-/** Types the text in: each step shows the next character (or word, or line) at once. */
-export function typeIn(el: HTMLElement, plan: TextPlan, duration: number): Animation {
-  const start = { clipPath: shape(plan, 0, plan.rtl ? plan.right : plan.left), easing: "step-end" };
-  const frames = plan.stops.map((stop) => ({ clipPath: shape(plan, stop.line, stop.x), easing: "step-end" }));
-  return el.animate([start, ...frames], { duration, easing: "linear", id: "swarm-build" });
-}
-
-/** Where the caret is `progress` (0 to 1) into a typeIn animation, relative to the element's box. */
-export function caretAt(plan: TextPlan, progress: number) {
-  // The keyframes are evenly spaced: the start (nothing shown) and then one per step.
-  const shown = Math.min(plan.stops.length, Math.floor(progress * plan.stops.length));
-  if (shown === 0) {
-    const first = plan.lines[0];
-    return { x: first.start, top: first.top, bottom: first.bottom };
-  }
-  const stop = plan.stops[shown - 1];
-  const line = plan.lines[stop.line];
-  return { x: stop.x, top: line.top, bottom: line.bottom };
 }

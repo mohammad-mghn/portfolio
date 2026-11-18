@@ -430,7 +430,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
         <canvas className={styles.stars} aria-hidden />
         <canvas className={styles.thread} aria-hidden />
 
-        <div className={styles.world} data-swarm="skip">
+        <div className={styles.world}>
           {ghostYears.map((g) => (
             <span key={`ghost-${g.i}`} className={styles.ghost} data-i={g.i} data-weight={g.weight} aria-hidden>
               {g.year}
@@ -439,7 +439,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
           <ol className={styles.list}>
             {stops.map((s) =>
               s.kind === "role" ? (
-                <li key={s.id} className={styles.card} data-kind="role" data-weight={s.weight}>
+                <li key={s.id} className={styles.card} data-kind="role" data-weight={s.weight} data-swarm="media">
                   <div className="text-label flex items-center justify-between gap-4 opacity-70">
                     <span>
                       {s.number} / {total}
@@ -493,7 +493,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                   ) : null}
                 </li>
               ) : s.items.length === 1 ? (
-                <li key={s.id} className={styles.card} data-kind="project" data-weight="project">
+                <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-swarm="media">
                   {s.items[0].cover ? (
                     <div className={styles.thumb}>
                       <Image
@@ -521,7 +521,7 @@ export function Journey3D({ stops, dir, labels, total }: Props) {
                   </StopLink>
                 </li>
               ) : (
-                <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-stack="">
+                <li key={s.id} className={styles.card} data-kind="project" data-weight="project" data-stack="" data-swarm="media">
                   <p className={styles.attach}>{s.attach}</p>
                   <ul className={styles.stack}>
                     {s.items.map((item) => (

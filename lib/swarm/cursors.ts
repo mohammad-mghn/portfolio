@@ -18,6 +18,113 @@ export const PALETTE = [
   "#7bd389",
 ];
 
+/**
+ * The agents' names: computing pioneers, Persian scholars and poets (al-Khwarizmi gave us the word
+ * "algorithm"), and everyday Persian names. One per agent, shown on its tag.
+ */
+export const NAMES = [
+  "Ada",
+  "Alan",
+  "Grace",
+  "Linus",
+  "Margaret",
+  "Dennis",
+  "Ken",
+  "Barbara",
+  "Tim",
+  "Guido",
+  "Bjarne",
+  "Brendan",
+  "Anders",
+  "Rasmus",
+  "Yukihiro",
+  "Donald",
+  "Edsger",
+  "Hedy",
+  "Katherine",
+  "Dorothy",
+  "Frances",
+  "Radia",
+  "Khwarizmi",
+  "Khayyam",
+  "Avicenna",
+  "Razi",
+  "Biruni",
+  "Tusi",
+  "Farabi",
+  "Kashi",
+  "Maryam",
+  "Hafez",
+  "Rumi",
+  "Saadi",
+  "Attar",
+  "Ferdowsi",
+  "Kent",
+  "Martin",
+  "Ward",
+  "Kelsey",
+  "Mitchell",
+  "Solomon",
+  "Ryan",
+  "Russ",
+  "Evan",
+  "Rich",
+  "Sophie",
+  "Lea",
+  "Sarah",
+  "Addy",
+  "Jake",
+  "Una",
+  "Sindre",
+  "Jessica",
+  "Mira",
+  "Leila",
+  "Nima",
+  "Sara",
+  "Dara",
+  "Arash",
+  "Kian",
+  "Parisa",
+  "Shirin",
+  "Kaveh",
+  "Roya",
+  "Babak",
+  "Neda",
+  "Omid",
+  "Yasmin",
+  "Cyrus",
+  "Darius",
+  "Atoosa",
+  "Bahar",
+  "Nazanin",
+  "Hooman",
+  "Ladan",
+  "Reza",
+  "Mina",
+  "Sina",
+  "Navid",
+  "Taraneh",
+  "Pouya",
+  "Golnar",
+  "Arman",
+  "Ziba",
+  "Kamran",
+  "Soraya",
+  "Payam",
+  "Elham",
+  "Farhad",
+  "Mahsa",
+  "Behnaz",
+  "Ramin",
+  "Vida",
+  "Jaleh",
+  "Bijan",
+  "Shahab",
+  "Tara",
+  "Kimia",
+  "Afshin",
+];
+
 /** Agent states. Parked agents wait just outside the screen and are not drawn. */
 export const PARKED = 0;
 export const ROAM = 1;
@@ -113,7 +220,7 @@ export class Painter {
     const measure = document.createElement("canvas").getContext("2d")!;
     measure.font = FONT;
     this.tags = agents.map((agent) => {
-      const label = `agent-${String(agent.index + 1).padStart(3, "0")}`;
+      const label = NAMES[agent.index % NAMES.length];
       const w = Math.ceil(measure.measureText(label).width) + 10;
       const sprite = document.createElement("canvas");
       sprite.width = Math.ceil(w * r);
@@ -173,19 +280,22 @@ export class Painter {
       ctx.fillRect(hx - 3, hy - 3, 6, 6);
       ctx.strokeRect(hx - 3 + 0.5, hy - 3 + 0.5, 6, 6);
     }
-    if (w > 24 && h > 12) {
-      const label = `${Math.round(w)} × ${Math.round(h)}`;
-      ctx.font = FONT;
-      const lw = ctx.measureText(label).width + 10;
-      const lx = Math.min(Math.max(x1 + 10, 4), this.width - lw - 4);
-      const ly = Math.min(Math.max(y1 + 10, 4), this.height - TAG_H - 4);
-      ctx.fillStyle = colour;
-      ctx.fillRect(lx, ly, lw, TAG_H);
-      ctx.fillStyle = inkOn(colour);
-      ctx.textBaseline = "middle";
-      ctx.fillText(label, lx + 5, ly + TAG_H / 2 + 0.5);
-    }
+    if (w > 24 && h > 12) this.chip(x1 + 10, y1 + 10, `${Math.round(w)} × ${Math.round(h)}`, colour);
     ctx.globalAlpha = 1;
+  }
+
+  /** A small label next to the cursor: a size, a file name, a hint. */
+  chip(x: number, y: number, label: string, colour: string) {
+    const ctx = this.ctx;
+    ctx.font = FONT;
+    const lw = ctx.measureText(label).width + 10;
+    const lx = Math.min(Math.max(x, 4), this.width - lw - 4);
+    const ly = Math.min(Math.max(y, 4), this.height - TAG_H - 4);
+    ctx.fillStyle = colour;
+    ctx.fillRect(lx, ly, lw, TAG_H);
+    ctx.fillStyle = inkOn(colour);
+    ctx.textBaseline = "middle";
+    ctx.fillText(label, lx + 5, ly + TAG_H / 2 + 0.5);
   }
 
   caret(x: number, top: number, bottom: number, colour: string) {
