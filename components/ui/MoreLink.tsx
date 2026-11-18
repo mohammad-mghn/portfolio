@@ -11,6 +11,7 @@ export function MoreLink({ href, label, className }: { href: string; label: stri
         className,
       )}
       data-reveal
+      data-cursor="go"
     >
       {label}
       <span aria-hidden className="rtl:-scale-x-100">

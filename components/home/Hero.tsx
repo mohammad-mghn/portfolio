@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { LiquidHeading } from "@/components/ui/LiquidHeading";
 import type { Locale } from "@/i18n/routing";
 import type { SiteSettings } from "@/lib/content";
 
@@ -25,7 +26,7 @@ export async function Hero({ locale, site }: { locale: Locale; site: SiteSetting
         </p>
       </div>
 
-      <h1 className="px-gutter @container" aria-label={site.name} data-swarm="type">
+      <LiquidHeading className="px-gutter @container" aria-label={site.name} data-swarm="type">
         {oneLine ? (
           <span className="intro-line hero-name block" aria-hidden>
             <span className="intro-line-inner" style={{ "--d": "0.05s" } as React.CSSProperties}>
@@ -46,7 +47,7 @@ export async function Hero({ locale, site }: { locale: Locale; site: SiteSetting
             </span>
           </>
         )}
-      </h1>
+      </LiquidHeading>
 
       <div className="grid-12 rule mt-[3vh] gap-y-8 pt-6">
         <div className="col-span-full flex flex-col gap-6 md:col-span-6">
@@ -75,12 +76,14 @@ export async function Hero({ locale, site }: { locale: Locale; site: SiteSetting
           <div className="intro-fade flex flex-wrap items-center gap-3" style={{ "--d": "0.9s" } as React.CSSProperties} data-swarm="frame">
             <a
               href="#contact"
+              data-cursor="talk"
               className="text-label rounded-full bg-accent px-5 py-3.5 text-night transition-colors duration-500 ease-house hover:bg-ink hover:text-paper"
             >
               {t("talk")}
             </a>
             <a
               href="#work"
+              data-cursor="view"
               className="text-label rounded-full border border-ink/25 px-5 py-3.5 transition-colors duration-500 ease-house hover:border-ink"
             >
               {t("work")}

@@ -57,6 +57,7 @@ export const RecommendationCarousel = deferred(() =>
 export const Journey3D = deferred(() => import("@/components/journey/Journey3D").then((m) => m.Journey3D));
 export const WorkList = deferred(() => import("@/components/work/WorkList").then((m) => m.WorkList));
 export const Marquee = deferred(() => import("@/components/ui/Marquee").then((m) => m.Marquee));
+export const LinkCursor = deferred(() => import("@/components/chrome/LinkCursor").then((m) => m.LinkCursor));
 export const SwarmBox = deferred(() => import("@/components/swarm/SwarmBox").then((m) => m.SwarmBox));
 
 // Once the page is painted, fetch all of them, so a later page that needs one does not have to wait.

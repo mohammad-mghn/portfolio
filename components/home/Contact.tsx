@@ -68,13 +68,14 @@ export async function Contact({
           ) : null}
         </div>
         <div className="col-span-full flex flex-col items-start gap-4 md:col-span-6 md:col-start-7" data-reveal>
-          <a href={`mailto:${site.email}`} className="text-statement [overflow-wrap:anywhere] hover:text-accent" dir="ltr">
+          <a href={`mailto:${site.email}`} data-cursor="mail" className="text-statement [overflow-wrap:anywhere] hover:text-accent" dir="ltr">
             {site.email}
           </a>
           <div className="flex flex-wrap gap-3">
             {site.bookingUrl ? (
               <a
                 href={site.bookingUrl}
+                data-cursor="talk"
                 target="_blank"
                 rel="noreferrer"
                 className="text-label rounded-full bg-accent px-4 py-2.5 text-night transition-colors duration-500 ease-house hover:bg-[#ece8df]"
@@ -86,6 +87,7 @@ export async function Contact({
             {linkedin ? (
               <a
                 href={linkedin.href}
+                data-cursor="open"
                 target="_blank"
                 rel="noreferrer"
                 className="text-label rounded-full border border-current/30 px-4 py-2.5 transition-colors duration-500 ease-house hover:border-accent hover:text-accent"
@@ -95,6 +97,7 @@ export async function Contact({
             ) : null}
             <Link
               href="/resume"
+              data-cursor="go"
               className="text-label rounded-full border border-current/30 px-4 py-2.5 transition-colors duration-500 ease-house hover:border-accent hover:text-accent"
             >
               {t("resume")}
@@ -109,7 +112,7 @@ export async function Contact({
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {site.socials.map((s) => (
               <li key={s.href}>
-                <a href={s.href} target="_blank" rel="noreferrer" className="text-label hover:text-accent">
+                <a href={s.href} data-cursor="open" target="_blank" rel="noreferrer" className="text-label hover:text-accent">
                   {s.label} ↗
                 </a>
               </li>
@@ -121,7 +124,7 @@ export async function Contact({
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {pages.map((p) => (
               <li key={p.href}>
-                <Link href={p.href} className="text-label hover:text-accent">
+                <Link href={p.href} data-cursor="go" className="text-label hover:text-accent">
                   {p.label}
                 </Link>
               </li>
@@ -130,7 +133,7 @@ export async function Contact({
         </nav>
         {onContactPage ? null : (
           <div className="col-span-full flex md:col-span-2 md:justify-end" data-reveal>
-            <Link href="/contact" className="text-label hover:text-accent">
+            <Link href="/contact" data-cursor="go" className="text-label hover:text-accent">
               {t("contactPage")}{" "}
               <span aria-hidden className="inline-block rtl:-scale-x-100">
                 →
@@ -145,7 +148,7 @@ export async function Contact({
           © {year} {site.name}. {t("rights")}
         </p>
         <p className="text-label col-span-2 hidden opacity-60 md:col-span-4 md:block">{t("made")}</p>
-        <a href="#top" className="text-label col-span-2 text-end hover:text-accent md:col-span-4">
+        <a href="#top" data-cursor="up" className="text-label col-span-2 text-end hover:text-accent md:col-span-4">
           {t("backTop")} ↑
         </a>
       </footer>

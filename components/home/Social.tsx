@@ -16,6 +16,7 @@ export function ChannelCards({ channels, locale, labels }: { channels: SocialLin
         <a
           key={c.href}
           href={c.href}
+          data-cursor="open"
           target="_blank"
           rel="noreferrer"
           className="group col-span-full flex min-h-[18rem] flex-col justify-between gap-10 rounded-sm border border-hair p-6 transition-colors duration-500 ease-house hover:border-ink hover:bg-ink hover:text-paper md:col-span-6"
@@ -57,6 +58,7 @@ export function ProfileList({ profiles, label }: { profiles: SocialLink[]; label
           <li key={p.href} className="border-b border-hair" data-reveal>
             <a
               href={p.href}
+              data-cursor="open"
               target="_blank"
               rel="noreferrer"
               className="flex flex-col gap-1 py-5 pe-4 transition-colors duration-500 ease-house hover:text-accent"

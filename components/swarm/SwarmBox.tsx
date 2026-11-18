@@ -191,7 +191,7 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
           </p>
         ) : null}
         {mode === "on" ? (
-          <button type="button" className="swarm-tour text-label" aria-pressed={touring} title={labels.tourHint} onClick={toggleTour}>
+          <button type="button" className="swarm-tour text-label" data-cursor={touring ? "pause" : "play"} aria-pressed={touring} title={labels.tourHint} onClick={toggleTour}>
             <span className={touring ? "swarm-pause" : "swarm-play"} aria-hidden />
             {/* On phones the icon alone; screen readers always hear the word. */}
             <span className="max-md:sr-only">{touring ? labels.pause : labels.tour}</span>
@@ -205,6 +205,7 @@ export function SwarmBox({ labels, locale }: { labels: SwarmLabels; locale: Loca
           data-on={on ? "" : undefined}
           aria-pressed={on}
           aria-describedby={hintId}
+          data-cursor={on ? "stop" : "try"}
           onClick={toggle}
         >
           <span className="swarm-icon" aria-hidden>

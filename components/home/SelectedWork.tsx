@@ -22,6 +22,7 @@ export async function SelectedWork({ locale, projects, index }: { locale: Locale
       <div className="grid-12 mt-10">
         <Link
           href="/work"
+          data-cursor="go"
           className="text-label col-span-full flex items-center gap-3 justify-self-start rounded-full border border-ink/25 px-5 py-3.5 transition-colors duration-500 ease-house hover:border-ink md:col-start-6"
           data-reveal
         >

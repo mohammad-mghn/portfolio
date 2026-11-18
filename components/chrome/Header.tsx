@@ -65,6 +65,7 @@ export function Header(props: Props) {
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="site-menu"
+            data-cursor="menu"
             className="text-label group flex min-h-[44px] items-center gap-2 px-4 transition-opacity duration-300 hover:opacity-60"
           >
             {labels.menu}

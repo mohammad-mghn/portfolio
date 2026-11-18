@@ -31,14 +31,14 @@ export function ClothImage({
   const lastPoke = useRef({ x: 0, y: 0 });
 
   useEffect(() => () => cloth.current?.destroy(), []);
-  // The agent build mode has the picture to itself while it runs.
+  // The agent build mode has the picture to itself while it runs: a ripple in progress goes at once.
   useEffect(
     () =>
       swarmStore.subscribe(() => {
-        if (swarmActive()) {
-          hovering.current = false;
-          cloth.current?.leave();
-        }
+        if (!swarmActive()) return;
+        hovering.current = false;
+        cloth.current?.leave();
+        if (canvas.current) canvas.current.style.opacity = "0";
       }),
     [],
   );

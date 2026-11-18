@@ -6,7 +6,8 @@ import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Live } from "@/components/cms/Live";
 import { Header } from "@/components/chrome/Header";
-import { LenisRuntime, PageWipe, ScrollReveals } from "@/components/deferred";
+import { LenisRuntime, LinkCursor, PageWipe, ScrollReveals } from "@/components/deferred";
+import { CURSOR_KEYS, type CursorLabels } from "@/lib/cursor";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { dirFor, routing } from "@/i18n/routing";
 import { getSiteSettings } from "@/lib/content";
@@ -63,13 +64,16 @@ export default async function LocaleLayout({ children, modal, params }: LayoutPr
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
 
-  const [site, jsonLd, t, tc, tm] = await Promise.all([
+  const [site, jsonLd, t, tc, tm, tcursor] = await Promise.all([
     getSiteSettings(locale),
     siteJsonLd(locale),
     getTranslations({ locale, namespace: "nav" }),
     getTranslations({ locale, namespace: "contact" }),
     getTranslations({ locale, namespace: "meta" }),
+    getTranslations({ locale, namespace: "cursor" }),
   ]);
+  // The words in the circle cursor over links and buttons (components/chrome/LinkCursor).
+  const cursorLabels = Object.fromEntries(CURSOR_KEYS.map((key) => [key, tcursor(key)])) as CursorLabels;
   const menuItems = [
     { href: "/", label: t("home") },
     { href: "/engineering", label: t("engineering") },
@@ -138,6 +142,7 @@ export default async function LocaleLayout({ children, modal, params }: LayoutPr
           {modal}
           <PageWipe />
           <ScrollReveals />
+          <LinkCursor labels={cursorLabels} />
           <LenisRuntime />
         </SmoothScroll>
         <Live />

@@ -18,6 +18,7 @@ export function CopyEmail({ email, label, copiedLabel }: { email: string; label:
       }}
       className="text-label rounded-full border border-current/30 px-4 py-2.5 transition-colors duration-500 ease-house hover:border-accent hover:text-accent"
       aria-live="polite"
+      data-cursor={copied ? "copied" : "copy"}
     >
       {copied ? copiedLabel : label}
     </button>

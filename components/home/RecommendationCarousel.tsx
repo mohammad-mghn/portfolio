@@ -369,6 +369,7 @@ export function RecommendationCarousel({
                     <Link
                       href={`/recommendations#${r.id}`}
                       draggable={false}
+                      data-cursor="read"
                       className="text-label mt-5 inline-flex items-center gap-2 self-start hover:text-accent"
                     >
                       {labels.readFull}

@@ -17,11 +17,14 @@ export function DisplaceText({ id, className, children }: { id?: string; classNa
   const pointer = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => () => effect.current?.destroy(), []);
-  // The agent build mode has the heading to itself while it runs.
+  // The agent build mode has the heading to itself while it runs: tiles in motion go at once.
+  // (A destroyed effect builds its tiles again on the next hover after the mode.)
   useEffect(
     () =>
       swarmStore.subscribe(() => {
-        if (swarmActive()) effect.current?.destroy();
+        if (!swarmActive()) return;
+        pointer.current = null;
+        effect.current?.destroy();
       }),
     [],
   );

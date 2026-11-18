@@ -322,5 +322,22 @@
     "titleA": "Lost",
     "titleB": "the thread.",
     "back": "Back to the start"
+  },
+  "cursor": {
+    "talk": "say hi",
+    "view": "view",
+    "read": "read",
+    "open": "open",
+    "go": "go",
+    "copy": "copy",
+    "copied": "copied",
+    "mail": "write",
+    "menu": "open",
+    "close": "close",
+    "try": "try",
+    "stop": "stop",
+    "play": "play",
+    "pause": "pause",
+    "up": "up"
   }
 }
