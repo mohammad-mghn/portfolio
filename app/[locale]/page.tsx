@@ -1,9 +1,8 @@
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ProgressRail, SwarmBox } from "@/components/deferred";
+import { SwarmBox } from "@/components/deferred";
 import { About } from "@/components/home/About";
-import { Beliefs } from "@/components/home/Beliefs";
 import { Contact } from "@/components/home/Contact";
 import { Hero } from "@/components/home/Hero";
 import { Numbers } from "@/components/home/Numbers";
@@ -14,24 +13,20 @@ import { Social } from "@/components/home/Social";
 import { JourneySection } from "@/components/journey/JourneySection";
 import { routing } from "@/i18n/routing";
 import { getAbout, getProjects, getRecommendations, getSiteSettings } from "@/lib/content";
-import { formatIndex } from "@/lib/format";
-import { homeSectionIndex as n, homeSections } from "@/lib/sections";
+import { homeSectionIndex as n } from "@/lib/sections";
 
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const [site, about, projects, recommendations, t, ts] = await Promise.all([
+  const [site, about, projects, recommendations, ts] = await Promise.all([
     getSiteSettings(locale),
     getAbout(locale),
     getProjects(locale),
     getRecommendations(locale),
-    getTranslations({ locale, namespace: "nav" }),
     getTranslations({ locale, namespace: "swarm" }),
   ]);
-
-  const rail = homeSections.map((s, i) => ({ id: s.id, label: t(s.key), index: formatIndex(i, locale) }));
 
   return (
     <main id="main">
@@ -44,9 +39,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <SelectedWork locale={locale} projects={projects} index={n("work")} />
       <JourneySection locale={locale} index={n("journey")} />
       <Social locale={locale} socials={site.socials} index={n("social")} />
-      <Beliefs locale={locale} beliefs={about.beliefs} quotes={about.quotes} index={n("beliefs")} />
       <Contact locale={locale} site={site} page="home" index={n("contact")} />
-      <ProgressRail items={rail} />
       <SwarmBox
         locale={locale}
         labels={{

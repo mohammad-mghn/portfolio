@@ -112,7 +112,7 @@ export const about = {
     { value: { en: "3,000+", fa: "۳٬۰۰۰+" }, label: { en: "Rooza users", fa: "کاربر روزا" } },
     { value: { en: "100+", fa: "۱۰۰+" }, label: { en: "Support agents on Agent Assist", fa: "کارشناس پشتیبانی با Agent Assist" } },
     { value: { en: "140+", fa: "۱۴۰+" }, label: { en: "GitHub stars on Windows 11 On Web", fa: "ستارهٔ گیت‌هاب Windows 11 On Web" } },
-    { value: { en: "100K+", fa: "۱۰۰ هزار+" }, label: { en: "Monthly visits on Lusyman", fa: "بازدید ماهانهٔ لوسیمن" } },
+    { value: { en: "100K+", fa: "۱۰۰ هزار+" }, label: { en: "Monthly visits on SaleCar", fa: "بازدید ماهانهٔ SaleCar" } },
     { value: { en: "2021", fa: "۲۰۲۱" }, label: { en: "Building since", fa: "از این سال می‌سازم" } },
   ],
   pillars: [

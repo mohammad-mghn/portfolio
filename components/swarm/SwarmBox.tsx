@@ -27,7 +27,7 @@ export type SwarmLabels = {
 };
 
 /** Seconds ignored at which the box gets more impatient (levels 1, 2 and 3). */
-const ANGER_AT = [20, 45, 80];
+const ANGER_AT = [8, 18, 32];
 const ICONS = ["?", "?", "!", "!!"];
 const AGENTS = 100;
 

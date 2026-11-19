@@ -402,14 +402,6 @@
   filter: invert(1);
   mix-blend-mode: difference;
 }
-/* The side rail still switches as a whole when a dark section is under it. */
-.site-rail {
-  color: var(--ink);
-}
-:root[data-tone="dark"] .site-rail {
-  color: #ece8df;
-}
-
 /*
  * Displaced heading (lib/effects/displace-text.ts): while its tiles are showing, the real text is
  * transparent (still there for screen readers and selection) and the tiles draw copies of it.
@@ -1129,14 +1121,6 @@
 .work-row:focus-visible .work-row-cta {
   opacity: 1;
   transform: none;
-}
-
-.rail-chip {
-  background: color-mix(in oklab, var(--paper) 82%, transparent);
-  backdrop-filter: blur(6px);
-}
-:root[data-tone="dark"] .rail-chip {
-  background: color-mix(in oklab, var(--night) 82%, transparent);
 }
 
 /* ───────────────────────── Intro (CSS-only, paints before hydration → good LCP) ───────────────────────── */

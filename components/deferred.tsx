@@ -49,7 +49,6 @@ export const ScrollReveals = deferred(() => import("@/components/motion/ScrollRe
 export const LenisRuntime = deferred(() => import("@/components/motion/LenisRuntime").then((m) => m.LenisRuntime));
 export const PageWipe = deferred(() => import("@/components/motion/PageWipe").then((m) => m.PageWipe));
 export const Menu = deferred(() => import("@/components/chrome/Menu").then((m) => m.Menu));
-export const ProgressRail = deferred(() => import("@/components/chrome/ProgressRail").then((m) => m.ProgressRail));
 export const DarkSection = deferred(() => import("@/components/home/DarkSection").then((m) => m.DarkSection));
 export const RecommendationCarousel = deferred(() =>
   import("@/components/home/RecommendationCarousel").then((m) => m.RecommendationCarousel),

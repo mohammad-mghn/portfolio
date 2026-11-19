@@ -1,6 +1,6 @@
 /**
  * Home-page sections in reading order. This list is the single source of truth: the page renders
- * in this order, section numbers come from the position here, and the side rail follows it.
+ * in this order, and section numbers come from the position here.
  * `key` is the label under `nav` in messages.
  */
 export const homeSections = [
@@ -11,7 +11,6 @@ export const homeSections = [
   { id: "work", key: "work" },
   { id: "journey", key: "journey" },
   { id: "social", key: "social" },
-  { id: "beliefs", key: "beliefs" },
   { id: "contact", key: "contact" },
 ] as const;
 
