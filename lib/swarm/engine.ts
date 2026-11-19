@@ -22,6 +22,10 @@
  *     sections keep building in the background instead of being shown half done
  *   - the whole page is built, wherever the mode starts: what is above the screen then is built
  *     when the visitor scrolls back up to it
+ *   - an interruption never leaves a piece showing unbuilt: if the window changes width, the tab is
+ *     hidden, a case study opens over the page, or the visitor scrolls away from a half-edited copy,
+ *     what was in progress starts over and is built when it is on screen again (a phone's address
+ *     bar showing or hiding only changes the height, and the build carries on as it was)
  *
  * The tour (the button beside Stop) scrolls the page by itself, like a film: it slows down while
  * pieces on screen are being built and speeds up where there is nothing to build. Through the
@@ -38,7 +42,7 @@ import { classify, discover, findSeeds, type Kind } from "./targets";
 export type SwarmEngine = {
   /** Show everything at once, send the cursors home and end the mode. */
   stop(): Promise<void>;
-  /** While a case study is open over the page: finish what is in progress and wait. */
+  /** While a case study is open over the page: put what is in progress back and wait; it is built after. */
   pause(paused: boolean): void;
   /** Immediate stop, for when the page is going away. */
   destroy(): void;
@@ -369,6 +373,43 @@ export async function startSwarm({
     markDone(task, now);
   }
 
+  /**
+   * Start a piece over, as if no agent had reached it yet: its copies go and its agent is free.
+   * Used when its build is interrupted (the layout changed under it, the tab was hidden, a case study
+   * opened over the page, the visitor scrolled away from a half-edited copy), so that an interruption
+   * never leaves a piece showing without having been built: it is built again when it is on screen.
+   * `hidden`: it stays hidden meanwhile (it is still on screen and will be picked up again at once);
+   * otherwise it shows as it is until it comes near again, like a piece not reached yet.
+   */
+  function restart(task: Task, now: number, hidden: boolean) {
+    if (task.phase === "done" || task.phase === "fresh") return;
+    clearPieces(task);
+    freeAgent(task, now);
+    task.steps = [];
+    task.stepIndex = 0;
+    task.progress = 0;
+    task.buildStart = 0;
+    task.source = null;
+    task.seenSince = 0;
+    if (hidden) {
+      if (!task.hold || task.hold.playState === "finished") task.hold = hold(task.el);
+      task.phase = "held";
+    } else {
+      task.hold?.cancel();
+      task.hold = null;
+      task.phase = "fresh";
+    }
+  }
+
+  /**
+   * Keep a piece hidden. A hold the engine could not renew in time (the page froze for a moment)
+   * has run out and shown the piece: hide it again, it is still to be built.
+   */
+  function keepHidden(task: Task) {
+    if (!task.hold || task.hold.playState === "finished") task.hold = hold(task.el);
+    else keepHolding(task.hold);
+  }
+
   const api: Api = {
     reveal(job) {
       const task = job as Task;
@@ -622,34 +663,25 @@ export async function startSwarm({
         case "fresh":
           if (paused) break;
           // About to come on screen, or just arrived (a fast scroll or a jump): hide it, then build it.
-          if (task.inView || task.inBand) {
+          // A piece of a built frame is hidden as soon as it is near, even if only out sideways (a
+          // card in a row that slides), as it was when the frame was built: it must never flash in.
+          if (task.inView || task.inBand || (task.parent && nearby(task))) {
             task.hold = hold(task.el);
             task.phase = "held";
           }
           break;
         case "held":
+          // A case study is open over the page: everything waits as it is, and is built when it is back.
           if (paused) {
-            finish(task, now);
+            restart(task, now, false);
             break;
           }
-          if (task.hold) {
-            keepHolding(task.hold);
-            if (task.hold.playState === "finished") {
-              task.hold = null;
-              finish(task, now);
-              break;
-            }
-          }
+          keepHidden(task);
           // Out of the band: let it go until it comes near again, unless it is only out sideways
-          // (cards in a row that slides). A copy already showing its copied content is shown as is.
+          // (cards in a row that slides). A copy still showing its copied content is started over
+          // too: it is built properly when the visitor comes back to it, never left half edited.
           if (!task.inBand && !task.first && !nearby(task)) {
-            if (task.preview) finish(task, now);
-            else {
-              task.hold?.cancel();
-              task.hold = null;
-              task.seenSince = 0;
-              task.phase = "fresh";
-            }
+            restart(task, now, false);
             break;
           }
           task.seenSince = task.inView ? task.seenSince || now : 0;
@@ -671,13 +703,17 @@ export async function startSwarm({
           break;
         case "eligible":
         case "claimed": {
+          if (paused) {
+            restart(task, now, false);
+            break;
+          }
           // Off screen, nobody is waiting on it: its clock stops, and it is built when an agent is free.
           if (!task.inView) task.deadline = Math.max(task.deadline, now + DEADLINE);
-          if (paused || now > task.deadline) {
+          if (now > task.deadline) {
             finish(task, now);
             break;
           }
-          if (task.hold) keepHolding(task.hold);
+          keepHidden(task);
           if (task.phase === "eligible" && faint(task.el)) {
             task.deadline = now + DEADLINE;
             break;
@@ -690,11 +726,15 @@ export async function startSwarm({
           break;
         }
         case "build":
-          if (paused || now - task.buildStart > LONGEST_BUILD) {
+          if (paused) {
+            restart(task, now, false);
+            break;
+          }
+          if (now - task.buildStart > LONGEST_BUILD) {
             finish(task, now);
             break;
           }
-          if (task.hold) keepHolding(task.hold);
+          keepHidden(task);
           busy += 1;
           work(task, now);
           break;
@@ -826,21 +866,33 @@ export async function startSwarm({
   group(seeds);
 
   /* ── Things that end or pause the build ── */
+  let width = window.innerWidth;
   const onResize = () => {
     painter.resize();
-    // Measurements are stale: show whatever is in progress.
+    // Only the height changed: on a phone, the address bar showing or hiding as the page scrolls.
+    // Every piece is measured again each frame, so the build simply carries on.
+    if (window.innerWidth === width) return;
+    width = window.innerWidth;
+    // The layout changed: copies made for the old width no longer fit. Those pieces start over
+    // (still hidden), and are built again for the new layout.
     const now = performance.now();
-    for (const task of tasks) if (task.phase === "build" || task.phase === "claimed" || task.phase === "eligible") finish(task, now);
+    for (const task of tasks) {
+      if (task.phase === "build" || task.phase === "claimed" || (task.preview && task.phase !== "done")) restart(task, now, true);
+    }
   };
+  // In the background the page stops running and its holds run out. Whatever was not built yet
+  // waits as it is, and is built when the visitor is back and it is on screen again.
   const onVisibility = () => {
     if (document.visibilityState !== "hidden") return;
     const now = performance.now();
-    for (const task of tasks) if (task.phase !== "fresh") finish(task, now);
+    for (const task of tasks) restart(task, now, false);
   };
-  // Keyboard users must never land on something invisible.
+  // Keyboard users must never land on something invisible. (A click or tap that focuses something,
+  // like the recommendations row, does not count: the visitor is looking at it as it is built.)
   const onFocus = (event: FocusEvent) => {
+    if (!(event.target instanceof Element) || !event.target.matches(":focus-visible")) return;
     const now = performance.now();
-    for (let el = event.target as Element | null; el && el !== root; el = el.parentElement) {
+    for (let el: Element | null = event.target; el && el !== root; el = el.parentElement) {
       const task = byEl.get(el);
       if (task && task.phase !== "done") finish(task, now);
     }
@@ -905,7 +957,7 @@ export async function startSwarm({
       if (!paused) return;
       setTour(false);
       const now = performance.now();
-      for (const task of tasks) if (task.phase !== "fresh" && task.phase !== "done") finish(task, now);
+      for (const task of tasks) restart(task, now, false);
     },
     destroy() {
       stopping = true;

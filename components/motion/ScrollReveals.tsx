@@ -11,6 +11,8 @@ const swarmOff = () => false;
 
 /** Scrolling faster than this (px per second), an animation would only hide what the reader is flying past. */
 const FLYING = 2400;
+/** The inline styles a fade-up writes (autoAlpha and y), removed again whenever the reveals stand down. */
+const REVEAL_PROPS = ["opacity", "visibility", "transform", "translate", "rotate", "scale"];
 
 /**
  * Page-level reveal system. Server components opt in with attributes:
@@ -112,6 +114,14 @@ export function ScrollReveals() {
             });
           },
         });
+
+        // Standing down (the build mode starting, a new page): every block is left as the server
+        // rendered it. Reverting the animations alone is not enough: a block whose fade-up had already
+        // played could be put back in its hidden starting state, and nothing would ever show it again
+        // (the build mode would skip it as hidden, and the next reveals leave alone what is on screen).
+        return () => {
+          for (const el of targets) for (const prop of REVEAL_PROPS) el.style.removeProperty(prop);
+        };
       });
       return () => mm.revert();
     },
